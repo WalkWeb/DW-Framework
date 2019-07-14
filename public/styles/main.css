@@ -1,0 +1,43 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background: #2b2b2b;
+}
+
+h1, h2, h3, p, li {
+    color: #a1a1a1;
+    font-family: Arial, sans-serif;
+}
+
+h1 {
+    padding: 20px 0 30px 0;
+}
+
+h2 {
+    padding: 0 0 20px 0;
+}
+
+h3 {
+    padding: 60px 0 20px 0;
+}
+
+p {
+    padding: 0 0 15px 0;
+}
+
+b {
+    color: #d45500;
+    font-weight: 100;
+}
+
+div.content {
+    padding: 20px;
+}
+
+hr {
+    margin: 10px 0;
+}
+

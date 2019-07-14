@@ -51,20 +51,7 @@ class App
         // TODO Подумать над тем, куда можно вынести регистрацию маршрутов
 
         $routes = new RouteCollection();
-
-        // Несколько примеров
-
-        // Простой маршрут
-        //$routes->get('home', '/', 'MainController@index');
-
-        // Маршрут с id поста, который может быть только числом
-        //$routes->get('post.view', '/p/{id}', 'PostController@view', ['id' => '\d+']);
-
-        // Доступ к админке только авторизованным пользователям. Контроллер находится в поддиректории Admin
-        //$routes->get('admin.home', '/admin', 'MainController@index', [], 'Admin')->middleware('AuthMiddleware');
-
-        // POST-запрос на создание нового поста
-        // $routes->post('post.create', '/p/create', 'PostController@create');
+        $routes->get('home', '/', 'MainController@index');
 
         return $routes;
     }
