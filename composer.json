@@ -1,0 +1,30 @@
+{
+  "name": "walk/dw-framework.loc",
+  "authors": [
+    {
+      "name": "WalkWeb",
+      "email": "av18775@list.ru"
+    }
+  ],
+  "config": {
+    "soft-packages": true
+  },
+  "require": {
+    "php": ">=7.1.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^7.4"
+  },
+  "autoload": {
+    "psr-4": {
+      "Controllers\\": "controllers/",
+      "Models\\": "models/",
+      "Middleware\\": "middleware/",
+      "NW\\": "src/NWFramework",
+      "Tests\\": "tests/"
+    }
+  },
+  "scripts": {
+    "test": "phpunit --colors=always"
+  }
+}
