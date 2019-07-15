@@ -12,7 +12,7 @@ class PostController extends Controller
 {
     public function index(): Response
     {
-        return $this->render('posts', [
+        return $this->render('post/index', [
             'posts' => PostDataProvider::getAllPosts(),
         ]);
     }
@@ -20,11 +20,16 @@ class PostController extends Controller
     public function view(Request $request): Response
     {
         try {
-            return $this->render('post', [
+            return $this->render('post/view', [
                 'post' => PostDataProvider::getPostById($request->getAttribute('id')),
             ]);
         } catch (PostException $e) {
             return $this->pageNotFound($e->getMessage());
         }
+    }
+
+    public function add(): Response
+    {
+        return $this->render('post/add');
     }
 }

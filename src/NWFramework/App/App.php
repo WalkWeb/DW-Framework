@@ -54,6 +54,7 @@ class App
         $routes->get('home', '/', 'MainController@index');
         $routes->get('post', '/post', 'PostController@index');
         $routes->get('post.id', '/post/{id}', 'PostController@view', ['id' => '\d+']);
+        $routes->get('post.add', '/post/add', 'PostController@add');
 
         return $routes;
     }

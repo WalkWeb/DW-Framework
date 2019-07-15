@@ -12,8 +12,8 @@ if (!empty($posts)) {
     foreach ($posts as $post) {
         $url = '/post/' . $post['id'];
         echo '
-            <h2><a href="' . $url . '">' . $post['title'] . '</a></h2>
-            <p>' . $post['text'] . '</p>';
+            <h2><a href="' . $url . '">' . htmlspecialchars($post['title']) . '</a></h2>
+            <p>' . htmlspecialchars($post['text']) . '</p>';
     }
 } else {
     echo 'На сайте пока нет постов';
