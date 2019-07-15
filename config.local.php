@@ -1,6 +1,6 @@
 <?php
 
-// Версия настроек для продакшена (хотя никого к использованию данного микрофреймворка на продакшене не призываю)
+// Версия настроек для локальной работы
 
 /** Включение/выключение сайта */
 define('APPLICATION_OFFLINE', false);
@@ -9,13 +9,13 @@ define('APPLICATION_OFFLINE', false);
 define('DIR', __DIR__);
 
 /** Сохранять ли логи */
-define('LOGS', false);
+define('LOGS', true);
 
 /** Сохранять ли логи в файл */
 define('LOGS_FILE', false);
 
 /** Полный URL сайта */
-define('HOST', 'https://dw-framework.ru/');
+define('HOST', 'http://dw-framework.loc/');
 
 /** Параметры подключения к БД */
 define('DB_HOST', 'localhost');
@@ -24,7 +24,7 @@ define('DB_USER', 'YOUR_USER_NAME');
 define('DB_PASSWORD', 'YOUR_PASSWORD');
 
 /** Режим разработчика - true / продакшена - false */
-define('DEV', false);
+define('DEV', true);
 
 /** Базовый шаблон дизайна сайта */
 define('TEMPLATES_DEFAULT', 'default');
