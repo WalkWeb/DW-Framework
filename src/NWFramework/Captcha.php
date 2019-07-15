@@ -6,41 +6,41 @@ class Captcha
 {
     public const INVALID_CAPTCHA = 'Символы с картинки указаны неверно';
 
-    public static function getCaptchaImage(): string
+    public static function getCaptchaImage(
+        int $width_image = 150,
+        int $height_image = 50,
+        string $letters = '1234567890',
+        int $length = 4,
+        int $font_size = 28): string
     {
-        $image = imagecreatetruecolor(150, 50);
-
+        $image = imagecreatetruecolor($width_image, $height_image);
         $image_color = imagecolorallocate($image, 30, 25, 21);
         imagefilledrectangle($image, 0, 0, 400, 50, $image_color);
-
-        $font = 'fonts/11610.ttf';
-        $letters = '1234567890';
-        $length = 4;
-        $font_size = 28;
+        $font = DIR . '/public/fonts/11610.ttf';
         $height = 40;
         $captcha = '';
 
         for ($i = 0; $i < $length; $i++) {
 
-            // дописываем случайный символ из алфавила
+            // Дописываем случайный символ
             $captcha .= $letters[Tools::rand(0, strlen($letters) - 1)];
 
-            // растояние между символами
+            // Растояние между символами
             $x = 20 + 30 * $i;
 
-            // случайное смещение
+            // Случайное смещение
             $x = Tools::rand($x, $x + 4);
 
-            // координата Y
+            // Координата Y
             $y = $height - (($height - $font_size) / 2);
 
-            // цвет для текущей буквы
+            // Цвет для текущей буквы
             $curcolor = imagecolorallocate($image, Tools::rand(100, 200), Tools::rand(100, 200), Tools::rand(100, 200));
 
-            // случайный угол наклона
+            // Случайный угол наклона
             $angle = Tools::rand(-45, 45);
 
-            // вывод текста
+            // Вывод текста
             imagettftext($image, $font_size, $angle, $x, $y, $curcolor, $font, $captcha[$i]);
         }
 

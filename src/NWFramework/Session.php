@@ -2,6 +2,8 @@
 
 namespace NW;
 
+// TODO Переделать на работу с Request / Response
+
 class Session
 {
     /**

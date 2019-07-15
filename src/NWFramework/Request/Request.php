@@ -7,7 +7,7 @@ class Request
     /** @var string - GET | POST | PUT | DELETE | FILES */
     private $method;
 
-    /** @var string - Если URL site.ru/blog/10, то URI будет /blog/10 */
+    /** @var string - URI */
     private $uri;
 
     /** @var string - Обычно это HTTP/1.1 */
@@ -37,18 +37,17 @@ class Request
      * Если нужно будет получать запросы в виде json, то нужно добавить к отслеживанию 'php://input'
      *
      * @param array $server
+     * @param array $body
      * @param array $cookies
      * @param array $query
-     * @param array $body
      * @param array $files
      */
-    public function __construct(array $server, array $cookies, array $query, array $body, array $files)
+    public function __construct(array $server, array $body = [], array $cookies = [], array $query = [], array $files = [])
     {
         $this->server = $server;
 
-        // TODO Такая обработка URI позволяет принимать запросы вида /registration?ref=friend, на маршрут /registration
-        // TODO Но это же приводит к возможности открывать одну и туже страницу по разным uri, что является уязвимостью
-        // TODO Для SEO
+        // Такая обработка URI позволяет принимать запросы вида /registration?ref=friend, на маршрут /registration
+        // Но лично я подумываю отказаться от GET-параметров в URL в принципе
         $this->uri = !empty($server['REQUEST_URI']) ?
             explode('?', $server['REQUEST_URI'])[0]
             : '/';
