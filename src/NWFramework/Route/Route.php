@@ -131,8 +131,8 @@ class Route
 
             foreach ($this->middleware as $middleware) {
                 $middleware = 'Middleware\\' . $middleware;
-                $middleware = new $middleware($request);
-                $middleware();
+                $middleware = new $middleware();
+                $middleware($request);
             }
 
         }

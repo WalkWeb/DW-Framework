@@ -56,6 +56,7 @@ class App
         $routes->get('post.id', '/post/{id}', 'PostController@view', ['id' => '\d+']);
         $routes->get('post.add', '/post/create', 'PostController@add');
         $routes->post('post.create', '/post/create', 'PostController@create');
+        $routes->get('admin', '/admin', 'AdminController@index')->middleware('AuthMiddleware');
 
         return $routes;
     }
