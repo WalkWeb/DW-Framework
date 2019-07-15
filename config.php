@@ -26,3 +26,6 @@ define('DEV', true);
 
 /** Базовый шаблон дизайна сайта */
 define('TEMPLATES_DEFAULT', 'default');
+
+/** Ключ для хешей */
+define('KEY', 'YOU_KEY');

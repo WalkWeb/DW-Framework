@@ -4,6 +4,8 @@ namespace NW;
 
 class Captcha
 {
+    public const INVALID_CAPTCHA = 'Символы с картинки указаны неверно';
+
     public static function getCaptchaImage(): string
     {
         $image = imagecreatetruecolor(150, 50);
@@ -26,19 +28,19 @@ class Captcha
             // растояние между символами
             $x = 20 + 30 * $i;
 
-            //случайное смещение
+            // случайное смещение
             $x = Tools::rand($x, $x + 4);
 
             // координата Y
             $y = $height - (($height - $font_size) / 2);
 
-            //цвет для текущей буквы
+            // цвет для текущей буквы
             $curcolor = imagecolorallocate($image, Tools::rand(100, 200), Tools::rand(100, 200), Tools::rand(100, 200));
 
-            //случайный угол наклона
+            // случайный угол наклона
             $angle = Tools::rand(-45, 45);
 
-            //вывод текста
+            // вывод текста
             imagettftext($image, $font_size, $angle, $x, $y, $curcolor, $font, $captcha[$i]);
         }
 

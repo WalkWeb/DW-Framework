@@ -8,9 +8,15 @@ use NW\Request\Request;
 use NW\Response\Response;
 use Models\PostDataProvider;
 use Models\Post;
+use NW\Captcha;
 
 class PostController extends Controller
 {
+    /**
+     * Отображает список постов
+     *
+     * @return Response
+     */
     public function index(): Response
     {
         return $this->render('post/index', [
@@ -18,6 +24,12 @@ class PostController extends Controller
         ]);
     }
 
+    /**
+     * Отображает пост по указанному ID
+     *
+     * @param Request $request
+     * @return Response
+     */
     public function view(Request $request): Response
     {
         try {
@@ -29,17 +41,38 @@ class PostController extends Controller
         }
     }
 
+    /**
+     * Отображает форму для создания нового поста
+     *
+     * @return Response
+     */
     public function add(): Response
     {
-        return $this->render('post/add');
+        return $this->render('post/add', [
+            'captcha' => Captcha::getCaptchaImage(),
+        ]);
     }
 
+    /**
+     * Обрабатывает данные для создания нового поста
+     *
+     * Исходим из того, что тому, кто захочет посмотреть работу фреймворка будет лень подключать базу,
+     * соответственно функционал создания поста не делаем, а просто валидируем и отображаем отправленные данные.
+     *
+     * @param Request $request
+     * @return Response
+     */
     public function create(Request $request): Response
     {
-        // Исходим из того, что тому, кто захочет посмотреть работу фреймворка будет лень подключать базу,
-        // соответственно функционал создания поста не делаем, а просто отображаем отправленные данные
+        if (!Captcha::checkCaptcha($request->getBody()['captcha'])) {
+            return $this->render('post/add', [
+                'message' => Captcha::INVALID_CAPTCHA,
+                'title' => $request->getBody()['title'],
+                'text' => $request->getBody()['text'],
+                'captcha' => Captcha::getCaptchaImage(),
+            ]);
+        }
 
-        // Но, показать работу валидатора можно - смотрите её внутри Post
         try {
             $post = new Post($request->getBody()['title'], $request->getBody()['text']);
 
@@ -53,6 +86,7 @@ class PostController extends Controller
                 'message' => $message,
                 'title' => $request->getBody()['title'],
                 'text' => $request->getBody()['text'],
+                'captcha' => Captcha::getCaptchaImage(),
             ]);
         }
     }
