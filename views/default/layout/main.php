@@ -9,6 +9,14 @@
     <link rel="stylesheet" type="text/css" href="/styles/main.css">
 </head>
 <body>
+<div class="menu">
+    <ul class="navigation">
+        <li><a href="/" title="">Главная</a></li>
+        <li><a href="/post" title="">Посты</a></li>
+        <li><a href="/post/create" title="">Создать пост</a></li>
+        <li><a href="/admin" title="">Админка</a></li>
+    </ul>
+</div>
 <div class="content">
     <?= $content ?? 'Отсутствует контент для отображения' ?>
     <?php if (!APPLICATION_OFFLINE && DEV) {echo NW\Runtime::end();} ?>

@@ -84,3 +84,37 @@ button:hover {
     color: #D25456;
 }
 
+.menu {
+    width: 100%;
+    background: #3c3f41;
+    border-bottom: 1px solid #4b4b4b;
+}
+
+.navigation {
+    margin: 0 auto;
+    text-align: center;
+    list-style: none;
+}
+
+.navigation>li {
+    display: inline-block;
+    vertical-align: middle;
+    position: static;
+    border-left: 1px solid #5b5b5b;
+    border-right: 1px solid #5b5b5b;
+}
+
+ul.navigation>li>a {
+    display: block;
+    color: #a1a1a1;
+    padding: 20px;
+}
+
+ul.navigation>li>a:hover {
+    color: #c1a1a1;
+}
+
+
+
+
+

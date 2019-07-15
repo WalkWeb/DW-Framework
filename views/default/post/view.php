@@ -1,20 +1,16 @@
 <?php
 
-$this->title = 'Посты';
+if (empty($post)) {
+    // Такой ситуации не должно произойти, но на всякий случай проверяем (и чтобы phpStorm не ругался)
+    die('Ошибка: нет данных по посту');
+}
+
+$this->title = $post->title;
 
 ?>
 
-<h1><?= htmlspecialchars($this->title)?></h1>
+<h1><?= htmlspecialchars($this->title) ?></h1>
 
-<?php
+<p><?= htmlspecialchars($post->text) ?></p>
 
-if (!empty($posts)) {
-    foreach ($posts as $post) {
-        $url = '/post/' . $post['id'];
-        echo '
-            <h2><a href="' . $url . '">' . htmlspecialchars($post['title']) . '</a></h2>
-            <p>' . htmlspecialchars($post['text']) . '</p>';
-    }
-} else {
-    echo 'На сайте пока нет постов';
-}
+<p><a href="/post">Вернуться к списку постов</a></p>
