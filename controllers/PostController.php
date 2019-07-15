@@ -34,7 +34,7 @@ class PostController extends Controller
     {
         try {
             return $this->render('post/view', [
-                'post' => PostDataProvider::getPostById($request->getAttribute('id')),
+                'post' => PostDataProvider::getPostById($request->id),
             ]);
         } catch (PostException $e) {
             return $this->pageNotFound($e->getMessage());
@@ -64,17 +64,17 @@ class PostController extends Controller
      */
     public function create(Request $request): Response
     {
-        if (!Captcha::checkCaptcha($request->getBody()['captcha'])) {
+        if (!Captcha::checkCaptcha($request->captcha)) {
             return $this->render('post/add', [
                 'message' => Captcha::INVALID_CAPTCHA,
-                'title' => $request->getBody()['title'],
-                'text' => $request->getBody()['text'],
+                'title' => $request->title,
+                'text' => $request->text,
                 'captcha' => Captcha::getCaptchaImage(),
             ]);
         }
 
         try {
-            $post = new Post($request->getBody()['title'], $request->getBody()['text']);
+            $post = new Post($request->title, $request->text);
 
             return $this->render('post/create', [
                 'post' => $post,
@@ -84,8 +84,8 @@ class PostController extends Controller
             $message = $e->getMessage();
             return $this->render('post/add', [
                 'message' => $message,
-                'title' => $request->getBody()['title'],
-                'text' => $request->getBody()['text'],
+                'title' => $request->title,
+                'text' => $request->text,
                 'captcha' => Captcha::getCaptchaImage(),
             ]);
         }

@@ -161,4 +161,19 @@ class Request
 
         return $this->attributes[$attribute];
     }
+
+    /**
+     * Метод создан для более простого доступа к параметрам, которые находятся свойствах запроса
+     *
+     * @param string $name
+     * @return mixed
+     */
+    public function __get(string $name)
+    {
+        return $this->body[$name] ?? $this->attributes[$name] ?? $this->query[$name] ?? null;
+    }
+
+    // Функционал этих методов не нужен, но на их отсутствие ругается phpStorm
+    public function __set($name, $value) {}
+    public function __isset($name) {}
 }
