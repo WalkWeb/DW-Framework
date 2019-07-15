@@ -10,7 +10,10 @@ $this->title = 'Посты';
 
 if (!empty($posts)) {
     foreach ($posts as $post) {
-        echo '<h2>[' . $post['id'] . '] ' . $post['title'] . '</h2><p>' . $post['text'] . '</p>';
+        $url = '/post/' . $post['id'];
+        echo '
+            <h2><a href="' . $url . '">' . $post['title'] . '</a></h2>
+            <p>' . $post['text'] . '</p>';
     }
 } else {
     echo 'На сайте пока нет постов';
