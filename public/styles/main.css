@@ -114,7 +114,23 @@ ul.navigation>li>a:hover {
     color: #c1a1a1;
 }
 
+.pagination span {
+    display: inline-block;
+    padding: 5px 10px;
+    background: #555;
+    margin-right: 5px;
+    color: #aaa;
+}
 
+.pagination a {
+    display: inline-block;
+    padding: 5px 10px;
+    background: #1c7430;
+    margin-right: 5px;
+    text-decoration: none;
+    color: #aaa;
+}
 
-
-
+.pagination a:hover {
+    background: #1c9450;
+}

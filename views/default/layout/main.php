@@ -12,7 +12,7 @@
 <div class="menu">
     <ul class="navigation">
         <li><a href="/" title="">Главная</a></li>
-        <li><a href="/post" title="">Посты</a></li>
+        <li><a href="/posts/1" title="">Посты</a></li>
         <li><a href="/post/create" title="">Создать пост</a></li>
         <li><a href="/admin" title="">Админка</a></li>
     </ul>

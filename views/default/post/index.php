@@ -18,3 +18,11 @@ if (!empty($posts)) {
 } else {
     echo 'На сайте пока нет постов';
 }
+
+?>
+
+<hr color="#444">
+
+<div class="pagination">
+    <?= $pagination ?? '' ?>
+</div>

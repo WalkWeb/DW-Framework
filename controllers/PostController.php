@@ -4,6 +4,7 @@ namespace Controllers;
 
 use Models\Exceptions\PostException;
 use NW\Controller;
+use NW\Pagination;
 use NW\Request\Request;
 use NW\Response\Response;
 use Models\PostDataProvider;
@@ -15,13 +16,25 @@ class PostController extends Controller
     /**
      * Отображает список постов
      *
+     * По умолчанию отображается первая страница списка, если в URL указана страница - то будут отображены посты для
+     * соответствующей страницы.
+     *
+     * @param Request $request
      * @return Response
      */
-    public function index(): Response
+    public function index(Request $request): Response
     {
-        return $this->render('post/index', [
-            'posts' => PostDataProvider::getAllPosts(),
-        ]);
+        try {
+            $posts = PostDataProvider::getPacksPost($request->page);
+
+            return $this->render('post/index', [
+                'posts' => $posts,
+                'pagination' => Pagination::getPages(PostDataProvider::getPostsCount(), $request->page, '/posts/'),
+            ]);
+
+        } catch (PostException $e) {
+            return $this->pageNotFound();
+        }
     }
 
     /**

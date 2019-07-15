@@ -13,4 +13,4 @@ $this->title = $post->title;
 
 <p><?= htmlspecialchars($post->text) ?></p>
 
-<p><a href="/post">Вернуться к списку постов</a></p>
+<p><a href="/posts/1">Вернуться к списку постов</a></p>
