@@ -34,6 +34,6 @@ class Runtime
     {
         $unit = ['b', 'kb', 'mb', 'gb', 'tb', 'pb'];
         $i = (int)floor(log($size, 1024));
-        return @round($size / 1024**$i, 2) . ' ' . $unit[$i];
+        return round($size / 1024**$i, 2) . ' ' . $unit[$i];
     }
 }
