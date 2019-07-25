@@ -3,8 +3,6 @@
 namespace NW;
 
 /**
- * Class Validator
- *
  * Реализовано:
  * (+) email
  * (+) integer
@@ -13,9 +11,7 @@ namespace NW;
  * (+) boolean
  * (+) in - строгое соответствие одному из указанных в массиве величин
  * (+) parent - проверка по регулярному выражению
- *
- * В планах:
- * unique - уникальный элемент в такой-то таблице и такой-то колонке
+ * (+) unique - уникальный элемент в такой-то таблице и такой-то колонке
  *
  *
  * В возможную перспективу:
@@ -56,20 +52,24 @@ class Validator
      */
     private static $db;
 
+    private static $defaultError;
+
     /**
      * Принимает валидируемый параметр и дополнительные параметры, и проверяет его на основе правил
      *
-     * @param $name - имя поля, необходимо для корректного сообщения об ошибке
-     * @param $param - валидируемая переменная
-     * @param $rules - правила валидации
-     * @param null $table - только для проверки типа unique - таблица для проверки
-     * @param null $column - только для проверки типа unique - колонка для проверки
+     * @param string $name - Имя поля, необходимо для корректного сообщения об ошибке
+     * @param $param - Валидируемая переменная
+     * @param array $rules - Правила валидации
+     * @param string|null $table - Только для проверки типа unique - таблица для проверки
+     * @param string|null $column - Только для проверки типа unique - колонка для проверки
+     * @param string|null $error - Текст ошибки, если он не указан - то текст ошибки будет составлен автоматически
      * @return bool
      */
-    public static function check($name, $param, $rules, $table = null, $column = null): bool
+    public static function check(string $name, $param, array $rules, string $table = null, string $column = null, string $error = null): bool
     {
         self::$name = $name;
         self::$errors = null;
+        self::$defaultError = $error;
 
         // В текущем варианте перебора параметров возвращается ошибка при первом же несоблюдении какого-либо правила
         // Можно доработать, чтобы проверялись все правила, и возвращался сразу список несоответствий
@@ -119,7 +119,7 @@ class Validator
         if (is_string($param)) {
             return true;
         }
-        self::$errors[] = self::$name . ' должен быть строкой';
+        self::addError(self::$name . ' должен быть строкой');
         return false;
     }
 
@@ -134,7 +134,7 @@ class Validator
         if (is_int($param)) {
             return true;
         }
-        self::$errors[] = self::$name . ' должен быть числом';
+        self::addError(self::$name . ' должен быть числом');
         return false;
     }
 
@@ -150,7 +150,7 @@ class Validator
         if (strlen($param) >= $value) {
             return true;
         }
-        self::$errors[] = self::$name . ' должен быть больше или равен ' . $value . ' символов';
+        self::addError(self::$name . ' должен быть больше или равен ' . $value . ' символов');
         return false;
     }
 
@@ -166,7 +166,7 @@ class Validator
         if (mb_strlen($param) <= $value) {
             return true;
         }
-        self::$errors[] = self::$name . ' должен быть меньше или равен ' . $value . ' символов';
+        self::addError(self::$name . ' должен быть меньше или равен ' . $value . ' символов');
         return false;
     }
 
@@ -181,7 +181,7 @@ class Validator
         if (filter_var($param, FILTER_VALIDATE_EMAIL)) {
             return true;
         }
-        self::$errors[] = 'указана некорректная почта';
+        self::addError('Указана некорректная почта');
         return false;
     }
 
@@ -194,7 +194,7 @@ class Validator
     protected static function required($param): bool
     {
         if ($param === null || $param === '') {
-            self::$errors[] = self::$name . ' не может быть пустым';
+            self::addError(self::$name . ' не может быть пустым');
             return false;
         }
         return true;
@@ -211,7 +211,7 @@ class Validator
         if (is_bool($param)) {
             return true;
         }
-        self::$errors[] = self::$name . ' должен быть логическим типом';
+        self::addError(self::$name . ' должен быть логическим типом');
         return false;
     }
 
@@ -229,8 +229,7 @@ class Validator
                 return true;
             }
         }
-
-        self::$errors[] = self::$name . ' указан некорректно';
+        self::addError(self::$name . ' указан некорректно');
         return false;
     }
 
@@ -246,7 +245,7 @@ class Validator
         if (preg_match($value, $param)) {
             return true;
         }
-        self::$errors[] = self::$name . ' указан некорректно';
+        self::addError(self::$name . ' указан некорректно');
         return false;
     }
 
@@ -261,14 +260,29 @@ class Validator
     private static function unique($param, $table, $column): bool
     {
         if ($table === null || $column === null) {
-            die('Неуказана таблица или колонка для проверки');
+            self::addError('Неуказана таблица или колонка для проверки');
+            return false;
         }
         self::connectDB();
         if (!self::$db->query("SELECT $column FROM $table WHERE $column = ?", [['type' => 's', 'value' => $param]])) {
             return true;
         }
-        self::$errors[] = 'Указанный ' . self::$name . ' уже существует, выберите другой';
+        self::addError('Указанный ' . self::$name . ' уже существует, выберите другой');
         return false;
+    }
+
+    /**
+     * Добавляет ошибку валидации
+     *
+     * @param string $error
+     */
+    private static function addError(string $error): void
+    {
+        if (self::$defaultError) {
+            self::$errors[] = self::$defaultError;
+        } else {
+            self::$errors[] = $error;
+        }
     }
 
     /**
