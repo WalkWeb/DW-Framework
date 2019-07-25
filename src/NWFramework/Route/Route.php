@@ -27,19 +27,15 @@ class Route
     public $method;
 
     /**
-     * @var array - Необходимый параметр, значение которого нужно получить из URI. Например id статьи
+     * Массив с правилами валидации параметров из URI, например: /blog/{id} где id может быть только числом:
+     * $params = ['id' => '\d+']
+     *
+     * Другой пример: /catalog/{category}/{page} - где категория - только буквы, а page - только число:
+     * $params = ['category' => '[a-z]*', 'page' => '\d+']
+     *
+     * @var array
      */
-    public $param;
-
-    /**
-     * @var - Регулярка для проверка корректности нужного параметра из URI
-     */
-    public $rules;
-
-    /**
-     * @var bool - Указывает, является ли нужный параметр в URI числом
-     */
-    public $paramNumber = false;
+    public $params = [];
 
     /**
      * @var - Дополнительный namespace, чтобы можно было группировать контроллеры по дирректориям
@@ -58,26 +54,28 @@ class Route
      * @param string $path - URI маршрута, вида /blog или /blog/{id}
      * @param string $handler - Контроллер и метод, который будет обрабатывать маршрут, в виде Controller@method
      * @param string $method - HTTP-метод маршрута
-     * @param array $param - если из URI необходимо получить какой-то параметр - он указывается здесь
+     * @param array $params - если из URI необходимо получить какой-то параметр - он указывается здесь
      * @param $namespace
      */
-    public function __construct(string $name, string $path, string $handler, string $method, array $param = [], $namespace = null)
+    public function __construct(string $name, string $path, string $handler, string $method, array $params = [], $namespace = null)
     {
         $this->name = $name;
         $this->path = $path;
         $this->handler = $namespace ? $namespace . '\\'. $handler : $handler;
         $this->method = $method;
-        $this->setParam($param);
+        $this->params = $params;
         $this->namespace = $namespace;
     }
 
     /**
-     * Принимает Request и проверяет, есть ли маршрут соответствующий этому запросу
+     * Принимает Request и проверяет, соответствует ли маршрут запросу
      *
      * Проверка происходит в несколько этапов:
      * 1. Проверяем соответствие метода HTTP-запроса
      * 2. Заменяем uri вида '/blog/10' на '/blog/(?P<id>\d+)'
      * 3. Делаем поиск по uri, если ничего не находит - значит uri не соответствует path в роутере
+     *
+     * Маршрут может содержать любое количество параметров, например: site.ru/{city}/{catalog}/{page}
      *
      * @param Request $request
      * @return null|array
@@ -88,18 +86,25 @@ class Route
             return null;
         }
 
-        if (!$this->param && $request->getUri() === $this->path) {
+        if (!$this->params && $request->getUri() === $this->path) {
             return [
                 'handler' => $this->handler,
                 'request' => $request,
             ];
         }
 
-        if (!preg_match('~^' . preg_replace('~\{([^\}]+)\}~', '(?P<' . $this->param . '>' . $this->rules . ')', $this->path) . '$~i', $request->getUri(), $matches)) {
+        $replace = [];
+        foreach ($this->params as $key => $value) {
+            $replace['{' . $key . '}'] = "(?P<$key>$value)";
+        }
+
+        if (!preg_match_all('~^' . str_replace(array_keys($replace), $replace, $this->path) . '$~i', $request->getUri(), $matches)) {
             return null;
         }
 
-        $request->withAttribute($this->param, $this->paramNumber ? (int)$matches[$this->param] : $matches[$this->param]);
+        foreach ($this->params as $key => $value) {
+            $request->withAttribute($key, $value === '\d+' ? (int)$matches[$key][0] : $matches[$key][0]);
+        }
 
         return [
             'handler' => $this->handler,
@@ -134,27 +139,6 @@ class Route
                 $middleware = new $middleware();
                 $middleware($request);
             }
-
         }
-    }
-
-    /**
-     * Если нужный параметр в URI число - задаем это в свойствах, чтобы в match() сделать по нему проверку и по
-     * необходимости привести к int
-     *
-     * @param array $param
-     * @return array
-     */
-    private function setParam(array $param): array
-    {
-        foreach ($param as $key => $value) {
-            $this->param = $key;
-            $this->rules = $value;
-            if ($value === '\d+') {
-                $this->paramNumber = true;
-            }
-        }
-
-        return $param;
     }
 }
