@@ -15,24 +15,18 @@ use NW\Request\ServerRequestFactory;
 use NW\App\App;
 use NW\Response\Emitter;
 
-if (!APPLICATION_OFFLINE && DEV) {
+if (DEV) {
     Runtime::start();
 }
 
-if (!APPLICATION_OFFLINE) {
+// Создаем объект request на основе глобальных параметров
+$request = ServerRequestFactory::fromGlobals();
 
-    // Создаем объект request на основе глобальных параметров
-    $request = ServerRequestFactory::fromGlobals();
+// Создаем объект приложения
+$app = new App();
 
-    // Создаем объект приложения
-    $app = new App();
+// Получаем объект response на основе запроса
+$response = $app->handle($request);
 
-    // Получаем объект response на основе запроса
-    $response = $app->handle($request);
-
-    // Распечатываем response
-    Emitter::emit($response);
-
-} else {
-    die('Сайт временно отключен');
-}
+// Распечатываем response
+Emitter::emit($response);
