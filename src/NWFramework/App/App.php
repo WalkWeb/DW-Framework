@@ -11,6 +11,19 @@ use NW\Route\RouteException;
 class App
 {
     /**
+     * @var RouteCollection
+     */
+    private $router;
+
+    /**
+     * @param Router $routes
+     */
+    public function __construct(Router $routes)
+    {
+        $this->router = $routes;
+    }
+
+    /**
      * На основе запроса создает нужный контроллер и вызывает нужный его метод
      *
      * @param Request $request
@@ -18,10 +31,8 @@ class App
      */
     public function handle(Request $request): Response
     {
-        $router = new Router($this->getRoutes());
-
         try {
-            ['handler' => $handler, 'request' => $request] = $router->getHandler($request);
+            ['handler' => $handler, 'request' => $request] = $this->router->getHandler($request);
         } catch (RouteException $e) {
 
             // Если маршрут не найден, значит вызывается несуществующая страница
@@ -39,26 +50,6 @@ class App
         // TODO проверка на наличие нужного метода в контроллере
 
         return (new $class())->$action($request);
-    }
-
-    /**
-     * Маршруты
-     *
-     * @return RouteCollection
-     */
-    private function getRoutes(): RouteCollection
-    {
-        // TODO Подумать над тем, куда можно вынести регистрацию маршрутов
-
-        $routes = new RouteCollection();
-        $routes->get('home', '/', 'MainController@index');
-        $routes->get('posts', '/posts/{page}', 'PostController@index', ['page' => '\d+']);
-        $routes->get('post.id', '/post/{id}', 'PostController@view', ['id' => '\d+']);
-        $routes->get('post.add', '/post/create', 'PostController@add');
-        $routes->post('post.create', '/post/create', 'PostController@create');
-        $routes->get('admin', '/admin', 'AdminController@index')->middleware('AuthMiddleware');
-
-        return $routes;
     }
 
 }

@@ -19,7 +19,7 @@
 </div>
 <div class="content">
     <?= $content ?? 'Отсутствует контент для отображения' ?>
-    <?php if (!APPLICATION_OFFLINE && DEV) {echo NW\Runtime::end();} ?>
+    <?php if (DEV) {echo NW\Runtime::end();} ?>
 </div>
 </body>
 </html>

@@ -22,8 +22,11 @@ if (DEV) {
 // Создаем объект request на основе глобальных параметров
 $request = ServerRequestFactory::fromGlobals();
 
+// Подгружаем роуты
+require_once __DIR__ . '/../routes/web.php';
+
 // Создаем объект приложения
-$app = new App();
+$app = new App($router);
 
 // Получаем объект response на основе запроса
 $response = $app->handle($request);
