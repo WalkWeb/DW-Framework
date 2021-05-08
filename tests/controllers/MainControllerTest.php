@@ -1,21 +1,27 @@
 <?php
 
-namespace Tests\Controllers;
+namespace Tests\controllers;
 
+use NW\Route\RouteCollection;
+use NW\Route\Router;
 use PHPUnit\Framework\TestCase;
 use NW\Request\Request;
 use NW\App\App;
-use NW\Response\Response;
 
 class MainControllerTest extends TestCase
 {
     /** @var App */
     private $app;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         require_once __DIR__ . '/../../config.local.php';
-        $this->app = new App();
+
+        $routes = new RouteCollection();
+        $routes->get('home', '/', 'MainController@index');
+        $router = new Router($routes);
+
+        $this->app = new App($router);
     }
 
     /**
@@ -26,9 +32,8 @@ class MainControllerTest extends TestCase
         $request = new Request(['REQUEST_URI' => '/']);
         $response = $this->app->handle($request);
 
-        $this->assertInstanceOf(Response::class, $response);
-        $this->assertRegExp('/Главная страница/', $response->getBody());
-        $this->assertEquals(200, $response->getStatusCode());
+        self::assertRegExp('/Главная страница/', $response->getBody());
+        self::assertEquals(200, $response->getStatusCode());
     }
 
     /**
@@ -39,8 +44,7 @@ class MainControllerTest extends TestCase
         $request = new Request(['REQUEST_URI' => '/no_page']);
         $response = $this->app->handle($request);
 
-        $this->assertInstanceOf(Response::class, $response);
-        $this->assertRegExp('/Страница не найдена/', $response->getBody());
-        $this->assertEquals(404, $response->getStatusCode());
+        self::assertRegExp('/Страница не найдена/', $response->getBody());
+        self::assertEquals(404, $response->getStatusCode());
     }
 }
