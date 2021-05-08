@@ -2,6 +2,8 @@
 
 namespace NW;
 
+use DateTime;
+
 class Date
 {
     private const SUFFIX = 'назад';
@@ -46,12 +48,12 @@ class Date
      * Пример использования:
      * \NW\Date::getElapsedTime(\DateTime::createFromFormat('Y-m-d H:i:s', $account->regDate))
      *
-     * @param \DateTime $data
+     * @param DateTime $data
      * @return string
      */
-    public static function getElapsedTime(\DateTime $data): string
+    public static function getElapsedTime(DateTime $data): string
     {
-        $now = new \DateTime();
+        $now = new DateTime();
         $dateInterval = $now->diff($data);
 
         // TODO Вынести $dateMap в свойство класса, и сразу в него поместить массивы $year, $months и т.д.

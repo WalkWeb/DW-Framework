@@ -2,6 +2,7 @@
 
 namespace NW;
 
+use JsonException;
 use NW\Response\Response;
 
 abstract class Controller
@@ -89,10 +90,11 @@ abstract class Controller
      *
      * @param array $json
      * @return Response
+     * @throws JsonException
      */
     public function json(array $json): Response
     {
-        $response = new Response(json_encode($json));
+        $response = new Response(json_encode($json, JSON_THROW_ON_ERROR | JSON_UNESCAPED_UNICODE));
         $response->withHeader('Content-Type', 'application/json');
         return $response;
     }
@@ -129,10 +131,10 @@ abstract class Controller
      * @param $time
      * @return bool|string
      */
-    protected function checkCache($name, $id = null, $time)
+    protected function checkCache($name, $time, $id = null)
     {
         if ($id) {
-            $name = $name . '_' . $id;
+            $name .= '_' . $id;
         }
 
         // TODO Потестировать работу кэша. Вроде работает, но у меня какие-то сомнения
@@ -159,10 +161,10 @@ abstract class Controller
     protected function createCache($name, $content, $id = null): void
     {
         if ($id) {
-            $name = $name . '_' . $id;
+            $name .= '_' . $id;
         }
 
-        $file = fopen($this->cache . $name, 'w');
+        $file = fopen($this->cache . $name, 'wb');
         fwrite($file, $content . '=кэш=');
         fclose($file);
     }
@@ -190,7 +192,7 @@ abstract class Controller
      */
     protected function cacheHTML($name, $id = null, $time = 0): string
     {
-        $content = $this->checkCache($name, $id, $time);
+        $content = $this->checkCache($name, $time, $id);
 
         if ($content) {
             return $content;

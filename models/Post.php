@@ -50,8 +50,8 @@ class Post
         if (!Validator::check('Заголовок', $title, [
             'required',
             'string',
-            'min' => 5,
-            'max' => 50,
+            'min'    => 5,
+            'max'    => 50,
             'parent' => '/^[a-zA-Z0-9а-яА-ЯёЁ\-_]*$/u',
         ])) {
             return false;

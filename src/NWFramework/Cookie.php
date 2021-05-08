@@ -26,7 +26,7 @@ class Cookie
      */
     public static function getCookie(string $name): ?string
     {
-        return $_COOKIE[$name] ?? false;
+        return $_COOKIE[$name] ?? null;
     }
 
     /**

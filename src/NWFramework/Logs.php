@@ -40,7 +40,7 @@ class Logs
      */
     public static function getLogs(): string
     {
-        return LOGS ? self::$logs : null;
+        return LOGS ? self::$logs : '';
     }
 
     /**
@@ -58,7 +58,7 @@ class Logs
      */
     protected static function saveToFile($log): void
     {
-        $file = fopen(self::$dir . 'mytestlog', 'a+');
+        $file = fopen(self::$dir . 'mytestlog', 'ab+');
         fwrite($file, $log . "\n");
         fclose($file);
     }

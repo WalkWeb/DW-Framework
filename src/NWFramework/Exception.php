@@ -4,6 +4,7 @@ namespace NW;
 
 use NW\Response\Response;
 use NW\Response\Emitter;
+use Throwable;
 
 class Exception extends \Exception
 {
@@ -24,9 +25,11 @@ class Exception extends \Exception
     /**
      * Выводим сообщение об ошибке. Если сайт не в режиме разработчика - отдается 404 ошибка
      *
-     * @param \Throwable $e
+     * TODO 500 ошибка не в режиме разработчика
+     *
+     * @param Throwable $e
      */
-    public function printException(\Throwable $e): void
+    public function printException(Throwable $e): void
     {
         if (DEV) {
             $response = new Response(

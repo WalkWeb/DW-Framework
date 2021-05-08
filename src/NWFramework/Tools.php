@@ -2,6 +2,9 @@
 
 namespace NW;
 
+use DateTime;
+use Throwable;
+
 class Tools
 {
     /**
@@ -33,7 +36,7 @@ class Tools
     {
         try {
             $int = random_int($from, $before);
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             $int = rand($from, $before);
         }
 
@@ -60,6 +63,6 @@ class Tools
      */
     public static function getNowDateTime($format = 'Y-m-d H:i:s'): string
     {
-        return (new \DateTime())->format($format);
+        return (new DateTime())->format($format);
     }
 }

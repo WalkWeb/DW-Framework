@@ -2,9 +2,11 @@
 
 namespace NW;
 
+use mysqli;
+
 final class Connection
 {
-    /** @var \mysqli */
+    /** @var mysqli */
     private $conn;
 
     /**@var string ошибки */
@@ -163,7 +165,7 @@ final class Connection
      * @param $mode boolean True - автовыполнение коммита, False - отключение автокоммита
      * @return bool
      */
-    public function autocommit($mode): bool
+    public function autocommit(bool $mode): bool
     {
         return $this->conn->autocommit($mode);
     }

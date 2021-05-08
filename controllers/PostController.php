@@ -28,7 +28,7 @@ class PostController extends Controller
             $posts = PostDataProvider::getPacksPost($request->page);
 
             return $this->render('post/index', [
-                'posts' => $posts,
+                'posts'      => $posts,
                 'pagination' => Pagination::getPages(PostDataProvider::getPostsCount(), $request->page, '/posts/'),
             ]);
 
@@ -80,8 +80,8 @@ class PostController extends Controller
         if (!Captcha::checkCaptcha($request->captcha)) {
             return $this->render('post/add', [
                 'message' => Captcha::INVALID_CAPTCHA,
-                'title' => $request->title,
-                'text' => $request->text,
+                'title'   => $request->title,
+                'text'    => $request->text,
                 'captcha' => Captcha::getCaptchaImage(),
             ]);
         }
@@ -97,8 +97,8 @@ class PostController extends Controller
             $message = $e->getMessage();
             return $this->render('post/add', [
                 'message' => $message,
-                'title' => $request->title,
-                'text' => $request->text,
+                'title'   => $request->title,
+                'text'    => $request->text,
                 'captcha' => Captcha::getCaptchaImage(),
             ]);
         }

@@ -2,6 +2,8 @@
 
 namespace NW;
 
+use mysqli;
+
 abstract class Model
 {
     /**
@@ -11,7 +13,7 @@ abstract class Model
      */
     private $cache = __DIR__ . '/../cache/sql/';
 
-    /** @var \mysqli */
+    /** @var mysqli */
     public $db;
 
     /**
@@ -88,11 +90,11 @@ abstract class Model
      * @param $name
      * @param $content
      */
-    protected function createCache($name, $content)
+    protected function createCache($name, $content): void
     {
         $content = serialize($content);
 
-        $file = fopen($this->cache . $name, 'w');
+        $file = fopen($this->cache . $name, 'wb');
         fwrite($file, $content);
         fclose($file);
     }
@@ -102,7 +104,7 @@ abstract class Model
      *
      * @param null $name
      */
-    protected function deleteCache($name)
+    protected function deleteCache($name): void
     {
         if ($name) {
             unlink($this->cache . $name);
