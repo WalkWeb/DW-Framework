@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace NW\Request;
 
 class Request
@@ -37,12 +39,12 @@ class Request
      * Если нужно будет получать запросы в виде json, то нужно добавить к отслеживанию 'php://input'
      *
      * @param array $server
-     * @param array $body
-     * @param array $cookies
-     * @param array $query
-     * @param array $files
+     * @param array|null $body
+     * @param array|null $cookies
+     * @param array|null $query
+     * @param array|null $files
      */
-    public function __construct(array $server, array $body = [], array $cookies = [], array $query = [], array $files = [])
+    public function __construct(array $server, ?array $body = [], ?array $cookies = [], ?array $query = [], ?array $files = [])
     {
         $this->server = $server;
 
