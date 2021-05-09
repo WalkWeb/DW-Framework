@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace NW\Request;
 
 class ServerRequestFactory
@@ -7,19 +9,19 @@ class ServerRequestFactory
     /**
      * Создает объект Request на основе полученных данных или суперглобальных переменных
      *
-     * @param null $server
-     * @param null $body
-     * @param null $cookies
-     * @param null $query
-     * @param null $files
+     * @param array|null $server
+     * @param array|null $body
+     * @param array|null $cookies
+     * @param array|null $query
+     * @param array|null $files
      * @return Request
      */
     public static function fromGlobals(
-        $server = null,
-        $body = null,
-        $cookies = null,
-        $query = null,
-        $files = null
+        ?array $server = null,
+        ?array $body = null,
+        ?array $cookies = null,
+        ?array $query = null,
+        ?array $files = null
     ): Request
     {
         return new Request(
