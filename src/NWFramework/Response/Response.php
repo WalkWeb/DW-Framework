@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace NW\Response;
 
 class Response
@@ -30,13 +32,16 @@ class Response
     private $protocol = '1.1';
 
     /**
-     * Полный список кодов ответа: https://github.com/zendframework/zend-diactoros/blob/master/src/Response.php
+     * Упрощенный список кодов ответа
+     *
+     * Полный список: https://github.com/zendframework/zend-diactoros/blob/master/src/Response.php
      *
      * @var array - Допустимые значения статуса и соответствующие им текстовые описания
      */
     private static $phrases = [
         200 => 'OK',
         301 => 'Moved Permanently',
+        401 => 'Unauthorized',
         403 => 'Forbidden',
         404 => 'Not Found',
         405 => 'Method Not Allowed',
@@ -47,10 +52,11 @@ class Response
      * Создаем объект Response на основе указанного тела запроса и кода ответа.
      * При необходимости можно сразу передать массив с заголовками.
      *
-     * @param string $body
-     * @param int $status
+     * @param string|null $body
+     * @param int|null $status
+     * @throws ResponseException
      */
-    public function __construct(string $body = '', int $status = 200)
+    public function __construct(?string $body = '', ?int $status = 200)
     {
         $this->body = $body;
         $this->setStatusCode($status);
@@ -77,6 +83,22 @@ class Response
     }
 
     /**
+     * Устанавливает код ответа и соответствующее ему текстовое описание
+     *
+     * @param int $status
+     * @throws ResponseException
+     */
+    public function setStatusCode(int $status): void
+    {
+        if (empty(self::$phrases[$status])) {
+            throw new ResponseException(ResponseException::INCORRECT_STATUS_CODE);
+        }
+
+        $this->statusCode = $status;
+        $this->reasonPhrase = self::$phrases[$status];
+    }
+
+    /**
      * Возвращает текстовое описание для кода ответа
      *
      * @return string
@@ -97,26 +119,12 @@ class Response
     }
 
     /**
-     * Устанавливает код ответа и соответствующее ему текстовое описание
-     *
-     * @param int $status
-     */
-    public function setStatusCode(int $status): void
-    {
-        if (empty(self::$phrases[$status])) {
-            die('Exception - Указан некорректный код ответа');
-        }
-
-        $this->statusCode = $status;
-        $this->reasonPhrase = self::$phrases[$status];
-    }
-
-    /**
      * PSR-стандарт Response поддерживает установку заголовков в формате key => [value, value, value]
      * В моем упрощенном Response поддерживается только вариант key => value
      *
      * @param $header
      * @param $value
+     * @throws ResponseException
      */
     public function withHeader($header, $value): void
     {
@@ -140,30 +148,49 @@ class Response
      * Проверяет корректность имени заголовка
      *
      * @param $name
+     * @throws ResponseException
      */
     private function validateHeaderName($name): void
     {
         if (!is_string($name)) {
-            die('HTTP заголовок должен быть строкой');
+            throw new ResponseException(ResponseException::HTTP_HEADER_INCORRECT_TYPE);
         }
         if (!preg_match('/^[a-zA-Z0-9\'`#$%&*+.^_|~!-]+$/', $name)) {
-            die('Недопустимые символы в HTTP заголовке');
+            throw new ResponseException(ResponseException::HTTP_HEADER_FORBIDDEN_SYMBOLS);
         }
     }
 
     /**
      * Проверяет корректность значения заголовка
      *
+     * Валидация сделана по аналогии с:
+     * https://github.com/zendframework/zend-diactoros/blob/master/src/HeaderSecurity.php#L104
+     *
      * @param $value
+     * @throws ResponseException
      */
     private function validateHeaderValue($value): void
     {
-        if (! is_string($value) && ! is_numeric($value)) {
-            die('Значение HTTP заголовка может быть только строкой или числом');
+        if (!is_string($value) && !is_numeric($value)) {
+            throw new ResponseException(ResponseException::HEADER_VALUE_INCORRECT_TYPE);
         }
+
+        // Look for:
+        // \n not preceded by \r, OR
+        // \r not followed by \n, OR
+        // \r\n not followed by space or horizontal tab; these are all CRLF attacks
+
+        // Non-visible, non-whitespace characters
+        // 9 === horizontal tab
+        // 10 === line feed
+        // 13 === carriage return
+        // 32-126, 128-254 === visible
+        // 127 === DEL (disallowed)
+        // 255 === null byte (disallowed)
+
         if (preg_match("#(?:(?:(?<!\r)\n)|(?:\r(?!\n))|(?:\r\n(?![ \t])))#", $value) ||
             preg_match('/[^\x09\x0a\x0d\x20-\x7E\x80-\xFE]/', $value)) {
-            die('Некорректный формат значения HTTP заголовка');
+            throw new ResponseException(ResponseException::INCORRECT_HEADER_VALUE);
         }
     }
 }
