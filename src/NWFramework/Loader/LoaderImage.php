@@ -5,24 +5,17 @@ namespace NW\Loader;
 class LoaderImage
 {
     private const ERROR_UNKNOWN = 'При загрузке изображения произошла неизвестная ошибка';
+    private const ERROR_SIZE    = 'Изображение превысило максимально допустимый вес';
+    private const ERROR_TYPE    = 'Недопустимый тип файла';
+    private const ERROR_WIDTH   = 'Изображение превысило максимальную ширину';
+    private const ERROR_HEIGHT  = 'Изображение превысило максимальную высоту';
 
-    private const ERROR_SIZE = 'Изображение превысило максимально допустимый вес';
-
-    private const ERROR_TYPE = 'Недопустимый тип файла';
-
-    private const ERROR_WIDTH = 'Изображение превысило максимальную ширину';
-
-    private const ERROR_HEIGHT = 'Изображение превысило максимальную высоту';
-
-    /** Эта ошибка чаще всего возникает когда нехватает прав на сохранение файла в указанную дирректорию */
+    /** Эта ошибка чаще всего возникает когда не хватает прав на сохранение файла в указанную директорию */
     private const ERROR_UPLOAD = 'При загрузке изображения произошла ошибка сохранения на диск';
 
     private $filePath;
-
     private $errorCode;
-
     private $size;
-
     private $baseDir = '/public/';
 
     private static $errorMessages = [
@@ -40,8 +33,8 @@ class LoaderImage
      *
      * @param array $files
      * @param int $max_size
-     * @param int $max_weight
-     * @param int $max_height
+     * @param int|null $max_weight
+     * @param int|null $max_height
      * @param string $directory
      * @return Image
      */
@@ -135,6 +128,7 @@ class LoaderImage
         $type = image_type_to_extension($image[2]);
 
         if (!move_uploaded_file($this->filePath, DIR . $this->baseDir . $directory . $name . $type)) {
+            // todo throw new
             die(self::ERROR_UPLOAD);
         }
 
