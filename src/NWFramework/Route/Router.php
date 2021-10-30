@@ -34,7 +34,7 @@ class Router
             }
         }
 
-        throw new RouteException('404: Страница не найдена');
+        throw new RouteException(RouteException::PAGE_NOT_FOUND);
     }
 
     /**

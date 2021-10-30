@@ -2,15 +2,15 @@
 
 namespace NW;
 
-use JsonException;
+use Exception;
 use NW\Response\Response;
 
 abstract class Controller
 {
-    /** @var string Месторасположение дирректории с видами */
+    /** @var string Месторасположение директории с вьюхами */
     private $dir = __DIR__ . '/../../views/';
 
-    /** @var string Месторасположение дирректории, где хранится html-кеш */
+    /** @var string Месторасположение директории, где хранится html-кеш */
     private $cache = __DIR__ . '/../../cache/html/';
 
     /** @var string Шаблон (по умолчанию используется шаблон "old") */
@@ -39,12 +39,7 @@ abstract class Controller
 
     /** @var array - middleware для контроллера */
     protected $middleware = [];
-    
-    /**
-     * Задает текущее время
-     *
-     * Controller constructor.
-     */
+
     public function __construct()
     {
         $this->time = microtime(true);
@@ -58,15 +53,21 @@ abstract class Controller
      * @param array $params
      * @param int|null $statusCode
      * @return Response
+     * @throws Exception
      */
     public function render($view, $params = [], int $statusCode = null): Response
     {
         extract($params, EXTR_OVERWRITE);
 
-        // TODO Добавить проверку на наличие вида
+        $viewPath = $this->dir . $this->templates . $view . '.php';
+
+        if (!file_exists($viewPath)) {
+            throw new \NW\Exception("View не найден: $viewPath");
+        }
+
         ob_start();
 
-        require $this->dir . $this->templates . $view . '.php';
+        require $viewPath;
 
         // Помещаем страницу в общий макет сайта
         if ($this->layout) {
@@ -86,11 +87,11 @@ abstract class Controller
     }
 
     /**
-     * Вовзаращет ответ в виде json, никакие виды и шаблоны в этом случае не нужны
+     * Вовзаращет ответ в виде json
      *
      * @param array $json
      * @return Response
-     * @throws JsonException
+     * @throws Exception
      */
     public function json(array $json): Response
     {
@@ -100,27 +101,19 @@ abstract class Controller
     }
 
     /**
-     * Делает редирект на указанный URI
-     *
-     * @param string $uri
-     */
-    public function redirect(string $uri): void
-    {
-        header('Location: ' . HOST . $uri);
-    }
-
-    /**
      * Возвращает страницу 404
      *
      * @param string $error
+     * @param int $code
      * @return Response
+     * @throws Exception
      */
-    public function pageNotFound(string $error = ''): Response
+    public function renderErrorPage(string $error = '', int $code = 404): Response
     {
         // На всякий случай переключаем шаблон на базовый (т.к. 404 ошибка может кидаться и с других шаблонов)
         $this->layout_url = 'layout/main.php';
 
-        return $this->render('errors/404', ['error' => $error], 404);
+        return $this->render('errors/404', ['error' => $error], $code);
     }
     
     /**
@@ -137,7 +130,7 @@ abstract class Controller
             $name .= '_' . $id;
         }
 
-        // TODO Потестировать работу кэша. Вроде работает, но у меня какие-то сомнения
+        // TODO Протестировать работу кэша
 
         // Проверяем, есть ли кэш
         if (file_exists($this->cache . $name)) {
@@ -167,6 +160,18 @@ abstract class Controller
         $file = fopen($this->cache . $name, 'wb');
         fwrite($file, $content . '=кэш=');
         fclose($file);
+    }
+
+    /**
+     * Делает редирект на указанный URI
+     *
+     * TODO Редирект рабочий, но очень хардкорный. Подумать над улучшением
+     *
+     * @param string $uri
+     */
+    public function redirect(string $uri): void
+    {
+        header('Location: ' . HOST . $uri);
     }
 
     /**

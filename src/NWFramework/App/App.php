@@ -2,6 +2,7 @@
 
 namespace NW\App;
 
+use Exception;
 use NW\Request\Request;
 use NW\Response\Response;
 use NW\Route\Router;
@@ -28,6 +29,7 @@ class App
      *
      * @param Request $request
      * @return Response
+     * @throws Exception
      */
     public function handle(Request $request): Response
     {
@@ -51,5 +53,4 @@ class App
 
         return (new $class())->$action($request);
     }
-
 }

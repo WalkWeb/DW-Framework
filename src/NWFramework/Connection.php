@@ -19,18 +19,19 @@ final class Connection
     private $queryNumber = 0;
 
     /**
-     * Само подключение
+     * Создает подключение к БД
      *
-     * Connection constructor.
+     * @throws Exception
      */
     private function __construct()
     {
-        $this->conn = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME)
-        or die('Невозможно подключиться к MySQL');
+        if (!($this->conn = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME))) {
+            throw new Exception('Невозможно подключиться к MySQL');
+        }
 
         // Проверка соединения
         if (mysqli_connect_errno()) {
-            $this->error = 'Соединение не установлено: ' . mysqli_connect_error() . "\n";
+            throw new Exception('Соединение не установлено: ' . mysqli_connect_error());
         } else {
             $this->conn->query('SET NAMES utf8');
             $this->conn->set_charset('utf8');

@@ -68,9 +68,9 @@ abstract class Model
      * @param $time
      * @return bool|mixed
      */
-    protected function checkCache($name, $time)
+    protected function checkCache($name, $time): bool
     {
-        // TODO Потестировать работу кэша. Вроде работает, но у меня какие-то сомнения
+        // TODO Потестировать работу кэша
 
         // Проверяем, есть ли кэш
         if (file_exists($this->cache . $name)) {

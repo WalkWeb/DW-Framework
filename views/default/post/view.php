@@ -2,10 +2,11 @@
 
 if (empty($post)) {
     // Такой ситуации не должно произойти, но на всякий случай проверяем (и чтобы phpStorm не ругался)
-    die('Ошибка: нет данных по посту');
+    throw new \NW\Exception('Ошибка: нет данных по посту');
 }
 
 $this->title = $post->title;
+$firstPage = '/posts/1';
 
 ?>
 
@@ -13,4 +14,4 @@ $this->title = $post->title;
 
 <p><?= htmlspecialchars($post->text) ?></p>
 
-<p><a href="/posts/1">Вернуться к списку постов</a></p>
+<p><a href="<?= $firstPage ?>">Вернуться к списку постов</a></p>

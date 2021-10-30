@@ -2,6 +2,7 @@
 
 namespace Controllers;
 
+use Exception;
 use Models\Exceptions\PostException;
 use NW\Controller;
 use NW\Pagination;
@@ -21,6 +22,7 @@ class PostController extends Controller
      *
      * @param Request $request
      * @return Response
+     * @throws Exception
      */
     public function index(Request $request): Response
     {
@@ -33,7 +35,7 @@ class PostController extends Controller
             ]);
 
         } catch (PostException $e) {
-            return $this->pageNotFound();
+            return $this->renderErrorPage();
         }
     }
 
@@ -42,6 +44,7 @@ class PostController extends Controller
      *
      * @param Request $request
      * @return Response
+     * @throws Exception
      */
     public function view(Request $request): Response
     {
@@ -50,7 +53,7 @@ class PostController extends Controller
                 'post' => PostDataProvider::getPostById($request->id),
             ]);
         } catch (PostException $e) {
-            return $this->pageNotFound($e->getMessage());
+            return $this->renderErrorPage($e->getMessage());
         }
     }
 
@@ -58,6 +61,7 @@ class PostController extends Controller
      * Отображает форму для создания нового поста
      *
      * @return Response
+     * @throws Exception
      */
     public function add(): Response
     {
@@ -74,6 +78,7 @@ class PostController extends Controller
      *
      * @param Request $request
      * @return Response
+     * @throws Exception
      */
     public function create(Request $request): Response
     {

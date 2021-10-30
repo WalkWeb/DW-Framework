@@ -4,6 +4,8 @@ namespace NW;
 
 use DateTime;
 
+// TODO Переименовать в DateService
+
 class Date
 {
     private const SUFFIX = 'назад';

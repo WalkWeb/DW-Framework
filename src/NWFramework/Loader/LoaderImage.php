@@ -4,19 +4,14 @@ namespace NW\Loader;
 
 class LoaderImage
 {
-    private const ERROR_UNKNOWN = 'При загрузке изображения произошла неизвестная ошибка';
-    private const ERROR_SIZE    = 'Изображение превысило максимально допустимый вес';
-    private const ERROR_TYPE    = 'Недопустимый тип файла';
-    private const ERROR_WIDTH   = 'Изображение превысило максимальную ширину';
-    private const ERROR_HEIGHT  = 'Изображение превысило максимальную высоту';
-
-    /** Эта ошибка чаще всего возникает когда не хватает прав на сохранение файла в указанную директорию */
-    private const ERROR_UPLOAD = 'При загрузке изображения произошла ошибка сохранения на диск';
+    private const IMAGE_MAX_SIZE   = 5242880;
+    private const IMAGE_MAX_WEIGHT = 3000;
+    private const IMAGE_MAX_HEIGHT = 3000;
+    private const DIRECTORY        = '/public/images/upload/';
 
     private $filePath;
     private $errorCode;
     private $size;
-    private $baseDir = '/public/';
 
     private static $errorMessages = [
         UPLOAD_ERR_INI_SIZE   => 'Размер файла превысил значение upload_max_filesize в конфигурации PHP',
@@ -32,74 +27,75 @@ class LoaderImage
      * Сохраняет картинку на сервере и возвращает её название
      *
      * @param array $files
-     * @param int $max_size
-     * @param int|null $max_weight
-     * @param int|null $max_height
+     * @param int $maxSize
+     * @param int $maxWeight
+     * @param int $maxHeight
      * @param string $directory
      * @return Image
+     * @throws LoaderException
      */
     public function loaderImage(
         array $files,
-        int $max_size = 5242880,
-        int $max_weight = null,
-        int $max_height = null,
-        string $directory = 'images/upload/'
+        int $maxSize = self::IMAGE_MAX_SIZE,
+        int $maxWeight = self::IMAGE_MAX_WEIGHT,
+        int $maxHeight = self::IMAGE_MAX_HEIGHT,
+        string $directory = self::DIRECTORY
     ): Image
     {
         $this->filePath = $files['upload']['tmp_name'] ?? $files['file']['tmp_name'];
         $this->errorCode = $files['upload']['error'] ?? $files['file']['error'];
-        $max_size = $max_size ?? UPLOAD_IMAGE_MAX_SIZE;
-        $max_weight = $max_weight ?? UPLOAD_IMAGE_MAX_WEIGHT;
-        $max_height = $max_height ?? UPLOAD_IMAGE_MAX_HEIGHT;
-        $this->preloadValidate($max_size);
+        $this->preloadValidate($maxSize);
         $image = $this->upload();
-        $this->validateSize($image, $max_weight, $max_height);
+        $this->validateSize($image, $maxWeight, $maxHeight);
         return $this->save($image, $directory);
     }
 
     /**
-     * @param int $max_size
+     * @param int $maxSize
+     * @throws LoaderException
      */
-    private function preloadValidate(int $max_size): void
+    private function preloadValidate(int $maxSize): void
     {
         $this->size = filesize($this->filePath);
 
-        if ($this->size > $max_size) {
-            die(self::ERROR_SIZE);
+        if ($this->size > $maxSize) {
+            throw new LoaderException(LoaderException::ERROR_SIZE);
         }
 
         if ($this->errorCode !== UPLOAD_ERR_OK || !is_uploaded_file($this->filePath)) {
-            die(self::$errorMessages[$this->errorCode] ?? self::ERROR_UNKNOWN);
+            throw new LoaderException(self::$errorMessages[$this->errorCode] ?? LoaderException::ERROR_UNKNOWN);
         }
     }
 
     /**
-     * @param $mime
+     * @param string $mime
      * @return bool
      */
-    private function validateType($mime): bool
+    private function validateType(string $mime): bool
     {
         return strpos($mime, 'image') === false;
     }
 
     /**
-     * @param $image
-     * @param int $max_weight
-     * @param int $max_height
+     * @param array $image
+     * @param int $maxWeight
+     * @param int $maxHeight
+     * @throws LoaderException
      */
-    private function validateSize($image, int $max_weight, int $max_height): void
+    private function validateSize(array $image, int $maxWeight, int $maxHeight): void
     {
-        if ($image[0] > $max_weight) {
-            die(self::ERROR_WIDTH);
+        if ($image[0] > $maxWeight) {
+            throw new LoaderException(LoaderException::ERROR_WIDTH);
         }
 
-        if ($image[1] > $max_height) {
-            die(self::ERROR_HEIGHT);
+        if ($image[1] > $maxHeight) {
+            throw new LoaderException(LoaderException::ERROR_HEIGHT);
         }
     }
 
     /**
      * @return array
+     * @throws LoaderException
      */
     private function upload(): array
     {
@@ -110,26 +106,26 @@ class LoaderImage
         finfo_close($FileInfo);
 
         if ($this->validateType($mime)) {
-            die(self::ERROR_TYPE);
+            throw new LoaderException(LoaderException::ERROR_TYPE);
         }
 
         return getimagesize($this->filePath);
     }
 
     /**
-     * @param $image
+     * @param array $image
      * @param string $directory
      * @return Image
+     * @throws LoaderException
      */
-    private function save($image, string $directory): Image
+    private function save(array $image, string $directory): Image
     {
         $name = md5_file($this->filePath);
 
         $type = image_type_to_extension($image[2]);
 
-        if (!move_uploaded_file($this->filePath, DIR . $this->baseDir . $directory . $name . $type)) {
-            // todo throw new
-            die(self::ERROR_UPLOAD);
+        if (!move_uploaded_file($this->filePath, DIR . $directory . $name . $type)) {
+            throw new LoaderException(LoaderException::ERROR_UPLOAD);
         }
 
         return new Image($name, $type, $this->size, $directory, $image[0], $image[1]);

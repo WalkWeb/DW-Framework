@@ -4,6 +4,7 @@ namespace NW;
 
 use NW\Response\Response;
 use NW\Response\Emitter;
+use NW\Response\ResponseException;
 use Throwable;
 
 class Exception extends \Exception
@@ -11,12 +12,11 @@ class Exception extends \Exception
     /**
      * Создает сообщение об ошибке
      *
-     * Exception constructor.
      * @param string $message
      * @param int $code
      * @param Exception|null $previous
      */
-    public function __construct($message, $code = 200, Exception $previous = null)
+    public function __construct(string $message, $code = 200, Exception $previous = null)
     {
         set_exception_handler([$this, 'printException']);
         parent::__construct($message, $code, $previous);
@@ -28,6 +28,7 @@ class Exception extends \Exception
      * TODO 500 ошибка не в режиме разработчика
      *
      * @param Throwable $e
+     * @throws ResponseException
      */
     public function printException(Throwable $e): void
     {

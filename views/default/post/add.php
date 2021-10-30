@@ -1,6 +1,7 @@
 <?php
 
 $this->title = 'Добавить новый пост';
+$postAction = '/post/create';
 
 ?>
 
@@ -8,7 +9,7 @@ $this->title = 'Добавить новый пост';
 
 <p><?= htmlspecialchars($message ?? '') ?></p>
 
-<form method="POST" action="/post/create">
+<form method="POST" action="<?= $postAction ?>">
     <label><input name="title" autocomplete="off" value="<?= htmlspecialchars($title ?? '') ?>"></label>
 
     <label><textarea name="text" autocomplete="off"><?= htmlspecialchars($text ?? '') ?></textarea></label>

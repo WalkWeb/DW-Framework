@@ -2,6 +2,8 @@
 
 namespace NW\Traits;
 
+// TODO На удаление?
+
 trait Singleton
 {
     private static $instance;

@@ -45,7 +45,7 @@ class PostDataProvider
     public static function getPostById(int $id): object
     {
         if (empty(self::$posts[$id])) {
-            throw new PostException('Указанного поста не существует', 404);
+            throw new PostException(PostException::NOT_FOUND, 404);
         }
 
         return (object)self::$posts[$id];
@@ -67,7 +67,7 @@ class PostDataProvider
         $id = $page === 1 ? 1 : (($page - 1) * $limit + 1);
 
         if (empty(self::$posts[$id])) {
-            throw new PostException('Указанного поста не существует', 404);
+            throw new PostException(PostException::NOT_FOUND, 404);
         }
 
         $i = 1;
