@@ -4,3 +4,5 @@
 
 # result code coverage (php vendor/bin/phpunit --coverage-html html)
 html/
+
+config.local.php
