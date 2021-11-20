@@ -20,6 +20,8 @@ class Session
     }
 
     /**
+     * TODO В случае отсутствия может лучше кидать exception?
+     *
      * @param $key
      * @return string|null
      */
@@ -37,6 +39,8 @@ class Session
     /**
      * Проверяет, есть ли указанный параметр в сессии
      *
+     * TODO Rename to existParam
+     *
      * @param $key
      * @return bool
      */
@@ -52,8 +56,29 @@ class Session
      */
     private static function start(): void
     {
-        if (session_status() !== PHP_SESSION_ACTIVE) {
+        if (!self::isSessionStarted()) {
             session_start();
         }
+    }
+
+    /**
+     * Проверяет, запущены ли сессии
+     *
+     * Если php работает в консольном режиме (cli) сессии не стартуем - это приведет к ошибке
+     * "session_start(): Cannot start session when headers already sent"
+     *
+     * @return bool
+     */
+    private static function isSessionStarted(): bool
+    {
+        if (PHP_SAPI === 'cli') {
+            return true;
+        }
+
+        if (PHP_VERSION_ID >= 50400) {
+            return session_status() === PHP_SESSION_ACTIVE;
+        }
+
+        return session_id() !== '';
     }
 }
