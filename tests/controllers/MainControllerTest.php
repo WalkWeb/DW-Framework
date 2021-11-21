@@ -2,20 +2,21 @@
 
 namespace Tests\controllers;
 
+use Exception;
 use NW\Route\RouteCollection;
 use NW\Route\Router;
-use PHPUnit\Framework\TestCase;
 use NW\Request\Request;
 use NW\App\App;
+use Tests\AbstractTestCase;
 
-class MainControllerTest extends TestCase
+class MainControllerTest extends AbstractTestCase
 {
     /** @var App */
     private $app;
 
-    protected function setUp(): void
+    public function setUp(): void
     {
-        require_once __DIR__ . '/../../config.local.php';
+        parent::setUp();
 
         $routes = new RouteCollection();
         $routes->get('home', '/', 'MainController@index');
@@ -26,6 +27,8 @@ class MainControllerTest extends TestCase
 
     /**
      * Проверяем ответ от главной страницы
+     *
+     * @throws Exception
      */
     public function testMainPage(): void
     {
@@ -38,6 +41,8 @@ class MainControllerTest extends TestCase
 
     /**
      * Проверяем ответ о несуществующей странице
+     *
+     * @throws Exception
      */
     public function testBadPage(): void
     {

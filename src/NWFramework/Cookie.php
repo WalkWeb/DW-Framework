@@ -3,6 +3,7 @@
 namespace NW;
 
 // TODO Переделать на работу с Request / Response
+// TODO Уйти от статики
 
 class Cookie
 {

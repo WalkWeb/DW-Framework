@@ -2,8 +2,12 @@
 
 namespace NW;
 
+// TODO Уйти от статики
+
 class Csrf
 {
+    public const TOKEN_NAME = 'csrf';
+
     /**
      * Создает и возвращает CSRF-токен для формы.
      *
@@ -14,11 +18,11 @@ class Csrf
      */
     public static function getCsrfToken(): string
     {
-        $token = Session::getParam('csrf');
+        $token = Session::getParam(self::TOKEN_NAME);
 
         if (!isset($token)) {
             $string = Tools::getRandStr();
-            Session::setParam('csrf', $string);
+            Session::setParam(self::TOKEN_NAME, $string);
         } else {
             $string = $token;
         }
@@ -34,11 +38,11 @@ class Csrf
      */
     public static function checkCsrfToken(string $token): bool
     {
-        if (!Session::checkParam('csrf')) {
+        if (!Session::checkParam(self::TOKEN_NAME)) {
             return false;
         }
 
-        if (hash_equals(Session::getParam('csrf'), $token)) {
+        if (hash_equals(Session::getParam(self::TOKEN_NAME), $token)) {
             return true;
         }
 
