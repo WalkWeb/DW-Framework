@@ -7,6 +7,8 @@ class Pagination
     /**
      * Собирает и возвращает html-контент для отображения пагинации на странице
      *
+     * TODO Доработать пагинацию при странице по середине - с.м. тест
+     *
      * @param $elements
      * @param $page
      * @param $url
@@ -40,6 +42,6 @@ class Pagination
             $i++;
         }
 
-        return $left . $content . $right;
+        return trim($left . $content . $right);
     }
 }
