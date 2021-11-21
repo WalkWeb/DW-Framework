@@ -13,6 +13,7 @@ class Date
     private const NOW = 'только что';
 
     private const INCORRECT_DATE = 'Некорректная дата';
+    private const INCORRECT_TYPE = 'Некорректный тип';
 
     private const YEAR = 'year';
 
@@ -50,6 +51,8 @@ class Date
      * Пример использования:
      * \NW\Date::getElapsedTime(\DateTime::createFromFormat('Y-m-d H:i:s', $account->regDate))
      *
+     * TODO Доработать: "1 минута назад" => "1 минуту назад"
+     *
      * @param DateTime $data
      * @return string
      */
@@ -63,7 +66,7 @@ class Date
 
         foreach ($dateMap as $short => $full) {
             if ($dateInterval->$short > 0) {
-                return $dateInterval->$short . ' ' . self::plural($dateInterval->$short, $full) . ' ' . self::SUFFIX . '<br />';
+                return $dateInterval->$short . ' ' . self::plural($dateInterval->$short, $full) . ' ' . self::SUFFIX;
             }
         }
 
@@ -81,6 +84,10 @@ class Date
     {
         if ($value < 0) {
             return self::INCORRECT_DATE;
+        }
+
+        if (!property_exists(__CLASS__, $type)) {
+            return self::INCORRECT_TYPE;
         }
 
         $value %= 100;
