@@ -6,9 +6,9 @@ namespace Tests\src\NWFramework\Response;
 
 use NW\Response\Response;
 use NW\Response\ResponseException;
-use PHPUnit\Framework\TestCase;
+use Tests\AbstractTestCase;
 
-class ResponseTest extends TestCase
+class ResponseTest extends AbstractTestCase
 {
     public function testCreateEmptyResponse(): void
     {

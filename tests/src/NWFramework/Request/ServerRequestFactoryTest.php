@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Tests\src\NWFramework\Request;
 
 use NW\Request\ServerRequestFactory;
-use PHPUnit\Framework\TestCase;
+use Tests\AbstractTestCase;
 
-class ServerRequestFactoryTest extends TestCase
+class ServerRequestFactoryTest extends AbstractTestCase
 {
     public function testServerRequestFactoryDefault(): void
     {

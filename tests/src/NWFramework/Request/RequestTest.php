@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Tests\src\NWFramework\Request;
 
 use NW\Request\Request;
-use PHPUnit\Framework\TestCase;
+use Tests\AbstractTestCase;
 
-class RequestTest extends TestCase
+class RequestTest extends AbstractTestCase
 {
     public function testCreateEmptyRequest(): void
     {

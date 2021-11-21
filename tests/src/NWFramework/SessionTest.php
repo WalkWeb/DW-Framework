@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Tests\src\NWFramework;
 
 use NW\Session;
-use PHPUnit\Framework\TestCase;
+use Tests\AbstractTestCase;
 
-class SessionTest extends TestCase
+class SessionTest extends AbstractTestCase
 {
     public function testSessionSetAndGetParam(): void
     {

@@ -2,9 +2,16 @@
 
 namespace NW;
 
+// TODO Уйти от статики
+
 class Captcha
 {
     public const INVALID_CAPTCHA = 'Символы с картинки указаны неверно';
+
+    /**
+     * @var string
+     */
+    private static $captcha = '';
 
     public static function getCaptchaImage(
         int $width_image = 150,
@@ -18,12 +25,12 @@ class Captcha
         imagefilledrectangle($image, 0, 0, 400, 50, $image_color);
         $font = DIR . '/public/fonts/11610.ttf';
         $height = 40;
-        $captcha = '';
+        self::$captcha = '';
 
         for ($i = 0; $i < $length; $i++) {
 
             // Дописываем случайный символ
-            $captcha .= $letters[Tools::rand(0, strlen($letters) - 1)];
+            self::$captcha .= $letters[Tools::rand(0, strlen($letters) - 1)];
 
             // Растояние между символами
             $x = 20 + 30 * $i;
@@ -41,10 +48,10 @@ class Captcha
             $angle = Tools::rand(-45, 45);
 
             // Вывод текста
-            imagettftext($image, $font_size, $angle, $x, $y, $curcolor, $font, $captcha[$i]);
+            imagettftext($image, $font_size, $angle, $x, $y, $curcolor, $font, self::$captcha[$i]);
         }
 
-        Session::setParam('captcha', md5($captcha . KEY));
+        Session::setParam('captcha', md5(self::$captcha . KEY));
 
         ob_start();
         imagepng($image);
@@ -65,5 +72,15 @@ class Captcha
         $formCaptcha = md5($captcha . KEY);
         $sessionCaptcha = Session::getParam('captcha');
         return $formCaptcha === $sessionCaptcha;
+    }
+
+    /**
+     * Возвращает сгенерированную капчу
+     *
+     * @return string
+     */
+    public static function getCaptcha(): string
+    {
+        return self::$captcha;
     }
 }
