@@ -2,6 +2,9 @@
 
 namespace NW;
 
+// TODO Rename to Log
+// TODO Уйти от статики
+
 class Logs
 {
     /**
@@ -25,11 +28,12 @@ class Logs
      */
     public static function setLogs($log): void
     {
-        if (LOGS && LOGS_FILE) {
-            self::saveToFile($log);
-        }
         if (LOGS) {
             self::$logs .= "&bull; $log<br />";
+
+            if (LOGS_FILE) {
+                self::saveToFile($log);
+            }
         }
     }
 
@@ -45,10 +49,22 @@ class Logs
 
     /**
      * Возвращает логи корректны для передачи по JSON
+     *
+     * TODO Странный метод, уже не вспомню, для чего его делал
      */
     public static function getJsonLogs(): ?string
     {
         return LOGS ? str_replace('"', '\\"', self::$logs) : null;
+    }
+
+    /**
+     * Костыль, который приходится делать из-за статического класса. Сбрасывает все записанные ранее логи
+     *
+     * TODO На удаление, когда статика будет удалена
+     */
+    public static function resetLog(): void
+    {
+        self::$logs = '<p class="logs">';
     }
 
     /**
