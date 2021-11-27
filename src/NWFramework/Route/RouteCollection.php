@@ -4,6 +4,9 @@ namespace NW\Route;
 
 class RouteCollection
 {
+    /**
+     * @var Route[]
+     */
     private $routes = [];
 
     public function get($name, $path, $handler, $param = [], $namespace = null): Route
@@ -20,12 +23,22 @@ class RouteCollection
         return $route;
     }
 
+    /**
+     * TODO Не особо понятен смысл этого метода здесь
+     *
+     * @param Route $route
+     * @param string $middleware
+     * @return Route
+     */
     public function middleware(Route $route, string $middleware): Route
     {
         $route->middleware($middleware);
         return $route;
     }
 
+    /**
+     * @return Route[]
+     */
     public function getRoutes(): array
     {
         return $this->routes;

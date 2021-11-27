@@ -6,6 +6,8 @@ use NW\Request\Request;
 
 class Route
 {
+    // TODO Перевести все свойства в приватные
+
     /**
      * @var string - Название маршрута
      */
