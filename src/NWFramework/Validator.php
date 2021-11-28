@@ -36,34 +36,42 @@ class Validator
 {
     /**
      * Имя проверяемого поля
-     * @var
+     *
+     * @var string
      */
     private static $name;
 
     /**
      * Массив ошибок
-     * @var
+     *
+     * @var array
      */
     private static $errors;
 
     /**
      * БД
-     * @var object dw\core\Connection;
+     *
+     * @var Connection;
      */
     private static $db;
 
+    /**
+     * @var string|null
+     */
     private static $defaultError;
 
     /**
      * Принимает валидируемый параметр и дополнительные параметры, и проверяет его на основе правил
      *
-     * @param string $name - Имя поля, необходимо для корректного сообщения об ошибке
-     * @param $param - Валидируемая переменная
-     * @param array $rules - Правила валидации
-     * @param string|null $table - Только для проверки типа unique - таблица для проверки
+     * @uses string, int, min, max, required, boolean, in, parent, unique
+     * @param string $name        - Имя поля, необходимо для корректного сообщения об ошибке
+     * @param $param              - Валидируемая переменная
+     * @param array $rules        - Правила валидации
+     * @param string|null $table  - Только для проверки типа unique - таблица для проверки
      * @param string|null $column - Только для проверки типа unique - колонка для проверки
-     * @param string|null $error - Текст ошибки, если он не указан - то текст ошибки будет составлен автоматически
+     * @param string|null $error  - Текст ошибки, если он не указан - то текст ошибки будет составлен автоматически
      * @return bool
+     * @throws Exception
      */
     public static function check(string $name, $param, array $rules, string $table = null, string $column = null, string $error = null): bool
     {
@@ -141,13 +149,15 @@ class Validator
     /**
      * Проверяет строку на минимальную длину
      *
+     * TODO Доработать и проверку к int
+     *
      * @param $param
      * @param $value
      * @return bool
      */
     protected static function min($param, $value): bool
     {
-        if (strlen($param) >= $value) {
+        if (mb_strlen($param) >= $value) {
             return true;
         }
         self::addError(self::$name . ' должен быть больше или равен ' . $value . ' символов');
@@ -219,13 +229,13 @@ class Validator
      * Проверяет на строгое соответствие одному из указанных в массиве величин
      *
      * @param $param
-     * @param $value
+     * @param array $values
      * @return bool
      */
-    protected static function in($param, $value): bool
+    protected static function in($param, array $values): bool
     {
-        foreach ($value as $val) {
-            if ($param === $val) {
+        foreach ($values as $value) {
+            if ($param === $value) {
                 return true;
             }
         }
@@ -256,6 +266,7 @@ class Validator
      * @param $table
      * @param $column
      * @return bool
+     * @throws Exception
      */
     private static function unique($param, $table, $column): bool
     {
@@ -263,11 +274,15 @@ class Validator
             self::addError('Неуказана таблица или колонка для проверки');
             return false;
         }
+
         self::connectDB();
+
         if (!self::$db->query("SELECT $column FROM $table WHERE $column = ?", [['type' => 's', 'value' => $param]])) {
             return true;
         }
+
         self::addError('Указанный ' . self::$name . ' уже существует, выберите другой');
+
         return false;
     }
 
