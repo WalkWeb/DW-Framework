@@ -2,6 +2,8 @@
 
 namespace NW\Loader;
 
+// TODO Убрать публичные свойства
+
 class Image extends File
 {
     /** @var int - Ширина изображения */
@@ -10,7 +12,7 @@ class Image extends File
     /** @var int - Высота изображения */
     public $height;
 
-    public function __construct(string $name, string $type, int $size, string $dir = null, $width, $height)
+    public function __construct(string $name, string $type, int $size, int $width, int $height, string $dir = null)
     {
         parent::__construct($name, $type, $size, $dir);
 

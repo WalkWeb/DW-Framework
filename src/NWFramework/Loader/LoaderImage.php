@@ -128,6 +128,6 @@ class LoaderImage
             throw new LoaderException(LoaderException::ERROR_UPLOAD);
         }
 
-        return new Image($name, $type, $this->size, $directory, $image[0], $image[1]);
+        return new Image($name, $type, $this->size, $image[0], $image[1], $directory);
     }
 }
