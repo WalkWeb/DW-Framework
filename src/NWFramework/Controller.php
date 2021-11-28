@@ -115,7 +115,19 @@ abstract class Controller
 
         return $this->render('errors/404', ['error' => $error], $code);
     }
-    
+
+    /**
+     * Делает редирект на указанный URI
+     *
+     * TODO Редирект рабочий, но очень хардкорный. Подумать над улучшением
+     *
+     * @param string $uri
+     */
+    public function redirect(string $uri): void
+    {
+        header('Location: ' . HOST . $uri);
+    }
+
     /**
      * Проверяет наличие кэша по его имени (и id если есть)
      *
@@ -160,18 +172,6 @@ abstract class Controller
         $file = fopen($this->cache . $name, 'wb');
         fwrite($file, $content . '=кэш=');
         fclose($file);
-    }
-
-    /**
-     * Делает редирект на указанный URI
-     *
-     * TODO Редирект рабочий, но очень хардкорный. Подумать над улучшением
-     *
-     * @param string $uri
-     */
-    public function redirect(string $uri): void
-    {
-        header('Location: ' . HOST . $uri);
     }
 
     /**

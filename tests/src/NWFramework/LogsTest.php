@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\src;
+namespace Tests\src\NWFramework;
 
 use NW\Logs;
 use Tests\AbstractTestCase;
