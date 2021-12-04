@@ -10,8 +10,8 @@ class AbstractTestCase extends TestCase
 {
     public function setUp(): void
     {
-        if (file_exists(__DIR__ . '/../config.local.php')) {
-            require_once __DIR__ . '/../config.local.php';
+        if (file_exists(__DIR__ . '/../config.test.php')) {
+            require_once __DIR__ . '/../config.test.php';
         } else {
             require_once __DIR__ . '/../config.php';
         }

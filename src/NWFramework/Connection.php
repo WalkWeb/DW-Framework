@@ -3,51 +3,79 @@
 namespace NW;
 
 use mysqli;
+use Throwable;
 
 final class Connection
 {
-    /** @var mysqli */
-    private $conn;
+    public const ERROR_CONNECT = 'Невозможно подключиться к MySQL: ';
+    public const ERROR_PREPARE = 'Ошибка выполнения SQL: ';
 
-    /**@var string ошибки */
+    /**
+     * @var mysqli
+     */
+    private $connection;
+
+    /**
+     * @var string ошибки
+     */
     private $error = '';
 
-    /** @var Connection подключение к бд */
+    /**
+     * @var Connection подключение к бд
+     */
     private static $instance;
 
-    /** @var int Количество запросов */
+    /**
+     * @var int Количество запросов
+     */
     private $queryNumber = 0;
 
     /**
      * Создает подключение к БД
      *
+     * @param string $host
+     * @param string $user
+     * @param string $password
+     * @param string $database
      * @throws Exception
      */
-    private function __construct()
+    private function __construct(string $host, string $user, string $password, string $database)
     {
-        if (!($this->conn = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME))) {
-            throw new Exception('Невозможно подключиться к MySQL');
+        try {
+            $this->connection = mysqli_connect($host, $user, $password, $database);
+        } catch (Throwable $e) {
+            throw new Exception(self::ERROR_CONNECT . $e->getMessage());
         }
 
         // Проверка соединения
         if (mysqli_connect_errno()) {
-            throw new Exception('Соединение не установлено: ' . mysqli_connect_error());
-        } else {
-            $this->conn->query('SET NAMES utf8');
-            $this->conn->set_charset('utf8');
+            throw new Exception(self::ERROR_CONNECT . mysqli_connect_error());
         }
+
+        $this->connection->query('SET NAMES utf8');
+        $this->connection->set_charset('utf8');
     }
 
     /**
      * Возвращает объект работы с БД
      * Если его нет - создает, если существует - возвращает текущий
      *
+     * @param string $host
+     * @param string $user
+     * @param string $password
+     * @param string $database
      * @return Connection
+     * @throws Exception
      */
-    public static function getInstance(): self
+    public static function getInstance(
+        string $host = DB_HOST,
+        string $user = DB_USER,
+        string $password = DB_PASSWORD,
+        string $database = DB_NAME
+    ): self
     {
         if (self::$instance === null) {
-            self::$instance = new self;
+            self::$instance = new self($host, $user, $password, $database);
         }
         return self::$instance;
     }
@@ -57,13 +85,15 @@ final class Connection
      */
     public function __destruct()
     {
-        if ($this->conn) {
-            $this->conn->close();
+        if ($this->connection) {
+            $this->connection->close();
         }
     }
 
     /**
      * Возвращает true если все ок, и false - если есть ошибки
+     *
+     * TODO Rename to isSuccess
      *
      * @return bool
      */
@@ -84,7 +114,7 @@ final class Connection
             return $this->error;
         }
 
-        return $this->conn->error;
+        return $this->connection->error;
     }
 
     /**
@@ -115,9 +145,9 @@ final class Connection
             $param_arr[0] = $param_types;
         }
 
-        $stmt = $this->conn->prepare($sql);
+        $stmt = $this->connection->prepare($sql);
         if ($stmt === false) {
-            $this->error = 'Ошибка подготовки SQL: ' . $this->conn->errno . ' ' . $this->conn->error . '. SQL: ' . $sql;
+            $this->error = self::ERROR_PREPARE . $this->connection->errno . ' ' . $this->connection->error . '. SQL: ' . $sql;
         } else {
             // Если параметры не пришли - то bind_param не требуется
             if (count($params) > 0) {
@@ -137,7 +167,7 @@ final class Connection
                     }
                 }
             } else {
-                $this->error = 'Ошибка выполнения SQL: ' . $stmt->errno . ' ' . $stmt->error . '. SQL: ' . $sql;
+                $this->error = '' . $stmt->errno . ' ' . $stmt->error . '. SQL: ' . $sql;
             }
         }
 
@@ -153,11 +183,13 @@ final class Connection
     /**
      * Возвращает ID добавленной записи
      *
+     * TODO Raname to getInsertId()
+     *
      * @return int|string
      */
     public function insertId()
     {
-        return mysqli_insert_id($this->conn);
+        return mysqli_insert_id($this->connection);
     }
 
     /**
@@ -168,7 +200,7 @@ final class Connection
      */
     public function autocommit(bool $mode): bool
     {
-        return $this->conn->autocommit($mode);
+        return $this->connection->autocommit($mode);
     }
 
     /**
@@ -178,7 +210,7 @@ final class Connection
      */
     public function commit(): bool
     {
-        return $this->conn->commit();
+        return $this->connection->commit();
     }
 
     /**
@@ -188,7 +220,7 @@ final class Connection
      */
     public function rollback(): bool
     {
-        return $this->conn->rollback();
+        return $this->connection->rollback();
     }
 
     /**
