@@ -26,7 +26,7 @@ abstract class Model
     /**
      * Создаем объект подключения к базе и обработки запросов
      *
-     * TestQuery constructor.
+     * @throws Exception
      */
     public function __construct()
     {
