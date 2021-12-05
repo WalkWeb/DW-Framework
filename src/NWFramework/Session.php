@@ -51,6 +51,10 @@ class Session
         return !empty($_SESSION[$key]);
     }
 
+    // TODO Added exist session
+
+    // TODO Added remove session
+
     /**
      * Запускает сессию, если она еще не запущена
      */

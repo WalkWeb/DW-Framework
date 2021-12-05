@@ -2,13 +2,14 @@
 
 namespace NW;
 
-use DateTime;
 use Throwable;
 
 class Tools
 {
     /**
      * Генерирует случайную строку
+     *
+     * TODO вынести в trait StringUtils и от данного класса вообще можно отказаться
      *
      * @param integer $length
      * @return string
@@ -28,6 +29,8 @@ class Tools
      * Так как использовать rand() уже не по феншую, а random_int бросает исключения - чтобы их постоянно не
      * обрабатывать, выношу в отдельный метод
      *
+     * TODO На удаление
+     *
      * @param int $from
      * @param int $before
      * @return int
@@ -45,6 +48,8 @@ class Tools
 
     /**
      * Возвращает текущую дату и время
+     *
+     * TODO На удаление
      *
      * @param string $format
      * @return string
