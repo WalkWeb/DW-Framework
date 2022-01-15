@@ -117,10 +117,12 @@ class Route
     /**
      * Добавляет middleware для данного маршрута
      *
+     * TODO Механика подразумевает передачу только имени класса - переделать на полный пуст вида Class::class
+     *
      * @param string $middleware
      * @return Route
      */
-    public function middleware(string $middleware): Route
+    public function addMiddleware(string $middleware): Route
     {
         $this->middleware[] = $middleware;
 

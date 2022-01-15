@@ -32,7 +32,7 @@ class RouteCollection
      */
     public function middleware(Route $route, string $middleware): Route
     {
-        $route->middleware($middleware);
+        $route->addMiddleware($middleware);
         return $route;
     }
 
