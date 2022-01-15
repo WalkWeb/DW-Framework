@@ -5,9 +5,7 @@ namespace NW;
 use Exception;
 use NW\Response\Response;
 
-// TODO Переименовать в AbstractController
-
-abstract class Controller
+abstract class AbstractController
 {
     /** @var string Месторасположение директории с вьюхами */
     private $dir = __DIR__ . '/../../views/';

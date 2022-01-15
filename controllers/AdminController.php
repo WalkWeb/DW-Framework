@@ -2,11 +2,11 @@
 
 namespace Controllers;
 
-use NW\Controller;
+use NW\AbstractController;
 use Middleware\AuthMiddleware;
 use NW\Response\Response;
 
-class AdminController extends Controller
+class AdminController extends AbstractController
 {
     public function __construct()
     {

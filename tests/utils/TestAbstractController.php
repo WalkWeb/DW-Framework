@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\utils;
 
-use NW\Controller;
+use NW\AbstractController;
 
 /**
  * Так как NW\Controller является абстрактным классом, мы не можем протестировать его напрямую. Для этого создан
@@ -12,7 +12,7 @@ use NW\Controller;
  *
  * @package Tests\utils
  */
-class TestController extends Controller
+class TestAbstractController extends AbstractController
 {
     public function checkCache($name, $time, $id = null)
     {

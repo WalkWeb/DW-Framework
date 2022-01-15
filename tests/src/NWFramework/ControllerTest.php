@@ -6,7 +6,7 @@ namespace Tests\src\NWFramework;
 
 use Exception;
 use Tests\AbstractTestCase;
-use Tests\utils\TestController;
+use Tests\utils\TestAbstractController;
 
 class ControllerTest extends AbstractTestCase
 {
@@ -17,7 +17,7 @@ class ControllerTest extends AbstractTestCase
      */
     public function testControllerJson(array $data): void
     {
-        $controller = new TestController();
+        $controller = new TestAbstractController();
 
         $response = $controller->json($data);
 
@@ -33,7 +33,7 @@ class ControllerTest extends AbstractTestCase
      */
     public function testControllerErrorPage(): void
     {
-        $controller = new TestController();
+        $controller = new TestAbstractController();
 
         $response = $controller->renderErrorPage();
 
@@ -54,7 +54,7 @@ class ControllerTest extends AbstractTestCase
         $cacheId = 'uuid';
         $cacheContent = 'content';
         $cachePrefix = '_cache';
-        $controller = new TestController();
+        $controller = new TestAbstractController();
 
         // Если тест запускается не первый раз - то кэш уже будет, соответственно его нужно удалить
         $cacheFile = __DIR__ . '/../../../cache/html/' . $cacheName . '_' . $cacheId;

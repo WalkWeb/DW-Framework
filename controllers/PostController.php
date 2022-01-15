@@ -4,7 +4,7 @@ namespace Controllers;
 
 use Exception;
 use Models\Exceptions\PostException;
-use NW\Controller;
+use NW\AbstractController;
 use NW\Pagination;
 use NW\Request\Request;
 use NW\Response\Response;
@@ -12,7 +12,7 @@ use Models\PostDataProvider;
 use Models\Post;
 use NW\Captcha;
 
-class PostController extends Controller
+class PostController extends AbstractController
 {
     /**
      * Отображает список постов

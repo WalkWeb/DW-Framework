@@ -2,10 +2,10 @@
 
 namespace Controllers;
 
-use NW\Controller;
+use NW\AbstractController;
 use NW\Response\Response;
 
-class MainController extends Controller
+class MainController extends AbstractController
 {
     public function index(): Response
     {
