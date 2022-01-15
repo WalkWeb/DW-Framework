@@ -47,6 +47,31 @@ class ControllerTest extends AbstractTestCase
         self::assertIsString($response->getBody());
     }
 
+    public function testControllerCheckCache(): void
+    {
+        $cacheName = 'name';
+        $cacheTime = 100;
+        $cacheId = 'uuid';
+        $cacheContent = 'content';
+        $cachePrefix = '_cache';
+        $controller = new TestController();
+
+        // Если тест запускается не первый раз - то кэш уже будет, соответственно его нужно удалить
+        $cacheFile = __DIR__ . '/../../../cache/html/' . $cacheName . '_' . $cacheId;
+
+        if (file_exists($cacheFile)) {
+            unlink($cacheFile);
+        }
+
+        // Вначале кэш отсутствует
+        self::assertFalse($controller->checkCache($cacheName, $cacheTime, $cacheId));
+
+        // Создаем кэш
+        $controller->createCache($cacheName, $cacheContent, $cacheId, $cachePrefix);
+
+        self::assertEquals($cacheContent . $cachePrefix, $controller->checkCache($cacheName, $cacheTime, $cacheId));
+    }
+
     /**
      * @return array
      */

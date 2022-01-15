@@ -5,6 +5,8 @@ namespace NW;
 use Exception;
 use NW\Response\Response;
 
+// TODO Переименовать в AbstractController
+
 abstract class Controller
 {
     /** @var string Месторасположение директории с вьюхами */
@@ -131,6 +133,9 @@ abstract class Controller
     /**
      * Проверяет наличие кэша по его имени (и id если есть)
      *
+     * TODO Метод возвращает bool|string - уйти от такой неоднозначности. Пусть проверяет только наличие кэша, а
+     * TODO получение кэша пусть делается отдельным методом
+     *
      * @param $name
      * @param null $id
      * @param $time
@@ -141,8 +146,6 @@ abstract class Controller
         if ($id) {
             $name .= '_' . $id;
         }
-
-        // TODO Протестировать работу кэша
 
         // Проверяем, есть ли кэш
         if (file_exists($this->cache . $name)) {
@@ -162,15 +165,16 @@ abstract class Controller
      * @param $name
      * @param $content
      * @param null $id
+     * @param string $prefix - Параметр для отладки и тестов, чтобы отличить контент который берется из кэша
      */
-    protected function createCache($name, $content, $id = null): void
+    protected function createCache($name, $content, $id = null, string $prefix = ''): void
     {
         if ($id) {
             $name .= '_' . $id;
         }
 
         $file = fopen($this->cache . $name, 'wb');
-        fwrite($file, $content . '=кэш=');
+        fwrite($file, $content . $prefix);
         fclose($file);
     }
 

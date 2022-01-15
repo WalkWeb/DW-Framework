@@ -14,5 +14,13 @@ use NW\Controller;
  */
 class TestController extends Controller
 {
+    public function checkCache($name, $time, $id = null)
+    {
+        return parent::checkCache($name, $time, $id);
+    }
 
+    public function createCache($name, $content, $id = null, string $prefix = ''): void
+    {
+        parent::createCache($name, $content, $id, $prefix);
+    }
 }
