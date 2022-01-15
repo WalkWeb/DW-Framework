@@ -65,8 +65,10 @@ class PostController extends Controller
      */
     public function add(): Response
     {
+        $capthca = new Captcha();
+
         return $this->render('post/add', [
-            'captcha' => Captcha::getCaptchaImage(),
+            'captcha' => $capthca->getCaptchaImage(),
         ]);
     }
 
@@ -82,12 +84,14 @@ class PostController extends Controller
      */
     public function create(Request $request): Response
     {
+        $capthca = new Captcha();
+
         if (!Captcha::checkCaptcha($request->captcha)) {
             return $this->render('post/add', [
                 'message' => Captcha::INVALID_CAPTCHA,
                 'title'   => $request->title,
                 'text'    => $request->text,
-                'captcha' => Captcha::getCaptchaImage(),
+                'captcha' => $capthca->getCaptchaImage(),
             ]);
         }
 
@@ -104,7 +108,7 @@ class PostController extends Controller
                 'message' => $message,
                 'title'   => $request->title,
                 'text'    => $request->text,
-                'captcha' => Captcha::getCaptchaImage(),
+                'captcha' => $capthca->getCaptchaImage(),
             ]);
         }
     }

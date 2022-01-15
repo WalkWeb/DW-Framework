@@ -15,8 +15,10 @@ class CaptchaTest extends AbstractTestCase
      */
     public function testCaptchaGetCaptchaImage(): void
     {
-        self::assertIsString(Captcha::getCaptchaImage());
-        self::assertEquals(4, mb_strlen(Captcha::getCaptcha()));
+        $capthca = new Captcha();
+
+        self::assertIsString($capthca->getCaptchaImage());
+        self::assertEquals(4, mb_strlen($capthca->getCaptcha()));
     }
 
     /**
@@ -24,9 +26,11 @@ class CaptchaTest extends AbstractTestCase
      */
     public function testCaptchaCheckCaptcha(): void
     {
-        Captcha::getCaptchaImage();
+        $capthca = new Captcha();
 
-        self::assertTrue(Captcha::checkCaptcha(Captcha::getCaptcha()));
+        $capthca->getCaptchaImage();
+
+        self::assertTrue(Captcha::checkCaptcha($capthca->getCaptcha()));
         self::assertFalse(Captcha::checkCaptcha('invalid_captcha'));
     }
 }
