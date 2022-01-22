@@ -5,7 +5,7 @@ namespace Middleware;
 use NW\Middleware\MiddlewareInterface;
 use NW\Request\Request;
 use Middleware\Exceptions\AuthException;
-use Tests\utils\HttpCode;
+use NW\Utils\HttpCode;
 
 class AuthMiddleware implements MiddlewareInterface
 {
@@ -21,6 +21,6 @@ class AuthMiddleware implements MiddlewareInterface
         // Т.к. регистрация/авторизация на уровне фреймворка пока нет - просто кидаем исключение
         // Собственно задача этого Middleware в том, чтобы показать функционал их привязки к роутингу.
 
-        throw new AuthException(AuthException::UNAUTHORIZED, HttpCode::Unauthorized);
+        throw new AuthException(AuthException::UNAUTHORIZED, HttpCode::UNAUTHORIZED);
     }
 }
