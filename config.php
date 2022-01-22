@@ -15,7 +15,7 @@ define('LOGS_FILE', false);
 define('HOST', 'https://dw-framework.ru/');
 
 /** Параметры подключения к БД */
-define('DB_HOST', 'localhost');
+define('DB_HOST', '127.0.0.1');
 define('DB_NAME', 'YOUR_DB_NAME');
 define('DB_USER', 'YOUR_USER_NAME');
 define('DB_PASSWORD', 'YOUR_PASSWORD');
