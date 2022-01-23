@@ -58,15 +58,4 @@ class RouteCollectionTest extends AbstractTestCase
             self::assertEquals($namespace, $route->getNamespace());
         }
     }
-
-    public function testRouteCollectionMiddleware(): void
-    {
-        $routeCollection = new RouteCollection();
-
-        $route = new Route('test', 'path', 'Controller@index', 'GET');
-
-        $routeCollection->middleware($route, AuthMiddleware::class);
-
-        self::assertEquals([AuthMiddleware::class], $route->getMiddleware());
-    }
 }
