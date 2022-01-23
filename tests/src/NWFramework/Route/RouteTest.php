@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\src\NWFramework\Route;
 
+use Middleware\AuthMiddleware;
 use Middleware\Exceptions\AuthException;
 use NW\Request\Request;
 use NW\Route\Route;
@@ -26,14 +27,14 @@ class RouteTest extends AbstractTestCase
 
         $route = new Route($name, $path, $handler, $method, $params, $namespace);
 
-        self::assertEquals($name, $route->name);
-        self::assertEquals($path, $route->path);
-        self::assertEquals($namespace . '\\' . $handler, $route->handler);
-        self::assertEquals($method, $route->method);
-        self::assertEquals($params, $route->params);
-        self::assertEquals($namespace, $route->namespace);
+        self::assertEquals($name, $route->getName());
+        self::assertEquals($path, $route->getPath());
+        self::assertEquals($namespace . '\\' . $handler, $route->getHandler());
+        self::assertEquals($method, $route->getMethod());
+        self::assertEquals($params, $route->getParams());
+        self::assertEquals($namespace, $route->getNamespace());
+        self::assertEquals([], $route->getMiddleware());
     }
-
 
     /**
      * Тесты на совпадение маршрута
@@ -78,7 +79,7 @@ class RouteTest extends AbstractTestCase
         $namespace = '';
 
         $route = new Route($name, $path, $handler, $method, $params, $namespace);
-        $route->addMiddleware('AuthMiddleware');
+        $route->addMiddleware(AuthMiddleware::class);
 
         // Так как мы не авторизованы - при выполнении middleware будет исключение
         $this->expectException(AuthException::class);

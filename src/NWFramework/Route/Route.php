@@ -6,27 +6,25 @@ use NW\Request\Request;
 
 class Route
 {
-    // TODO Перевести все свойства в приватные
-
     /**
      * @var string - Название маршрута
      */
-    public $name;
+    private $name;
 
     /**
      * @var string - Путь маршрута
      */
-    public $path;
+    private $path;
 
     /**
      * @var string - Контроллер и его метод, которые будут обрабатывать данный запрос
      */
-    public $handler;
+    private $handler;
 
     /**
      * @var string - Метод запроса - GET | POST | ...
      */
-    public $method;
+    private $method;
 
     /**
      * Массив с правилами валидации параметров из URI, например: /blog/{id} где id может быть только числом:
@@ -37,17 +35,17 @@ class Route
      *
      * @var array
      */
-    public $params = [];
+    private $params;
 
     /**
      * @var - Дополнительный namespace, чтобы можно было группировать контроллеры по дирректориям
      */
-    public $namespace;
+    private $namespace;
 
     /**
      * @var array - Массив посредников, которые будут обрабатываться перед выполнением конечного экшена в контроллере
      */
-    public $middleware = [];
+    private $middleware = [];
 
     /**
      * Создает новый маршрут
@@ -117,8 +115,6 @@ class Route
     /**
      * Добавляет middleware для данного маршрута
      *
-     * TODO Механика подразумевает передачу только имени класса - переделать на полный пуст вида Class::class
-     *
      * @param string $middleware
      * @return Route
      */
@@ -138,11 +134,66 @@ class Route
     {
         if (count($this->middleware) > 0) {
 
-            foreach ($this->middleware as $middleware) {
-                $middleware = 'Middleware\\' . $middleware;
-                $middleware = new $middleware();
+            foreach ($this->middleware as $middlewareClass) {
+                $middleware = new $middlewareClass();
                 $middleware($request);
             }
         }
+    }
+
+    /**
+     * @return string
+     */
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPath(): string
+    {
+        return $this->path;
+    }
+
+    /**
+     * @return string
+     */
+    public function getHandler(): string
+    {
+        return $this->handler;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMethod(): string
+    {
+        return $this->method;
+    }
+
+    /**
+     * @return array
+     */
+    public function getParams(): array
+    {
+        return $this->params;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getNamespace()
+    {
+        return $this->namespace;
+    }
+
+    /**
+     * @return array
+     */
+    public function getMiddleware(): array
+    {
+        return $this->middleware;
     }
 }

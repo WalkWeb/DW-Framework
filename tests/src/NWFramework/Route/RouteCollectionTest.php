@@ -26,12 +26,12 @@ class RouteCollectionTest extends AbstractTestCase
         self::assertCount(1, $routeCollection->getRoutes());
 
         foreach ($routeCollection->getRoutes() as $route) {
-            self::assertEquals('GET', $route->method);
-            self::assertEquals($name, $route->name);
-            self::assertEquals($path, $route->path);
-            self::assertEquals($namespace . '\\' . $handler, $route->handler);
-            self::assertEquals($param, $route->params);
-            self::assertEquals($namespace, $route->namespace);
+            self::assertEquals('GET', $route->getMethod());
+            self::assertEquals($name, $route->getName());
+            self::assertEquals($path, $route->getPath());
+            self::assertEquals($namespace . '\\' . $handler, $route->getHandler());
+            self::assertEquals($param, $route->getParams());
+            self::assertEquals($namespace, $route->getNamespace());
         }
     }
 
@@ -50,12 +50,12 @@ class RouteCollectionTest extends AbstractTestCase
         self::assertCount(1, $routeCollection->getRoutes());
 
         foreach ($routeCollection->getRoutes() as $route) {
-            self::assertEquals('POST', $route->method);
-            self::assertEquals($name, $route->name);
-            self::assertEquals($path, $route->path);
-            self::assertEquals($namespace . '\\' . $handler, $route->handler);
-            self::assertEquals($param, $route->params);
-            self::assertEquals($namespace, $route->namespace);
+            self::assertEquals('POST', $route->getMethod());
+            self::assertEquals($name, $route->getName());
+            self::assertEquals($path, $route->getPath());
+            self::assertEquals($namespace . '\\' . $handler, $route->getHandler());
+            self::assertEquals($param, $route->getParams());
+            self::assertEquals($namespace, $route->getNamespace());
         }
     }
 
@@ -67,6 +67,6 @@ class RouteCollectionTest extends AbstractTestCase
 
         $routeCollection->middleware($route, AuthMiddleware::class);
 
-        self::assertEquals([AuthMiddleware::class], $route->middleware);
+        self::assertEquals([AuthMiddleware::class], $route->getMiddleware());
     }
 }
