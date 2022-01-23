@@ -8,6 +8,7 @@ use NW\Response\Response;
 use NW\Route\Router;
 use NW\Route\RouteCollection;
 use NW\Route\RouteException;
+use NW\Utils\HttpCode;
 
 class App
 {
@@ -38,19 +39,23 @@ class App
         } catch (RouteException $e) {
 
             // Если маршрут не найден, значит вызывается несуществующая страница
-            return new Response($e->getMessage(), 404);
+            return new Response($e->getMessage(), HttpCode::NOT_FOUND);
         }
 
-        [0 => $class, 1 => $action] = explode('@', $handler);
+        [$className, $action] = explode('@', $handler);
 
-        $class = 'Controllers\\' . $class;
+        $className = 'Controllers\\' . $className;
 
-        if (!class_exists($class)) {
-            return new Response('Отсутствует контроллер ' . $class, 500);
+        if (!class_exists($className)) {
+            return new Response(AppException::CONTROLLER_NOT_FOUND . ': ' . $className, HttpCode::INTERNAL_SERVER_ERROR);
         }
 
-        // TODO проверка на наличие нужного метода в контроллере
+        $class = new $className();
 
-        return (new $class())->$action($request);
+        if (!method_exists($class, $action)) {
+            throw new AppException(AppException::ACTION_NOT_FOUND);
+        }
+
+        return (new $className())->$action($request);
     }
 }
