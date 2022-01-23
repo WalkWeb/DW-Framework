@@ -2,15 +2,21 @@
 
 namespace NW\Loader;
 
-// TODO Убрать публичные свойства
-
 class Image extends File
 {
-    /** @var int - Ширина изображения */
-    public $width;
+    /**
+     * Ширина изображения
+     *
+     * @var int
+     */
+    private $width;
 
-    /** @var int - Высота изображения */
-    public $height;
+    /**
+     * Высота изображения
+     *
+     * @var int
+     */
+    private $height;
 
     public function __construct(string $name, string $type, int $size, int $width, int $height, string $dir = null)
     {
@@ -18,5 +24,21 @@ class Image extends File
 
         $this->width = $width;
         $this->height = $height;
+    }
+
+    /**
+     * @return int
+     */
+    public function getWidth(): int
+    {
+        return $this->width;
+    }
+
+    /**
+     * @return int
+     */
+    public function getHeight(): int
+    {
+        return $this->height;
     }
 }

@@ -23,8 +23,8 @@ class ImageTest extends AbstractTestCase
         self::assertEquals($name, $file->getName());
         self::assertEquals($type, $file->getType());
         self::assertEquals($size, $file->getSize());
-        self::assertEquals($width, $file->width);
-        self::assertEquals($height, $file->height);
+        self::assertEquals($width, $file->getWidth());
+        self::assertEquals($height, $file->getHeight());
         self::assertEquals($dir, $file->getDir());
     }
 
@@ -41,8 +41,8 @@ class ImageTest extends AbstractTestCase
         self::assertEquals($name, $file->getName());
         self::assertEquals($type, $file->getType());
         self::assertEquals($size, $file->getSize());
-        self::assertEquals($width, $file->width);
-        self::assertEquals($height, $file->height);
+        self::assertEquals($width, $file->getWidth());
+        self::assertEquals($height, $file->getHeight());
         self::assertNull($file->getDir());
     }
 }
