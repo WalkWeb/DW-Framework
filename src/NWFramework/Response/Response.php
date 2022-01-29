@@ -41,6 +41,7 @@ class Response
     private static $phrases = [
         200 => 'OK',
         301 => 'Moved Permanently',
+        302 => 'Found',
         401 => 'Unauthorized',
         403 => 'Forbidden',
         404 => 'Not Found',
@@ -56,7 +57,7 @@ class Response
      * @param int|null $status
      * @throws ResponseException
      */
-    public function __construct(?string $body = '', ?int $status = 200)
+    public function __construct(string $body = '', int $status = 200)
     {
         $this->body = $body;
         $this->setStatusCode($status);

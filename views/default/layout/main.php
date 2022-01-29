@@ -15,6 +15,7 @@
         <li><a href="/posts/1" title="">Посты</a></li>
         <li><a href="/post/create" title="">Создать пост</a></li>
         <li><a href="/admin" title="">Админка</a></li>
+        <li><a href="/redirect" title="">Редирект</a></li>
     </ul>
 </div>
 <div class="content">

@@ -4,6 +4,8 @@ namespace NW;
 
 use Exception;
 use NW\Response\Response;
+use NW\Response\ResponseException;
+use NW\Utils\HttpCode;
 
 abstract class AbstractController
 {
@@ -119,13 +121,17 @@ abstract class AbstractController
     /**
      * Делает редирект на указанный URI
      *
-     * TODO Редирект рабочий, но очень хардкорный. Подумать над улучшением
-     *
-     * @param string $uri
+     * @param string $url
+     * @param string $body
+     * @param int $code
+     * @return Response
+     * @throws ResponseException
      */
-    public function redirect(string $uri): void
+    protected function redirect(string $url, string $body = '', int $code = HttpCode::FOUND): Response
     {
-        header('Location: ' . HOST . $uri);
+        $response = new Response($body, $code);
+        $response->withHeader('Location', $url);
+        return $response;
     }
 
     /**

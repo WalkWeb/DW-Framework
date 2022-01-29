@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\src\NWFramework;
 
 use Exception;
+use NW\Utils\HttpCode;
 use Tests\AbstractTestCase;
 use Tests\utils\TestAbstractController;
 
@@ -70,6 +71,33 @@ class ControllerTest extends AbstractTestCase
         $controller->createCache($cacheName, $cacheContent, $cacheId, $cachePrefix);
 
         self::assertEquals($cacheContent . $cachePrefix, $controller->checkCache($cacheName, $cacheTime, $cacheId));
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function testControllerRedirect(): void
+    {
+        $redirectUrl = 'http://example.com';
+
+        $controller = new TestAbstractController();
+
+        // Редирект с дефолтными параметрами
+        $response = $controller->redirect($redirectUrl);
+
+        self::assertEquals(HttpCode::FOUND, $response->getStatusCode());
+        self::assertEquals(['Location' => $redirectUrl], $response->getHeaders());
+        self::assertEquals('', $response->getBody());
+
+        // Редирект с пользовательским body и кодом ответа (например, нужно вернуть 301, а не 302)
+        $body = 'redirect body';
+        $responseCode = HttpCode::MOVED_PERMANENTLY;
+
+        $response = $controller->redirect($redirectUrl, $body, $responseCode);
+
+        self::assertEquals($responseCode, $response->getStatusCode());
+        self::assertEquals(['Location' => $redirectUrl], $response->getHeaders());
+        self::assertEquals($body, $response->getBody());
     }
 
     /**
