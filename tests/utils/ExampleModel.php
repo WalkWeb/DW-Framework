@@ -5,18 +5,18 @@ declare(strict_types=1);
 namespace Tests\utils;
 
 use Exception;
-use NW\Model;
+use NW\AbstractModel;
 use NW\Validator;
 
 /**
- * Данный класс предназначен для тестирования абстрактного NW\Model
+ * Данный класс предназначен для тестирования абстрактного NW\AbstractModel
  *
  * ВАЖНО: ORM в проекте не используется. По этому весь функционал создания/обновления/удаления модели нужно писать
  * вручную
  *
  * @package Tests\utils
  */
-class ExampleModel extends Model
+class ExampleModel extends AbstractModel
 {
     /**
      * UUID

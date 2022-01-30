@@ -4,7 +4,7 @@ namespace NW;
 
 use mysqli;
 
-abstract class Model
+abstract class AbstractModel
 {
     /**
      * Место хранения кэша результатов запросов
