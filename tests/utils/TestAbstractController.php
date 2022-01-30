@@ -21,7 +21,7 @@ class TestAbstractController extends AbstractController
         return parent::checkCache($name, $time, $id);
     }
 
-    public function createCache($name, $content, $id = null, string $prefix = ''): void
+    public function createCache(string $name, string $content, $id = null, string $prefix = ''): void
     {
         parent::createCache($name, $content, $id, $prefix);
     }
@@ -29,5 +29,25 @@ class TestAbstractController extends AbstractController
     public function redirect(string $url, string $body = '', int $code = HttpCode::FOUND): Response
     {
         return parent::redirect($url, $body, $code);
+    }
+
+    public function deleteCache($name = null): void
+    {
+        parent::deleteCache($name);
+    }
+
+    public function cacheHTML($name, $id = null, $time = 0, string $prefix = ''): string
+    {
+        return parent::cacheHTML($name, $id, $time, $prefix);
+    }
+
+    public function exampleAction(): Response
+    {
+        return new Response('example html content');
+    }
+
+    public function setLayoutUrl(string $layoutUrl): void
+    {
+        $this->layoutUrl = $layoutUrl;
     }
 }

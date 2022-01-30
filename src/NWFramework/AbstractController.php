@@ -34,18 +34,14 @@ abstract class AbstractController
     protected $layout = true;
 
     /** @var string Путь к шаблону */
-    protected $layout_url = 'layout/main.php';
+    protected $layoutUrl = 'layout/main.php';
 
     /** @var string - Тип возвращаемых данных html /json */
     protected $dataType = 'html';
 
-    /** @var array - middleware для контроллера */
-    protected $middleware = [];
-
     public function __construct()
     {
         $this->time = microtime(true);
-        $this->checkMiddleware();
     }
 
     /**
@@ -67,16 +63,21 @@ abstract class AbstractController
             throw new \NW\Exception("View не найден: $viewPath");
         }
 
+        if ($this->layout && !file_exists($this->dir . $this->templates . $this->layoutUrl)) {
+            throw new \NW\Exception("Layout не найден: $viewPath");
+        }
+
         ob_start();
 
         require $viewPath;
 
         // Помещаем страницу в общий макет сайта
         if ($this->layout) {
+
             $content = ob_get_clean();
             ob_start();
-            // TODO Добавить проверку на наличие слоя
-            require $this->dir . $this->templates . $this->layout_url;
+
+            require $this->dir . $this->templates . $this->layoutUrl;
         }
 
         $response = new Response(ob_get_clean());
@@ -89,7 +90,7 @@ abstract class AbstractController
     }
 
     /**
-     * Вовзаращет ответ в виде json
+     * Возвращает ответ в виде json
      *
      * @param array $json
      * @return Response
@@ -113,13 +114,13 @@ abstract class AbstractController
     public function renderErrorPage(string $error = '', int $code = 404): Response
     {
         // На всякий случай переключаем шаблон на базовый (т.к. 404 ошибка может кидаться и с других шаблонов)
-        $this->layout_url = 'layout/main.php';
+        $this->layoutUrl = 'layout/main.php';
 
         return $this->render('errors/404', ['error' => $error], $code);
     }
 
     /**
-     * Делает редирект на указанный URI
+     * Делает редирект на указанный URL
      *
      * @param string $url
      * @param string $body
@@ -166,12 +167,12 @@ abstract class AbstractController
     /**
      * Создает кэш
      *
-     * @param $name
-     * @param $content
+     * @param string $name
+     * @param string $content
      * @param null $id
      * @param string $prefix - Параметр для отладки и тестов, чтобы отличить контент который берется из кэша
      */
-    protected function createCache($name, $content, $id = null, string $prefix = ''): void
+    protected function createCache(string $name, string $content, $id = null, string $prefix = ''): void
     {
         if ($id) {
             $name .= '_' . $id;
@@ -185,51 +186,52 @@ abstract class AbstractController
     /**
      * Удаляет кэш
      *
-     * @param null $name
+     * @param string $name
+     * @throws \NW\Exception
      */
-    protected function deleteCache($name = null): void
+    protected function deleteCache(string $name): void
     {
+        if (!file_exists($this->cache . $name)) {
+            // TODO В будущем можно создать отдельный ControllerException
+            throw new \NW\Exception('Указанного кэша не существует: ' . $this->cache . $name);
+        }
+
         if ($name) {
             unlink($this->cache . $name);
         }
     }
 
     /**
-     * Проверяет наличие кеша и его актуальность - если есть - возвращает, если нет - выполняет метод
+     * Проверяет наличие кеша и его актуальность - если есть - возвращает кэш, если нет - выполняет метод
      * создающий html-контент, создает кэш, возвращает контент.
      *
-     * @param $name
+     * Задумка применения: к примеру, у нас есть страница поста с какими-то комментариями. Чтобы каждый раз не делать
+     * запросы в базу - берем контент из кэша (делаем обращение через этот метод), а если пост изменился или добавился
+     * комментарий - удаляем кэш. При следующем запросе к странице он создается вновь.
+     *
+     * TODO А почему именно html-контент в названии? Надо подумать над названием. По сути это обертка над методом контроллера
+     *
+     * @param string $controllerAction
      * @param null $id
      * @param int $time
+     * @param string $prefix
      * @return string
      */
-    protected function cacheHTML($name, $id = null, $time = 0): string
+    protected function cacheHTML(string $controllerAction, $id = null, $time = 0, string $prefix = ''): string
     {
-        $content = $this->checkCache($name, $time, $id);
+        $content = $this->checkCache($controllerAction, $time, $id);
 
         if ($content) {
             return $content;
         }
 
-        $funcName = ucfirst($name);
+        $funcName = ucfirst($controllerAction);
 
-        $content = $this->$funcName();
+        /** @var Response $response */
+        $response = $this->$funcName();
 
-        $this->createCache($name, $content, $id);
+        $this->createCache($controllerAction, $response->getBody(), $id, $prefix);
 
-        return $content;
-    }
-
-    /**
-     * Проходит по Middleware, если они есть, и выполняет их проверки
-     */
-    private function checkMiddleware(): void
-    {
-        if (count($this->middleware) > 0) {
-            foreach ($this->middleware as $middleware) {
-                $middleware = new $middleware();
-                $middleware();
-            }
-        }
+        return $response->getBody();
     }
 }
