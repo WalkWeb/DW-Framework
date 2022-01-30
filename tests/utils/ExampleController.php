@@ -14,7 +14,7 @@ use NW\Utils\HttpCode;
  *
  * @package Tests\utils
  */
-class TestAbstractController extends AbstractController
+class ExampleController extends AbstractController
 {
     public function checkCache($name, $time, $id = null)
     {

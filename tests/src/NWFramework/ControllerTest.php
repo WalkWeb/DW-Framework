@@ -7,7 +7,7 @@ namespace Tests\src\NWFramework;
 use Exception;
 use NW\Utils\HttpCode;
 use Tests\AbstractTestCase;
-use Tests\utils\TestAbstractController;
+use Tests\utils\ExampleController;
 
 class ControllerTest extends AbstractTestCase
 {
@@ -16,7 +16,7 @@ class ControllerTest extends AbstractTestCase
      */
     public function testControllerMissedView(): void
     {
-        $controller = new TestAbstractController();
+        $controller = new ExampleController();
 
         $this->expectException(\NW\Exception::class);
         $this->expectExceptionMessage(
@@ -30,7 +30,7 @@ class ControllerTest extends AbstractTestCase
      */
     public function testControllerMissedLayout(): void
     {
-        $controller = new TestAbstractController();
+        $controller = new ExampleController();
 
         $controller->setLayoutUrl('unknown_layout');
 
@@ -48,7 +48,7 @@ class ControllerTest extends AbstractTestCase
      */
     public function testControllerJson(array $data): void
     {
-        $controller = new TestAbstractController();
+        $controller = new ExampleController();
 
         $response = $controller->json($data);
 
@@ -64,7 +64,7 @@ class ControllerTest extends AbstractTestCase
      */
     public function testControllerErrorPage(): void
     {
-        $controller = new TestAbstractController();
+        $controller = new ExampleController();
 
         $response = $controller->renderErrorPage();
 
@@ -85,7 +85,7 @@ class ControllerTest extends AbstractTestCase
         $cacheId = 'uuid';
         $cacheContent = 'content';
         $cachePrefix = '_cache';
-        $controller = new TestAbstractController();
+        $controller = new ExampleController();
 
         // Если тест запускается не первый раз - то кэш уже будет, соответственно его нужно удалить
         $cacheFile = __DIR__ . '/../../../cache/html/' . $cacheName . '_' . $cacheId;
@@ -116,7 +116,7 @@ class ControllerTest extends AbstractTestCase
         $cacheId = 'uuid';
         $cacheContent = 'content';
         $cachePrefix = '_cache';
-        $controller = new TestAbstractController();
+        $controller = new ExampleController();
 
         // Если тест запускается не первый раз - то кэш уже будет, соответственно его нужно удалить
         $cacheFile = __DIR__ . '/../../../cache/html/' . $cacheName . '_' . $cacheId;
@@ -147,7 +147,7 @@ class ControllerTest extends AbstractTestCase
      */
     public function testControllerDeleteMissedCache(): void
     {
-        $controller = new TestAbstractController();
+        $controller = new ExampleController();
         $cacheName = 'unknown_cache';
 
         $this->expectException(\NW\Exception::class);
@@ -170,7 +170,7 @@ class ControllerTest extends AbstractTestCase
         $cacheId = 'uuid2';
         $cacheTime = 100;
         $cachePrefix = '_cache';
-        $controller = new TestAbstractController();
+        $controller = new ExampleController();
         $content = 'example html content';
 
         // Если тест запускается не первый раз - то кэш уже будет, соответственно его нужно удалить
@@ -194,7 +194,7 @@ class ControllerTest extends AbstractTestCase
     {
         $redirectUrl = 'http://example.com';
 
-        $controller = new TestAbstractController();
+        $controller = new ExampleController();
 
         // Редирект с дефолтными параметрами
         $response = $controller->redirect($redirectUrl);
