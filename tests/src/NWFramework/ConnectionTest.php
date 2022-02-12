@@ -32,7 +32,7 @@ class ConnectionTest extends AbstractTestCase
         $db = Connection::getInstance();
 
         // Если при подключении не произошло исключений - значит оно прошло успешно
-        self::assertTrue($db->success());
+        self::assertTrue($db->isSuccess());
         self::assertEquals('', $db->getError());
     }
 
@@ -68,7 +68,7 @@ class ConnectionTest extends AbstractTestCase
             [['type' => 's', 'value' => $user]]
         );
 
-        self::assertIsInt($db->insertId());
+        self::assertIsInt($db->getInsertId());
 
         // Select all
         $users = $db->query('SELECT `name` FROM `users`');

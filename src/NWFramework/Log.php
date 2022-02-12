@@ -2,10 +2,9 @@
 
 namespace NW;
 
-// TODO Rename to Log
 // TODO Уйти от статики
 
-class Logs
+class Log
 {
     /**
      * Место хранения файлов логов

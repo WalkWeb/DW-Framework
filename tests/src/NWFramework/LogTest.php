@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Tests\src\NWFramework;
 
-use NW\Logs;
+use NW\Log;
 use ReflectionProperty;
 use Tests\AbstractTestCase;
 
-class LogsTest extends AbstractTestCase
+class LogTest extends AbstractTestCase
 {
     public function testLogsSetGetLog(): void
     {
@@ -16,9 +16,9 @@ class LogsTest extends AbstractTestCase
 
         $log = 'test log';
 
-        Logs::setLogs($log);
+        Log::setLogs($log);
 
-        self::assertEquals('<p class="logs">&bull; ' . $log . '<br />', Logs::getLogs());
+        self::assertEquals('<p class="logs">&bull; ' . $log . '<br />', Log::getLogs());
     }
 
     public function testLogsGetJsonLogs(): void
@@ -27,12 +27,12 @@ class LogsTest extends AbstractTestCase
 
         $log = 'test log';
 
-        Logs::resetLog();
-        Logs::setLogs($log);
+        Log::resetLog();
+        Log::setLogs($log);
 
         self::assertEquals(
             str_replace('"', '\\"', '<p class="logs">&bull; ' . $log . '<br />'),
-            Logs::getJsonLogs()
+            Log::getJsonLogs()
         );
     }
 
@@ -41,8 +41,8 @@ class LogsTest extends AbstractTestCase
      */
     private function cleanLogs(): void
     {
-        $reflection = new ReflectionProperty(Logs::class, 'logs');
+        $reflection = new ReflectionProperty(Log::class, 'logs');
         $reflection->setAccessible(true);
-        $reflection->setValue(Logs::class, '<p class="logs">');
+        $reflection->setValue(Log::class, '<p class="logs">');
     }
 }

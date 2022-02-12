@@ -38,7 +38,7 @@ class Csrf
      */
     public static function checkCsrfToken(string $token): bool
     {
-        if (!Session::checkParam(self::TOKEN_NAME)) {
+        if (!Session::existParam(self::TOKEN_NAME)) {
             return false;
         }
 

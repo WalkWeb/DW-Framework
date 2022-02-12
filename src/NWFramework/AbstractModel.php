@@ -35,28 +35,28 @@ abstract class AbstractModel
     }
 
     /**
-     * Кешируемый запрос
+     * Кэширующая обертка над методом (подразумевается, что метод возвращает результат sql-запроса) модели
      *
      * Принимает имя запроса и параметры. Проверяет, есть ли кэш с таким имененем (и не просрочен ли он), если есть -
      * возвращает его. Если нет - выполняет запрос (метод с соответствующим именем должен быть создан отдельно) и
      * кэширует его.
      *
-     * @param $name
+     * @param $modelMethod
      * @param $param
      * @param int $time
      * @return bool|mixed
      */
-    public function cacheQuery($name, $param, $time = 60)
+    public function cacheWrapper($modelMethod, $param, $time = 60)
     {
-        $content = $this->checkCache($name, $time);
+        $content = $this->checkCache($modelMethod, $time);
 
         if ($content) {
             return $content;
         }
 
-        $content = $this->$name($param);
+        $content = $this->$modelMethod($param);
 
-        $this->createCache($name, $content);
+        $this->createCache($modelMethod, $content);
 
         return $content;
     }

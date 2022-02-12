@@ -32,7 +32,7 @@ class SessionTest extends AbstractTestCase
 
         Session::setParam($key, $parameter);
 
-        self::assertTrue(Session::checkParam($key));
-        self::assertFalse(Session::checkParam('undefined_parameter'));
+        self::assertTrue(Session::existParam($key));
+        self::assertFalse(Session::existParam('undefined_parameter'));
     }
 }

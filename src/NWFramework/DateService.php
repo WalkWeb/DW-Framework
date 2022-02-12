@@ -4,26 +4,19 @@ namespace NW;
 
 use DateTime;
 
-// TODO Переименовать в DateService
-
-class Date
+class DateService
 {
-    private const SUFFIX = 'назад';
+    private const SUFFIX  = 'назад';
+    private const NOW     = 'только что';
 
-    private const NOW = 'только что';
+    private const YEAR    = 'year';
+    private const MONTHS  = 'months';
+    private const DAYS    = 'days';
+    private const HOURS   = 'hours';
+    private const MINUTES = 'minutes';
 
     private const INCORRECT_DATE = 'Некорректная дата';
     private const INCORRECT_TYPE = 'Некорректный тип';
-
-    private const YEAR = 'year';
-
-    private const MONTHS = 'months';
-
-    private const DAYS = 'days';
-
-    private const HOURS = 'hours';
-
-    private const MINUTES = 'minutes';
 
     public static $year = [
         'год', 'года', 'лет'
@@ -61,7 +54,6 @@ class Date
         $now = new DateTime();
         $dateInterval = $now->diff($data);
 
-        // TODO Вынести $dateMap в свойство класса, и сразу в него поместить массивы $year, $months и т.д.
         $dateMap = ['y' => self::YEAR, 'm' => self::MONTHS, 'd' => self::DAYS, 'h' => self::HOURS, 'i' => self::MINUTES];
 
         foreach ($dateMap as $short => $full) {

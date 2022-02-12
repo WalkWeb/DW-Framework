@@ -93,11 +93,9 @@ final class Connection
     /**
      * Возвращает true если все ок, и false - если есть ошибки
      *
-     * TODO Rename to isSuccess
-     *
      * @return bool
      */
-    public function success(): bool
+    public function isSuccess(): bool
     {
         $error = $this->getError();
         return ($error === '' || $error === null);
@@ -132,7 +130,7 @@ final class Connection
             $sql .= ' LIMIT 1';
         }
 
-        Logs::setLogs($sql);
+        Log::setLogs($sql);
         $param_arr = null;
 
         if (count($params) > 0) {
@@ -171,7 +169,7 @@ final class Connection
             }
         }
 
-        if (!$this->success()) {
+        if (!$this->isSuccess()) {
             throw new Exception($this->getError());
         }
 
@@ -183,11 +181,9 @@ final class Connection
     /**
      * Возвращает ID добавленной записи
      *
-     * TODO Raname to getInsertId()
-     *
      * @return int|string
      */
-    public function insertId()
+    public function getInsertId()
     {
         return mysqli_insert_id($this->connection);
     }

@@ -36,9 +36,9 @@ class ExampleController extends AbstractController
         parent::deleteCache($name);
     }
 
-    public function cacheHTML($name, $id = null, $time = 0, string $prefix = ''): string
+    public function cacheWrapper($name, $id = null, $time = 0, string $prefix = ''): string
     {
-        return parent::cacheHTML($name, $id, $time, $prefix);
+        return parent::cacheWrapper($name, $id, $time, $prefix);
     }
 
     public function exampleAction(): Response

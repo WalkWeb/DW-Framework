@@ -20,7 +20,7 @@ class CsrfTest extends AbstractTestCase
         self::assertIsString($token);
         self::assertEquals(15, mb_strlen($token));
 
-        self::assertTrue(Session::checkParam(Csrf::TOKEN_NAME));
+        self::assertTrue(Session::existParam(Csrf::TOKEN_NAME));
     }
 
     /**

@@ -39,12 +39,10 @@ class Session
     /**
      * Проверяет, есть ли указанный параметр в сессии
      *
-     * TODO Rename to existParam
-     *
      * @param $key
      * @return bool
      */
-    public static function checkParam($key): bool
+    public static function existParam($key): bool
     {
         self::start();
 

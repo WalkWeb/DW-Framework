@@ -181,10 +181,10 @@ class ControllerTest extends AbstractTestCase
         }
 
         // Контент создается первый раз, и возвращается он же. Соответственно префикс кэша отсутствует
-        self::assertEquals($content, $controller->cacheHTML($controllerAction, $cacheId, $cacheTime, $cachePrefix));
+        self::assertEquals($content, $controller->cacheWrapper($controllerAction, $cacheId, $cacheTime, $cachePrefix));
 
         // А теперь обращаемся еще раз - и получаем уже кэш (контент с префиксом)
-        self::assertEquals($content . $cachePrefix, $controller->cacheHTML($controllerAction, $cacheId, $cacheTime, $cachePrefix));
+        self::assertEquals($content . $cachePrefix, $controller->cacheWrapper($controllerAction, $cacheId, $cacheTime, $cachePrefix));
     }
 
     /**

@@ -202,6 +202,8 @@ abstract class AbstractController
     }
 
     /**
+     * Кэширующая обертка над методом (подразумевается, что метод возвращает html-контент для отображения) контроллера
+     *
      * Проверяет наличие кеша и его актуальность - если есть - возвращает кэш, если нет - выполняет метод
      * создающий html-контент, создает кэш, возвращает контент.
      *
@@ -209,15 +211,13 @@ abstract class AbstractController
      * запросы в базу - берем контент из кэша (делаем обращение через этот метод), а если пост изменился или добавился
      * комментарий - удаляем кэш. При следующем запросе к странице он создается вновь.
      *
-     * TODO А почему именно html-контент в названии? Надо подумать над названием. По сути это обертка над методом контроллера
-     *
      * @param string $controllerAction
      * @param null $id
      * @param int $time
      * @param string $prefix
      * @return string
      */
-    protected function cacheHTML(string $controllerAction, $id = null, $time = 0, string $prefix = ''): string
+    protected function cacheWrapper(string $controllerAction, $id = null, $time = 0, string $prefix = ''): string
     {
         $content = $this->checkCache($controllerAction, $time, $id);
 
