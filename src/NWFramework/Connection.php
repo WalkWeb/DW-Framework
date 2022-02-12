@@ -31,16 +31,26 @@ final class Connection
     private $queryNumber = 0;
 
     /**
+     * @var Logger
+     */
+    private $logger;
+
+    /**
      * Создает подключение к БД
      *
      * @param string $host
      * @param string $user
      * @param string $password
      * @param string $database
+     * @param Logger|null $logger
      * @throws Exception
      */
-    private function __construct(string $host, string $user, string $password, string $database)
+    private function __construct(string $host, string $user, string $password, string $database, Logger $logger = null)
     {
+        $this->logger = $logger;
+
+        // TODO Вынести подключение к базе в отдельный метод и логировать ошибку
+
         try {
             $this->connection = mysqli_connect($host, $user, $password, $database);
         } catch (Throwable $e) {
@@ -130,7 +140,10 @@ final class Connection
             $sql .= ' LIMIT 1';
         }
 
-        Log::setLogs($sql);
+        if ($this->logger) {
+            $this->logger->addLog($sql);
+        }
+
         $param_arr = null;
 
         if (count($params) > 0) {

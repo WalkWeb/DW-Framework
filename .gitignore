@@ -10,3 +10,6 @@ config.local.php
 
 # Unit test config
 config.test.php
+
+# Default file log name
+logs
