@@ -6,31 +6,67 @@ namespace NW\Request;
 
 class Request
 {
-    /** @var string - GET | POST | PUT | DELETE | FILES */
+    /**
+     * GET | POST | PUT | DELETE | FILES
+     *
+     * @var string
+     */
     private $method;
 
-    /** @var string - URI */
+    /**
+     * URI
+     *
+     * @var string
+     */
     private $uri;
 
-    /** @var string - Обычно это HTTP/1.1 */
+    /**
+     * Обычно это HTTP/1.1
+     *
+     * @var string
+     */
     private $protocol;
 
-    /** @var array - $_COOKIES */
+    /**
+     * $_COOKIES
+     *
+     * @var array
+     */
     private $cookies;
 
-    /** @var array - $_GET */
+    /**
+     * $_GET
+     *
+     * @var array
+     */
     private $query;
 
-    /** @var array - $_POST */
+    /**
+     * $_POST
+     *
+     * @var array
+     */
     private $body;
 
-    /** @var array - $_FILES */
+    /**
+     * $_FILES
+     *
+     * @var array
+     */
     private $files;
 
-    /** @var array - $_SERVER */
+    /**
+     * $_SERVER
+     *
+     * @var array
+     */
     private $server;
 
-    /** @var array - Массив дополнительных параметров */
+    /**
+     * Массив дополнительных параметров
+     *
+     * @var array
+     */
     private $attributes = [];
 
     /**

@@ -2,21 +2,28 @@
 
 namespace NW;
 
+use Exception;
 use NW\Response\Response;
 use NW\Response\Emitter;
 use NW\Response\ResponseException;
+use NW\Utils\HttpCode;
 use Throwable;
 
-class Exception extends \Exception
+/**
+ * Для минимизации количества подгружаемых файлов делается один класс исключений на все ошибки уровня фреймворка
+ *
+ * @package NW
+ */
+class AppException extends Exception
 {
     /**
      * Создает сообщение об ошибке
      *
      * @param string $message
      * @param int $code
-     * @param Exception|null $previous
+     * @param AppException|null $previous
      */
-    public function __construct(string $message, $code = 200, Exception $previous = null)
+    public function __construct(string $message, $code = HttpCode::OK, AppException $previous = null)
     {
         set_exception_handler([$this, 'printException']);
         parent::__construct($message, $code, $previous);
@@ -26,6 +33,8 @@ class Exception extends \Exception
      * Выводим сообщение об ошибке. Если сайт не в режиме разработчика - отдается 404 ошибка
      *
      * TODO 500 ошибка не в режиме разработчика
+     *
+     * TODO Логика разной обработки исключений будет делаться в public/index.php
      *
      * @param Throwable $e
      * @throws ResponseException

@@ -2,9 +2,9 @@
 
 namespace Models\Exceptions;
 
-use NW\Exception;
+use NW\AppException;
 
-class PostException extends Exception
+class PostException extends AppException
 {
     public const NOT_FOUND = 'Указанного поста не существует';
 }

@@ -26,7 +26,7 @@ abstract class AbstractModel
     /**
      * Создаем объект подключения к базе и обработки запросов
      *
-     * @throws Exception
+     * @throws AppException
      */
     public function __construct()
     {

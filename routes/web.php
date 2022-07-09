@@ -12,4 +12,4 @@ $routes->post('post.create', '/post/create', 'PostController@create');
 $routes->get('redirect.example', '/redirect', 'MainController@redirectExample');
 $routes->get('admin', '/admin', 'AdminController@index')->addMiddleware(AuthMiddleware::class);
 
-$router = new NW\Route\Router($routes);
+return new NW\Route\Router($routes);

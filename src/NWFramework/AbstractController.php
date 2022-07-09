@@ -4,39 +4,72 @@ namespace NW;
 
 use Exception;
 use NW\Response\Response;
-use NW\Response\ResponseException;
 use NW\Utils\HttpCode;
 
 abstract class AbstractController
 {
-    /** @var string Месторасположение директории с вьюхами */
-    private $dir = __DIR__ . '/../../views/';
+    // Месторасположение директории с вьюхами
+    private const DIR = __DIR__ . '/../../views/';
 
-    /** @var string Месторасположение директории, где хранится html-кеш */
-    private $cache = __DIR__ . '/../../cache/html/';
+    // Месторасположение директории, где хранится html-кеш
+    private const CACHE_DIR = __DIR__ . '/../../cache/html/';
 
-    /** @var string Шаблон (по умолчанию используется шаблон "old") */
-    protected $templates = TEMPLATES_DEFAULT . '/';
+    /**
+     * Шаблон (по умолчанию используется шаблон "old")
+     *
+     * Может подменяться через пользовательские настройки
+     *
+     * @var string
+     */
+    protected $templates = TEMPLATE_DEFAULT . '/';
 
-    /** @var string Title */
+    /**
+     * Title
+     *
+     * @var string
+     */
     protected $title = '';
 
-    /** @var string Description */
+    /**
+     * Description
+     *
+     * @var string
+     */
     protected $description = '';
 
-    /** @var string Keywords */
+    /**
+     * Keywords
+     *
+     * @var string
+     */
     protected $keywords = '';
 
-    /** @var mixed Текущее время (используется при работе с кэшем */
+    /**
+     * Текущее время (используется при работе с кэшем
+     *
+     * @var mixed
+     */
     protected $time;
 
-    /** @var bool Данная настройка отвечает за то, рендерить ли шаблон в общем слое (true) или отдельно (false) */
+    /**
+     * Данная настройка отвечает за то, рендерить ли шаблон в общем слое (true) или отдельно (false)
+     *
+     * @var bool
+     */
     protected $layout = true;
 
-    /** @var string Путь к шаблону */
+    /**
+     * Путь к шаблону
+     *
+     * @var string
+     */
     protected $layoutUrl = 'layout/main.php';
 
-    /** @var string - Тип возвращаемых данных html /json */
+    /**
+     * Тип возвращаемых данных html /json
+     *
+     * @var string
+     */
     protected $dataType = 'html';
 
     public function __construct()
@@ -57,14 +90,14 @@ abstract class AbstractController
     {
         extract($params, EXTR_OVERWRITE);
 
-        $viewPath = $this->dir . $this->templates . $view . '.php';
+        $viewPath = self::DIR . $this->templates . $view . '.php';
 
         if (!file_exists($viewPath)) {
-            throw new \NW\Exception("View не найден: $viewPath");
+            throw new AppException("View не найден: $viewPath");
         }
 
-        if ($this->layout && !file_exists($this->dir . $this->templates . $this->layoutUrl)) {
-            throw new \NW\Exception("Layout не найден: $viewPath");
+        if ($this->layout && !file_exists(self::DIR . $this->templates . $this->layoutUrl)) {
+            throw new AppException("Layout не найден: $viewPath");
         }
 
         ob_start();
@@ -77,7 +110,7 @@ abstract class AbstractController
             $content = ob_get_clean();
             ob_start();
 
-            require $this->dir . $this->templates . $this->layoutUrl;
+            require self::DIR . $this->templates . $this->layoutUrl;
         }
 
         $response = new Response(ob_get_clean());
@@ -111,7 +144,7 @@ abstract class AbstractController
      * @return Response
      * @throws Exception
      */
-    public function renderErrorPage(string $error = '', int $code = 404): Response
+    public function renderErrorPage(string $error = '', int $code = HttpCode::NOT_FOUND): Response
     {
         // На всякий случай переключаем шаблон на базовый (т.к. 404 ошибка может кидаться и с других шаблонов)
         $this->layoutUrl = 'layout/main.php';
@@ -126,7 +159,7 @@ abstract class AbstractController
      * @param string $body
      * @param int $code
      * @return Response
-     * @throws ResponseException
+     * @throws Exception
      */
     protected function redirect(string $url, string $body = '', int $code = HttpCode::FOUND): Response
     {
@@ -136,32 +169,29 @@ abstract class AbstractController
     }
 
     /**
-     * Проверяет наличие кэша по его имени (и id если есть)
-     *
-     * TODO Метод возвращает bool|string - уйти от такой неоднозначности. Пусть проверяет только наличие кэша, а
-     * TODO получение кэша пусть делается отдельным методом
+     * Возвращает кэш если он есть. Если его нет - возвращает пустую строку
      *
      * @param $name
-     * @param null $id
+     * @param string $id
      * @param $time
-     * @return bool|string
+     * @return string
      */
-    protected function checkCache($name, $time, $id = null)
+    protected function getCache($name, $time, string $id = ''): string
     {
         if ($id) {
             $name .= '_' . $id;
         }
 
         // Проверяем, есть ли кэш
-        if (file_exists($this->cache . $name)) {
+        if (file_exists(self::CACHE_DIR . $name)) {
 
             // Проверяем, не просрочен ли он
-            if (!($time > 0) || (($this->time - $time) < filemtime($this->cache . $name))) {
-                return file_get_contents($this->cache . $name);
+            if (!($time > 0) || (($this->time - $time) < filemtime(self::CACHE_DIR . $name))) {
+                return file_get_contents(self::CACHE_DIR . $name);
             }
         }
 
-        return false;
+        return '';
     }
 
     /**
@@ -169,16 +199,16 @@ abstract class AbstractController
      *
      * @param string $name
      * @param string $content
-     * @param null $id
+     * @param string $id
      * @param string $prefix - Параметр для отладки и тестов, чтобы отличить контент который берется из кэша
      */
-    protected function createCache(string $name, string $content, $id = null, string $prefix = ''): void
+    protected function createCache(string $name, string $content, string $id = '', string $prefix = ''): void
     {
         if ($id) {
             $name .= '_' . $id;
         }
 
-        $file = fopen($this->cache . $name, 'wb');
+        $file = fopen(self::CACHE_DIR . $name, 'wb');
         fwrite($file, $content . $prefix);
         fclose($file);
     }
@@ -187,17 +217,16 @@ abstract class AbstractController
      * Удаляет кэш
      *
      * @param string $name
-     * @throws \NW\Exception
+     * @throws AppException
      */
     protected function deleteCache(string $name): void
     {
-        if (!file_exists($this->cache . $name)) {
-            // TODO В будущем можно создать отдельный ControllerException
-            throw new \NW\Exception('Указанного кэша не существует: ' . $this->cache . $name);
+        if (!file_exists(self::CACHE_DIR . $name)) {
+            throw new AppException('Указанного кэша не существует: ' . self::CACHE_DIR . $name);
         }
 
         if ($name) {
-            unlink($this->cache . $name);
+            unlink(self::CACHE_DIR . $name);
         }
     }
 
@@ -212,14 +241,14 @@ abstract class AbstractController
      * комментарий - удаляем кэш. При следующем запросе к странице он создается вновь.
      *
      * @param string $controllerAction
-     * @param null $id
+     * @param string $id
      * @param int $time
      * @param string $prefix
      * @return string
      */
-    protected function cacheWrapper(string $controllerAction, $id = null, $time = 0, string $prefix = ''): string
+    protected function cacheWrapper(string $controllerAction, string $id = '', $time = 0, string $prefix = ''): string
     {
-        $content = $this->checkCache($controllerAction, $time, $id);
+        $content = $this->getCache($controllerAction, $time, $id);
 
         if ($content) {
             return $content;

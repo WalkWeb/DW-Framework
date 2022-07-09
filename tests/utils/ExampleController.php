@@ -16,9 +16,9 @@ use NW\Utils\HttpCode;
  */
 class ExampleController extends AbstractController
 {
-    public function checkCache($name, $time, $id = null)
+    public function getCache($name, $time, string $id = ''): string
     {
-        return parent::checkCache($name, $time, $id);
+        return parent::getCache($name, $time, $id);
     }
 
     public function createCache(string $name, string $content, $id = null, string $prefix = ''): void

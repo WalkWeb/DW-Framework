@@ -59,7 +59,7 @@ class Logger
      * Добавляет новый лог
      *
      * @param $log
-     * @throws Exception
+     * @throws AppException
      */
     public function addLog($log): void
     {
@@ -86,12 +86,12 @@ class Logger
      * Возвращает путь к файлу с логами
      *
      * @return string
-     * @throws Exception
+     * @throws AppException
      */
     public function getLogsFilePath(): string
     {
         if (!is_dir($this->dir)) {
-            throw new Exception('Directory from save logs not found: ' . $this->dir);
+            throw new AppException('Directory from save logs not found: ' . $this->dir);
         }
 
         return $this->dir . '/' . $this->logFileName;
@@ -101,7 +101,7 @@ class Logger
      * Сохраняет лог в файл
      *
      * @param $log
-     * @throws Exception
+     * @throws AppException
      */
     protected function saveToFile($log): void
     {

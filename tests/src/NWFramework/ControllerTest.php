@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\src\NWFramework;
 
 use Exception;
+use NW\AppException;
 use NW\Utils\HttpCode;
 use Tests\AbstractTestCase;
 use Tests\utils\ExampleController;
@@ -18,7 +19,7 @@ class ControllerTest extends AbstractTestCase
     {
         $controller = new ExampleController();
 
-        $this->expectException(\NW\Exception::class);
+        $this->expectException(AppException::class);
         $this->expectExceptionMessage(
             'View не найден: /var/www/dw-framework.loc/src/NWFramework/../../views/default/unknown_view.php'
         );
@@ -34,7 +35,7 @@ class ControllerTest extends AbstractTestCase
 
         $controller->setLayoutUrl('unknown_layout');
 
-        $this->expectException(\NW\Exception::class);
+        $this->expectException(AppException::class);
         $this->expectExceptionMessage(
             'Layout не найден: /var/www/dw-framework.loc/src/NWFramework/../../views/default/errors/404.php'
         );
@@ -52,7 +53,7 @@ class ControllerTest extends AbstractTestCase
 
         $response = $controller->json($data);
 
-        self::assertEquals(200, $response->getStatusCode());
+        self::assertEquals(HttpCode::OK, $response->getStatusCode());
         self::assertEquals('1.1', $response->getProtocolVersion());
         self::assertEquals('OK', $response->getReasonPhase());
         self::assertEquals(json_encode($data, JSON_THROW_ON_ERROR), $response->getBody());
@@ -68,7 +69,7 @@ class ControllerTest extends AbstractTestCase
 
         $response = $controller->renderErrorPage();
 
-        self::assertEquals(404, $response->getStatusCode());
+        self::assertEquals(HttpCode::NOT_FOUND, $response->getStatusCode());
         self::assertEquals('1.1', $response->getProtocolVersion());
         self::assertEquals('Not Found', $response->getReasonPhase());
         self::assertEquals([], $response->getHeaders());
@@ -78,7 +79,7 @@ class ControllerTest extends AbstractTestCase
         self::assertIsString($response->getBody());
     }
 
-    public function testControllerCheckCache(): void
+    public function testControllerGetCache(): void
     {
         $cacheName = 'name';
         $cacheTime = 100;
@@ -95,12 +96,12 @@ class ControllerTest extends AbstractTestCase
         }
 
         // Вначале кэш отсутствует
-        self::assertFalse($controller->checkCache($cacheName, $cacheTime, $cacheId));
+        self::assertEquals('', $controller->getCache($cacheName, $cacheTime, $cacheId));
 
         // Создаем кэш
         $controller->createCache($cacheName, $cacheContent, $cacheId, $cachePrefix);
 
-        self::assertEquals($cacheContent . $cachePrefix, $controller->checkCache($cacheName, $cacheTime, $cacheId));
+        self::assertEquals($cacheContent . $cachePrefix, $controller->getCache($cacheName, $cacheTime, $cacheId));
     }
 
     /**
@@ -126,18 +127,18 @@ class ControllerTest extends AbstractTestCase
         }
 
         // Вначале кэш отсутствует
-        self::assertFalse($controller->checkCache($cacheName, $cacheTime, $cacheId));
+        self::assertEquals('', $controller->getCache($cacheName, $cacheTime, $cacheId));
 
         // Создаем кэш
         $controller->createCache($cacheName, $cacheContent, $cacheId, $cachePrefix);
 
-        self::assertEquals($cacheContent . $cachePrefix, $controller->checkCache($cacheName, $cacheTime, $cacheId));
+        self::assertEquals($cacheContent . $cachePrefix, $controller->getCache($cacheName, $cacheTime, $cacheId));
 
         // Теперь удаляем кэш
         $controller->deleteCache($cacheName . '_' . $cacheId);
 
         // Проверяем, что кэш исчез
-        self::assertFalse($controller->checkCache($cacheName, $cacheTime, $cacheId));
+        self::assertEquals('', $controller->getCache($cacheName, $cacheTime, $cacheId));
     }
 
     /**
@@ -150,7 +151,7 @@ class ControllerTest extends AbstractTestCase
         $controller = new ExampleController();
         $cacheName = 'unknown_cache';
 
-        $this->expectException(\NW\Exception::class);
+        $this->expectException(AppException::class);
         $this->expectExceptionMessage(
             'Указанного кэша не существует: /var/www/dw-framework.loc/src/NWFramework/../../cache/html/' .
             $cacheName

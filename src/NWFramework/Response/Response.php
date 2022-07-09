@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace NW\Response;
 
+use NW\Utils\HttpCode;
+
 class Response
 {
     /**
@@ -54,10 +56,10 @@ class Response
      * При необходимости можно сразу передать массив с заголовками.
      *
      * @param string|null $body
-     * @param int|null $status
+     * @param int $status
      * @throws ResponseException
      */
-    public function __construct(string $body = '', int $status = 200)
+    public function __construct(string $body = '', int $status = HttpCode::OK)
     {
         $this->body = $body;
         $this->setStatusCode($status);

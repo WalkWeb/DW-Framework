@@ -2,6 +2,7 @@
 
 namespace NW\Route;
 
+use NW\AppException;
 use NW\Request\Request;
 
 class Router
@@ -24,7 +25,7 @@ class Router
      *
      * @param Request $request
      * @return array
-     * @throws RouteException
+     * @throws AppException
      */
     public function getHandler(Request $request): array
     {
@@ -34,7 +35,7 @@ class Router
             }
         }
 
-        throw new RouteException(RouteException::PAGE_NOT_FOUND);
+        throw new AppException('404: Страница не найдена');
     }
 
     /**

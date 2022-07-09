@@ -3,11 +3,11 @@
 namespace NW\App;
 
 use Exception;
+use NW\AppException;
 use NW\Request\Request;
 use NW\Response\Response;
 use NW\Route\Router;
 use NW\Route\RouteCollection;
-use NW\Route\RouteException;
 use NW\Utils\HttpCode;
 
 class App
@@ -36,7 +36,7 @@ class App
     {
         try {
             ['handler' => $handler, 'request' => $request] = $this->router->getHandler($request);
-        } catch (RouteException $e) {
+        } catch (Exception $e) {
 
             // Если маршрут не найден, значит вызывается несуществующая страница
             return new Response($e->getMessage(), HttpCode::NOT_FOUND);
@@ -47,13 +47,13 @@ class App
         $className = 'Controllers\\' . $className;
 
         if (!class_exists($className)) {
-            return new Response(AppException::CONTROLLER_NOT_FOUND . ': ' . $className, HttpCode::INTERNAL_SERVER_ERROR);
+            return new Response('Отсутствует контроллер: ' . $className, HttpCode::INTERNAL_SERVER_ERROR);
         }
 
         $class = new $className();
 
         if (!method_exists($class, $action)) {
-            throw new AppException(AppException::ACTION_NOT_FOUND);
+            throw new AppException('Метод не найден');
         }
 
         return (new $className())->$action($request);

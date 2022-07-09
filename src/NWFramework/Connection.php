@@ -43,7 +43,7 @@ final class Connection
      * @param string $password
      * @param string $database
      * @param Logger|null $logger
-     * @throws Exception
+     * @throws AppException
      */
     private function __construct(string $host, string $user, string $password, string $database, Logger $logger = null)
     {
@@ -54,12 +54,12 @@ final class Connection
         try {
             $this->connection = mysqli_connect($host, $user, $password, $database);
         } catch (Throwable $e) {
-            throw new Exception(self::ERROR_CONNECT . $e->getMessage());
+            throw new AppException(self::ERROR_CONNECT . $e->getMessage());
         }
 
         // Проверка соединения
         if (mysqli_connect_errno()) {
-            throw new Exception(self::ERROR_CONNECT . mysqli_connect_error());
+            throw new AppException(self::ERROR_CONNECT . mysqli_connect_error());
         }
 
         $this->connection->query('SET NAMES utf8');
@@ -75,7 +75,7 @@ final class Connection
      * @param string $password
      * @param string $database
      * @return Connection
-     * @throws Exception
+     * @throws AppException
      */
     public static function getInstance(
         string $host = DB_HOST,
@@ -132,7 +132,7 @@ final class Connection
      * @param array $params
      * @param bool $single
      * @return array|bool|mixed
-     * @throws Exception
+     * @throws AppException
      */
     public function query($sql, $params = [], $single = false): array
     {
@@ -183,7 +183,7 @@ final class Connection
         }
 
         if (!$this->isSuccess()) {
-            throw new Exception($this->getError());
+            throw new AppException($this->getError());
         }
 
         $this->queryNumber++;

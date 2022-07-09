@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\src\NWFramework;
 
-use NW\Exception;
+use NW\AppException;
 use NW\Logger;
 use Tests\AbstractTestCase;
 
@@ -13,7 +13,7 @@ class LoggerTest extends AbstractTestCase
     /**
      * Тест на простое сохранение и получение логов
      *
-     * @throws Exception
+     * @throws AppException
      */
     public function testLoggerSetAndGetLog(): void
     {
@@ -28,7 +28,7 @@ class LoggerTest extends AbstractTestCase
     /**
      * Тест на сохранение логов в файл
      *
-     * @throws Exception
+     * @throws AppException
      */
     public function testLoggerSaveInFile(): void
     {
@@ -53,7 +53,7 @@ class LoggerTest extends AbstractTestCase
      * Если быть точнее - некорректно указан путь к директории - сам файл создастся автоматически, если директория
      * доступна
      *
-     * @throws Exception
+     * @throws AppException
      */
     public function testLoggerFileLogNotFound(): void
     {
@@ -63,7 +63,7 @@ class LoggerTest extends AbstractTestCase
             $dir = 'invalid_dir'
         );
 
-        $this->expectException(Exception::class);
+        $this->expectException(AppException::class);
         $this->expectExceptionMessage('Directory from save logs not found: ' . $dir);
         $logger->addLog($log = 'test log #1');
     }

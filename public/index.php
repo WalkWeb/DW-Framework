@@ -23,13 +23,19 @@ if (DEV) {
 $request = ServerRequestFactory::fromGlobals();
 
 // Подгружаем роуты
-require_once __DIR__ . '/../routes/web.php';
+$router = require __DIR__ . '/../routes/web.php';
 
 // Создаем объект приложения
 $app = new App($router);
 
 // Получаем объект response на основе запроса
-$response = $app->handle($request);
+try {
+    $response = $app->handle($request);
 
-// Распечатываем response
-Emitter::emit($response);
+    // Распечатываем response
+    Emitter::emit($response);
+
+} catch (Exception $e) {
+    // TODO В обычном режиме возвращается заглушка 500/401/404 ошибки, а в DEV-режиме возвращаем детализацию ошибки
+    echo $e->getMessage();
+}

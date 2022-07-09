@@ -9,6 +9,9 @@ class ServerRequestFactory
     /**
      * Создает объект Request на основе полученных данных или суперглобальных переменных
      *
+     * TODO Возможно, для минимизации количества подгружаемых файлов и максимализации производительности метод стоит
+     * TODO вынести в сам Request
+     *
      * @param array|null $server
      * @param array|null $body
      * @param array|null $cookies

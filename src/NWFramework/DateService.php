@@ -42,7 +42,7 @@ class DateService
      * Возвращает текстовую разницу между указанной датой и текущим моментом
      *
      * Пример использования:
-     * \NW\Date::getElapsedTime(\DateTime::createFromFormat('Y-m-d H:i:s', $account->regDate))
+     * \NW\DateService::getElapsedTime(\DateTime::createFromFormat('Y-m-d H:i:s', $account->getRegisterDate()))
      *
      * TODO Доработать: "1 минута назад" => "1 минуту назад"
      *

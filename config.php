@@ -24,7 +24,7 @@ define('DB_PASSWORD', 'YOUR_PASSWORD');
 define('DEV', false);
 
 /** Базовый шаблон дизайна сайта */
-define('TEMPLATES_DEFAULT', 'default');
+define('TEMPLATE_DEFAULT', 'default');
 
 /** Ключ для хэшей */
 define('KEY', 'YOU_KEY');

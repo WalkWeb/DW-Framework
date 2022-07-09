@@ -63,7 +63,6 @@ class Validator
     /**
      * Принимает валидируемый параметр и дополнительные параметры, и проверяет его на основе правил
      *
-     * @uses string, int, min, max, required, boolean, in, parent, unique
      * @param string $name        - Имя поля, необходимо для корректного сообщения об ошибке
      * @param $param              - Валидируемая переменная
      * @param array $rules        - Правила валидации
@@ -71,7 +70,8 @@ class Validator
      * @param string|null $column - Только для проверки типа unique - колонка для проверки
      * @param string|null $error  - Текст ошибки, если он не указан - то текст ошибки будет составлен автоматически
      * @return bool
-     * @throws Exception
+     * @throws AppException
+     *@uses string, int, min, max, required, boolean, in, parent, unique
      */
     public static function check(string $name, $param, array $rules, string $table = null, string $column = null, string $error = null): bool
     {
@@ -167,6 +167,8 @@ class Validator
     /**
      * Проверяет строку на максимальную длину
      *
+     * TODO Доработать и проверку к int
+     *
      * @param $param
      * @param $value
      * @return bool
@@ -234,12 +236,12 @@ class Validator
      */
     protected static function in($param, array $values): bool
     {
-        foreach ($values as $value) {
-            if ($param === $value) {
-                return true;
-            }
+        if (in_array($param, $values, true)) {
+            return true;
         }
+
         self::addError(self::$name . ' указан некорректно');
+
         return false;
     }
 
@@ -266,7 +268,7 @@ class Validator
      * @param $table
      * @param $column
      * @return bool
-     * @throws Exception
+     * @throws AppException
      */
     private static function unique($param, $table, $column): bool
     {

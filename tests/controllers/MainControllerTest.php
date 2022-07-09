@@ -7,6 +7,7 @@ use NW\Route\RouteCollection;
 use NW\Route\Router;
 use NW\Request\Request;
 use NW\App\App;
+use NW\Utils\HttpCode;
 use Tests\AbstractTestCase;
 
 class MainControllerTest extends AbstractTestCase
@@ -21,7 +22,6 @@ class MainControllerTest extends AbstractTestCase
         $routes = new RouteCollection();
         $routes->get('home', '/', 'MainController@index');
         $router = new Router($routes);
-
         $this->app = new App($router);
     }
 
@@ -36,7 +36,7 @@ class MainControllerTest extends AbstractTestCase
         $response = $this->app->handle($request);
 
         self::assertRegExp('/Главная страница/', $response->getBody());
-        self::assertEquals(200, $response->getStatusCode());
+        self::assertEquals(HttpCode::OK, $response->getStatusCode());
     }
 
     /**
@@ -50,6 +50,6 @@ class MainControllerTest extends AbstractTestCase
         $response = $this->app->handle($request);
 
         self::assertRegExp('/Страница не найдена/', $response->getBody());
-        self::assertEquals(404, $response->getStatusCode());
+        self::assertEquals(HttpCode::NOT_FOUND, $response->getStatusCode());
     }
 }

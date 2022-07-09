@@ -1,8 +1,10 @@
 <?php
 
+use NW\AppException;
+
 if (empty($post)) {
     // Такой ситуации не должно произойти, но на всякий случай проверяем (и чтобы phpStorm не ругался)
-    throw new \NW\Exception('Ошибка: нет данных по посту');
+    throw new AppException('Ошибка: нет данных по посту');
 }
 
 $this->title = $post->title;
