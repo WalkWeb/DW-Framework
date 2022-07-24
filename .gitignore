@@ -13,3 +13,6 @@ config.test.php
 
 # Default file log name
 logs
+
+# MySQL from docker data directory
+data/

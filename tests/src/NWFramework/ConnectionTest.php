@@ -46,7 +46,11 @@ class ConnectionTest extends AbstractTestCase
         $this->cleanConnect();
 
         $this->expectException(Exception::class);
-        $this->expectExceptionMessage(Connection::ERROR_CONNECT . "mysqli_connect(): (HY000/1045): Access denied for user 'user'@'localhost' (using password: YES)");
+        // Проверяем лишь по основной части сообщения: Невозможно подключиться к MySQL: mysqli_connect()
+        // В разных вариантах запуска базы полный текст ошибки будет разным, например:
+        // MySQL установленный локально: Невозможно подключиться к MySQL: mysqli_connect(): (HY000/1045): Access denied for user 'user'@'localhost' (using password: YES)
+        // MariaDB установленная через докер: Невозможно подключиться к MySQL: mysqli_connect(): (HY000/2002): No such file or directory
+        $this->expectExceptionMessage(Connection::ERROR_CONNECT . "mysqli_connect()");
         Connection::getInstance('localhost', 'user', 'invalid_pass', 'db');
     }
 
