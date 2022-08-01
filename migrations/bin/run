@@ -1,0 +1,22 @@
+#!/usr/bin/env php
+<?php
+
+require_once __DIR__ . '/../../vendor/autoload.php';
+
+// Подключаем настройки: если есть config.local.php - подключаем их, иначе - config.php
+if (file_exists(__DIR__ . '/../../config.local.php')) {
+    require_once __DIR__ . '/../../config.local.php';
+} else {
+    require_once __DIR__ . '/../../config.php';
+}
+
+use NW\Migration;
+
+try {
+    (new Migration)->run();
+    echo "Complete\n";
+    return 0;
+} catch (Exception $e) {
+    echo "{$e->getMessage()}\n";
+    return 1;
+}
