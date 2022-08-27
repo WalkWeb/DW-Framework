@@ -1,6 +1,6 @@
 {
-  "name": "walk/dw-framework.loc",
-  "description": "Simple MVC framework",
+  "name": "walkweb/dw-framework",
+  "description": "Micro MVC Framework",
   "authors": [
     {
       "name": "WalkWeb",
