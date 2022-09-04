@@ -17,7 +17,7 @@ class Pagination
      */
     public static function getPages($elements, $page, $url, $perPage = 5): string
     {
-        $numberPage = (int) ceil($elements/$perPage);
+        $numberPage = (int)ceil($elements / $perPage);
         $content = '';
         $left = '';
         $right = '';

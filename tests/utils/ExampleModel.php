@@ -34,7 +34,7 @@ class ExampleModel extends AbstractModel
      * @var array[]
      */
     private static $rules = [
-        'id' => [
+        'id'   => [
             'required',
             'string',
             'min' => 36,

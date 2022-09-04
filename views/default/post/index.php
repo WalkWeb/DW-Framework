@@ -4,7 +4,7 @@ $this->title = 'Посты';
 
 ?>
 
-<h1><?= htmlspecialchars($this->title)?></h1>
+<h1><?= htmlspecialchars($this->title) ?></h1>
 
 <?php
 

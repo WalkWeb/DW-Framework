@@ -167,7 +167,7 @@ class Request
      *
      * @return array
      */
-    public function getAttributes() : array
+    public function getAttributes(): array
     {
         return $this->attributes;
     }

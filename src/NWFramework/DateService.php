@@ -19,23 +19,23 @@ class DateService
     private const INCORRECT_TYPE = 'Некорректный тип';
 
     public static $year = [
-        'год', 'года', 'лет'
+        'год', 'года', 'лет',
     ];
 
     public static $months = [
-        'месяц', 'месяца', 'месяцев'
+        'месяц', 'месяца', 'месяцев',
     ];
 
     public static $days = [
-        'день', 'дня', 'дней'
+        'день', 'дня', 'дней',
     ];
 
     public static $hours = [
-        'час', 'часа', 'часов'
+        'час', 'часа', 'часов',
     ];
 
     public static $minutes = [
-        'минута', 'минуты', 'минут'
+        'минута', 'минуты', 'минут',
     ];
 
     /**

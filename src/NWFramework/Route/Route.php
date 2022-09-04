@@ -61,7 +61,7 @@ class Route
     {
         $this->name = $name;
         $this->path = $path;
-        $this->handler = $namespace ? $namespace . '\\'. $handler : $handler;
+        $this->handler = $namespace ? $namespace . '\\' . $handler : $handler;
         $this->method = $method;
         $this->params = $params;
         $this->namespace = $namespace;

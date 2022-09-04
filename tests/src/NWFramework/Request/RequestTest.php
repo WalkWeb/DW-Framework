@@ -39,7 +39,7 @@ class RequestTest extends AbstractTestCase
 
         $body = [
             'title' => 'Post Title',
-            'text' => 'Post text',
+            'text'  => 'Post text',
         ];
 
         $cookies = [

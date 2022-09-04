@@ -66,7 +66,7 @@ input, select, textarea {
     font-size: 100%;
 }
 
-button  {
+button {
     display: block;
     margin-top: 20px;
     text-decoration: none;
@@ -96,7 +96,7 @@ button:hover {
     list-style: none;
 }
 
-.navigation>li {
+.navigation > li {
     display: inline-block;
     vertical-align: middle;
     position: static;
@@ -104,13 +104,13 @@ button:hover {
     border-right: 1px solid #5b5b5b;
 }
 
-ul.navigation>li>a {
+ul.navigation > li > a {
     display: block;
     color: #a1a1a1;
     padding: 20px;
 }
 
-ul.navigation>li>a:hover {
+ul.navigation > li > a:hover {
     color: #c1a1a1;
 }
 

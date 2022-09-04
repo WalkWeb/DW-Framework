@@ -142,8 +142,8 @@ class ValidatorTest extends AbstractTestCase
         $rules = [
             'required',
             'string',
-            'min' => 5,
-            'max' => 15,
+            'min'    => 5,
+            'max'    => 15,
             'parent' => '/^[a-zA-Z0-9а-яА-ЯёЁ\-_]*$/u',
             'unique',
         ];

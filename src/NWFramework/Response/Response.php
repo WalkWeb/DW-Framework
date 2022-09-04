@@ -142,7 +142,7 @@ class Response
      *
      * @return string
      */
-    public function getProtocolVersion() : string
+    public function getProtocolVersion(): string
     {
         return $this->protocol;
     }

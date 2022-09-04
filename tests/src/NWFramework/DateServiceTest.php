@@ -60,7 +60,7 @@ class DateServiceTest extends AbstractTestCase
     }
 
     // Fail-тесты
-    
+
     public function testDateInvalidDate(): void
     {
         self::assertEquals('Некорректная дата', DateService::plural(-123, 'year'));

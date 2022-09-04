@@ -20,7 +20,7 @@ final class Emitter
         ));
 
         foreach ($response->getHeaders() as $key => $value) {
-            header($key . ': ' .$value);
+            header($key . ': ' . $value);
         }
 
         echo $response->getBody();
