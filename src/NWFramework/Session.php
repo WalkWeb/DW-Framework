@@ -2,10 +2,14 @@
 
 namespace NW;
 
-// TODO Переделать на работу с Request / Response
-
 class Session
 {
+    // TODO Переделать на работу с Request / Response
+
+    // TODO Added exist session
+
+    // TODO Added remove session
+
     /**
      * Устанавливает ключ => значение в сессию
      *
@@ -48,10 +52,6 @@ class Session
 
         return !empty($_SESSION[$key]);
     }
-
-    // TODO Added exist session
-
-    // TODO Added remove session
 
     /**
      * Запускает сессию, если она еще не запущена

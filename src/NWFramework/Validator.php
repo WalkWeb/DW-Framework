@@ -71,7 +71,7 @@ class Validator
      * @param string|null $error  - Текст ошибки, если он не указан - то текст ошибки будет составлен автоматически
      * @return bool
      * @throws AppException
-     *@uses string, int, min, max, required, boolean, in, parent, unique
+     * @uses string, int, min, max, required, boolean, in, parent, unique, mail
      */
     public static function check(string $name, $param, array $rules, string $table = null, string $column = null, string $error = null): bool
     {
@@ -304,6 +304,8 @@ class Validator
 
     /**
      * Подключение к базе
+     *
+     * @throws AppException
      */
     private static function connectDB(): void
     {

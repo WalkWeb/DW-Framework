@@ -12,15 +12,15 @@ class Captcha
     private $captcha = '';
 
     public function getCaptchaImage(
-        int $width_image = 150,
-        int $height_image = 50,
+        int $widthImage = 150,
+        int $heightImage = 50,
         string $letters = '1234567890',
         int $length = 4,
-        int $font_size = 28): string
+        int $fontSize = 28): string
     {
-        $image = imagecreatetruecolor($width_image, $height_image);
-        $image_color = imagecolorallocate($image, 30, 25, 21);
-        imagefilledrectangle($image, 0, 0, 400, 50, $image_color);
+        $image = imagecreatetruecolor($widthImage, $heightImage);
+        $imageColor = imagecolorallocate($image, 30, 25, 21);
+        imagefilledrectangle($image, 0, 0, 400, 50, $imageColor);
         $font = DIR . '/public/fonts/11610.ttf';
         $height = 40;
 
@@ -36,16 +36,16 @@ class Captcha
             $x = Tools::rand($x, $x + 4);
 
             // Координата Y
-            $y = $height - (($height - $font_size) / 2);
+            $y = $height - (($height - $fontSize) / 2);
 
             // Цвет для текущей буквы
-            $curcolor = imagecolorallocate($image, Tools::rand(100, 200), Tools::rand(100, 200), Tools::rand(100, 200));
+            $color = imagecolorallocate($image, Tools::rand(100, 200), Tools::rand(100, 200), Tools::rand(100, 200));
 
             // Случайный угол наклона
             $angle = Tools::rand(-45, 45);
 
             // Вывод текста
-            imagettftext($image, $font_size, $angle, $x, $y, $curcolor, $font, $this->captcha[$i]);
+            imagettftext($image, $fontSize, $angle, $x, $y, $color, $font, $this->captcha[$i]);
         }
 
         Session::setParam('captcha', md5($this->captcha . KEY));

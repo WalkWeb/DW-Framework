@@ -75,7 +75,7 @@ abstract class AbstractModel
         // Проверяем, есть ли кэш
         if (file_exists($this->cache . $name)) {
 
-            // Проверяем, не просрочился ли кэш
+            // Проверяем, не протух ли кэш
             if (!($time > 0) || (($this->time - $time) < filemtime($this->cache . $name))) {
                 return unserialize(file_get_contents($this->cache . $name));
             }

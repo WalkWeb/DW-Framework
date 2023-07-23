@@ -4,6 +4,8 @@ namespace NW\Loader;
 
 class LoaderImage
 {
+    // TODO Вынести константы в config.php
+
     private const IMAGE_MAX_SIZE   = 5242880;
     private const IMAGE_MAX_WEIGHT = 3000;
     private const IMAGE_MAX_HEIGHT = 3000;

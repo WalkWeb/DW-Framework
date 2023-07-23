@@ -36,19 +36,19 @@ class Response
     /**
      * Упрощенный список кодов ответа
      *
-     * Полный список: https://github.com/zendframework/zend-diactoros/blob/master/src/Response.php
+     * Полный список в HttpCode
      *
      * @var array - Допустимые значения статуса и соответствующие им текстовые описания
      */
     private static $phrases = [
-        200 => 'OK',
-        301 => 'Moved Permanently',
-        302 => 'Found',
-        401 => 'Unauthorized',
-        403 => 'Forbidden',
-        404 => 'Not Found',
-        405 => 'Method Not Allowed',
-        500 => 'Internal Server Error',
+        HttpCode::OK                    => 'OK',
+        HttpCode::MOVED_PERMANENTLY     => 'Moved Permanently',
+        HttpCode::FOUND                 => 'Found',
+        HttpCode::UNAUTHORIZED          => 'Unauthorized',
+        HttpCode::FORBIDDEN             => 'Forbidden',
+        HttpCode::NOT_FOUND             => 'Not Found',
+        HttpCode::METHOD_NOT_ALLOWED    => 'Method Not Allowed',
+        HttpCode::INTERNAL_SERVER_ERROR => 'Internal Server Error',
     ];
 
     /**

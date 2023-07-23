@@ -11,10 +11,10 @@ class Tools
      *
      * TODO вынести в trait StringUtils и от данного класса вообще можно отказаться
      *
-     * @param integer $length
+     * @param int $length
      * @return string
      */
-    public static function getRandStr($length = 15): string
+    public static function getRandStr(int $length = 15): string
     {
         $chars = '1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
         $numChars = strlen($chars);
