@@ -11,63 +11,90 @@ class Request
      *
      * @var string
      */
-    private $method;
+    private string $method;
 
     /**
      * URI
      *
      * @var string
      */
-    private $uri;
+    private string $uri;
 
     /**
      * Обычно это HTTP/1.1
      *
      * @var string
      */
-    private $protocol;
+    private string $protocol;
 
     /**
      * $_COOKIES
      *
      * @var array
      */
-    private $cookies;
+    private array $cookies;
 
     /**
      * $_GET
      *
      * @var array
      */
-    private $query;
+    private array $query;
 
     /**
      * $_POST
      *
      * @var array
      */
-    private $body;
+    private array $body;
 
     /**
      * $_FILES
      *
      * @var array
      */
-    private $files;
+    private array $files;
 
     /**
      * $_SERVER
      *
      * @var array
      */
-    private $server;
+    private array $server;
 
     /**
      * Массив дополнительных параметров
      *
      * @var array
      */
-    private $attributes = [];
+    private array $attributes = [];
+
+    /**
+     * Создает объект Request на основе полученных данных или суперглобальных переменных
+     *
+     * @param array $server
+     * @param array $body
+     * @param array $cookies
+     * @param array $query
+     * @param array $files
+     * @return Request
+     */
+    public static function fromGlobals(
+        array $server = [],
+        array $body = [],
+        array $cookies = [],
+        array $query = [],
+        array $files = []
+    ): Request
+    {
+        return new self(
+            $server ?: $_SERVER,
+            $body ?: $_POST,
+            $cookies ?: $_COOKIE,
+            $query ?: $_GET,
+            $files ?: $_FILES
+        );
+    }
 
     /**
      * Получает глобальные параметры запроса и формирует из них объект запроса.

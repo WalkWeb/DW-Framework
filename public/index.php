@@ -10,8 +10,8 @@ if (file_exists(__DIR__ . '/../config.local.php')) {
     require_once __DIR__ . '/../config.php';
 }
 
+use NW\Request\Request;
 use NW\Runtime;
-use NW\Request\ServerRequestFactory;
 use NW\App\App;
 use NW\Response\Emitter;
 
@@ -20,7 +20,7 @@ if (DEV) {
 }
 
 // Создаем объект request на основе глобальных параметров
-$request = ServerRequestFactory::fromGlobals();
+$request = Request::fromGlobals();
 
 // Подгружаем роуты
 $router = require __DIR__ . '/../routes/web.php';
