@@ -6,8 +6,6 @@ namespace Tests\src\NWFramework;
 
 use NW\Connection;
 use Exception;
-use ReflectionException;
-use ReflectionProperty;
 use Tests\AbstractTestCase;
 
 /**
@@ -29,7 +27,7 @@ class ConnectionTest extends AbstractTestCase
      */
     public function testConnectionCreateSuccess(): void
     {
-        $db = Connection::getInstance();
+        $db = new Connection();
 
         // Если при подключении не произошло исключений - значит оно прошло успешно
         self::assertTrue($db->isSuccess());
@@ -43,15 +41,13 @@ class ConnectionTest extends AbstractTestCase
      */
     public function testConnectionCreateFail(): void
     {
-        $this->cleanConnect();
-
         $this->expectException(Exception::class);
         // Проверяем лишь по основной части сообщения: Невозможно подключиться к MySQL: mysqli_connect()
         // В разных вариантах запуска базы полный текст ошибки будет разным, например:
         // MySQL установленный локально: Невозможно подключиться к MySQL: mysqli_connect(): (HY000/1045): Access denied for user 'user'@'localhost' (using password: YES)
         // MariaDB установленная через докер: Невозможно подключиться к MySQL: mysqli_connect(): (HY000/2002): No such file or directory
         $this->expectExceptionMessage(Connection::ERROR_CONNECT . "mysqli_connect()");
-        Connection::getInstance('localhost', 'user', 'invalid_pass', 'db');
+        new Connection('localhost', 'user', 'invalid_pass', 'db');
     }
 
     /**
@@ -60,7 +56,7 @@ class ConnectionTest extends AbstractTestCase
     public function testConnectionQuerySuccess(): void
     {
         $user = 'User#1';
-        $db = Connection::getInstance();
+        $db = new Connection();
         $db->autocommit(false);
 
         // Create table
@@ -97,20 +93,6 @@ class ConnectionTest extends AbstractTestCase
         self::assertEquals(3, $db->getQueryNumber());
 
         $db->rollback();
-    }
-
-    /**
-     * Обнуляет синглтон, чтобы он пересоздался
-     *
-     * @throws Exception
-     * @throws ReflectionException
-     */
-    private function cleanConnect(): void
-    {
-        $instance = Connection::getInstance();
-        $reflection = new ReflectionProperty(get_class($instance), 'instance');
-        $reflection->setAccessible(true);
-        $reflection->setValue($instance, null);
     }
 
     /**

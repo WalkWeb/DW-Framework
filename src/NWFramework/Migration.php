@@ -23,7 +23,7 @@ class Migration
      */
     public function __construct()
     {
-        $this->connection = Connection::getInstance();
+        $this->connection = new Connection();
     }
 
     public function create(): void

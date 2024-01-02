@@ -59,7 +59,7 @@ class MigrationTest extends AbstractTestCase
      */
     public function testMigrationRun(): void
     {
-        $connection = Connection::getInstance();
+        $connection = new Connection();
         $tableName = Migration::TABLE_NAME;
 
         // Вначале удаляем таблицу миграций и файлы миграций, если они есть
@@ -117,6 +117,6 @@ class MigrationTest extends AbstractTestCase
     private function removeTable(): void
     {
         $tableName = Migration::TABLE_NAME;
-        Connection::getInstance()->query("DROP TABLE IF EXISTS `$tableName`;");
+        (new Connection())->query("DROP TABLE IF EXISTS `$tableName`;");
     }
 }

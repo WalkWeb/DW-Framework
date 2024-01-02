@@ -21,7 +21,7 @@ class ModelTest extends AbstractTestCase
         $id = '6e9043d1-18fb-44ea-be60-c356048f63a2';
         $name = 'Example#1';
 
-        $db = Connection::getInstance();
+        $db = new Connection();
         $db->autocommit(false);
 
         // Create table
@@ -31,7 +31,7 @@ class ModelTest extends AbstractTestCase
         $this->insert($db, $id, $name);
 
         // Create model from db data
-        $model = new ExampleModel($id);
+        $model = new ExampleModel($id, $db);
 
         self::assertEquals($id, $model->getId());
         self::assertEquals($name, $model->getName());
@@ -50,12 +50,12 @@ class ModelTest extends AbstractTestCase
         $id = 'a5509cb2-d50a-46e0-95fd-f185726441cf';
         $name = 'BookName';
 
-        $db = Connection::getInstance();
+        $db = new Connection();
         $db->autocommit(false);
 
         $this->createTable($db);
         $this->insert($db, $id, $name);
-        $model = new ExampleModel($id);
+        $model = new ExampleModel($id, $db);
 
         self::assertEquals($id, $model->getId());
         self::assertEquals($name, $model->getName());
@@ -69,7 +69,7 @@ class ModelTest extends AbstractTestCase
         unset($model);
 
         // Создаем модель вновь и проверяем, что получаем новое имя
-        $model = new ExampleModel($id);
+        $model = new ExampleModel($id, $db);
         self::assertEquals($newName, $model->getName());
 
         $db->rollback();
@@ -84,12 +84,12 @@ class ModelTest extends AbstractTestCase
         $id = '018f6cf1-6ace-4aa7-8234-acfae931276d';
         $name = 'RemoveBook';
 
-        $db = Connection::getInstance();
+        $db = new Connection();
         $db->autocommit(false);
 
         $this->createTable($db);
         $this->insert($db, $id, $name);
-        $model = new ExampleModel($id);
+        $model = new ExampleModel($id, $db);
 
         self::assertEquals($id, $model->getId());
         self::assertEquals($name, $model->getName());
@@ -101,7 +101,7 @@ class ModelTest extends AbstractTestCase
         // При попытке создать модель - получаем ошибку
         $this->expectException(Exception::class);
         $this->expectExceptionMessage('id not found in data');
-        new ExampleModel($id);
+        new ExampleModel($id, $db);
 
         $db->rollback();
     }

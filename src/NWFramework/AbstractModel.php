@@ -26,11 +26,11 @@ abstract class AbstractModel
     /**
      * Создаем объект подключения к базе и обработки запросов
      *
-     * @throws AppException
+     * @param Connection $connection
      */
-    public function __construct()
+    public function __construct(Connection $connection)
     {
-        $this->db = Connection::getInstance();
+        $this->db = $connection;
         $this->time = microtime(true);
     }
 

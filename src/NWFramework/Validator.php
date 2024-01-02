@@ -304,13 +304,11 @@ class Validator
 
     /**
      * Подключение к базе
-     *
-     * @throws AppException
      */
     private static function connectDB(): void
     {
         if (!self::$db) {
-            self::$db = Connection::getInstance();
+            self::$db = new Connection();
         }
     }
 }

@@ -21,11 +21,6 @@ final class Connection
     private $error = '';
 
     /**
-     * @var Connection подключение к бд
-     */
-    private static $instance;
-
-    /**
      * @var int Количество запросов
      */
     private $queryNumber = 0;
@@ -45,7 +40,13 @@ final class Connection
      * @param Logger|null $logger
      * @throws AppException
      */
-    private function __construct(string $host, string $user, string $password, string $database, Logger $logger = null)
+    public function __construct(
+        string $host = DB_HOST,
+        string $user = DB_USER,
+        string $password = DB_PASSWORD,
+        string $database = DB_NAME,
+        ?Logger $logger = null
+    )
     {
         $this->logger = $logger;
 
@@ -64,30 +65,6 @@ final class Connection
 
         $this->connection->query('SET NAMES utf8');
         $this->connection->set_charset('utf8');
-    }
-
-    /**
-     * Возвращает объект работы с БД
-     * Если его нет - создает, если существует - возвращает текущий
-     *
-     * @param string $host
-     * @param string $user
-     * @param string $password
-     * @param string $database
-     * @return Connection
-     * @throws AppException
-     */
-    public static function getInstance(
-        string $host = DB_HOST,
-        string $user = DB_USER,
-        string $password = DB_PASSWORD,
-        string $database = DB_NAME
-    ): self
-    {
-        if (self::$instance === null) {
-            self::$instance = new self($host, $user, $password, $database);
-        }
-        return self::$instance;
     }
 
     /**

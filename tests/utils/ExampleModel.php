@@ -6,6 +6,7 @@ namespace Tests\utils;
 
 use Exception;
 use NW\AbstractModel;
+use NW\Connection;
 use NW\Validator;
 
 /**
@@ -52,11 +53,12 @@ class ExampleModel extends AbstractModel
      * По умолчанию модель создается на основе данных из базы
      *
      * @param string $id
+     * @param Connection $connection
      * @throws Exception
      */
-    public function __construct(string $id)
+    public function __construct(string $id, Connection $connection)
     {
-        parent::__construct();
+        parent::__construct($connection);
         $this->create($id);
     }
 
