@@ -11,27 +11,27 @@ class Response
     /**
      * @var string - Тело ответа
      */
-    private $body;
+    private string $body;
 
     /**
      * @var array - Массив заголовков в формате key => value
      */
-    private $headers = [];
+    private array $headers = [];
 
     /**
      * @var int - Статус ответа
      */
-    private $statusCode;
+    private int $statusCode;
 
     /**
      * @var string - Текстовое описание статуса ответа
      */
-    private $reasonPhrase;
+    private string $reasonPhrase;
 
     /**
      * @var string - Версия HTTP протокола
      */
-    private $protocol = '1.1';
+    private string $protocol = '1.1';
 
     /**
      * Упрощенный список кодов ответа
@@ -40,7 +40,7 @@ class Response
      *
      * @var array - Допустимые значения статуса и соответствующие им текстовые описания
      */
-    private static $phrases = [
+    private static array $phrases = [
         HttpCode::OK                    => 'OK',
         HttpCode::MOVED_PERMANENTLY     => 'Moved Permanently',
         HttpCode::FOUND                 => 'Found',
@@ -55,7 +55,7 @@ class Response
      * Создаем объект Response на основе указанного тела запроса и кода ответа.
      * При необходимости можно сразу передать массив с заголовками.
      *
-     * @param string|null $body
+     * @param string $body
      * @param int $status
      * @throws ResponseException
      */

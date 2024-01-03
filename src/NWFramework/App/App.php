@@ -45,6 +45,7 @@ class App
 
         [$handlerClass, $action] = explode('@', $handler);
 
+        // TODO Получать путь к директории контейнеров из контейнера
         $handlerClass = 'Controllers\\' . $handlerClass;
 
         if (!class_exists($handlerClass)) {
