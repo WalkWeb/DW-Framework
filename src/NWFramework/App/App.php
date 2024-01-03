@@ -4,25 +4,26 @@ namespace NW\App;
 
 use Exception;
 use NW\AppException;
+use NW\Container;
 use NW\Request\Request;
 use NW\Response\Response;
 use NW\Route\Router;
-use NW\Route\RouteCollection;
 use NW\Utils\HttpCode;
 
 class App
 {
-    /**
-     * @var RouteCollection
-     */
-    private $router;
+    private Router $router;
+    private Container $container;
 
-    /**
-     * @param Router $routes
-     */
-    public function __construct(Router $routes)
+    public function __construct(Router $routes, ?Container $container = null)
     {
         $this->router = $routes;
+        $this->container = $container ?? new Container(
+                DB_HOST,
+                DB_USER,
+                DB_PASSWORD,
+                DB_NAME,
+            );
     }
 
     /**
@@ -42,20 +43,20 @@ class App
             return new Response($e->getMessage(), HttpCode::NOT_FOUND);
         }
 
-        [$className, $action] = explode('@', $handler);
+        [$handlerClass, $action] = explode('@', $handler);
 
-        $className = 'Controllers\\' . $className;
+        $handlerClass = 'Controllers\\' . $handlerClass;
 
-        if (!class_exists($className)) {
-            return new Response('Отсутствует контроллер: ' . $className, HttpCode::INTERNAL_SERVER_ERROR);
+        if (!class_exists($handlerClass)) {
+            return new Response('Отсутствует контроллер: ' . $handlerClass, HttpCode::INTERNAL_SERVER_ERROR);
         }
 
-        $class = new $className();
+        $class = new $handlerClass($this->container);
 
         if (!method_exists($class, $action)) {
             throw new AppException('Метод не найден');
         }
 
-        return (new $className())->$action($request);
+        return $class->$action($request);
     }
 }

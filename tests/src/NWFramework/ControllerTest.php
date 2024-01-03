@@ -17,7 +17,7 @@ class ControllerTest extends AbstractTestCase
      */
     public function testControllerMissedView(): void
     {
-        $controller = new ExampleController();
+        $controller = new ExampleController($this->getContainer());
 
         // Дальше в ошибке указывается полный путь к view, но он будет разным в зависимости от размещения проекта
         $this->expectException(AppException::class);
@@ -32,7 +32,7 @@ class ControllerTest extends AbstractTestCase
      */
     public function testControllerMissedLayout(): void
     {
-        $controller = new ExampleController();
+        $controller = new ExampleController($this->getContainer());
 
         $controller->setLayoutUrl('unknown_layout');
 
@@ -51,7 +51,7 @@ class ControllerTest extends AbstractTestCase
      */
     public function testControllerJson(array $data): void
     {
-        $controller = new ExampleController();
+        $controller = new ExampleController($this->getContainer());
 
         $response = $controller->json($data);
 
@@ -67,7 +67,7 @@ class ControllerTest extends AbstractTestCase
      */
     public function testControllerErrorPage(): void
     {
-        $controller = new ExampleController();
+        $controller = new ExampleController($this->getContainer());
 
         $response = $controller->renderErrorPage();
 
@@ -88,7 +88,7 @@ class ControllerTest extends AbstractTestCase
         $cacheId = 'uuid';
         $cacheContent = 'content';
         $cachePrefix = '_cache';
-        $controller = new ExampleController();
+        $controller = new ExampleController($this->getContainer());
 
         // Если тест запускается не первый раз - то кэш уже будет, соответственно его нужно удалить
         $cacheFile = __DIR__ . '/../../../cache/html/' . $cacheName . '_' . $cacheId;
@@ -119,7 +119,7 @@ class ControllerTest extends AbstractTestCase
         $cacheId = 'uuid';
         $cacheContent = 'content';
         $cachePrefix = '_cache';
-        $controller = new ExampleController();
+        $controller = new ExampleController($this->getContainer());
 
         // Если тест запускается не первый раз - то кэш уже будет, соответственно его нужно удалить
         $cacheFile = __DIR__ . '/../../../cache/html/' . $cacheName . '_' . $cacheId;
@@ -150,7 +150,7 @@ class ControllerTest extends AbstractTestCase
      */
     public function testControllerDeleteMissedCache(): void
     {
-        $controller = new ExampleController();
+        $controller = new ExampleController($this->getContainer());
         $cacheName = 'unknown_cache';
 
         // Дальше в ошибке указывается полный путь к кэшу, но он будет разным в зависимости от размещения проекта
@@ -173,7 +173,7 @@ class ControllerTest extends AbstractTestCase
         $cacheId = 'uuid2';
         $cacheTime = 100;
         $cachePrefix = '_cache';
-        $controller = new ExampleController();
+        $controller = new ExampleController($this->getContainer());
         $content = 'example html content';
 
         // Если тест запускается не первый раз - то кэш уже будет, соответственно его нужно удалить
@@ -197,7 +197,7 @@ class ControllerTest extends AbstractTestCase
     {
         $redirectUrl = 'http://example.com';
 
-        $controller = new ExampleController();
+        $controller = new ExampleController($this->getContainer());
 
         // Редирект с дефолтными параметрами
         $response = $controller->redirect($redirectUrl);

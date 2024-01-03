@@ -21,59 +21,62 @@ abstract class AbstractController
      *
      * @var string
      */
-    protected $templates = TEMPLATE_DEFAULT . '/';
+    protected string $templates = TEMPLATE_DEFAULT . '/';
 
     /**
      * Title
      *
      * @var string
      */
-    protected $title = '';
+    protected string $title = '';
 
     /**
      * Description
      *
      * @var string
      */
-    protected $description = '';
+    protected string $description = '';
 
     /**
      * Keywords
      *
      * @var string
      */
-    protected $keywords = '';
+    protected string $keywords = '';
 
     /**
      * Текущее время (используется при работе с кэшем
      *
-     * @var mixed
+     * @var float
      */
-    protected $time;
+    protected float $time;
 
     /**
      * Данная настройка отвечает за то, рендерить ли шаблон в общем слое (true) или отдельно (false)
      *
      * @var bool
      */
-    protected $layout = true;
+    protected bool $layout = true;
 
     /**
      * Путь к шаблону
      *
      * @var string
      */
-    protected $layoutUrl = 'layout/main.php';
+    protected string $layoutUrl = 'layout/main.php';
 
     /**
      * Тип возвращаемых данных html /json
      *
      * @var string
      */
-    protected $dataType = 'html';
+    protected string $dataType = 'html';
 
-    public function __construct()
+    protected Container $container;
+
+    public function __construct(Container $container)
     {
+        $this->container = $container;
         $this->time = microtime(true);
     }
 
@@ -150,6 +153,14 @@ abstract class AbstractController
         $this->layoutUrl = 'layout/main.php';
 
         return $this->render('errors/404', ['error' => $error], $code);
+    }
+
+    /**
+     * @return Container
+     */
+    protected function getContainer(): Container
+    {
+        return $this->container;
     }
 
     /**
