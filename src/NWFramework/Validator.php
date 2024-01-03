@@ -308,7 +308,13 @@ class Validator
     private static function connectDB(): void
     {
         if (!self::$db) {
-            self::$db = new Connection();
+            // TODO Переделать на контейнер
+            self::$db = new Connection(
+                DB_HOST,
+                DB_USER,
+                DB_PASSWORD,
+                DB_NAME,
+            );
         }
     }
 }

@@ -23,7 +23,12 @@ class Migration
      */
     public function __construct()
     {
-        $this->connection = new Connection();
+        $this->connection = new Connection(
+            DB_HOST,
+            DB_USER,
+            DB_PASSWORD,
+            DB_NAME,
+        );
     }
 
     public function create(): void

@@ -21,7 +21,7 @@ class ModelTest extends AbstractTestCase
         $id = '6e9043d1-18fb-44ea-be60-c356048f63a2';
         $name = 'Example#1';
 
-        $db = new Connection();
+        $db = $this->getContainer()->getConnection();
         $db->autocommit(false);
 
         // Create table
@@ -50,7 +50,7 @@ class ModelTest extends AbstractTestCase
         $id = 'a5509cb2-d50a-46e0-95fd-f185726441cf';
         $name = 'BookName';
 
-        $db = new Connection();
+        $db = $this->getContainer()->getConnection();
         $db->autocommit(false);
 
         $this->createTable($db);
@@ -84,7 +84,7 @@ class ModelTest extends AbstractTestCase
         $id = '018f6cf1-6ace-4aa7-8234-acfae931276d';
         $name = 'RemoveBook';
 
-        $db = new Connection();
+        $db = $this->getContainer()->getConnection();
         $db->autocommit(false);
 
         $this->createTable($db);

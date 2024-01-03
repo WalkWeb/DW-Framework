@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests;
 
+use NW\Container;
 use PHPUnit\Framework\TestCase;
 
 class AbstractTestCase extends TestCase
@@ -15,5 +16,15 @@ class AbstractTestCase extends TestCase
         } else {
             require_once __DIR__ . '/../config.php';
         }
+    }
+
+    protected function getContainer(): Container
+    {
+        return new Container(
+            DB_HOST,
+            DB_USER,
+            DB_PASSWORD,
+            DB_NAME,
+        );
     }
 }

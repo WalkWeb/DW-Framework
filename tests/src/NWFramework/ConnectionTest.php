@@ -27,7 +27,7 @@ class ConnectionTest extends AbstractTestCase
      */
     public function testConnectionCreateSuccess(): void
     {
-        $db = new Connection();
+        $db = $this->getContainer()->getConnection();
 
         // Если при подключении не произошло исключений - значит оно прошло успешно
         self::assertTrue($db->isSuccess());
@@ -56,7 +56,7 @@ class ConnectionTest extends AbstractTestCase
     public function testConnectionQuerySuccess(): void
     {
         $user = 'User#1';
-        $db = new Connection();
+        $db = $this->getContainer()->getConnection();
         $db->autocommit(false);
 
         // Create table

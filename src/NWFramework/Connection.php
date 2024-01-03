@@ -41,10 +41,10 @@ final class Connection
      * @throws AppException
      */
     public function __construct(
-        string $host = DB_HOST,
-        string $user = DB_USER,
-        string $password = DB_PASSWORD,
-        string $database = DB_NAME,
+        string $host,
+        string $user,
+        string $password,
+        string $database,
         ?Logger $logger = null
     )
     {

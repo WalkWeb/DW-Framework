@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Tests\src\NWFramework;
 
 use Exception;
-use NW\Connection;
 use NW\Migration;
 use Tests\AbstractTestCase;
 
@@ -59,7 +58,7 @@ class MigrationTest extends AbstractTestCase
      */
     public function testMigrationRun(): void
     {
-        $connection = new Connection();
+        $connection = $this->getContainer()->getConnection();
         $tableName = Migration::TABLE_NAME;
 
         // Вначале удаляем таблицу миграций и файлы миграций, если они есть
@@ -117,6 +116,6 @@ class MigrationTest extends AbstractTestCase
     private function removeTable(): void
     {
         $tableName = Migration::TABLE_NAME;
-        (new Connection())->query("DROP TABLE IF EXISTS `$tableName`;");
+        $this->getContainer()->getConnection()->query("DROP TABLE IF EXISTS `$tableName`;");
     }
 }
