@@ -2,8 +2,6 @@
 
 namespace NW;
 
-use mysqli;
-
 abstract class AbstractModel
 {
     /**
@@ -11,10 +9,9 @@ abstract class AbstractModel
      *
      * @var string
      */
-    private $cache = __DIR__ . '/../cache/sql/';
+    private string $cache = __DIR__ . '/../cache/sql/';
 
-    /** @var mysqli */
-    public $db;
+    public Connection $db;
 
     /**
      * Текущее время

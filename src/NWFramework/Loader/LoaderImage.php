@@ -11,11 +11,11 @@ class LoaderImage
     private const IMAGE_MAX_HEIGHT = 3000;
     private const DIRECTORY        = '/public/images/upload/';
 
-    private $filePath;
-    private $errorCode;
-    private $size;
+    private string $filePath;
+    private int $errorCode;
+    private int $size;
 
-    private static $errorMessages = [
+    private static array $errorMessages = [
         UPLOAD_ERR_INI_SIZE   => 'Размер файла превысил значение upload_max_filesize в конфигурации PHP',
         UPLOAD_ERR_FORM_SIZE  => 'Размер загружаемого файла превысил значение MAX_FILE_SIZE в HTML-форме',
         UPLOAD_ERR_PARTIAL    => 'Загружаемый файл был получен только частично',

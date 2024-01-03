@@ -9,22 +9,22 @@ class Route
     /**
      * @var string - Название маршрута
      */
-    private $name;
+    private string $name;
 
     /**
      * @var string - Путь маршрута
      */
-    private $path;
+    private string $path;
 
     /**
      * @var string - Контроллер и его метод, которые будут обрабатывать данный запрос
      */
-    private $handler;
+    private string $handler;
 
     /**
      * @var string - Метод запроса - GET | POST | ...
      */
-    private $method;
+    private string $method;
 
     /**
      * Массив с правилами валидации параметров из URI, например: /blog/{id} где id может быть только числом:
@@ -35,17 +35,19 @@ class Route
      *
      * @var array
      */
-    private $params;
+    private array $params;
 
     /**
-     * @var - Дополнительный namespace, чтобы можно было группировать контроллеры по дирректориям
+     * Дополнительный namespace, чтобы можно было группировать контроллеры по дирректориям
+     *
+     * @var string
      */
-    private $namespace;
+    private string $namespace;
 
     /**
      * @var array - Массив посредников, которые будут обрабатываться перед выполнением конечного экшена в контроллере
      */
-    private $middleware = [];
+    private array $middleware = [];
 
     /**
      * Создает новый маршрут
@@ -57,7 +59,7 @@ class Route
      * @param array $params - если из URI необходимо получить какой-то параметр - он указывается здесь
      * @param $namespace
      */
-    public function __construct(string $name, string $path, string $handler, string $method, array $params = [], $namespace = null)
+    public function __construct(string $name, string $path, string $handler, string $method, array $params = [], string $namespace = '')
     {
         $this->name = $name;
         $this->path = $path;

@@ -10,25 +10,16 @@ final class Connection
     public const ERROR_CONNECT = 'Невозможно подключиться к MySQL: ';
     public const ERROR_PREPARE = 'Ошибка выполнения SQL: ';
 
-    /**
-     * @var mysqli
-     */
-    private $connection;
+    private mysqli $connection;
 
-    /**
-     * @var string ошибки
-     */
-    private $error = '';
+    private string $error = '';
 
     /**
      * @var int Количество запросов
      */
-    private $queryNumber = 0;
+    private int $queryNumber = 0;
 
-    /**
-     * @var Logger
-     */
-    private $logger;
+    private Logger $logger;
 
     /**
      * Создает подключение к БД
@@ -48,7 +39,7 @@ final class Connection
         ?Logger $logger = null
     )
     {
-        $this->logger = $logger;
+        $this->logger = $logger ?? new Logger();
 
         // TODO Вынести подключение к базе в отдельный метод и логировать ошибку
 

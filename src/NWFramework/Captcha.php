@@ -6,10 +6,7 @@ class Captcha
 {
     public const INVALID_CAPTCHA = 'Символы с картинки указаны неверно';
 
-    /**
-     * @var string
-     */
-    private $captcha = '';
+    private string $captcha = '';
 
     public function getCaptchaImage(
         int $widthImage = 150,

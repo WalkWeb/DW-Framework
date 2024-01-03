@@ -7,10 +7,7 @@ use NW\Request\Request;
 
 class Router
 {
-    /**
-     * @var RouteCollection
-     */
-    private $routes;
+    private RouteCollection $routes;
 
     /**
      * @param RouteCollection $routes

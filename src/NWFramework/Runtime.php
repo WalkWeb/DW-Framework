@@ -9,30 +9,30 @@ class Runtime
     /**
      * Время точки отсчета
      *
-     * @var float
+     * @var float|null
      */
-    private static $startTime;
+    private static ?float $startTime = null;
 
     /**
      * Затраченная память с точки отсчета
      *
-     * @var int
+     * @var int|null
      */
-    private static $startMemory;
+    private static ?int $startMemory = null;
 
     /**
      * Затраченное время на выполнение
      *
-     * @var float
+     * @var float|null
      */
-    private static $runtime;
+    private static ?float $runtime = null;
 
     /**
      * Количество байт памяти затраченной на выполнение
      *
-     * @var int
+     * @var int|null
      */
-    private static $memoryCost;
+    private static ?int $memoryCost = null;
 
     /**
      * Засекает время и расход памяти

@@ -7,24 +7,24 @@ class File
     /**
      * @var string
      */
-    private $name;
+    private string $name;
 
     /**
      * @var string
      */
-    private $type;
+    private string $type;
 
     /**
      * @var string|null
      */
-    private $dir;
+    private ?string $dir;
 
     /**
      * @var int
      */
-    private $size;
+    private int $size;
 
-    public function __construct(string $name, string $type, int $size, string $dir = null)
+    public function __construct(string $name, string $type, int $size, ?string $dir = null)
     {
         $this->name = $name;
         $this->type = $type;

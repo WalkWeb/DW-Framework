@@ -9,14 +9,14 @@ class Image extends File
      *
      * @var int
      */
-    private $width;
+    private int $width;
 
     /**
      * Высота изображения
      *
      * @var int
      */
-    private $height;
+    private int $height;
 
     public function __construct(string $name, string $type, int $size, int $width, int $height, string $dir = null)
     {

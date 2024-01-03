@@ -12,35 +12,35 @@ class Logger
      *
      * @var string
      */
-    private $dir;
+    private string $dir;
 
     /**
      * Строка с логами
      *
      * @var string[]
      */
-    private $logs = [];
+    private array $logs = [];
 
     /**
      * Сохранять ли логи
      *
      * @var bool
      */
-    private $saveLog;
+    private bool $saveLog;
 
     /**
      * Сохранять ли логи в файл
      *
      * @var bool
      */
-    private $saveFileLog;
+    private bool $saveFileLog;
 
     /**
      * Название файла с логами
      *
      * @var string
      */
-    private $logFileName;
+    private string $logFileName;
 
     public function __construct(
         bool $saveLog = true,

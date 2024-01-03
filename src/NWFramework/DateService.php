@@ -18,23 +18,23 @@ class DateService
     private const INCORRECT_DATE = 'Некорректная дата';
     private const INCORRECT_TYPE = 'Некорректный тип';
 
-    public static $year = [
+    public static array $year = [
         'год', 'года', 'лет',
     ];
 
-    public static $months = [
+    public static array $months = [
         'месяц', 'месяца', 'месяцев',
     ];
 
-    public static $days = [
+    public static array $days = [
         'день', 'дня', 'дней',
     ];
 
-    public static $hours = [
+    public static array $hours = [
         'час', 'часа', 'часов',
     ];
 
-    public static $minutes = [
+    public static array $minutes = [
         'минута', 'минуты', 'минут',
     ];
 

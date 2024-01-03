@@ -13,10 +13,7 @@ class Migration
     public const TABLE_NAME     = 'migrations';
     public const MIGRATIONS_DIR = __DIR__ . '/../../migrations/';
 
-    /**
-     * @var Connection
-     */
-    private $connection;
+    private Connection $connection;
 
     /**
      * @throws Exception
