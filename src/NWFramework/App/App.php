@@ -23,6 +23,7 @@ class App
                 DB_USER,
                 DB_PASSWORD,
                 DB_NAME,
+                CONTROLLERS_DIR,
             );
     }
 
@@ -45,8 +46,7 @@ class App
 
         [$handlerClass, $action] = explode('@', $handler);
 
-        // TODO Получать путь к директории контейнеров из контейнера
-        $handlerClass = 'Controllers\\' . $handlerClass;
+        $handlerClass = $this->container->getControllersDir() . '\\' . $handlerClass;
 
         if (!class_exists($handlerClass)) {
             return new Response('Отсутствует контроллер: ' . $handlerClass, HttpCode::INTERNAL_SERVER_ERROR);

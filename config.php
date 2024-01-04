@@ -28,3 +28,6 @@ define('TEMPLATE_DEFAULT', 'default');
 
 /** Ключ для хэшей */
 define('KEY', 'YOU_KEY');
+
+/** Директория с контролерами */
+define('CONTROLLERS_DIR', 'Controllers');

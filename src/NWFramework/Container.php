@@ -17,13 +17,15 @@ class Container
     private string $dbUser;
     private string $dbPassword;
     private string $dbName;
+    private string $controllersDir;
 
-    public function __construct(string $dbHost, string $dbUser, string $dbPassword, string $dbName)
+    public function __construct(string $dbHost, string $dbUser, string $dbPassword, string $dbName, string $controllersDir)
     {
         $this->dbHost = $dbHost;
         $this->dbUser = $dbUser;
         $this->dbPassword = $dbPassword;
         $this->dbName = $dbName;
+        $this->controllersDir = $controllersDir;
     }
 
     /**
@@ -51,6 +53,14 @@ class Container
         /** @var Connection $service */
         $service = $this->get(Connection::class);
         return $service;
+    }
+
+    /**
+     * @return string
+     */
+    public function getControllersDir(): string
+    {
+        return $this->controllersDir;
     }
 
     /**

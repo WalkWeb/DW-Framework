@@ -27,6 +27,11 @@ class ContainerTest extends AbstractTestCase
         self::assertInstanceOf(Connection::class, $connection);
     }
 
+    public function testContainerGetControllersDir(): void
+    {
+        self::assertEquals(CONTROLLERS_DIR, $this->getContainer()->getControllersDir());
+    }
+
     public function testContainerUnknownService(): void
     {
         $this->expectException(AppException::class);
