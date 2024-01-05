@@ -4,8 +4,13 @@ namespace NW;
 
 // TODO Уйти от статики
 
+use Exception;
+use NW\Traits\StringTrait;
+
 class Csrf
 {
+    use StringTrait;
+
     public const TOKEN_NAME = 'csrf';
 
     /**
@@ -15,13 +20,14 @@ class Csrf
      * В будущем защиту от CSRF нужно будет улучшить.
      *
      * @return string
+     * @throws Exception
      */
     public static function getCsrfToken(): string
     {
         $token = Session::getParam(self::TOKEN_NAME);
 
         if (!isset($token)) {
-            $string = Tools::getRandStr();
+            $string = self::generateString();
             Session::setParam(self::TOKEN_NAME, $string);
         } else {
             $string = $token;
