@@ -39,7 +39,8 @@ final class Connection
         ?Logger $logger = null
     )
     {
-        $this->logger = $logger ?? new Logger();
+        // TODO Вынести в контейнер
+        $this->logger = $logger ?? new Logger(SAVE_LOG, LOG_DIR, LOG_FILE_NAME);
 
         // TODO Вынести подключение к базе в отдельный метод и логировать ошибку
 

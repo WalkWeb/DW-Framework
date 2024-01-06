@@ -4,8 +4,12 @@ namespace NW;
 
 class Logger
 {
-    private const DEFAULT_LOG_DIRECTORY = DIR;
-    private const DEFAULT_LOG_FILE_NAME = 'logs';
+    /**
+     * Логи
+     *
+     * @var string[]
+     */
+    private array $logs = [];
 
     /**
      * Место хранения файлов логов
@@ -15,44 +19,24 @@ class Logger
     private string $dir;
 
     /**
-     * Строка с логами
-     *
-     * @var string[]
-     */
-    private array $logs = [];
-
-    /**
-     * Сохранять ли логи
+     * Сохранять ли логи в файл
      *
      * @var bool
      */
     private bool $saveLog;
 
     /**
-     * Сохранять ли логи в файл
-     *
-     * @var bool
-     */
-    private bool $saveFileLog;
-
-    /**
      * Название файла с логами
      *
      * @var string
      */
-    private string $logFileName;
+    private string $fileName;
 
-    public function __construct(
-        bool $saveLog = true,
-        bool $saveFileLog = false,
-        string $dir = self::DEFAULT_LOG_DIRECTORY,
-        string $logFileName = self::DEFAULT_LOG_FILE_NAME
-    )
+    public function __construct(bool $saveLog, string $dir, string $fileName)
     {
         $this->saveLog = $saveLog;
-        $this->saveFileLog = $saveFileLog;
         $this->dir = $dir;
-        $this->logFileName = $logFileName;
+        $this->fileName = $fileName;
     }
 
     /**
@@ -63,12 +47,10 @@ class Logger
      */
     public function addLog($log): void
     {
-        if ($this->saveLog) {
-            $this->logs[] = $log;
+        $this->logs[] = $log;
 
-            if ($this->saveFileLog) {
-                $this->saveToFile($log);
-            }
+        if ($this->saveLog) {
+            $this->saveToFile($log);
         }
     }
 
@@ -94,7 +76,7 @@ class Logger
             throw new AppException('Directory from save logs not found: ' . $this->dir);
         }
 
-        return $this->dir . '/' . $this->logFileName;
+        return $this->dir . '/' . $this->fileName;
     }
 
     /**

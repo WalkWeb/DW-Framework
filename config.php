@@ -31,3 +31,12 @@ define('KEY', 'YOU_KEY');
 
 /** Директория с контролерами */
 define('CONTROLLERS_DIR', 'Controllers');
+
+/** Сохранять ли логи в файл */
+define('SAVE_LOG', false);
+
+/** Директория хранения файла */
+define('LOG_DIR', __DIR__);
+
+/** Директория хранения файла */
+define('LOG_FILE_NAME', 'logs');
