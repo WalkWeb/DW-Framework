@@ -47,7 +47,7 @@ class ConnectionTest extends AbstractTestCase
         // MySQL установленный локально: Невозможно подключиться к MySQL: mysqli_connect(): (HY000/1045): Access denied for user 'user'@'localhost' (using password: YES)
         // MariaDB установленная через докер: Невозможно подключиться к MySQL: mysqli_connect(): (HY000/2002): No such file or directory
         $this->expectExceptionMessage(Connection::ERROR_CONNECT . "mysqli_connect()");
-        new Connection('localhost', 'user', 'invalid_pass', 'db');
+        new Connection('localhost', 'user', 'invalid_pass', 'db', $this->getContainer());
     }
 
     /**

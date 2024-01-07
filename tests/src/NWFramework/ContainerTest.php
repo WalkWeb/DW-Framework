@@ -6,6 +6,7 @@ namespace Tests\src\NWFramework;
 
 use NW\AppException;
 use NW\Connection;
+use NW\Logger;
 use Tests\AbstractTestCase;
 
 class ContainerTest extends AbstractTestCase
@@ -25,6 +26,23 @@ class ContainerTest extends AbstractTestCase
 
         $connection = $container->getConnection();
         self::assertInstanceOf(Connection::class, $connection);
+    }
+
+    /**
+     * @throws AppException
+     */
+    public function testContainerGetLogger(): void
+    {
+        $container = $this->getContainer();
+
+        $connection = $container->get(Logger::class);
+        self::assertInstanceOf(Logger::class, $connection);
+
+        $connection = $container->get('logger');
+        self::assertInstanceOf(Logger::class, $connection);
+
+        $connection = $container->getLogger();
+        self::assertInstanceOf(Logger::class, $connection);
     }
 
     public function testContainerGetControllersDir(): void

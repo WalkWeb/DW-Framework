@@ -6,6 +6,9 @@ namespace NW;
 
 use DateTime;
 use Exception;
+use NW\App\App;
+use NW\Route\RouteCollection;
+use NW\Route\Router;
 
 class Migration
 {
@@ -20,12 +23,7 @@ class Migration
      */
     public function __construct()
     {
-        $this->connection = new Connection(
-            DB_HOST,
-            DB_USER,
-            DB_PASSWORD,
-            DB_NAME,
-        );
+        $this->connection = (new App(new Router(new RouteCollection())))->getContainer()->getConnection();
     }
 
     public function create(): void

@@ -28,7 +28,7 @@ final class Connection
      * @param string $user
      * @param string $password
      * @param string $database
-     * @param Logger|null $logger
+     * @param Container $container
      * @throws AppException
      */
     public function __construct(
@@ -36,11 +36,10 @@ final class Connection
         string $user,
         string $password,
         string $database,
-        ?Logger $logger = null
+        Container $container
     )
     {
-        // TODO Вынести в контейнер
-        $this->logger = $logger ?? new Logger(SAVE_LOG, LOG_DIR, LOG_FILE_NAME);
+        $this->logger = $container->getLogger();
 
         // TODO Вынести подключение к базе в отдельный метод и логировать ошибку
 

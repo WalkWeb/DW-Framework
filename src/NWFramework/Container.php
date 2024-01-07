@@ -9,6 +9,9 @@ class Container
     private array $map = [
         Connection::class => Connection::class,
         'connection'      => Connection::class,
+
+        Logger::class     => Logger::class,
+        'logger'          => Logger::class,
     ];
 
     private array $storage = [];
@@ -17,14 +20,28 @@ class Container
     private string $dbUser;
     private string $dbPassword;
     private string $dbName;
+    private bool $loggerSaveLog;
+    private string $loggerDir;
+    private string $loggerFileName;
     private string $controllersDir;
 
-    public function __construct(string $dbHost, string $dbUser, string $dbPassword, string $dbName, string $controllersDir)
-    {
+    public function __construct(
+        string $dbHost,
+        string $dbUser,
+        string $dbPassword,
+        string $dbName,
+        bool $loggerSaveLog,
+        string $loggerDir,
+        string $loggerFileName,
+        string $controllersDir
+    ) {
         $this->dbHost = $dbHost;
         $this->dbUser = $dbUser;
         $this->dbPassword = $dbPassword;
         $this->dbName = $dbName;
+        $this->loggerSaveLog = $loggerSaveLog;
+        $this->loggerDir = $loggerDir;
+        $this->loggerFileName = $loggerFileName;
         $this->controllersDir = $controllersDir;
     }
 
@@ -52,6 +69,17 @@ class Container
     {
         /** @var Connection $service */
         $service = $this->get(Connection::class);
+        return $service;
+    }
+
+    /**
+     * @return Logger
+     * @throws AppException
+     */
+    public function getLogger(): Logger
+    {
+        /** @var Logger $service */
+        $service = $this->get(Logger::class);
         return $service;
     }
 
@@ -104,19 +132,24 @@ class Container
     private function create(string $class): object
     {
         if ($class === Connection::class) {
-            $object = new Connection(
+            $service = new Connection(
                 $this->dbHost,
                 $this->dbUser,
                 $this->dbPassword,
                 $this->dbName,
+                $this
             );
-
-            $this->storage[$this->map[$class]] = $object;
-            return $object;
+        } elseif ($class === Logger::class) {
+            $service = new Logger(
+                $this->loggerSaveLog,
+                $this->loggerDir,
+                $this->loggerFileName,
+            );
+        } else {
+            $service = new $class($this);
         }
 
-        $object = new $class($this);
-        $this->storage[$this->map[$class]] = $object;
-        return $object;
+        $this->storage[$this->map[$class]] = $service;
+        return $service;
     }
 }

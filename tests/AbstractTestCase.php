@@ -25,6 +25,9 @@ class AbstractTestCase extends TestCase
             DB_USER,
             DB_PASSWORD,
             DB_NAME,
+            SAVE_LOG,
+            LOG_DIR,
+            LOG_FILE_NAME,
             CONTROLLERS_DIR,
         );
     }
