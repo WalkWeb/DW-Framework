@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\src\NWFramework;
 
+use Exception;
 use NW\Captcha;
 use Tests\AbstractTestCase;
 
@@ -12,6 +13,8 @@ class CaptchaTest extends AbstractTestCase
     /**
      * В проверке генерации картинки мы допускаем, что нам достаточно того, что мы получили строку и никаких ошибок не
      * произошло
+     *
+     * @throws Exception
      */
     public function testCaptchaGetCaptchaImage(): void
     {
@@ -23,6 +26,8 @@ class CaptchaTest extends AbstractTestCase
 
     /**
      * Тесты на успешную и неуспешную проверку капчи
+     *
+     * @throws Exception
      */
     public function testCaptchaCheckCaptcha(): void
     {
@@ -30,7 +35,7 @@ class CaptchaTest extends AbstractTestCase
 
         $capthca->getCaptchaImage();
 
-        self::assertTrue(Captcha::checkCaptcha($capthca->getCaptcha()));
-        self::assertFalse(Captcha::checkCaptcha('invalid_captcha'));
+        self::assertTrue($capthca->checkCaptcha($capthca->getCaptcha()));
+        self::assertFalse($capthca->checkCaptcha('invalid_captcha'));
     }
 }

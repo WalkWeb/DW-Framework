@@ -71,11 +71,9 @@ class Captcha
      * @param string $captcha
      * @return bool
      */
-    public static function checkCaptcha(string $captcha): bool
+    public function checkCaptcha(string $captcha): bool
     {
-        $formCaptcha = md5($captcha . KEY);
-        $sessionCaptcha = Session::getParam('captcha');
-        return $formCaptcha === $sessionCaptcha;
+        return md5($captcha . KEY) === Session::getParam('captcha');
     }
 
     /**

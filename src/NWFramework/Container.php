@@ -9,12 +9,12 @@ class Container
     private array $map = [
         Connection::class => Connection::class,
         'connection'      => Connection::class,
-
-        Logger::class => Logger::class,
-        'logger'      => Logger::class,
-
-        Csrf::class => Csrf::class,
-        'csrf'      => Csrf::class,
+        Logger::class     => Logger::class,
+        'logger'          => Logger::class,
+        Csrf::class       => Csrf::class,
+        'csrf'            => Csrf::class,
+        Captcha::class    => Captcha::class,
+        'captcha'         => Captcha::class,
     ];
 
     private array $storage = [];
@@ -95,6 +95,17 @@ class Container
     {
         /** @var Csrf $service */
         $service = $this->get(Csrf::class);
+        return $service;
+    }
+
+    /**
+     * @return Captcha
+     * @throws AppException
+     */
+    public function getCaptcha(): Captcha
+    {
+        /** @var Captcha $service */
+        $service = $this->get(Captcha::class);
         return $service;
     }
 

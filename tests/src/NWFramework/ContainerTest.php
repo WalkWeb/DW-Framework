@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\src\NWFramework;
 
 use NW\AppException;
+use NW\Captcha;
 use NW\Connection;
 use NW\Csrf;
 use NW\Logger;
@@ -61,6 +62,23 @@ class ContainerTest extends AbstractTestCase
 
         $connection = $container->getCsrf();
         self::assertInstanceOf(Csrf::class, $connection);
+    }
+
+    /**
+     * @throws AppException
+     */
+    public function testContainerGetCaptcha(): void
+    {
+        $container = $this->getContainer();
+
+        $connection = $container->get(Captcha::class);
+        self::assertInstanceOf(Captcha::class, $connection);
+
+        $connection = $container->get('captcha');
+        self::assertInstanceOf(Captcha::class, $connection);
+
+        $connection = $container->getCaptcha();
+        self::assertInstanceOf(Captcha::class, $connection);
     }
 
     public function testContainerGetControllersDir(): void
