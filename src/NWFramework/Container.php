@@ -10,8 +10,11 @@ class Container
         Connection::class => Connection::class,
         'connection'      => Connection::class,
 
-        Logger::class     => Logger::class,
-        'logger'          => Logger::class,
+        Logger::class => Logger::class,
+        'logger'      => Logger::class,
+
+        Csrf::class => Csrf::class,
+        'csrf'      => Csrf::class,
     ];
 
     private array $storage = [];
@@ -34,7 +37,8 @@ class Container
         string $loggerDir,
         string $loggerFileName,
         string $controllersDir
-    ) {
+    )
+    {
         $this->dbHost = $dbHost;
         $this->dbUser = $dbUser;
         $this->dbPassword = $dbPassword;
@@ -80,6 +84,17 @@ class Container
     {
         /** @var Logger $service */
         $service = $this->get(Logger::class);
+        return $service;
+    }
+
+    /**
+     * @return Csrf
+     * @throws AppException
+     */
+    public function getCsrf(): Csrf
+    {
+        /** @var Csrf $service */
+        $service = $this->get(Csrf::class);
         return $service;
     }
 

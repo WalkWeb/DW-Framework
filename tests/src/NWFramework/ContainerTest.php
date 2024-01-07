@@ -6,6 +6,7 @@ namespace Tests\src\NWFramework;
 
 use NW\AppException;
 use NW\Connection;
+use NW\Csrf;
 use NW\Logger;
 use Tests\AbstractTestCase;
 
@@ -43,6 +44,23 @@ class ContainerTest extends AbstractTestCase
 
         $connection = $container->getLogger();
         self::assertInstanceOf(Logger::class, $connection);
+    }
+
+    /**
+     * @throws AppException
+     */
+    public function testContainerGetCsrf(): void
+    {
+        $container = $this->getContainer();
+
+        $connection = $container->get(Csrf::class);
+        self::assertInstanceOf(Csrf::class, $connection);
+
+        $connection = $container->get('csrf');
+        self::assertInstanceOf(Csrf::class, $connection);
+
+        $connection = $container->getCsrf();
+        self::assertInstanceOf(Csrf::class, $connection);
     }
 
     public function testContainerGetControllersDir(): void

@@ -2,8 +2,6 @@
 
 namespace NW;
 
-// TODO Уйти от статики
-
 use Exception;
 use NW\Traits\StringTrait;
 
@@ -22,7 +20,7 @@ class Csrf
      * @return string
      * @throws Exception
      */
-    public static function getCsrfToken(): string
+    public function getCsrfToken(): string
     {
         $token = Session::getParam(self::TOKEN_NAME);
 
@@ -42,7 +40,7 @@ class Csrf
      * @param string $token
      * @return bool
      */
-    public static function checkCsrfToken(string $token): bool
+    public function checkCsrfToken(string $token): bool
     {
         if (!Session::existParam(self::TOKEN_NAME)) {
             return false;
