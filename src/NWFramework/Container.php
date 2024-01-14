@@ -15,6 +15,8 @@ class Container
         'csrf'            => Csrf::class,
         Captcha::class    => Captcha::class,
         'captcha'         => Captcha::class,
+        Validator::class  => Validator::class,
+        'validator'       => Validator::class,
     ];
 
     private array $storage = [];
@@ -106,6 +108,17 @@ class Container
     {
         /** @var Captcha $service */
         $service = $this->get(Captcha::class);
+        return $service;
+    }
+
+    /**
+     * @return Validator
+     * @throws AppException
+     */
+    public function getValidator(): Validator
+    {
+        /** @var Validator $service */
+        $service = $this->get(Validator::class);
         return $service;
     }
 

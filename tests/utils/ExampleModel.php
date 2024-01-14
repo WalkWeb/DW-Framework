@@ -8,7 +8,6 @@ use Exception;
 use NW\AbstractModel;
 use NW\AppException;
 use NW\Container;
-use NW\Validator;
 
 /**
  * Данный класс предназначен для тестирования абстрактного NW\AbstractModel
@@ -115,8 +114,7 @@ class ExampleModel extends AbstractModel
      */
     private function create(string $id): void
     {
-        // TODO Получать из контейнера
-        $validator = new Validator($this->connection);
+        $validator = $this->container->getValidator();
 
         $query = $this->connection->query(
             "SELECT `id`, `name` FROM `books` WHERE id = ?",

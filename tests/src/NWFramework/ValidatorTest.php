@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Tests\src\NWFramework;
 
 use Exception;
-use NW\Validator;
 use Tests\AbstractTestCase;
 
 class ValidatorTest extends AbstractTestCase
@@ -15,7 +14,7 @@ class ValidatorTest extends AbstractTestCase
      */
     public function testValidatorEmail(): void
     {
-        $validator = new Validator($this->getContainer()->getConnection());
+        $validator = $this->getContainer()->getValidator();
         
         // Success
         self::assertTrue($validator->check('email', 'mail@mail.com', ['mail']));
@@ -30,7 +29,7 @@ class ValidatorTest extends AbstractTestCase
      */
     public function testValidatorInteger(): void
     {
-        $validator = new Validator($this->getContainer()->getConnection());
+        $validator = $this->getContainer()->getValidator();
 
         // Success
         self::assertTrue($validator->check('integer', 100, ['int']));
@@ -45,7 +44,7 @@ class ValidatorTest extends AbstractTestCase
      */
     public function testValidatorString(): void
     {
-        $validator = new Validator($this->getContainer()->getConnection());
+        $validator = $this->getContainer()->getValidator();
 
         // Success
         self::assertTrue($validator->check('string', 'name', ['string']));
@@ -60,7 +59,7 @@ class ValidatorTest extends AbstractTestCase
      */
     public function testValidatorBoolean(): void
     {
-        $validator = new Validator($this->getContainer()->getConnection());
+        $validator = $this->getContainer()->getValidator();
 
         // Success
         self::assertTrue($validator->check('boolean', false, ['boolean']));
@@ -75,7 +74,7 @@ class ValidatorTest extends AbstractTestCase
      */
     public function testValidatorIn(): void
     {
-        $validator = new Validator($this->getContainer()->getConnection());
+        $validator = $this->getContainer()->getValidator();
 
         // Success
         self::assertTrue($validator->check('in', 10, ['in' => [10, 20, 30]]));
@@ -90,7 +89,7 @@ class ValidatorTest extends AbstractTestCase
      */
     public function testValidatorParent(): void
     {
-        $validator = new Validator($this->getContainer()->getConnection());
+        $validator = $this->getContainer()->getValidator();
 
         // Success
         self::assertTrue($validator->check('parent', 'Login', ['parent' => '/^[a-zA-Z0-9а-яА-ЯёЁ\-_]*$/u',]));
@@ -107,7 +106,7 @@ class ValidatorTest extends AbstractTestCase
      */
     public function testValidatorMin(): void
     {
-        $validator = new Validator($this->getContainer()->getConnection());
+        $validator = $this->getContainer()->getValidator();
 
         // Success
         self::assertTrue($validator->check('min string', 'Login', ['string', 'min' => 5]));
@@ -123,7 +122,7 @@ class ValidatorTest extends AbstractTestCase
      */
     public function testValidatorMax(): void
     {
-        $validator = new Validator($this->getContainer()->getConnection());
+        $validator = $this->getContainer()->getValidator();
 
         // Success
         self::assertTrue($validator->check('max string', 'Login', ['string', 'max' => 10]));
@@ -138,7 +137,7 @@ class ValidatorTest extends AbstractTestCase
      */
     public function testValidatorRequired(): void
     {
-        $validator = new Validator($this->getContainer()->getConnection());
+        $validator = $this->getContainer()->getValidator();
 
         // Success
         self::assertTrue($validator->check('required', 123, ['required']));
@@ -156,7 +155,7 @@ class ValidatorTest extends AbstractTestCase
      */
     public function testValidatorCustomError(): void
     {
-        $validator = new Validator($this->getContainer()->getConnection());
+        $validator = $this->getContainer()->getValidator();
 
         $error = 'Вы указали некорректный логи';
         $rules = [

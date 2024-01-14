@@ -60,9 +60,13 @@ class Validator
      */
     private ?string $defaultError;
 
-    public function __construct(Connection $connection)
+    /**
+     * @param Container $container
+     * @throws AppException
+     */
+    public function __construct(Container $container)
     {
-        $this->connection = $connection;
+        $this->connection = $container->getConnection();
     }
     
     /**

@@ -9,6 +9,7 @@ use NW\Captcha;
 use NW\Connection;
 use NW\Csrf;
 use NW\Logger;
+use NW\Validator;
 use Tests\AbstractTestCase;
 
 class ContainerTest extends AbstractTestCase
@@ -79,6 +80,23 @@ class ContainerTest extends AbstractTestCase
 
         $connection = $container->getCaptcha();
         self::assertInstanceOf(Captcha::class, $connection);
+    }
+
+    /**
+     * @throws AppException
+     */
+    public function testContainerGetValidator(): void
+    {
+        $container = $this->getContainer();
+
+        $connection = $container->get(Validator::class);
+        self::assertInstanceOf(Validator::class, $connection);
+
+        $connection = $container->get('validator');
+        self::assertInstanceOf(Validator::class, $connection);
+
+        $connection = $container->getValidator();
+        self::assertInstanceOf(Validator::class, $connection);
     }
 
     public function testContainerGetControllersDir(): void
