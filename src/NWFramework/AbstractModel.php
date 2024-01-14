@@ -11,23 +11,27 @@ abstract class AbstractModel
      */
     private string $cache = __DIR__ . '/../cache/sql/';
 
-    public Connection $db;
+    protected Container $container;
+
+    protected Connection $connection;
 
     /**
      * Текущее время
      *
      * @var mixed
      */
-    private $time;
+    protected $time;
 
     /**
      * Создаем объект подключения к базе и обработки запросов
      *
-     * @param Connection $connection
+     * @param Container $container
+     * @throws AppException
      */
-    public function __construct(Connection $connection)
+    public function __construct(Container $container)
     {
-        $this->db = $connection;
+        $this->container = $container;
+        $this->connection = $container->getConnection();
         $this->time = microtime(true);
     }
 

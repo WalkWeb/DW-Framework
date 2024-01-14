@@ -6,7 +6,8 @@ namespace Tests\utils;
 
 use Exception;
 use NW\AbstractModel;
-use NW\Connection;
+use NW\AppException;
+use NW\Container;
 use NW\Validator;
 
 /**
@@ -19,22 +20,11 @@ use NW\Validator;
  */
 class ExampleModel extends AbstractModel
 {
-    /**
-     * UUID
-     *
-     * @var string
-     */
-    private $id;
+    private string $id;
 
-    /**
-     * @var string
-     */
-    private $name;
+    private string $name;
 
-    /**
-     * @var array[]
-     */
-    private static $rules = [
+    private array $rules = [
         'id'   => [
             'required',
             'string',
@@ -53,12 +43,12 @@ class ExampleModel extends AbstractModel
      * По умолчанию модель создается на основе данных из базы
      *
      * @param string $id
-     * @param Connection $connection
+     * @param Container $container
      * @throws Exception
      */
-    public function __construct(string $id, Connection $connection)
+    public function __construct(string $id, Container $container)
     {
-        parent::__construct($connection);
+        parent::__construct($container);
         $this->create($id);
     }
 
@@ -95,7 +85,7 @@ class ExampleModel extends AbstractModel
      */
     public function save(): void
     {
-        $this->db->query(
+        $this->connection->query(
             "UPDATE `books` SET `name` = ? WHERE `id` = ?",
             [
                 ['type' => 's', 'value' => $this->name],
@@ -111,7 +101,7 @@ class ExampleModel extends AbstractModel
      */
     public function remove(): void
     {
-        $this->db->query(
+        $this->connection->query(
             "DELETE FROM `books` WHERE `id` = ?",
             [['type' => 's', 'value' => $this->id]]
         );
@@ -125,20 +115,23 @@ class ExampleModel extends AbstractModel
      */
     private function create(string $id): void
     {
-        $query = $this->db->query(
+        // TODO Получать из контейнера
+        $validator = new Validator($this->connection);
+
+        $query = $this->connection->query(
             "SELECT `id`, `name` FROM `books` WHERE id = ?",
             [['type' => 's', 'value' => $id]],
             true
         );
 
-        foreach (self::$rules as $property => $rule) {
+        foreach ($this->rules as $property => $rule) {
 
             if (!array_key_exists($property, $query)) {
-                throw new Exception("$property not found in data");
+                throw new AppException("$property not found in data");
             }
 
-            if (!Validator::check($property, $query[$property], $rule)) {
-                throw new Exception(Validator::getError());
+            if (!$validator->check($property, $query[$property], $rule)) {
+                throw new AppException($validator->getError());
             }
 
             $this->$property = $query[$property];

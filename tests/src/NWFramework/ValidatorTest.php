@@ -15,12 +15,14 @@ class ValidatorTest extends AbstractTestCase
      */
     public function testValidatorEmail(): void
     {
+        $validator = new Validator($this->getContainer()->getConnection());
+        
         // Success
-        self::assertTrue(Validator::check('email', 'mail@mail.com', ['mail']));
+        self::assertTrue($validator->check('email', 'mail@mail.com', ['mail']));
 
         // False
-        self::assertFalse(Validator::check('email', 'mail@mail', ['mail']));
-        self::assertEquals('Указана некорректная почта', Validator::getError());
+        self::assertFalse($validator->check('email', 'mail@mail', ['mail']));
+        self::assertEquals('Указана некорректная почта', $validator->getError());
     }
 
     /**
@@ -28,12 +30,14 @@ class ValidatorTest extends AbstractTestCase
      */
     public function testValidatorInteger(): void
     {
+        $validator = new Validator($this->getContainer()->getConnection());
+
         // Success
-        self::assertTrue(Validator::check('integer', 100, ['int']));
+        self::assertTrue($validator->check('integer', 100, ['int']));
 
         // False
-        self::assertFalse(Validator::check('integer', '100', ['int']));
-        self::assertEquals('integer должен быть числом', Validator::getError());
+        self::assertFalse($validator->check('integer', '100', ['int']));
+        self::assertEquals('integer должен быть числом', $validator->getError());
     }
 
     /**
@@ -41,12 +45,14 @@ class ValidatorTest extends AbstractTestCase
      */
     public function testValidatorString(): void
     {
+        $validator = new Validator($this->getContainer()->getConnection());
+
         // Success
-        self::assertTrue(Validator::check('string', 'name', ['string']));
+        self::assertTrue($validator->check('string', 'name', ['string']));
 
         // False
-        self::assertFalse(Validator::check('string', 100, ['string']));
-        self::assertEquals('string должен быть строкой', Validator::getError());
+        self::assertFalse($validator->check('string', 100, ['string']));
+        self::assertEquals('string должен быть строкой', $validator->getError());
     }
 
     /**
@@ -54,12 +60,14 @@ class ValidatorTest extends AbstractTestCase
      */
     public function testValidatorBoolean(): void
     {
+        $validator = new Validator($this->getContainer()->getConnection());
+
         // Success
-        self::assertTrue(Validator::check('boolean', false, ['boolean']));
+        self::assertTrue($validator->check('boolean', false, ['boolean']));
 
         // False
-        self::assertFalse(Validator::check('boolean', 1, ['boolean']));
-        self::assertEquals('boolean должен быть логическим типом', Validator::getError());
+        self::assertFalse($validator->check('boolean', 1, ['boolean']));
+        self::assertEquals('boolean должен быть логическим типом', $validator->getError());
     }
 
     /**
@@ -67,12 +75,14 @@ class ValidatorTest extends AbstractTestCase
      */
     public function testValidatorIn(): void
     {
+        $validator = new Validator($this->getContainer()->getConnection());
+
         // Success
-        self::assertTrue(Validator::check('in', 10, ['in' => [10, 20, 30]]));
+        self::assertTrue($validator->check('in', 10, ['in' => [10, 20, 30]]));
 
         // False
-        self::assertFalse(Validator::check('in', 100, ['in' => [10, 20, 30]]));
-        self::assertEquals('in указан некорректно', Validator::getError());
+        self::assertFalse($validator->check('in', 100, ['in' => [10, 20, 30]]));
+        self::assertEquals('in указан некорректно', $validator->getError());
     }
 
     /**
@@ -80,12 +90,14 @@ class ValidatorTest extends AbstractTestCase
      */
     public function testValidatorParent(): void
     {
+        $validator = new Validator($this->getContainer()->getConnection());
+
         // Success
-        self::assertTrue(Validator::check('parent', 'Login', ['parent' => '/^[a-zA-Z0-9а-яА-ЯёЁ\-_]*$/u',]));
+        self::assertTrue($validator->check('parent', 'Login', ['parent' => '/^[a-zA-Z0-9а-яА-ЯёЁ\-_]*$/u',]));
 
         // False
-        self::assertFalse(Validator::check('parent', 'InvalidLogin&', ['parent' => '/^[a-zA-Z0-9а-яА-ЯёЁ\-_]*$/u',]));
-        self::assertEquals('parent указан некорректно', Validator::getError());
+        self::assertFalse($validator->check('parent', 'InvalidLogin&', ['parent' => '/^[a-zA-Z0-9а-яА-ЯёЁ\-_]*$/u',]));
+        self::assertEquals('parent указан некорректно', $validator->getError());
     }
 
     /**
@@ -95,12 +107,14 @@ class ValidatorTest extends AbstractTestCase
      */
     public function testValidatorMin(): void
     {
+        $validator = new Validator($this->getContainer()->getConnection());
+
         // Success
-        self::assertTrue(Validator::check('min string', 'Login', ['string', 'min' => 5]));
+        self::assertTrue($validator->check('min string', 'Login', ['string', 'min' => 5]));
 
         // False
-        self::assertFalse(Validator::check('min string', 'Login', ['string', 'min' => 10]));
-        self::assertEquals('min string должен быть больше или равен 10 символов', Validator::getError());
+        self::assertFalse($validator->check('min string', 'Login', ['string', 'min' => 10]));
+        self::assertEquals('min string должен быть больше или равен 10 символов', $validator->getError());
 
     }
 
@@ -109,12 +123,14 @@ class ValidatorTest extends AbstractTestCase
      */
     public function testValidatorMax(): void
     {
+        $validator = new Validator($this->getContainer()->getConnection());
+
         // Success
-        self::assertTrue(Validator::check('max string', 'Login', ['string', 'max' => 10]));
+        self::assertTrue($validator->check('max string', 'Login', ['string', 'max' => 10]));
 
         // False
-        self::assertFalse(Validator::check('max string', 'Login', ['string', 'max' => 3]));
-        self::assertEquals('max string должен быть меньше или равен 3 символов', Validator::getError());
+        self::assertFalse($validator->check('max string', 'Login', ['string', 'max' => 3]));
+        self::assertEquals('max string должен быть меньше или равен 3 символов', $validator->getError());
     }
 
     /**
@@ -122,15 +138,17 @@ class ValidatorTest extends AbstractTestCase
      */
     public function testValidatorRequired(): void
     {
+        $validator = new Validator($this->getContainer()->getConnection());
+
         // Success
-        self::assertTrue(Validator::check('required', 123, ['required']));
+        self::assertTrue($validator->check('required', 123, ['required']));
 
         // False
-        self::assertFalse(Validator::check('required', null, ['required']));
-        self::assertEquals('required не может быть пустым', Validator::getError());
+        self::assertFalse($validator->check('required', null, ['required']));
+        self::assertEquals('required не может быть пустым', $validator->getError());
 
         // No required
-        self::assertTrue(Validator::check('no required', null, []));
+        self::assertTrue($validator->check('no required', null, []));
     }
 
     /**
@@ -138,6 +156,8 @@ class ValidatorTest extends AbstractTestCase
      */
     public function testValidatorCustomError(): void
     {
+        $validator = new Validator($this->getContainer()->getConnection());
+
         $error = 'Вы указали некорректный логи';
         $rules = [
             'required',
@@ -148,7 +168,7 @@ class ValidatorTest extends AbstractTestCase
             'unique',
         ];
 
-        self::assertFalse(Validator::check('login', 'InvalidLogin&', $rules, null, null, $error));
-        self::assertEquals($error, Validator::getError());
+        self::assertFalse($validator->check('login', 'InvalidLogin&', $rules, null, null, $error));
+        self::assertEquals($error, $validator->getError());
     }
 }
