@@ -1,24 +1,18 @@
 <?php
 
-namespace NW;
+namespace NW\Traits;
 
 use DateTime;
 
-class DateService
+trait DateTrait
 {
-    private const SUFFIX  = 'назад';
-    private const NOW     = 'только что';
+    private static string $suffix  = 'назад';
+    private static string $now     = 'только что';
 
-    private const YEAR    = 'year';
-    private const MONTHS  = 'months';
-    private const DAYS    = 'days';
-    private const HOURS   = 'hours';
-    private const MINUTES = 'minutes';
+    private static string $incorrectData = 'Некорректная дата';
+    private static string $incorrectType = 'Некорректный тип';
 
-    private const INCORRECT_DATE = 'Некорректная дата';
-    private const INCORRECT_TYPE = 'Некорректный тип';
-
-    public static array $year = [
+    public static array $years = [
         'год', 'года', 'лет',
     ];
 
@@ -42,27 +36,27 @@ class DateService
      * Возвращает текстовую разницу между указанной датой и текущим моментом
      *
      * Пример использования:
-     * \NW\DateService::getElapsedTime(\DateTime::createFromFormat('Y-m-d H:i:s', $account->getRegisterDate()))
+     * getElapsedTime(\DateTime::createFromFormat('Y-m-d H:i:s', $account->getRegisterDate()))
      *
      * TODO Доработать: "1 минута назад" => "1 минуту назад"
      *
      * @param DateTime $data
      * @return string
      */
-    public static function getElapsedTime(DateTime $data): string
+    public function getElapsedTime(DateTime $data): string
     {
         $now = new DateTime();
         $dateInterval = $now->diff($data);
 
-        $dateMap = ['y' => self::YEAR, 'm' => self::MONTHS, 'd' => self::DAYS, 'h' => self::HOURS, 'i' => self::MINUTES];
+        $dateMap = ['y' => 'years', 'm' => 'months', 'd' => 'days', 'h' => 'hours', 'i' => 'minutes'];
 
         foreach ($dateMap as $short => $full) {
             if ($dateInterval->$short > 0) {
-                return $dateInterval->$short . ' ' . self::plural($dateInterval->$short, $full) . ' ' . self::SUFFIX;
+                return $dateInterval->$short . ' ' . $this->plural($dateInterval->$short, $full) . ' ' . self::$suffix;
             }
         }
 
-        return self::NOW;
+        return self::$now;
     }
 
     /**
@@ -72,14 +66,14 @@ class DateService
      * @param string $type
      * @return string
      */
-    public static function plural(int $value, string $type): string
+    public function plural(int $value, string $type): string
     {
         if ($value < 0) {
-            return self::INCORRECT_DATE;
+            return self::$incorrectData;
         }
 
         if (!property_exists(__CLASS__, $type)) {
-            return self::INCORRECT_TYPE;
+            return self::$incorrectType;
         }
 
         $value %= 100;

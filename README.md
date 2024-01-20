@@ -47,7 +47,6 @@
 | Connection  |     +     |         |                      |
 | Cookie      |           |    +    | Убрать статику       |
 | Csrf        |     +     |         |                      |
-| DateService |           |    +    | Переделать на trait  | 
 | Logger      |     +     |         |                      |
 | Migration   |           |         |                      |
 | Pagination  |           |    +    | Переделать на trait  |
