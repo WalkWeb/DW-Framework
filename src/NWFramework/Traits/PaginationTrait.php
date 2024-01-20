@@ -1,8 +1,8 @@
 <?php
 
-namespace NW;
+namespace NW\Traits;
 
-class Pagination
+trait PaginationTrait
 {
     /**
      * Собирает и возвращает html-контент для отображения пагинации на странице
@@ -15,7 +15,7 @@ class Pagination
      * @param int $perPage
      * @return string
      */
-    public static function getPages($elements, $page, $url, $perPage = 5): string
+    public function getPages($elements, $page, $url, $perPage = 5): string
     {
         $numberPage = (int)ceil($elements / $perPage);
         $content = '';

@@ -5,7 +5,7 @@ namespace Controllers;
 use Exception;
 use Models\Exceptions\PostException;
 use NW\AbstractController;
-use NW\Pagination;
+use NW\Traits\PaginationTrait;
 use NW\Request\Request;
 use NW\Response\Response;
 use Models\PostDataProvider;
@@ -14,6 +14,8 @@ use NW\Captcha;
 
 class PostController extends AbstractController
 {
+    use PaginationTrait;
+
     /**
      * Отображает список постов
      *
@@ -31,7 +33,7 @@ class PostController extends AbstractController
 
             return $this->render('post/index', [
                 'posts'      => $posts,
-                'pagination' => Pagination::getPages(PostDataProvider::getPostsCount(), $request->page, '/posts/'),
+                'pagination' => $this->getPages(PostDataProvider::getPostsCount(), $request->page, '/posts/'),
             ]);
 
         } catch (PostException $e) {
@@ -84,9 +86,9 @@ class PostController extends AbstractController
      */
     public function create(Request $request): Response
     {
-        $capthca = new Captcha();
+        $capthca = $this->container->getCaptcha();
 
-        if (!Captcha::checkCaptcha($request->captcha)) {
+        if (!$capthca->checkCaptcha($request->captcha)) {
             return $this->render('post/add', [
                 'message' => Captcha::INVALID_CAPTCHA,
                 'title'   => $request->title,

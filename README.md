@@ -49,7 +49,6 @@
 | Csrf        |     +     |         |                      |
 | Logger      |     +     |         |                      |
 | Migration   |           |         |                      |
-| Pagination  |           |    +    | Переделать на trait  |
 | Runtime     |           |    +    | Убрать статику       |
 | Session     |           |    +    | Убрать статику       |
 | Validator   |     +     |         |                      |
