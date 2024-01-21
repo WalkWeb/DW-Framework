@@ -13,7 +13,6 @@ if (file_exists(__DIR__ . '/../config.local.php')) {
 use NW\Request\Request;
 use NW\Runtime;
 use NW\App\App;
-use NW\Response\Emitter;
 
 if (DEV) {
     Runtime::start();
@@ -33,7 +32,7 @@ try {
     $response = $app->handle($request);
 
     // Распечатываем response
-    Emitter::emit($response);
+    $app->emit($response);
 
 } catch (Exception $e) {
     // TODO В обычном режиме возвращается заглушка 500/401/404 ошибки, а в DEV-режиме возвращаем детализацию ошибки
