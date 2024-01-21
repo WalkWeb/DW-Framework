@@ -170,7 +170,7 @@ abstract class AbstractController
      * @param string $body
      * @param int $code
      * @return Response
-     * @throws Exception
+     * @throws AppException
      */
     protected function redirect(string $url, string $body = '', int $code = HttpCode::FOUND): Response
     {

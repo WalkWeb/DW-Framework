@@ -4,8 +4,8 @@ namespace Controllers;
 
 use Exception;
 use NW\AbstractController;
+use NW\AppException;
 use NW\Response\Response;
-use NW\Response\ResponseException;
 
 class MainController extends AbstractController
 {
@@ -24,7 +24,7 @@ class MainController extends AbstractController
      * Пример редиректа
      *
      * @return Response
-     * @throws ResponseException
+     * @throws AppException
      */
     public function redirectExample(): Response
     {

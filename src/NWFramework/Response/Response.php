@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace NW\Response;
 
+use NW\AppException;
 use NW\Utils\HttpCode;
 
 class Response
@@ -57,7 +58,7 @@ class Response
      *
      * @param string $body
      * @param int $status
-     * @throws ResponseException
+     * @throws AppException
      */
     public function __construct(string $body = '', int $status = HttpCode::OK)
     {
@@ -89,12 +90,12 @@ class Response
      * Устанавливает код ответа и соответствующее ему текстовое описание
      *
      * @param int $status
-     * @throws ResponseException
+     * @throws AppException
      */
     public function setStatusCode(int $status): void
     {
         if (empty(self::$phrases[$status])) {
-            throw new ResponseException(ResponseException::INCORRECT_STATUS_CODE);
+            throw new AppException('Указан некорректный код ответа');
         }
 
         $this->statusCode = $status;
@@ -127,7 +128,7 @@ class Response
      *
      * @param $header
      * @param $value
-     * @throws ResponseException
+     * @throws AppException
      */
     public function withHeader($header, $value): void
     {
@@ -151,15 +152,15 @@ class Response
      * Проверяет корректность имени заголовка
      *
      * @param $name
-     * @throws ResponseException
+     * @throws AppException
      */
     private function validateHeaderName($name): void
     {
         if (!is_string($name)) {
-            throw new ResponseException(ResponseException::HTTP_HEADER_INCORRECT_TYPE);
+            throw new AppException('HTTP заголовок должен быть строкой');
         }
         if (!preg_match('/^[a-zA-Z0-9\'`#$%&*+.^_|~!-]+$/', $name)) {
-            throw new ResponseException(ResponseException::HTTP_HEADER_FORBIDDEN_SYMBOLS);
+            throw new AppException('Недопустимые символы в HTTP заголовке');
         }
     }
 
@@ -170,12 +171,12 @@ class Response
      * https://github.com/zendframework/zend-diactoros/blob/master/src/HeaderSecurity.php#L104
      *
      * @param $value
-     * @throws ResponseException
+     * @throws AppException
      */
     private function validateHeaderValue($value): void
     {
         if (!is_string($value) && !is_numeric($value)) {
-            throw new ResponseException(ResponseException::HEADER_VALUE_INCORRECT_TYPE);
+            throw new AppException('Значение HTTP заголовка может быть только строкой или числом');
         }
 
         // Look for:
@@ -193,7 +194,7 @@ class Response
 
         if (preg_match("#(?:(?:(?<!\r)\n)|(?:\r(?!\n))|(?:\r\n(?![ \t])))#", $value) ||
             preg_match('/[^\x09\x0a\x0d\x20-\x7E\x80-\xFE]/', $value)) {
-            throw new ResponseException(ResponseException::INCORRECT_HEADER_VALUE);
+            throw new AppException('Некорректный формат значения HTTP заголовка');
         }
     }
 }

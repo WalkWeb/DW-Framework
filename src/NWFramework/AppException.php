@@ -5,7 +5,6 @@ namespace NW;
 use Exception;
 use NW\Response\Response;
 use NW\Response\Emitter;
-use NW\Response\ResponseException;
 use NW\Utils\HttpCode;
 use Throwable;
 
@@ -37,7 +36,7 @@ class AppException extends Exception
      * TODO Логика разной обработки исключений будет делаться в public/index.php
      *
      * @param Throwable $e
-     * @throws ResponseException
+     * @throws AppException
      */
     public function printException(Throwable $e): void
     {

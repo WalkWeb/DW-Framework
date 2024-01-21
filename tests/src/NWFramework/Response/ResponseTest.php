@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Tests\src\NWFramework\Response;
 
+use NW\AppException;
 use NW\Response\Response;
-use NW\Response\ResponseException;
 use NW\Utils\HttpCode;
 use Tests\AbstractTestCase;
 
@@ -23,7 +23,7 @@ class ResponseTest extends AbstractTestCase
     }
 
     /**
-     * @throws ResponseException
+     * @throws AppException
      */
     public function testCreateResponse(): void
     {
@@ -37,7 +37,7 @@ class ResponseTest extends AbstractTestCase
     }
 
     /**
-     * @throws ResponseException
+     * @throws AppException
      */
     public function testResponseSetStatusCodeSuccess(): void
     {
@@ -53,21 +53,21 @@ class ResponseTest extends AbstractTestCase
     }
 
     /**
-     * @throws ResponseException
+     * @throws AppException
      */
     public function testResponseSetStatusCodeFail(): void
     {
         $response = new Response();
         $invalidCode = 999;
 
-        $this->expectException(ResponseException::class);
-        $this->expectExceptionMessage(ResponseException::INCORRECT_STATUS_CODE);
+        $this->expectException(AppException::class);
+        $this->expectExceptionMessage('Указан некорректный код ответа');
 
         $response->setStatusCode($invalidCode);
     }
 
     /**
-     * @throws ResponseException
+     * @throws AppException
      */
     public function testResponseSetHeaderSuccess(): void
     {
@@ -90,8 +90,8 @@ class ResponseTest extends AbstractTestCase
         $header = ['Created-By'];
         $value = 'WalkWeb';
 
-        $this->expectException(ResponseException::class);
-        $this->expectExceptionMessage(ResponseException::HTTP_HEADER_INCORRECT_TYPE);
+        $this->expectException(AppException::class);
+        $this->expectExceptionMessage('HTTP заголовок должен быть строкой');
         $response->withHeader($header, $value);
     }
 
@@ -102,8 +102,8 @@ class ResponseTest extends AbstractTestCase
         $header = 'Created By';
         $value = 'WalkWeb';
 
-        $this->expectException(ResponseException::class);
-        $this->expectExceptionMessage(ResponseException::HTTP_HEADER_FORBIDDEN_SYMBOLS);
+        $this->expectException(AppException::class);
+        $this->expectExceptionMessage('Недопустимые символы в HTTP заголовке');
         $response->withHeader($header, $value);
     }
 
@@ -114,8 +114,8 @@ class ResponseTest extends AbstractTestCase
         $header = 'Created-By';
         $value = ['WalkWeb'];
 
-        $this->expectException(ResponseException::class);
-        $this->expectExceptionMessage(ResponseException::HEADER_VALUE_INCORRECT_TYPE);
+        $this->expectException(AppException::class);
+        $this->expectExceptionMessage('Значение HTTP заголовка может быть только строкой или числом');
         $response->withHeader($header, $value);
     }
 
@@ -126,8 +126,8 @@ class ResponseTest extends AbstractTestCase
         $header = 'Created-By';
         $value = "\r";
 
-        $this->expectException(ResponseException::class);
-        $this->expectExceptionMessage(ResponseException::INCORRECT_HEADER_VALUE);
+        $this->expectException(AppException::class);
+        $this->expectExceptionMessage('Некорректный формат значения HTTP заголовка');
         $response->withHeader($header, $value);
     }
 }
