@@ -9,6 +9,7 @@ use NW\Captcha;
 use NW\Connection;
 use NW\Csrf;
 use NW\Logger;
+use NW\Request\Request;
 use NW\Validator;
 use Tests\AbstractTestCase;
 
@@ -54,14 +55,14 @@ class ContainerTest extends AbstractTestCase
     {
         $container = $this->getContainer();
 
-        $connection = $container->get(Logger::class);
-        self::assertInstanceOf(Logger::class, $connection);
+        $logger = $container->get(Logger::class);
+        self::assertInstanceOf(Logger::class, $logger);
 
-        $connection = $container->get('logger');
-        self::assertInstanceOf(Logger::class, $connection);
+        $logger = $container->get('logger');
+        self::assertInstanceOf(Logger::class, $logger);
 
-        $connection = $container->getLogger();
-        self::assertInstanceOf(Logger::class, $connection);
+        $logger = $container->getLogger();
+        self::assertInstanceOf(Logger::class, $logger);
     }
 
     /**
@@ -71,14 +72,14 @@ class ContainerTest extends AbstractTestCase
     {
         $container = $this->getContainer();
 
-        $connection = $container->get(Csrf::class);
-        self::assertInstanceOf(Csrf::class, $connection);
+        $csrf = $container->get(Csrf::class);
+        self::assertInstanceOf(Csrf::class, $csrf);
 
-        $connection = $container->get('csrf');
-        self::assertInstanceOf(Csrf::class, $connection);
+        $csrf = $container->get('csrf');
+        self::assertInstanceOf(Csrf::class, $csrf);
 
-        $connection = $container->getCsrf();
-        self::assertInstanceOf(Csrf::class, $connection);
+        $csrf = $container->getCsrf();
+        self::assertInstanceOf(Csrf::class, $csrf);
     }
 
     /**
@@ -88,14 +89,14 @@ class ContainerTest extends AbstractTestCase
     {
         $container = $this->getContainer();
 
-        $connection = $container->get(Captcha::class);
-        self::assertInstanceOf(Captcha::class, $connection);
+        $captcha = $container->get(Captcha::class);
+        self::assertInstanceOf(Captcha::class, $captcha);
 
-        $connection = $container->get('captcha');
-        self::assertInstanceOf(Captcha::class, $connection);
+        $captcha = $container->get('captcha');
+        self::assertInstanceOf(Captcha::class, $captcha);
 
-        $connection = $container->getCaptcha();
-        self::assertInstanceOf(Captcha::class, $connection);
+        $captcha = $container->getCaptcha();
+        self::assertInstanceOf(Captcha::class, $captcha);
     }
 
     /**
@@ -105,14 +106,52 @@ class ContainerTest extends AbstractTestCase
     {
         $container = $this->getContainer();
 
-        $connection = $container->get(Validator::class);
-        self::assertInstanceOf(Validator::class, $connection);
+        $validator = $container->get(Validator::class);
+        self::assertInstanceOf(Validator::class, $validator);
 
-        $connection = $container->get('validator');
-        self::assertInstanceOf(Validator::class, $connection);
+        $validator = $container->get('validator');
+        self::assertInstanceOf(Validator::class, $validator);
 
-        $connection = $container->getValidator();
-        self::assertInstanceOf(Validator::class, $connection);
+        $validator = $container->getValidator();
+        self::assertInstanceOf(Validator::class, $validator);
+    }
+
+    /**
+     * @throws AppException
+     */
+    public function testContainerGetRequestSuccess(): void
+    {
+        $container = $this->getContainer();
+        $request = new Request(['example' => 123]);
+
+        $container->set(Request::class, $request);
+
+        self::assertEquals($request, $container->getRequest());
+    }
+
+    /**
+     * @throws AppException
+     */
+    public function testContainerGetFail(): void
+    {
+        $container = $this->getContainer();
+
+        $this->expectException(AppException::class);
+        $this->expectExceptionMessage('Request не может быть создан автоматически, он должен быть добавлен в контейнер через set() вручную');
+        $container->get(Request::class);
+
+    }
+
+    /**
+     * @throws AppException
+     */
+    public function testContainerGetRequestFail(): void
+    {
+        $container = $this->getContainer();
+
+        $this->expectException(AppException::class);
+        $this->expectExceptionMessage('Request не может быть создан автоматически, он должен быть добавлен в контейнер через set() вручную');
+        $container->getRequest();
     }
 
     public function testContainerGetControllersDir(): void

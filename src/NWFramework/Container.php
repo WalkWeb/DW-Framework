@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace NW;
 
+use NW\Request\Request;
+
 class Container
 {
     private array $map = [
@@ -17,6 +19,7 @@ class Container
         'captcha'         => Captcha::class,
         Validator::class  => Validator::class,
         'validator'       => Validator::class,
+        Request::class    => Request::class,
     ];
 
     private array $storage = [];
@@ -62,6 +65,10 @@ class Container
 
         if ($this->exist($class)) {
             return $this->storage[$class];
+        }
+
+        if ($class === Request::class) {
+            throw new AppException('Request не может быть создан автоматически, он должен быть добавлен в контейнер через set() вручную');
         }
 
         return $this->create($class);
@@ -130,6 +137,17 @@ class Container
     {
         /** @var Validator $service */
         $service = $this->get(Validator::class);
+        return $service;
+    }
+
+    /**
+     * @return Request
+     * @throws AppException
+     */
+    public function getRequest(): Request
+    {
+        /** @var Request $service */
+        $service = $this->get(Request::class);
         return $service;
     }
 

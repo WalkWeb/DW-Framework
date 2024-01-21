@@ -56,7 +56,7 @@
 | Runtime     |           |    +    | Убрать статику                      |
 | Session     |           |    +    | Убрать статику                      |
 | Validator   |     +     |         |                                     |
-| Request     |           |         |                                     |
+| Request     |     +     |         |                                     |
 
 ## P.S.
 
