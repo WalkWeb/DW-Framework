@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace NW\Request;
 
+use NW\Cookie;
+
 class Request
 {
     /**
@@ -27,12 +29,7 @@ class Request
      */
     private string $protocol;
 
-    /**
-     * $_COOKIES
-     *
-     * @var array
-     */
-    private array $cookies;
+    private Cookie $cookies;
 
     /**
      * $_GET
@@ -119,7 +116,7 @@ class Request
 
         $this->protocol = !empty($server['SERVER_PROTOCOL']) ? $server['SERVER_PROTOCOL'] : 'HTTP/1.1';
         $this->method = !empty($server['REQUEST_METHOD']) ? $server['REQUEST_METHOD'] : 'GET';
-        $this->cookies = $cookies;
+        $this->cookies = new Cookie($cookies);
         $this->query = $query;
         $this->body = $body;
         $this->files = $files;
@@ -158,9 +155,9 @@ class Request
     }
 
     /**
-     * @return array
+     * @return Cookie
      */
-    public function getCookies(): array
+    public function getCookies(): Cookie
     {
         return $this->cookies;
     }

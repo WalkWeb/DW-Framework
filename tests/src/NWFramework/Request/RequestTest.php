@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\src\NWFramework\Request;
 
+use NW\Cookie;
 use NW\Request\Request;
 use Tests\AbstractTestCase;
 
@@ -22,7 +23,7 @@ class RequestTest extends AbstractTestCase
         self::assertEquals($uri, $request->getUri());
         self::assertEquals($protocol, $request->getProtocol());
         self::assertEquals($method, $request->getMethod());
-        self::assertEquals([], $request->getCookies());
+        self::assertEquals(new Cookie(), $request->getCookies());
         self::assertEquals([], $request->getQuery());
         self::assertEquals([], $request->getBody());
         self::assertEquals([], $request->getFiles());
@@ -60,7 +61,7 @@ class RequestTest extends AbstractTestCase
         self::assertEquals($server['REQUEST_URI'], $request->getUri());
         self::assertEquals($server['SERVER_PROTOCOL'], $request->getProtocol());
         self::assertEquals($server['REQUEST_METHOD'], $request->getMethod());
-        self::assertEquals($cookies, $request->getCookies());
+        self::assertEquals(new Cookie($cookies), $request->getCookies());
         self::assertEquals($query, $request->getQuery());
         self::assertEquals($body, $request->getBody());
         self::assertEquals($files, $request->getFiles());
@@ -94,7 +95,7 @@ class RequestTest extends AbstractTestCase
 
         self::assertEquals($_SERVER, $request->getServer());
         self::assertEquals($_POST, $request->getBody());
-        self::assertEquals($_COOKIE, $request->getCookies());
+        self::assertEquals(new Cookie($_COOKIE), $request->getCookies());
         self::assertEquals($_GET, $request->getQuery());
         self::assertEquals($_FILES, $request->getFiles());
 
@@ -134,7 +135,7 @@ class RequestTest extends AbstractTestCase
         self::assertEquals($server['REQUEST_URI'], $request->getUri());
         self::assertEquals($server['SERVER_PROTOCOL'], $request->getProtocol());
         self::assertEquals($server['REQUEST_METHOD'], $request->getMethod());
-        self::assertEquals($cookies, $request->getCookies());
+        self::assertEquals(new Cookie($cookies), $request->getCookies());
         self::assertEquals($query, $request->getQuery());
         self::assertEquals($body, $request->getBody());
         self::assertEquals($files, $request->getFiles());

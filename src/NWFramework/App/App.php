@@ -39,6 +39,8 @@ class App
      */
     public function handle(Request $request): Response
     {
+        $this->container->set(Request::class, $request);
+
         try {
             ['handler' => $handler, 'request' => $request] = $this->router->getHandler($request);
         } catch (Exception $e) {
