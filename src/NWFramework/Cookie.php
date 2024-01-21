@@ -2,21 +2,34 @@
 
 namespace NW;
 
-// TODO Переделать на работу с Request / Response
-// TODO Уйти от статики
-
 class Cookie
 {
+    private array $cookies;
+
+    public function __construct(array $cookies = [])
+    {
+        $this->cookies = $cookies;
+    }
+
+    /**
+     * Возвращает текущие куки
+     *
+     * @return array
+     */
+    public function getCookies(): array
+    {
+        return $this->cookies;
+    }
+
     /**
      * Устанавливает куки
      *
      * @param string $name
-     * @param int|string $value
-     * @param int $time
+     * @param string $value
      */
-    public static function setCookie(string $name, $value, int $time): void
+    public function setCookie(string $name, string $value): void
     {
-        setcookie($name, $value, time() + $time, '/');
+        $this->cookies[$name] = $value;
     }
 
     /**
@@ -25,9 +38,9 @@ class Cookie
      * @param string $name
      * @return null|string
      */
-    public static function getCookie(string $name): ?string
+    public function getCookie(string $name): ?string
     {
-        return $_COOKIE[$name] ?? null;
+        return $this->cookies[$name] ?? null;
     }
 
     /**
@@ -36,9 +49,9 @@ class Cookie
      * @param string $name
      * @return bool
      */
-    public static function checkCookie(string $name): bool
+    public function checkCookie(string $name): bool
     {
-        return !empty($_COOKIE[$name]);
+        return !empty($this->cookies[$name]);
     }
 
     /**
@@ -46,8 +59,8 @@ class Cookie
      *
      * @param string $name
      */
-    public static function deleteCookie(string $name): void
+    public function deleteCookie(string $name): void
     {
-        setcookie($name, '', -1, '/');
+        unset($this->cookies[$name]);
     }
 }
