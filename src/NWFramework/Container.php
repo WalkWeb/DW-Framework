@@ -68,6 +68,17 @@ class Container
     }
 
     /**
+     * @param string $id
+     * @param object $object
+     * @throws AppException
+     */
+    public function set(string $id, object $object): void
+    {
+        $id = $this->getNameService($id);
+        $this->storage[$id] = $object;
+    }
+
+    /**
      * @return Connection
      * @throws AppException
      */

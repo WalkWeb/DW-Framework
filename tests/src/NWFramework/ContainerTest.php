@@ -15,6 +15,22 @@ use Tests\AbstractTestCase;
 class ContainerTest extends AbstractTestCase
 {
     /**
+     * Тест на ручное добавление сервиса в контейнер
+     *
+     * @throws AppException
+     */
+    public function testContainerSetService(): void
+    {
+        $logger = new Logger(SAVE_LOG, LOG_DIR, LOG_FILE_NAME);
+        $logger->addLog('abc');
+
+        $container = $this->getContainer();
+        $container->set(Logger::class, $logger);
+
+        self::assertEquals($logger, $container->getLogger());
+    }
+
+    /**
      * @throws AppException
      */
     public function testContainerGetConnection(): void
