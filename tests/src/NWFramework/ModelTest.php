@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Tests\src\NWFramework;
 
 use Exception;
-use NW\Connection;
 use Tests\AbstractTestCase;
 use Tests\utils\ExampleModel;
 
@@ -20,16 +19,20 @@ class ModelTest extends AbstractTestCase
     {
         $id = '6e9043d1-18fb-44ea-be60-c356048f63a2';
         $name = 'Example#1';
+        $table = 'books';
         $container = $this->getContainer();
 
-        $db = $container->getConnection();
-        $db->autocommit(false);
+        $connection = $container->getConnection();
+        $connection->autocommit(false);
 
         // Create table
-        $this->createTable($db);
+        $this->createTable($connection);
+
+        // Clear table
+        $this->clearTable($connection, $table);
 
         // Insert data
-        $this->insert($db, $id, $name);
+        $this->insert($connection, $id, $name);
 
         // Create model from db data
         $model = new ExampleModel($id, $container);
@@ -37,7 +40,7 @@ class ModelTest extends AbstractTestCase
         self::assertEquals($id, $model->getId());
         self::assertEquals($name, $model->getName());
 
-        $db->rollback();
+        $connection->rollback();
     }
 
     /**
@@ -107,34 +110,5 @@ class ModelTest extends AbstractTestCase
         new ExampleModel($id, $container);
 
         $db->rollback();
-    }
-
-    /**
-     * @param Connection $db
-     * @param string $id
-     * @param string $name
-     * @throws Exception
-     */
-    private function insert(Connection $db, string $id, string $name): void
-    {
-        $db->query(
-            'INSERT INTO `books` (`id`, `name`) VALUES (?, ?);',
-            [
-                ['type' => 's', 'value' => $id],
-                ['type' => 's', 'value' => $name],
-            ]
-        );
-    }
-
-    /**
-     * @param Connection $db
-     * @throws Exception
-     */
-    private function createTable(Connection $db): void
-    {
-        $db->query('CREATE TABLE IF NOT EXISTS `books` (
-            `id` VARCHAR(36) NOT NULL,
-            `name` VARCHAR(255) NOT NULL 
-        ) ENGINE=InnoDB DEFAULT CHARSET=utf8;');
     }
 }

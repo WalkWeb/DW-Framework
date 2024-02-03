@@ -94,16 +94,4 @@ class ConnectionTest extends AbstractTestCase
 
         $db->rollback();
     }
-
-    /**
-     * @param Connection $db
-     * @throws Exception
-     */
-    private function createTable(Connection $db): void
-    {
-        $db->query('CREATE TABLE IF NOT EXISTS `users` (
-            `id` INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-            `name` VARCHAR(255) NOT NULL 
-        ) ENGINE=InnoDB DEFAULT CHARSET=utf8;');
-    }
 }

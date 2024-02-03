@@ -19,6 +19,7 @@ class App
     {
         $this->router = $routes;
         $this->container = $container ?? new Container(
+                APP_ENV,
                 DB_HOST,
                 DB_USER,
                 DB_PASSWORD,

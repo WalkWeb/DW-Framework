@@ -7,6 +7,7 @@ namespace Tests\src\NWFramework;
 use NW\AppException;
 use NW\Captcha;
 use NW\Connection;
+use NW\Container;
 use NW\Csrf;
 use NW\Logger;
 use NW\Request\Request;
@@ -152,6 +153,28 @@ class ContainerTest extends AbstractTestCase
         $this->expectException(AppException::class);
         $this->expectExceptionMessage('Request не может быть создан автоматически, он должен быть добавлен в контейнер через set() вручную');
         $container->getRequest();
+    }
+
+    /**
+     * Тест на успешную установку APP_ENV
+     *
+     * @throws AppException
+     */
+    public function testContainerSetAppEnvSuccess(): void
+    {
+        self::assertEquals(Container::APP_TEST, $this->getContainer()->getAppEnv());
+    }
+
+    /**
+     * Тест на попытку указать некорректный APP_ENV
+     *
+     * @throws AppException
+     */
+    public function testContainerSetAppEnvFail(): void
+    {
+        $this->expectException(AppException::class);
+        $this->expectExceptionMessage('Invalid APP_ENV. Valid values: prod, dev, test');
+        $this->getContainer('invalid_app_env');
     }
 
     public function testContainerGetControllersDir(): void

@@ -8,6 +8,10 @@ use NW\Request\Request;
 
 class Container
 {
+    public const APP_PROD = 'prod';
+    public const APP_DEV  = 'dev';
+    public const APP_TEST = 'test';
+
     private array $map = [
         Connection::class => Connection::class,
         'connection'      => Connection::class,
@@ -24,6 +28,7 @@ class Container
 
     private array $storage = [];
 
+    private string $appEnv;
     private string $dbHost;
     private string $dbUser;
     private string $dbPassword;
@@ -33,7 +38,20 @@ class Container
     private string $loggerFileName;
     private string $controllersDir;
 
+    /**
+     * @param string $appEnv
+     * @param string $dbHost
+     * @param string $dbUser
+     * @param string $dbPassword
+     * @param string $dbName
+     * @param bool $loggerSaveLog
+     * @param string $loggerDir
+     * @param string $loggerFileName
+     * @param string $controllersDir
+     * @throws AppException
+     */
     public function __construct(
+        string $appEnv,
         string $dbHost,
         string $dbUser,
         string $dbPassword,
@@ -44,6 +62,7 @@ class Container
         string $controllersDir
     )
     {
+        $this->setAppEnv($appEnv);
         $this->dbHost = $dbHost;
         $this->dbUser = $dbUser;
         $this->dbPassword = $dbPassword;
@@ -160,6 +179,14 @@ class Container
     }
 
     /**
+     * @return string
+     */
+    public function getAppEnv(): string
+    {
+        return $this->appEnv;
+    }
+
+    /**
      * @param string $id
      * @return string
      * @throws AppException
@@ -219,5 +246,20 @@ class Container
 
         $this->storage[$this->map[$class]] = $service;
         return $service;
+    }
+
+    /**
+     * @param string $appEnv
+     * @throws AppException
+     */
+    private function setAppEnv(string $appEnv): void
+    {
+        if ($appEnv !== self::APP_PROD && $appEnv !== self::APP_DEV && $appEnv !== self::APP_TEST) {
+            throw new AppException(
+                'Invalid APP_ENV. Valid values: ' . self::APP_PROD . ', ' . self::APP_DEV . ', ' . self::APP_TEST
+            );
+        }
+
+        $this->appEnv = $appEnv;
     }
 }
