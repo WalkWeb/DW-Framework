@@ -3,8 +3,8 @@
 namespace NW;
 
 use Exception;
+use NW\App\App;
 use NW\Response\Response;
-use NW\Response\Emitter;
 use NW\Utils\HttpCode;
 use Throwable;
 
@@ -22,7 +22,7 @@ class AppException extends Exception
      * @param int $code
      * @param AppException|null $previous
      */
-    public function __construct(string $message, $code = HttpCode::OK, AppException $previous = null)
+    public function __construct(string $message, $code = HttpCode::INTERNAL_SERVER_ERROR, AppException $previous = null)
     {
         set_exception_handler([$this, 'printException']);
         parent::__construct($message, $code, $previous);
@@ -49,6 +49,6 @@ class AppException extends Exception
             $response = new Response($e->getMessage(), $this->code);
         }
 
-        Emitter::emit($response);
+        App::emit($response);
     }
 }

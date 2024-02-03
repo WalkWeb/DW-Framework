@@ -32,7 +32,7 @@ try {
     $response = $app->handle($request);
 
     // Распечатываем response
-    $app->emit($response);
+    App::emit($response);
 
 } catch (Exception $e) {
     // TODO В обычном режиме возвращается заглушка 500/401/404 ошибки, а в DEV-режиме возвращаем детализацию ошибки

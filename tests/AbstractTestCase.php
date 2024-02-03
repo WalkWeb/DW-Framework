@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace Tests;
 
+use NW\App\App;
 use NW\AppException;
 use NW\Connection;
 use NW\Container;
+use NW\Route\Router;
 use PHPUnit\Framework\TestCase;
 
 class AbstractTestCase extends TestCase
@@ -18,6 +20,16 @@ class AbstractTestCase extends TestCase
         } else {
             require_once __DIR__ . '/../config.php';
         }
+    }
+
+    /**
+     * @param Router $router
+     * @return App
+     * @throws AppException
+     */
+    protected function getApp(Router $router): App
+    {
+        return new App($router, $this->getContainer());
     }
 
     /**
