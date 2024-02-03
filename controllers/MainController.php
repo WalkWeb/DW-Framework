@@ -5,7 +5,7 @@ namespace Controllers;
 use Exception;
 use NW\AbstractController;
 use NW\AppException;
-use NW\Response\Response;
+use NW\Response;
 
 class MainController extends AbstractController
 {

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Tests\utils;
 
 use NW\AbstractController;
-use NW\Response\Response;
+use NW\Response;
 use NW\Utils\HttpCode;
 
 /**

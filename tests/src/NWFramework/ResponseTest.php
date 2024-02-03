@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Tests\src\NWFramework\Response;
+namespace Tests\src\NWFramework;
 
 use NW\AppException;
-use NW\Response\Response;
+use NW\Response;
 use NW\Utils\HttpCode;
 use Tests\AbstractTestCase;
 

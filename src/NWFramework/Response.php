@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace NW\Response;
+namespace NW;
 
 use NW\AppException;
 use NW\Utils\HttpCode;

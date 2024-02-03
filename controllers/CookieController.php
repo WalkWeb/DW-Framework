@@ -7,7 +7,7 @@ namespace Controllers;
 use Exception;
 use NW\AbstractController;
 use NW\Request;
-use NW\Response\Response;
+use NW\Response;
 
 class CookieController extends AbstractController
 {

@@ -4,7 +4,7 @@ namespace Controllers;
 
 use NW\AbstractController;
 use Middleware\AuthMiddleware;
-use NW\Response\Response;
+use NW\Response;
 
 class AdminController extends AbstractController
 {

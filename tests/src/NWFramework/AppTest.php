@@ -7,7 +7,7 @@ namespace Tests\src\NWFramework;
 use NW\App;
 use NW\AppException;
 use NW\Request;
-use NW\Response\Response;
+use NW\Response;
 use NW\Route\RouteCollection;
 use NW\Route\Router;
 use NW\Utils\HttpCode;
