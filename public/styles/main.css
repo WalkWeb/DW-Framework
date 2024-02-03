@@ -52,7 +52,9 @@ hr {
 
 label {
     display: block;
-    margin-bottom: 30px;
+    color: #a1a1a1;
+    font-family: Arial, sans-serif;
+    padding: 3px;
 }
 
 input, select, textarea {
@@ -66,9 +68,20 @@ input, select, textarea {
     font-size: 100%;
 }
 
+input.delete {
+    border: none;
+    box-shadow: none;
+    font-size: 150%;
+}
+
+input.delete:hover {
+    color: #D2A456;
+    cursor: pointer;
+}
+
 button {
     display: block;
-    margin-top: 20px;
+    margin-top: 10px;
     text-decoration: none;
     border: 1px solid #1A120D;
     padding: 4px 10px;
@@ -133,4 +146,31 @@ ul.navigation > li > a:hover {
 
 .pagination a:hover {
     background: #1c9450;
+}
+
+.center {
+    text-align: center;
+}
+
+table {
+    border: none;
+    border-collapse: collapse;
+}
+
+tr {
+    display: table-row;
+    vertical-align: inherit;
+}
+
+td {
+    border: #444 solid 1px;
+    padding: 2px 1px;
+    background-color: #222;
+    font-family: arial, sans-serif;
+    color: #9f8474;
+    text-align: center;
+}
+
+td p {
+    padding: 3px;
 }
