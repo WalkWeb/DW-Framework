@@ -5,6 +5,7 @@ namespace NW\App;
 use Exception;
 use NW\AppException;
 use NW\Container;
+use NW\Cookie;
 use NW\Request\Request;
 use NW\Response\Response;
 use NW\Route\Router;
@@ -41,6 +42,7 @@ class App
     public function handle(Request $request): Response
     {
         $this->container->set(Request::class, $request);
+        $this->container->set(Cookie::class, clone $request->getCookies());
 
         try {
             ['handler' => $handler, 'request' => $request] = $this->router->getHandler($request);

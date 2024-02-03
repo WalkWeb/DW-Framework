@@ -24,6 +24,7 @@ class Container
         Validator::class  => Validator::class,
         'validator'       => Validator::class,
         Request::class    => Request::class,
+        Cookie::class    => Cookie::class,
     ];
 
     private array $storage = [];
@@ -86,8 +87,10 @@ class Container
             return $this->storage[$class];
         }
 
-        if ($class === Request::class) {
-            throw new AppException('Request не может быть создан автоматически, он должен быть добавлен в контейнер через set() вручную');
+        if ($class === Request::class || $class === Cookie::class) {
+            throw new AppException(
+                "$class не может быть создан автоматически, он должен быть добавлен в контейнер через set() вручную"
+            );
         }
 
         return $this->create($class);
@@ -167,6 +170,17 @@ class Container
     {
         /** @var Request $service */
         $service = $this->get(Request::class);
+        return $service;
+    }
+
+    /**
+     * @return Cookie
+     * @throws AppException
+     */
+    public function getCookies(): Cookie
+    {
+        /** @var Cookie $service */
+        $service = $this->get(Cookie::class);
         return $service;
     }
 

@@ -8,6 +8,7 @@ use NW\AppException;
 use NW\Captcha;
 use NW\Connection;
 use NW\Container;
+use NW\Cookie;
 use NW\Csrf;
 use NW\Logger;
 use NW\Request\Request;
@@ -103,6 +104,19 @@ class ContainerTest extends AbstractTestCase
     /**
      * @throws AppException
      */
+    public function testContainerGetCookies(): void
+    {
+        $container = $this->getContainer();
+        $cookie = new Cookie();
+
+        $container->set(Cookie::class, $cookie);
+
+        self::assertEquals($cookie, $container->getCookies());
+    }
+
+    /**
+     * @throws AppException
+     */
     public function testContainerGetValidator(): void
     {
         $container = $this->getContainer();
@@ -156,6 +170,14 @@ class ContainerTest extends AbstractTestCase
     }
 
     /**
+     * @throws AppException
+     */
+    public function testContainerGetControllersDir(): void
+    {
+        self::assertEquals(CONTROLLERS_DIR, $this->getContainer()->getControllersDir());
+    }
+
+    /**
      * Тест на успешную установку APP_ENV
      *
      * @throws AppException
@@ -177,15 +199,31 @@ class ContainerTest extends AbstractTestCase
         $this->getContainer('invalid_app_env');
     }
 
-    public function testContainerGetControllersDir(): void
-    {
-        self::assertEquals(CONTROLLERS_DIR, $this->getContainer()->getControllersDir());
-    }
-
     public function testContainerUnknownService(): void
     {
         $this->expectException(AppException::class);
         $this->expectExceptionMessage('Unknown service: name_service');
         $this->getContainer()->get('name_service');
+    }
+
+    /**
+     * @throws AppException
+     */
+    public function testContainerExistService(): void
+    {
+        $container = $this->getContainer();
+
+        $container->get(Validator::class);
+
+        self::assertTrue($container->exist(Validator::class));
+        self::assertTrue($container->exist('validator'));
+    }
+
+    /**
+     * @throws AppException
+     */
+    public function testContainerNoExistService(): void
+    {
+        self::assertFalse($this->getContainer()->exist('UnknownService'));
     }
 }
