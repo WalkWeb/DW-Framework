@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <title>Ошибка 404: Страница не найдена</title>
+    <title>500: Internal Server Error</title>
     <meta name="Description" content="">
     <meta name="Keywords" content="">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -10,6 +10,7 @@
 </head>
 <body>
 <div class="content">
-    <h1>Ошибка 404: Страница не найдена</h1>
+    <h1 class="center">500: Internal Server Error</h1>
+    <p class="center">Кажется что-то сломалось. Попробуйте обратиться позже.</p>
 </body>
 </html>

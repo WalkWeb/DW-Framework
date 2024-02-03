@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <title>Ошибка 404: Страница не найдена</title>
+    <title><?= htmlspecialchars($error ?? 'Неизвестная ошибка') ?></title>
     <meta name="Description" content="">
     <meta name="Keywords" content="">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -10,6 +10,6 @@
 </head>
 <body>
 <div class="content">
-    <h1>Ошибка 404: Страница не найдена</h1>
+    <h1><?= htmlspecialchars($error ?? 'Неизвестная ошибка') ?></h1>
 </body>
 </html>

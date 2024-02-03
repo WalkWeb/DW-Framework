@@ -29,24 +29,27 @@ class AppException extends Exception
     }
 
     /**
-     * Выводим сообщение об ошибке. Если сайт не в режиме разработчика - отдается 404 ошибка
-     *
-     * TODO 500 ошибка не в режиме разработчика
-     *
-     * TODO Логика разной обработки исключений будет делаться в public/index.php
+     * Выводим сообщение об ошибке. Если сайт не в режиме разработчика - отдается 500 ошибка
      *
      * @param Throwable $e
+     * @param string|null $appEnv
      * @throws AppException
      */
-    public function printException(Throwable $e): void
+    public function printException(Throwable $e, ?string $appEnv = null): void
     {
-        if (DEV) {
+        $appEnv = $appEnv ?? APP_ENV;
+
+        if ($appEnv === Container::APP_DEV) {
             $response = new Response(
                 '<h1>Ошибка</h1><p>Ошибка [' . $this->code . ']: ' . $e->getMessage() . '<br />Файл: ' . $e->getFile() . '<br />Строка: ' . $e->getLine() . '</p>',
                 $this->code
             );
         } else {
-            $response = new Response($e->getMessage(), $this->code);
+            // TODO Получать корневую директорию с вьюхами из контейнера
+            // TODO А так как для этого нужен контейнер - можно создавать 500 response в App
+            $view = __DIR__ . '/../../views/default/errors/500.php';
+            $content = file_exists($view) ? file_get_contents($view) : '500: Internal Server Error';
+            $response = new Response($content, HttpCode::INTERNAL_SERVER_ERROR);
         }
 
         App::emit($response);
