@@ -4,11 +4,26 @@ namespace NW;
 
 class Session
 {
-    // TODO Переделать на работу с Request / Response
+    /**
+     * Проверяет, запущены ли сессии
+     *
+     * Если php работает в консольном режиме (cli) сессии не стартуем - это приведет к ошибке
+     * "session_start(): Cannot start session when headers already sent"
+     *
+     * @return bool
+     */
+    public static function existSession(): bool
+    {
+        if (PHP_SAPI === 'cli') {
+            return true;
+        }
 
-    // TODO Added exist session
+        if (PHP_VERSION_ID >= 50400) {
+            return session_status() === PHP_SESSION_ACTIVE;
+        }
 
-    // TODO Added remove session
+        return session_id() !== '';
+    }
 
     /**
      * Устанавливает ключ => значение в сессию
@@ -33,7 +48,7 @@ class Session
     {
         self::start();
 
-        if (empty($_SESSION[$key])) {
+        if (!self::existParam($key)) {
             return null;
         }
 
@@ -56,31 +71,20 @@ class Session
     /**
      * Запускает сессию, если она еще не запущена
      */
-    private static function start(): void
+    public static function start(): void
     {
-        if (!self::isSessionStarted()) {
+        if (!self::existSession()) {
             session_start();
         }
     }
 
     /**
-     * Проверяет, запущены ли сессии
-     *
-     * Если php работает в консольном режиме (cli) сессии не стартуем - это приведет к ошибке
-     * "session_start(): Cannot start session when headers already sent"
-     *
-     * @return bool
+     * Завершает сессию, если она запущена
      */
-    private static function isSessionStarted(): bool
+    public static function end(): void
     {
-        if (PHP_SAPI === 'cli') {
-            return true;
+        if (self::existSession()) {
+            session_abort();
         }
-
-        if (PHP_VERSION_ID >= 50400) {
-            return session_status() === PHP_SESSION_ACTIVE;
-        }
-
-        return session_id() !== '';
     }
 }

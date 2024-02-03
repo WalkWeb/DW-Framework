@@ -9,6 +9,21 @@ use Tests\AbstractTestCase;
 
 class SessionTest extends AbstractTestCase
 {
+    public function testSessionStart(): void
+    {
+        Session::start();
+
+        self::assertTrue(Session::existSession());
+    }
+
+    public function testSessionEnd(): void
+    {
+        Session::end();
+
+        // Достаточно того, что ничего не упало
+        self::assertTrue(true);
+    }
+
     public function testSessionSetAndGetParam(): void
     {
         $key = 'hello';
@@ -21,7 +36,6 @@ class SessionTest extends AbstractTestCase
 
     public function testSessionNullParam(): void
     {
-        // Сейчас при отсутствии параметра возвращается null
         self::assertNull(Session::getParam('missed_parameter'));
     }
 
