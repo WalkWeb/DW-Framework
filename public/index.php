@@ -12,7 +12,7 @@ if (file_exists(__DIR__ . '/../config.local.php')) {
 
 use NW\Request\Request;
 use NW\Runtime;
-use NW\App\App;
+use NW\App;
 
 if (DEV) {
     Runtime::start();

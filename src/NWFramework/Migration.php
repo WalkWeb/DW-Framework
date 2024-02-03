@@ -6,7 +6,6 @@ namespace NW;
 
 use DateTime;
 use Exception;
-use NW\App\App;
 use NW\Route\RouteCollection;
 use NW\Route\Router;
 

@@ -3,7 +3,6 @@
 namespace NW;
 
 use Exception;
-use NW\App\App;
 use NW\Response\Response;
 use NW\Utils\HttpCode;
 use Throwable;

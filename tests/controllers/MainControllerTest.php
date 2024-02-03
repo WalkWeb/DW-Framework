@@ -6,14 +6,13 @@ use Exception;
 use NW\Route\RouteCollection;
 use NW\Route\Router;
 use NW\Request\Request;
-use NW\App\App;
+use NW\App;
 use NW\Utils\HttpCode;
 use Tests\AbstractTestCase;
 
 class MainControllerTest extends AbstractTestCase
 {
-    /** @var App */
-    private $app;
+    private App $app;
 
     public function setUp(): void
     {
@@ -49,7 +48,7 @@ class MainControllerTest extends AbstractTestCase
         $request = new Request(['REQUEST_URI' => '/no_page']);
         $response = $this->app->handle($request);
 
-        self::assertRegExp('/Страница не найдена/', $response->getBody());
+        self::assertEquals('404: Page not found', $response->getBody());
         self::assertEquals(HttpCode::NOT_FOUND, $response->getStatusCode());
     }
 }

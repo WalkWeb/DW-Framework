@@ -1,11 +1,8 @@
 <?php
 
-namespace NW\App;
+namespace NW;
 
 use Exception;
-use NW\AppException;
-use NW\Container;
-use NW\Cookie;
 use NW\Request\Request;
 use NW\Response\Response;
 use NW\Route\Router;

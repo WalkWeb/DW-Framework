@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests;
 
-use NW\App\App;
+use NW\App;
 use NW\AppException;
 use NW\Connection;
 use NW\Container;

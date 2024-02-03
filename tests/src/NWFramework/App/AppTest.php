@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\src\NWFramework\App;
 
-use NW\App\App;
+use NW\App;
 use NW\AppException;
 use NW\Request\Request;
 use NW\Response\Response;
@@ -41,7 +41,7 @@ class AppTest extends AbstractTestCase
 
         $response = $app->handle($request);
 
-        self::assertRegExp('/Страница не найдена/', $response->getBody());
+        self::assertEquals('404: Page not found', $response->getBody());
         self::assertEquals(HttpCode::NOT_FOUND, $response->getStatusCode());
     }
 
