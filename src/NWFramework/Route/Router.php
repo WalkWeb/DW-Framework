@@ -3,7 +3,7 @@
 namespace NW\Route;
 
 use NW\AppException;
-use NW\Request\Request;
+use NW\Request;
 
 class Router
 {

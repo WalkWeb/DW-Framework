@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Tests\src\NWFramework\Request;
+namespace Tests\src\NWFramework;
 
 use NW\Cookie;
-use NW\Request\Request;
+use NW\Request;
 use Tests\AbstractTestCase;
 
 class RequestTest extends AbstractTestCase

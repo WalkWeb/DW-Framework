@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace NW;
 
-use NW\Request\Request;
-
 class Container
 {
     public const APP_PROD = 'prod';

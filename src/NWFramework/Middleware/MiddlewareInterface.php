@@ -2,7 +2,7 @@
 
 namespace NW\Middleware;
 
-use NW\Request\Request;
+use NW\Request;
 
 interface MiddlewareInterface
 {

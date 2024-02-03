@@ -5,7 +5,7 @@ namespace Tests\controllers;
 use Exception;
 use NW\Route\RouteCollection;
 use NW\Route\Router;
-use NW\Request\Request;
+use NW\Request;
 use NW\App;
 use NW\Utils\HttpCode;
 use Tests\AbstractTestCase;

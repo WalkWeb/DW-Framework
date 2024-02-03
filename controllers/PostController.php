@@ -6,7 +6,7 @@ use Exception;
 use Models\Exceptions\PostException;
 use NW\AbstractController;
 use NW\Traits\PaginationTrait;
-use NW\Request\Request;
+use NW\Request;
 use NW\Response\Response;
 use Models\PostDataProvider;
 use Models\Post;

@@ -6,7 +6,7 @@ namespace Tests\src\NWFramework\Route;
 
 use Middleware\AuthMiddleware;
 use Middleware\Exceptions\AuthException;
-use NW\Request\Request;
+use NW\Request;
 use NW\Route\Route;
 use NW\Utils\HttpCode;
 use Tests\AbstractTestCase;

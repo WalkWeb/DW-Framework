@@ -2,9 +2,7 @@
 
 declare(strict_types=1);
 
-namespace NW\Request;
-
-use NW\Cookie;
+namespace NW;
 
 class Request
 {

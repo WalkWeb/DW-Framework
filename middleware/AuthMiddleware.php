@@ -3,7 +3,7 @@
 namespace Middleware;
 
 use NW\Middleware\MiddlewareInterface;
-use NW\Request\Request;
+use NW\Request;
 use Middleware\Exceptions\AuthException;
 use NW\Utils\HttpCode;
 

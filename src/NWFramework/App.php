@@ -3,7 +3,6 @@
 namespace NW;
 
 use Exception;
-use NW\Request\Request;
 use NW\Response\Response;
 use NW\Route\Router;
 use NW\Utils\HttpCode;

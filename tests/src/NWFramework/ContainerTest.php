@@ -11,7 +11,7 @@ use NW\Container;
 use NW\Cookie;
 use NW\Csrf;
 use NW\Logger;
-use NW\Request\Request;
+use NW\Request;
 use NW\Validator;
 use Tests\AbstractTestCase;
 

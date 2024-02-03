@@ -2,7 +2,7 @@
 
 namespace NW\Route;
 
-use NW\Request\Request;
+use NW\Request;
 
 class Route
 {
