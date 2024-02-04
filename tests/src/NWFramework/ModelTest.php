@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\src\NWFramework;
 
 use Exception;
+use NW\AppException;
 use Tests\AbstractTestCase;
 use Tests\utils\ExampleModel;
 
@@ -110,5 +111,22 @@ class ModelTest extends AbstractTestCase
         new ExampleModel($id, $container);
 
         $db->rollback();
+    }
+
+    /**
+     * @throws AppException
+     */
+    public function testModelNoCache(): void
+    {
+        $id = '018f6cf1-6ace-4aa7-8234-acfae931276d';
+        $name = 'RemoveBook';
+        $container = $this->getContainer();
+        $db = $container->getConnection();
+        $this->createTable($db);
+        $this->insert($db, $id, $name);
+
+        $model = new ExampleModel($id, $container);
+
+        self::assertFalse($model->checkCache('text', 123));
     }
 }

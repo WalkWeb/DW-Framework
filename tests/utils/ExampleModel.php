@@ -43,15 +43,13 @@ class ExampleModel extends AbstractModel
      *
      * @param string $id
      * @param Container $container
-     * @throws Exception
+     * @throws AppException
      */
     public function __construct(string $id, Container $container)
     {
         parent::__construct($container);
         $this->create($id);
     }
-
-    // TODO createFromData
 
     /**
      * @return string
@@ -106,11 +104,26 @@ class ExampleModel extends AbstractModel
         );
     }
 
+    public function checkCache(string $name, int $time): bool
+    {
+        return parent::checkCache($name, $time);
+    }
+
+    public function createCache($name, $content): void
+    {
+        parent::createCache($name, $content);
+    }
+
+    public function deleteCache(string $name): void
+    {
+        parent::deleteCache($name);
+    }
+
     /**
      * Заполняет модель данными на основе данных из базы
      *
      * @param string $id
-     * @throws Exception
+     * @throws AppException
      */
     private function create(string $id): void
     {

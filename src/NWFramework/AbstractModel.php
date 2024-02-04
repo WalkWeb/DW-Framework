@@ -7,6 +7,8 @@ abstract class AbstractModel
     /**
      * Место хранения кэша результатов запросов
      *
+     * TODO Вынести директорию хранения кэша в контейнер
+     *
      * @var string
      */
     private string $cache = __DIR__ . '/../cache/sql/';
@@ -38,16 +40,16 @@ abstract class AbstractModel
     /**
      * Кэширующая обертка над методом (подразумевается, что метод возвращает результат sql-запроса) модели
      *
-     * Принимает имя запроса и параметры. Проверяет, есть ли кэш с таким имененем (и не просрочен ли он), если есть -
+     * Принимает имя запроса и параметры. Проверяет, есть ли кэш с таким именем (и не просрочен ли он), если есть -
      * возвращает его. Если нет - выполняет запрос (метод с соответствующим именем должен быть создан отдельно) и
      * кэширует его.
      *
-     * @param $modelMethod
+     * @param string $modelMethod
      * @param $param
      * @param int $time
      * @return bool|mixed
      */
-    public function cacheWrapper($modelMethod, $param, $time = 60)
+    public function cacheWrapper(string $modelMethod, $param, $time = 60)
     {
         $content = $this->checkCache($modelMethod, $time);
 
@@ -65,20 +67,19 @@ abstract class AbstractModel
     /**
      * Проверяет, существует ли кэш по имени запроса (если быть точнее - по имени метода, выполняющего SQL-запрос)
      *
-     * @param $name
-     * @param $time
+     * @param string $name
+     * @param int $time
      * @return bool|mixed
      */
-    protected function checkCache($name, $time): bool
+    protected function checkCache(string $name, int $time): bool
     {
-        // TODO Потестировать работу кэша
-
         // Проверяем, есть ли кэш
-        if (file_exists($this->cache . $name)) {
+        $filePath = $this->cache . $name;
+        if (file_exists($filePath)) {
 
             // Проверяем, не протух ли кэш
             if (!($time > 0) || (($this->time - $time) < filemtime($this->cache . $name))) {
-                return unserialize(file_get_contents($this->cache . $name));
+                return unserialize(file_get_contents($filePath));
             }
         }
 
@@ -91,7 +92,7 @@ abstract class AbstractModel
      * @param $name
      * @param $content
      */
-    protected function createCache($name, $content): void
+    protected function createCache(string $name, string $content): void
     {
         $content = serialize($content);
 
@@ -103,10 +104,12 @@ abstract class AbstractModel
     /**
      * Удаляет кэш по его имени.
      *
-     * @param null $name
+     * @param string $name
      */
-    protected function deleteCache($name): void
+    protected function deleteCache(string $name): void
     {
+        // TODO Проверка наличия файла
+
         if ($name) {
             unlink($this->cache . $name);
         }
