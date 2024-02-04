@@ -4,17 +4,8 @@ namespace NW;
 
 abstract class AbstractModel
 {
-    /**
-     * Место хранения кэша результатов запросов
-     *
-     * TODO Вынести директорию хранения кэша в контейнер
-     *
-     * @var string
-     */
-    private string $cache = __DIR__ . '/../cache/sql/';
-
+    private string $cacheDir;
     protected Container $container;
-
     protected Connection $connection;
 
     /**
@@ -34,6 +25,7 @@ abstract class AbstractModel
     {
         $this->container = $container;
         $this->connection = $container->getConnection();
+        $this->cacheDir = __DIR__ . '/../' . $container->getCacheDir() . '/sql/';
         $this->time = microtime(true);
     }
 
@@ -74,11 +66,11 @@ abstract class AbstractModel
     protected function checkCache(string $name, int $time): bool
     {
         // Проверяем, есть ли кэш
-        $filePath = $this->cache . $name;
+        $filePath = $this->cacheDir . $name;
         if (file_exists($filePath)) {
 
             // Проверяем, не протух ли кэш
-            if (!($time > 0) || (($this->time - $time) < filemtime($this->cache . $name))) {
+            if (!($time > 0) || (($this->time - $time) < filemtime($this->cacheDir . $name))) {
                 return unserialize(file_get_contents($filePath));
             }
         }
@@ -96,7 +88,7 @@ abstract class AbstractModel
     {
         $content = serialize($content);
 
-        $file = fopen($this->cache . $name, 'wb');
+        $file = fopen($this->cacheDir . $name, 'wb');
         fwrite($file, $content);
         fclose($file);
     }
@@ -111,7 +103,7 @@ abstract class AbstractModel
         // TODO Проверка наличия файла
 
         if ($name) {
-            unlink($this->cache . $name);
+            unlink($this->cacheDir . $name);
         }
     }
 }

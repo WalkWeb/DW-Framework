@@ -23,6 +23,7 @@ class App
                 LOG_DIR,
                 LOG_FILE_NAME,
                 CONTROLLERS_DIR,
+                CACHE_DIR,
             );
     }
 

@@ -49,6 +49,7 @@ class AbstractTestCase extends TestCase
             LOG_DIR,
             LOG_FILE_NAME,
             CONTROLLERS_DIR,
+            CACHE_DIR,
         );
     }
 

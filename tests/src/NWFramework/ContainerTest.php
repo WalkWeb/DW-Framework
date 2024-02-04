@@ -178,6 +178,14 @@ class ContainerTest extends AbstractTestCase
     }
 
     /**
+     * @throws AppException
+     */
+    public function testContainerGetCacheDir(): void
+    {
+        self::assertEquals(CACHE_DIR, $this->getContainer()->getCacheDir());
+    }
+
+    /**
      * Тест на успешную установку APP_ENV
      *
      * @throws AppException

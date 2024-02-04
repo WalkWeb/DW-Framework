@@ -32,6 +32,9 @@ define('KEY', 'YOU_KEY');
 /** Директория с контролерами */
 define('CONTROLLERS_DIR', 'Controllers');
 
+/** Директория с кэшем */
+define('CACHE_DIR', 'cache');
+
 /** Сохранять ли логи в файл */
 define('SAVE_LOG', false);
 
