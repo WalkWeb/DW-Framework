@@ -15,15 +15,24 @@ class ControllerTest extends AbstractTestCase
     /**
      * @throws Exception
      */
+    public function testControllerGetContainer(): void
+    {
+        $container = $this->getContainer();
+        $controller = new ExampleController($container);
+
+        self::assertEquals($container, $controller->getContainer());
+    }
+
+    /**
+     * @throws Exception
+     */
     public function testControllerMissedView(): void
     {
         $controller = new ExampleController($this->getContainer());
 
         // Дальше в ошибке указывается полный путь к view, но он будет разным в зависимости от размещения проекта
         $this->expectException(AppException::class);
-        $this->expectExceptionMessage(
-            'View не найден: '
-        );
+        $this->expectExceptionMessage('View не найден: /var/www/dw-framework.loc/src/NWFramework/../../views/default/unknown_view.php');
         $controller->render('unknown_view');
     }
 
@@ -81,6 +90,9 @@ class ControllerTest extends AbstractTestCase
         self::assertIsString($response->getBody());
     }
 
+    /**
+     * @throws AppException
+     */
     public function testControllerGetCache(): void
     {
         $cacheName = 'name';

@@ -96,16 +96,12 @@ class ' . $className . '
      */
     private function createTable(): void
     {
-        $table = $this->connection->query("SHOW TABLES LIKE '" . self::TABLE_NAME . "'");
-
-        if (!$table) {
-            $this->connection->query(
-                "CREATE TABLE " . self::TABLE_NAME . " (
+        $this->connection->query(
+            "CREATE TABLE IF NOT EXISTS " . self::TABLE_NAME . " (
                     `version` VARCHAR(255) NOT NULL,
                     `executed_at` DATETIME DEFAULT CURRENT_TIMESTAMP
                 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;"
-            );
-        }
+        );
     }
 
     /**

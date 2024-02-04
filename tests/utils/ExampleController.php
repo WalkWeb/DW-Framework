@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\utils;
 
 use NW\AbstractController;
+use NW\Container;
 use NW\Response;
 
 /**
@@ -43,6 +44,11 @@ class ExampleController extends AbstractController
     public function exampleAction(): Response
     {
         return new Response('example html content');
+    }
+
+    public function getContainer(): Container
+    {
+        return parent::getContainer();
     }
 
     public function setLayoutUrl(string $layoutUrl): void

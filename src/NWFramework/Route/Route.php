@@ -115,35 +115,6 @@ class Route
     }
 
     /**
-     * Добавляет middleware для данного маршрута
-     *
-     * @param string $middleware
-     * @return Route
-     */
-    public function addMiddleware(string $middleware): Route
-    {
-        $this->middleware[] = $middleware;
-
-        return $this;
-    }
-
-    /**
-     * Если маршрут содержит middleware - выполняет их
-     *
-     * @param Request $request
-     */
-    public function runMiddleware(Request $request): void
-    {
-        if (count($this->middleware) > 0) {
-
-            foreach ($this->middleware as $middlewareClass) {
-                $middleware = new $middlewareClass();
-                $middleware($request);
-            }
-        }
-    }
-
-    /**
      * @return string
      */
     public function getName(): string

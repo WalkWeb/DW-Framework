@@ -48,7 +48,6 @@ class Router
     public function checkHandler(Route $route, Request $request): ?array
     {
         if ($result = $route->match($request)) {
-            $route->runMiddleware($request);
             return $result;
         }
 

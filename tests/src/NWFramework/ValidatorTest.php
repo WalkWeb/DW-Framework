@@ -5,17 +5,18 @@ declare(strict_types=1);
 namespace Tests\src\NWFramework;
 
 use Exception;
+use NW\AppException;
 use Tests\AbstractTestCase;
 
 class ValidatorTest extends AbstractTestCase
 {
     /**
-     * @throws Exception
+     * @throws AppException
      */
     public function testValidatorEmail(): void
     {
         $validator = $this->getContainer()->getValidator();
-        
+
         // Success
         self::assertTrue($validator->check('email', 'mail@mail.com', ['mail']));
 
@@ -25,7 +26,7 @@ class ValidatorTest extends AbstractTestCase
     }
 
     /**
-     * @throws Exception
+     * @throws AppException
      */
     public function testValidatorInteger(): void
     {
@@ -40,7 +41,7 @@ class ValidatorTest extends AbstractTestCase
     }
 
     /**
-     * @throws Exception
+     * @throws AppException
      */
     public function testValidatorString(): void
     {
@@ -55,7 +56,7 @@ class ValidatorTest extends AbstractTestCase
     }
 
     /**
-     * @throws Exception
+     * @throws AppException
      */
     public function testValidatorBoolean(): void
     {
@@ -70,7 +71,7 @@ class ValidatorTest extends AbstractTestCase
     }
 
     /**
-     * @throws Exception
+     * @throws AppException
      */
     public function testValidatorIn(): void
     {
@@ -85,7 +86,7 @@ class ValidatorTest extends AbstractTestCase
     }
 
     /**
-     * @throws Exception
+     * @throws AppException
      */
     public function testValidatorParent(): void
     {
@@ -102,7 +103,7 @@ class ValidatorTest extends AbstractTestCase
     /**
      * На данный момент реализована только проверка минимальной/максимальной длины строки
      *
-     * @throws Exception
+     * @throws AppException
      */
     public function testValidatorMin(): void
     {
@@ -118,7 +119,7 @@ class ValidatorTest extends AbstractTestCase
     }
 
     /**
-     * @throws Exception
+     * @throws AppException
      */
     public function testValidatorMax(): void
     {
@@ -133,7 +134,7 @@ class ValidatorTest extends AbstractTestCase
     }
 
     /**
-     * @throws Exception
+     * @throws AppException
      */
     public function testValidatorRequired(): void
     {
@@ -151,7 +152,7 @@ class ValidatorTest extends AbstractTestCase
     }
 
     /**
-     * @throws Exception
+     * @throws AppException
      */
     public function testValidatorCustomError(): void
     {
@@ -169,5 +170,84 @@ class ValidatorTest extends AbstractTestCase
 
         self::assertFalse($validator->check('login', 'InvalidLogin&', $rules, null, null, $error));
         self::assertEquals($error, $validator->getError());
+    }
+
+    /**
+     * @throws AppException
+     */
+    public function testValidatorUniqueSuccess(): void
+    {
+        $validator = $this->getContainer()->getValidator();
+
+        $rules = [
+            'required',
+            'string',
+            'unique',
+        ];
+
+        self::assertTrue($validator->check('login', 'abc', $rules, 'users', 'name'));
+        self::assertEquals('', $validator->getError());
+    }
+
+    /**
+     * @throws AppException
+     */
+    public function testValidatorUniqueNoTable(): void
+    {
+        $validator = $this->getContainer()->getValidator();
+
+        $rules = [
+            'required',
+            'string',
+            'unique',
+        ];
+
+        self::assertFalse($validator->check('login', 'abc', $rules, null, 'name'));
+        self::assertEquals('Не указана таблица или колонка для проверки', $validator->getError());
+    }
+
+    /**
+     * @throws AppException
+     */
+    public function testValidatorUniqueNoColumn(): void
+    {
+        $validator = $this->getContainer()->getValidator();
+
+        $rules = [
+            'required',
+            'string',
+            'unique',
+        ];
+
+        self::assertFalse($validator->check('login', 'abc', $rules, 'users'));
+        self::assertEquals('Не указана таблица или колонка для проверки', $validator->getError());
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function testValidatorUniqueExist(): void
+    {
+        $container = $this->getContainer();
+        $connection = $container->getConnection();
+        $table = 'books';
+        $id = '6e9043d1-18fb-44ea-be60-c356048f63a2';
+        $book = 'Book-1';
+        $validator = $container->getValidator();
+
+        $rules = [
+            'required',
+            'string',
+            'unique',
+        ];
+
+        // Clear table
+        $this->clearTable($connection, $table);
+
+        // Insert data
+        $this->insert($connection, $id, $book);
+
+        self::assertFalse($validator->check('book', $book, $rules, $table, 'name'));
+        self::assertEquals('Указанный book уже существует, выберите другой', $validator->getError());
     }
 }

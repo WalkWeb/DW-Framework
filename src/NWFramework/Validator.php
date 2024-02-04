@@ -282,7 +282,7 @@ class Validator
     private function unique($param, $table, $column): bool
     {
         if ($table === null || $column === null) {
-            $this->addError('Неуказана таблица или колонка для проверки');
+            $this->addError('Не указана таблица или колонка для проверки');
             return false;
         }
 
