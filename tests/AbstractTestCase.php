@@ -72,23 +72,11 @@ class AbstractTestCase extends TestCase
 
     /**
      * @param Connection $db
-     * @throws AppException
-     */
-    protected function createTable(Connection $db): void
-    {
-        $db->query('CREATE TABLE IF NOT EXISTS `books` (
-            `id` VARCHAR(36) NOT NULL,
-            `name` VARCHAR(255) NOT NULL 
-        ) ENGINE=InnoDB DEFAULT CHARSET=utf8;');
-    }
-
-    /**
-     * @param Connection $db
      * @param string $table
      * @throws AppException
      */
     protected function clearTable(Connection $db, string $table): void
     {
-        $db->query('DELETE FROM `books`;');
+        $db->query("DELETE FROM `$table`;");
     }
 }

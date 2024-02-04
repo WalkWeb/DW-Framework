@@ -55,40 +55,36 @@ class ConnectionTest extends AbstractTestCase
      */
     public function testConnectionQuerySuccess(): void
     {
+        $id = 'bc313e0f-ba0f-4e04-b17e-f796d7ba8be0';
         $user = 'User#1';
         $db = $this->getContainer()->getConnection();
         $db->autocommit(false);
 
-        // Create table
-        $this->createTable($db);
-
         // Insert
         $db->query(
-            "INSERT INTO `users` (`name`) VALUES (?);",
-            [['type' => 's', 'value' => $user]]
+            "INSERT INTO `users` (`id`, `name`) VALUES (?, ?);",
+            [
+                ['type' => 's', 'value' => $id],
+                ['type' => 's', 'value' => $user],
+            ]
         );
 
-        self::assertIsInt($db->getInsertId());
+        self::assertIsInt($id = $db->getInsertId());
 
         // Select all
-        $users = $db->query('SELECT `name` FROM `users`');
+        $users = $db->query("SELECT `name` FROM `users`");
 
         self::assertCount(1, $users);
-
-        foreach ($users as $userData) {
-            self::assertEquals($user, $userData['name']);
-        }
+        self::assertEquals($user, $users[0]['name']);
 
         // Select one
-        // TODO На этом этапе почему-то получаем пустой массив. А без rollback все работает. Надо разобраться почему
-//        $id = 1;
-//        $userData = $db->query(
-//            'SELECT `name` FROM `users` WHERE id = ?',
-//            [['type' => 'i', 'value' => $id]],
-//            true
-//        );
-//
-//        self::assertEquals($user, $userData['name']);
+        $userData = $db->query(
+            'SELECT `name` FROM `users` WHERE id = ?',
+            [['type' => 'i', 'value' => $id]],
+            true
+        );
+
+        self::assertEquals($user, $userData['name']);
 
         self::assertEquals(3, $db->getQueryNumber());
 

@@ -25,7 +25,10 @@ class Migration
         $this->connection = (new App(new Router(new RouteCollection())))->getContainer()->getConnection();
     }
 
-    public function create(): void
+    /**
+     * @return string - Created filepath
+     */
+    public function create(): string
     {
         $date = new DateTime();
         $microtime = microtime(true);
@@ -51,9 +54,12 @@ class ' . $className . '
 }
 ';
 
-        $file = fopen(self::MIGRATIONS_DIR . $className . '.php', 'wb');
+        $filePath = self::MIGRATIONS_DIR . $className . '.php';
+        $file = fopen($filePath, 'wb');
         fwrite($file, $fileContent);
         fclose($file);
+
+        return $filePath;
     }
 
     /**

@@ -18,16 +18,13 @@ class ModelTest extends AbstractTestCase
      */
     public function testModelCreateFromDBSuccess(): void
     {
+        $table = 'books';
         $id = '6e9043d1-18fb-44ea-be60-c356048f63a2';
         $name = 'Example#1';
-        $table = 'books';
         $container = $this->getContainer();
 
         $connection = $container->getConnection();
         $connection->autocommit(false);
-
-        // Create table
-        $this->createTable($connection);
 
         // Clear table
         $this->clearTable($connection, $table);
@@ -59,7 +56,6 @@ class ModelTest extends AbstractTestCase
         $db = $container->getConnection();
         $db->autocommit(false);
 
-        $this->createTable($db);
         $this->insert($db, $id, $name);
         $model = new ExampleModel($id, $container);
 
@@ -94,7 +90,6 @@ class ModelTest extends AbstractTestCase
         $db = $container->getConnection();
         $db->autocommit(false);
 
-        $this->createTable($db);
         $this->insert($db, $id, $name);
         $model = new ExampleModel($id, $container);
 
@@ -122,7 +117,6 @@ class ModelTest extends AbstractTestCase
         $name = 'RemoveBook';
         $container = $this->getContainer();
         $db = $container->getConnection();
-        $this->createTable($db);
         $this->insert($db, $id, $name);
 
         $model = new ExampleModel($id, $container);
