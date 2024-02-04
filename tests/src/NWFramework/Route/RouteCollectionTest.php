@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Tests\src\NWFramework\Route;
 
-use Middleware\AuthMiddleware;
-use NW\Route\Route;
 use NW\Route\RouteCollection;
 use Tests\AbstractTestCase;
 

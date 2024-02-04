@@ -25,7 +25,6 @@
     "psr-4": {
       "Controllers\\": "controllers/",
       "Models\\": "models/",
-      "Middleware\\": "middleware/",
       "NW\\": "src/NWFramework",
       "Migrations\\": "migrations/",
       "Tests\\": "tests/"

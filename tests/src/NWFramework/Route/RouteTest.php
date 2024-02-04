@@ -4,10 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\src\NWFramework\Route;
 
-use Middleware\AuthMiddleware;
-use Middleware\Exceptions\AuthException;
 use NW\Request;
-use NW\Response;
 use NW\Route\Route;
 use Tests\AbstractTestCase;
 
@@ -62,30 +59,6 @@ class RouteTest extends AbstractTestCase
     {
         $route = new Route($name, $path, $handler, $method, $params, $namespace);
         self::assertEquals($expectedResult, $route->match($request));
-    }
-
-    /**
-     * Тест на выполнение middleware
-     *
-     * Полноценная механика Middleware пока не реализована, так что это пока только пародия нан их
-     */
-    public function testRouteRunMiddleware(): void
-    {
-        $name = 'testGetRoute';
-        $path = 'home';
-        $handler = 'TestContoller@index';
-        $method = 'GET';
-        $params = ['test' => 'test'];
-        $namespace = '';
-
-        $route = new Route($name, $path, $handler, $method, $params, $namespace);
-        $route->addMiddleware(AuthMiddleware::class);
-
-        // Так как мы не авторизованы - при выполнении middleware будет исключение
-        $this->expectException(AuthException::class);
-        $this->expectExceptionMessage(AuthException::UNAUTHORIZED);
-        $this->expectExceptionCode(Response::UNAUTHORIZED);
-        $route->runMiddleware(new Request([]));
     }
 
     /**

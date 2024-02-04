@@ -1,7 +1,5 @@
 <?php
 
-use Middleware\AuthMiddleware;
-
 $routes = new NW\Route\RouteCollection();
 
 $routes->get('home', '/', 'MainController@index');
@@ -17,6 +15,6 @@ $routes->post('cookies.delete', '/cookies/delete', 'CookieController@delete');
 
 $routes->get('redirect.example', '/redirect', 'MainController@redirectExample');
 
-$routes->get('admin', '/admin', 'AdminController@index')->addMiddleware(AuthMiddleware::class);
+//$routes->get('admin', '/admin', 'AdminController@index')->addMiddleware(AuthMiddleware::class);
 
 return new NW\Route\Router($routes);
