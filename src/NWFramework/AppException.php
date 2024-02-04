@@ -3,7 +3,6 @@
 namespace NW;
 
 use Exception;
-use NW\Utils\HttpCode;
 use Throwable;
 
 /**
@@ -20,7 +19,7 @@ class AppException extends Exception
      * @param int $code
      * @param AppException|null $previous
      */
-    public function __construct(string $message, $code = HttpCode::INTERNAL_SERVER_ERROR, AppException $previous = null)
+    public function __construct(string $message, $code = Response::INTERNAL_SERVER_ERROR, AppException $previous = null)
     {
         set_exception_handler([$this, 'printException']);
         parent::__construct($message, $code, $previous);
@@ -47,7 +46,7 @@ class AppException extends Exception
             // TODO А так как для этого нужен контейнер - можно создавать 500 response в App
             $view = __DIR__ . '/../../views/default/errors/500.php';
             $content = file_exists($view) ? file_get_contents($view) : '500: Internal Server Error';
-            $response = new Response($content, HttpCode::INTERNAL_SERVER_ERROR);
+            $response = new Response($content, Response::INTERNAL_SERVER_ERROR);
         }
 
         App::emit($response);

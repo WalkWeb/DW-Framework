@@ -7,8 +7,8 @@ namespace Tests\src\NWFramework\Route;
 use Middleware\AuthMiddleware;
 use Middleware\Exceptions\AuthException;
 use NW\Request;
+use NW\Response;
 use NW\Route\Route;
-use NW\Utils\HttpCode;
 use Tests\AbstractTestCase;
 
 class RouteTest extends AbstractTestCase
@@ -84,7 +84,7 @@ class RouteTest extends AbstractTestCase
         // Так как мы не авторизованы - при выполнении middleware будет исключение
         $this->expectException(AuthException::class);
         $this->expectExceptionMessage(AuthException::UNAUTHORIZED);
-        $this->expectExceptionCode(HttpCode::UNAUTHORIZED);
+        $this->expectExceptionCode(Response::UNAUTHORIZED);
         $route->runMiddleware(new Request([]));
     }
 

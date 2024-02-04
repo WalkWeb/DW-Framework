@@ -3,7 +3,7 @@
 namespace Models;
 
 use Models\Exceptions\PostException;
-use NW\Utils\HttpCode;
+use NW\Response;
 
 /**
  * Данный класс имитирует данные из базы по постам, чтобы можно было продемонстрировать работу маршрутов/контроллеров с
@@ -46,7 +46,7 @@ class PostDataProvider
     public static function getPostById(int $id): object
     {
         if (empty(self::$posts[$id])) {
-            throw new PostException(PostException::NOT_FOUND, HttpCode::NOT_FOUND);
+            throw new PostException(PostException::NOT_FOUND, Response::NOT_FOUND);
         }
 
         return (object)self::$posts[$id];
@@ -68,7 +68,7 @@ class PostDataProvider
         $id = $page === 1 ? 1 : (($page - 1) * $limit + 1);
 
         if (empty(self::$posts[$id])) {
-            throw new PostException(PostException::NOT_FOUND, HttpCode::NOT_FOUND);
+            throw new PostException(PostException::NOT_FOUND, Response::NOT_FOUND);
         }
 
         $i = 1;

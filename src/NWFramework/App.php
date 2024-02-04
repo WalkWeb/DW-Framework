@@ -4,7 +4,6 @@ namespace NW;
 
 use Exception;
 use NW\Route\Router;
-use NW\Utils\HttpCode;
 
 class App
 {
@@ -52,13 +51,13 @@ class App
         $handlerClass = self::$container->getControllersDir() . '\\' . $handlerClass;
 
         if (!class_exists($handlerClass)) {
-            throw new AppException('Отсутствует контроллер: ' . $handlerClass, HttpCode::INTERNAL_SERVER_ERROR);
+            throw new AppException('Отсутствует контроллер: ' . $handlerClass, Response::INTERNAL_SERVER_ERROR);
         }
 
         $class = new $handlerClass(self::$container);
 
         if (!method_exists($class, $action)) {
-            throw new AppException('Метод не найден: ' . $action, HttpCode::INTERNAL_SERVER_ERROR);
+            throw new AppException('Метод не найден: ' . $action, Response::INTERNAL_SERVER_ERROR);
         }
 
         return $class->$action($request);
@@ -133,6 +132,6 @@ class App
         $view = __DIR__ . '/../../../views/default/errors/404.php';
         $content = file_exists($view) ? file_get_contents($view) : '404: Page not found';
 
-        return new Response($content, HttpCode::NOT_FOUND);
+        return new Response($content, Response::NOT_FOUND);
     }
 }

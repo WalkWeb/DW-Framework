@@ -6,9 +6,9 @@ namespace Tests\src\NWFramework;
 
 use NW\AppException;
 use NW\Container;
+use NW\Response;
 use NW\Route\RouteCollection;
 use NW\Route\Router;
-use NW\Utils\HttpCode;
 use Tests\AbstractTestCase;
 
 class AppExceptionTest extends AbstractTestCase
@@ -19,14 +19,14 @@ class AppExceptionTest extends AbstractTestCase
         $default = new AppException($defaultMessage = 'default message');
 
         self::assertEquals($defaultMessage, $default->getMessage());
-        self::assertEquals(HttpCode::INTERNAL_SERVER_ERROR, $default->getCode());
+        self::assertEquals(Response::INTERNAL_SERVER_ERROR, $default->getCode());
         self::assertNull($default->getPrevious());
 
         // custom
-        $custom = new AppException($customMessage = 'custom message', HttpCode::BAD_GATEWAY, $default);
+        $custom = new AppException($customMessage = 'custom message', Response::BAD_GATEWAY, $default);
 
         self::assertEquals($customMessage, $custom->getMessage());
-        self::assertEquals(HttpCode::BAD_GATEWAY, $custom->getCode());
+        self::assertEquals(Response::BAD_GATEWAY, $custom->getCode());
         self::assertEquals($default, $custom->getPrevious());
     }
 
@@ -70,7 +70,7 @@ EOT;
     public function testAppExceptionPrintDetails(): void
     {
         $this->getApp(new Router(new RouteCollection()));
-        $e = new AppException('message', HttpCode::UNAUTHORIZED);
+        $e = new AppException('message', Response::UNAUTHORIZED);
 
         $expectedContent = '<h1>Ошибка</h1><p>Ошибка [401]: message<br />Файл: /var/www/dw-framework.loc/tests/src/NWFramework/AppExceptionTest.php<br />Строка: 73</p>';
 

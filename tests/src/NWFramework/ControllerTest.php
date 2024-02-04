@@ -6,7 +6,7 @@ namespace Tests\src\NWFramework;
 
 use Exception;
 use NW\AppException;
-use NW\Utils\HttpCode;
+use NW\Response;
 use Tests\AbstractTestCase;
 use Tests\utils\ExampleController;
 
@@ -55,7 +55,7 @@ class ControllerTest extends AbstractTestCase
 
         $response = $controller->json($data);
 
-        self::assertEquals(HttpCode::OK, $response->getStatusCode());
+        self::assertEquals(Response::OK, $response->getStatusCode());
         self::assertEquals('1.1', $response->getProtocolVersion());
         self::assertEquals('OK', $response->getReasonPhase());
         self::assertEquals(json_encode($data, JSON_THROW_ON_ERROR), $response->getBody());
@@ -71,7 +71,7 @@ class ControllerTest extends AbstractTestCase
 
         $response = $controller->renderErrorPage();
 
-        self::assertEquals(HttpCode::NOT_FOUND, $response->getStatusCode());
+        self::assertEquals(Response::NOT_FOUND, $response->getStatusCode());
         self::assertEquals('1.1', $response->getProtocolVersion());
         self::assertEquals('Not Found', $response->getReasonPhase());
         self::assertEquals([], $response->getHeaders());
@@ -202,13 +202,13 @@ class ControllerTest extends AbstractTestCase
         // Редирект с дефолтными параметрами
         $response = $controller->redirect($redirectUrl);
 
-        self::assertEquals(HttpCode::FOUND, $response->getStatusCode());
+        self::assertEquals(Response::FOUND, $response->getStatusCode());
         self::assertEquals(['Location' => $redirectUrl], $response->getHeaders());
         self::assertEquals('', $response->getBody());
 
         // Редирект с пользовательским body и кодом ответа (например, нужно вернуть 301, а не 302)
         $body = 'redirect body';
-        $responseCode = HttpCode::MOVED_PERMANENTLY;
+        $responseCode = Response::MOVED_PERMANENTLY;
 
         $response = $controller->redirect($redirectUrl, $body, $responseCode);
 

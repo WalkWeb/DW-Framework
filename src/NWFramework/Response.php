@@ -4,11 +4,21 @@ declare(strict_types=1);
 
 namespace NW;
 
-use NW\AppException;
-use NW\Utils\HttpCode;
-
 class Response
 {
+    public const OK                              = 200;
+    public const CREATED                         = 201;
+    public const MOVED_PERMANENTLY               = 301;
+    public const FOUND                           = 302;
+    public const BAD_REQUEST                     = 400;
+    public const UNAUTHORIZED                    = 401;
+    public const PAYMENT_REQUIRED                = 402;
+    public const FORBIDDEN                       = 403;
+    public const NOT_FOUND                       = 404;
+    public const METHOD_NOT_ALLOWED              = 405;
+    public const INTERNAL_SERVER_ERROR           = 500;
+    public const BAD_GATEWAY                     = 502;
+
     /**
      * @var string - Тело ответа
      */
@@ -37,19 +47,17 @@ class Response
     /**
      * Упрощенный список кодов ответа
      *
-     * Полный список в HttpCode
-     *
      * @var array - Допустимые значения статуса и соответствующие им текстовые описания
      */
     private static array $phrases = [
-        HttpCode::OK                    => 'OK',
-        HttpCode::MOVED_PERMANENTLY     => 'Moved Permanently',
-        HttpCode::FOUND                 => 'Found',
-        HttpCode::UNAUTHORIZED          => 'Unauthorized',
-        HttpCode::FORBIDDEN             => 'Forbidden',
-        HttpCode::NOT_FOUND             => 'Not Found',
-        HttpCode::METHOD_NOT_ALLOWED    => 'Method Not Allowed',
-        HttpCode::INTERNAL_SERVER_ERROR => 'Internal Server Error',
+        self::OK                    => 'OK',
+        self::MOVED_PERMANENTLY     => 'Moved Permanently',
+        self::FOUND                 => 'Found',
+        self::UNAUTHORIZED          => 'Unauthorized',
+        self::FORBIDDEN             => 'Forbidden',
+        self::NOT_FOUND             => 'Not Found',
+        self::METHOD_NOT_ALLOWED    => 'Method Not Allowed',
+        self::INTERNAL_SERVER_ERROR => 'Internal Server Error',
     ];
 
     /**
@@ -60,7 +68,7 @@ class Response
      * @param int $status
      * @throws AppException
      */
-    public function __construct(string $body = '', int $status = HttpCode::OK)
+    public function __construct(string $body = '', int $status = self::OK)
     {
         $this->body = $body;
         $this->setStatusCode($status);

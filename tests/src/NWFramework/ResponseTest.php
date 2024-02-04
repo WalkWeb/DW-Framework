@@ -6,7 +6,6 @@ namespace Tests\src\NWFramework;
 
 use NW\AppException;
 use NW\Response;
-use NW\Utils\HttpCode;
 use Tests\AbstractTestCase;
 
 class ResponseTest extends AbstractTestCase
@@ -16,7 +15,7 @@ class ResponseTest extends AbstractTestCase
         $response = new Response();
 
         self::assertEquals('', $response->getBody());
-        self::assertEquals(HttpCode::OK, $response->getStatusCode());
+        self::assertEquals(Response::OK, $response->getStatusCode());
         self::assertEquals('OK', $response->getReasonPhase());
         self::assertEquals([], $response->getHeaders());
         self::assertEquals('1.1', $response->getProtocolVersion());
@@ -29,10 +28,10 @@ class ResponseTest extends AbstractTestCase
     {
         $body = 'Access denied';
 
-        $response = new Response($body, HttpCode::UNAUTHORIZED);
+        $response = new Response($body, Response::UNAUTHORIZED);
 
         self::assertEquals($body, $response->getBody());
-        self::assertEquals(HttpCode::UNAUTHORIZED, $response->getStatusCode());
+        self::assertEquals(Response::UNAUTHORIZED, $response->getStatusCode());
         self::assertEquals('Unauthorized', $response->getReasonPhase());
     }
 
@@ -43,12 +42,12 @@ class ResponseTest extends AbstractTestCase
     {
         $response = new Response();
 
-        self::assertEquals(HttpCode::OK, $response->getStatusCode());
+        self::assertEquals(Response::OK, $response->getStatusCode());
         self::assertEquals('OK', $response->getReasonPhase());
 
-        $response->setStatusCode(HttpCode::NOT_FOUND);
+        $response->setStatusCode(Response::NOT_FOUND);
 
-        self::assertEquals(HttpCode::NOT_FOUND, $response->getStatusCode());
+        self::assertEquals(Response::NOT_FOUND, $response->getStatusCode());
         self::assertEquals('Not Found', $response->getReasonPhase());
     }
 

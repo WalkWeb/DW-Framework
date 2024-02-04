@@ -10,7 +10,6 @@ use NW\Request;
 use NW\Response;
 use NW\Route\RouteCollection;
 use NW\Route\Router;
-use NW\Utils\HttpCode;
 use ReflectionClass;
 use ReflectionException;
 use Tests\AbstractTestCase;
@@ -28,7 +27,7 @@ class AppTest extends AbstractTestCase
         $response = $app->handle($request);
 
         self::assertRegExp('/Главная страница/', $response->getBody());
-        self::assertEquals(HttpCode::OK, $response->getStatusCode());
+        self::assertEquals(Response::OK, $response->getStatusCode());
     }
 
     /**
@@ -42,7 +41,7 @@ class AppTest extends AbstractTestCase
         $response = $app->handle($request);
 
         self::assertEquals('404: Page not found', $response->getBody());
-        self::assertEquals(HttpCode::NOT_FOUND, $response->getStatusCode());
+        self::assertEquals(Response::NOT_FOUND, $response->getStatusCode());
     }
 
     /**
@@ -55,7 +54,7 @@ class AppTest extends AbstractTestCase
 
         $this->expectException(AppException::class);
         $this->expectExceptionMessage('Отсутствует контроллер: Controllers\UnknownController');
-        $this->expectExceptionCode(HttpCode::INTERNAL_SERVER_ERROR);
+        $this->expectExceptionCode(Response::INTERNAL_SERVER_ERROR);
         $app->handle($request);
     }
 
@@ -69,7 +68,7 @@ class AppTest extends AbstractTestCase
 
         $this->expectException(AppException::class);
         $this->expectExceptionMessage('Метод не найден: unknownMethod');
-        $this->expectExceptionCode(HttpCode::INTERNAL_SERVER_ERROR);
+        $this->expectExceptionCode(Response::INTERNAL_SERVER_ERROR);
         $app->handle($request);
     }
 
@@ -99,7 +98,7 @@ class AppTest extends AbstractTestCase
     {
         $this->expectException(AppException::class);
         $this->expectExceptionMessage('Метод emit не может вызываться до создания App');
-        $this->expectExceptionCode(HttpCode::INTERNAL_SERVER_ERROR);
+        $this->expectExceptionCode(Response::INTERNAL_SERVER_ERROR);
 
         $reflectionClass = new ReflectionClass(App::class);
 

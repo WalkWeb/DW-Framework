@@ -3,11 +3,11 @@
 namespace Tests\controllers;
 
 use Exception;
+use NW\Response;
 use NW\Route\RouteCollection;
 use NW\Route\Router;
 use NW\Request;
 use NW\App;
-use NW\Utils\HttpCode;
 use Tests\AbstractTestCase;
 
 class MainControllerTest extends AbstractTestCase
@@ -35,7 +35,7 @@ class MainControllerTest extends AbstractTestCase
         $response = $this->app->handle($request);
 
         self::assertRegExp('/Главная страница/', $response->getBody());
-        self::assertEquals(HttpCode::OK, $response->getStatusCode());
+        self::assertEquals(Response::OK, $response->getStatusCode());
     }
 
     /**
@@ -49,6 +49,6 @@ class MainControllerTest extends AbstractTestCase
         $response = $this->app->handle($request);
 
         self::assertEquals('404: Page not found', $response->getBody());
-        self::assertEquals(HttpCode::NOT_FOUND, $response->getStatusCode());
+        self::assertEquals(Response::NOT_FOUND, $response->getStatusCode());
     }
 }

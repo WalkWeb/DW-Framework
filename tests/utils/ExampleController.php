@@ -6,7 +6,6 @@ namespace Tests\utils;
 
 use NW\AbstractController;
 use NW\Response;
-use NW\Utils\HttpCode;
 
 /**
  * Так как NW\Controller является абстрактным классом, мы не можем протестировать его напрямую. Для этого создан
@@ -26,7 +25,7 @@ class ExampleController extends AbstractController
         parent::createCache($name, $content, $id, $prefix);
     }
 
-    public function redirect(string $url, string $body = '', int $code = HttpCode::FOUND): Response
+    public function redirect(string $url, string $body = '', int $code = Response::FOUND): Response
     {
         return parent::redirect($url, $body, $code);
     }

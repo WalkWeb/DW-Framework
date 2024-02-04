@@ -3,7 +3,6 @@
 namespace NW;
 
 use Exception;
-use NW\Utils\HttpCode;
 
 abstract class AbstractController
 {
@@ -146,7 +145,7 @@ abstract class AbstractController
      * @return Response
      * @throws Exception
      */
-    public function renderErrorPage(string $error = '', int $code = HttpCode::NOT_FOUND): Response
+    public function renderErrorPage(string $error = '', int $code = Response::NOT_FOUND): Response
     {
         // На всякий случай переключаем шаблон на базовый (т.к. 404 ошибка может кидаться и с других шаблонов)
         $this->layoutUrl = 'layout/main.php';
@@ -171,7 +170,7 @@ abstract class AbstractController
      * @return Response
      * @throws AppException
      */
-    protected function redirect(string $url, string $body = '', int $code = HttpCode::FOUND): Response
+    protected function redirect(string $url, string $body = '', int $code = Response::FOUND): Response
     {
         $response = new Response($body, $code);
         $response->withHeader('Location', $url);
