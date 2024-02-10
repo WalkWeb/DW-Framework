@@ -235,6 +235,8 @@ class ValidatorTest extends AbstractTestCase
         $book = 'Book-1';
         $validator = $container->getValidator();
 
+        $connection->autocommit(false);
+
         $rules = [
             'required',
             'string',
@@ -249,5 +251,7 @@ class ValidatorTest extends AbstractTestCase
 
         self::assertFalse($validator->check('book', $book, $rules, $table, 'name'));
         self::assertEquals('Указанный book уже существует, выберите другой', $validator->getError());
+
+        $connection->rollback();
     }
 }

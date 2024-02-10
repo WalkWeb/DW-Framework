@@ -36,7 +36,7 @@ class MigrationTest extends AbstractTestCase
         self::assertCount(2, $migrations);
 
         // Получаем содержимое
-        $content = file_get_contents(self::MIGRATIONS_DIR . $migrations[0]);
+        $content = file_get_contents(self::MIGRATIONS_DIR . $migrations[1]);
 
         // Так как содержимое миграции будет всегда уникальным, проверяем лишь наличие некоторого текста
         self::assertIsInt(stripos($content, 'Version'));
