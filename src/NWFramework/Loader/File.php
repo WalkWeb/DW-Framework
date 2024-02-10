@@ -4,27 +4,12 @@ namespace NW\Loader;
 
 class File
 {
-    /**
-     * @var string
-     */
     private string $name;
-
-    /**
-     * @var string
-     */
     private string $type;
-
-    /**
-     * @var string|null
-     */
-    private ?string $dir;
-
-    /**
-     * @var int
-     */
+    private string $dir;
     private int $size;
 
-    public function __construct(string $name, string $type, int $size, ?string $dir = null)
+    public function __construct(string $name, string $type, int $size, string $dir)
     {
         $this->name = $name;
         $this->type = $type;
@@ -42,7 +27,7 @@ class File
         return $this->size;
     }
 
-    public function getDir(): ?string
+    public function getDir(): string
     {
         return $this->dir;
     }
@@ -50,5 +35,10 @@ class File
     public function getType(): string
     {
         return $this->type;
+    }
+
+    public function getFilePath(): string
+    {
+        return $this->dir . $this->name . $this->type;
     }
 }

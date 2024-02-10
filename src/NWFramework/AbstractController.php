@@ -85,7 +85,7 @@ abstract class AbstractController
      * @param array $params
      * @param int|null $statusCode
      * @return Response
-     * @throws Exception
+     * @throws AppException
      */
     public function render($view, $params = [], int $statusCode = null): Response
     {

@@ -18,7 +18,7 @@ class Image extends File
      */
     private int $height;
 
-    public function __construct(string $name, string $type, int $size, int $width, int $height, string $dir = null)
+    public function __construct(string $name, string $type, int $size, int $width, int $height, string $dir)
     {
         parent::__construct($name, $type, $size, $dir);
 

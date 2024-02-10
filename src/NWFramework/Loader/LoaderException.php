@@ -13,6 +13,7 @@ class LoaderException extends Exception
     public const ERROR_TYPE    = 'Недопустимый тип файла';
     public const ERROR_WIDTH   = 'Изображение превысило максимальную ширину';
     public const ERROR_HEIGHT  = 'Изображение превысило максимальную высоту';
+    public const ERROR_NO_LOAD = 'Указанное изображение не является загруженнным';
 
     /** Эта ошибка чаще всего возникает когда не хватает прав на сохранение файла в указанную директорию */
     public const ERROR_UPLOAD = 'При загрузке изображения произошла ошибка сохранения на диск';

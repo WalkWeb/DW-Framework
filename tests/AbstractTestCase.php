@@ -13,8 +13,12 @@ use PHPUnit\Framework\TestCase;
 
 class AbstractTestCase extends TestCase
 {
+    protected string $dir;
+
     public function setUp(): void
     {
+        $this->dir = __DIR__;
+
         if (file_exists(__DIR__ . '/../config.test.php')) {
             require_once __DIR__ . '/../config.test.php';
         } else {

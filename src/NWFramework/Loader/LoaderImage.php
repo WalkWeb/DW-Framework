@@ -2,6 +2,8 @@
 
 namespace NW\Loader;
 
+use NW\Container;
+
 class LoaderImage
 {
     // TODO Вынести константы в config.php
@@ -15,6 +17,8 @@ class LoaderImage
     private int $errorCode;
     private int $size;
 
+    private bool $testMode;
+
     private static array $errorMessages = [
         UPLOAD_ERR_INI_SIZE   => 'Размер файла превысил значение upload_max_filesize в конфигурации PHP',
         UPLOAD_ERR_FORM_SIZE  => 'Размер загружаемого файла превысил значение MAX_FILE_SIZE в HTML-форме',
@@ -24,6 +28,11 @@ class LoaderImage
         UPLOAD_ERR_CANT_WRITE => 'Не удалось записать файл на диск',
         UPLOAD_ERR_EXTENSION  => 'PHP-расширение остановило загрузку файла',
     ];
+
+    public function __construct(Container $container)
+    {
+        $this->testMode = $container->getAppEnv() === Container::APP_TEST;
+    }
 
     /**
      * Сохраняет картинку на сервере и возвращает её название
@@ -44,6 +53,7 @@ class LoaderImage
         string $directory = self::DIRECTORY
     ): Image
     {
+        // TODO Валидация формата файла
         $this->filePath = $files['upload']['tmp_name'] ?? $files['file']['tmp_name'];
         $this->errorCode = $files['upload']['error'] ?? $files['file']['error'];
         $this->preloadValidate($maxSize);
@@ -58,14 +68,19 @@ class LoaderImage
      */
     private function preloadValidate(int $maxSize): void
     {
+        // TODO Проверка наличия файла
         $this->size = filesize($this->filePath);
 
         if ($this->size > $maxSize) {
             throw new LoaderException(LoaderException::ERROR_SIZE);
         }
 
-        if ($this->errorCode !== UPLOAD_ERR_OK || !is_uploaded_file($this->filePath)) {
+        if ($this->errorCode !== UPLOAD_ERR_OK) {
             throw new LoaderException(self::$errorMessages[$this->errorCode] ?? LoaderException::ERROR_UNKNOWN);
+        }
+
+        if (!$this->testMode && !is_uploaded_file($this->filePath)) {
+            throw new LoaderException(LoaderException::ERROR_NO_LOAD);
         }
     }
 
@@ -122,14 +137,20 @@ class LoaderImage
      */
     private function save(array $image, string $directory): Image
     {
+        // TODO Добавить уникализацию имени
+        // TODO Добавить поддиректории хранения
         $name = md5_file($this->filePath);
-
         $type = image_type_to_extension($image[2]);
+        $newPath = DIR . $directory . $name . $type;
 
-        if (!move_uploaded_file($this->filePath, DIR . $directory . $name . $type)) {
+        if (!$this->testMode && !move_uploaded_file($this->filePath, $newPath)) {
             throw new LoaderException(LoaderException::ERROR_UPLOAD);
         }
 
-        return new Image($name, $type, $this->size, $image[0], $image[1], $directory);
+        if ($this->testMode) {
+            copy($this->filePath, $newPath);
+        }
+
+        return new Image($name, $type, $this->size, $image[0], $image[1], DIR . $directory);
     }
 }

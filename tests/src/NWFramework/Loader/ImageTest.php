@@ -9,7 +9,7 @@ use Tests\AbstractTestCase;
 
 class ImageTest extends AbstractTestCase
 {
-    public function testImageCreateDirNotNull(): void
+    public function testImageCreate(): void
     {
         $name = 'fileName';
         $type = 'png';
@@ -26,23 +26,5 @@ class ImageTest extends AbstractTestCase
         self::assertEquals($width, $file->getWidth());
         self::assertEquals($height, $file->getHeight());
         self::assertEquals($dir, $file->getDir());
-    }
-
-    public function testImageCreateNullDir(): void
-    {
-        $name = 'fileName';
-        $type = 'png';
-        $size = 1024;
-        $width = 1000;
-        $height = 500;
-
-        $file = new Image($name, $type, $size, $width, $height);
-
-        self::assertEquals($name, $file->getName());
-        self::assertEquals($type, $file->getType());
-        self::assertEquals($size, $file->getSize());
-        self::assertEquals($width, $file->getWidth());
-        self::assertEquals($height, $file->getHeight());
-        self::assertNull($file->getDir());
     }
 }
