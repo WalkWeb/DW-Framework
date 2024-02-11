@@ -16,6 +16,7 @@
         <li><a href="/post/create" title="">Создать пост</a></li>
         <li><a href="/redirect" title="">Редирект</a></li>
         <li><a href="/cookies" title="">Cookies</a></li>
+        <li><a href="/image" title="">Загрузка картинки</a></li>
     </ul>
 </div>
 <div class="content">

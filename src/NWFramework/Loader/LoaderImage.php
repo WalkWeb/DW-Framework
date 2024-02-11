@@ -54,6 +54,7 @@ class LoaderImage
     ): Image
     {
         // TODO Валидация формата файла
+        // TODO Добавить массовую загрузку файлов
         $this->filePath = $files['upload']['tmp_name'] ?? $files['file']['tmp_name'];
         $this->errorCode = $files['upload']['error'] ?? $files['file']['error'];
         $this->preloadValidate($maxSize);
