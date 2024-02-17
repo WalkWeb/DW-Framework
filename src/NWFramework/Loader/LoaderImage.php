@@ -21,13 +21,13 @@ class LoaderImage
     private bool $testMode;
 
     private static array $errorMessages = [
-        UPLOAD_ERR_INI_SIZE   => 'Размер файла превысил значение upload_max_filesize в конфигурации PHP',
-        UPLOAD_ERR_FORM_SIZE  => 'Размер загружаемого файла превысил значение MAX_FILE_SIZE в HTML-форме',
-        UPLOAD_ERR_PARTIAL    => 'Загружаемый файл был получен только частично',
-        UPLOAD_ERR_NO_FILE    => 'Файл не был загружен',
-        UPLOAD_ERR_NO_TMP_DIR => 'Отсутствует временная папка',
-        UPLOAD_ERR_CANT_WRITE => 'Не удалось записать файл на диск',
-        UPLOAD_ERR_EXTENSION  => 'PHP-расширение остановило загрузку файла',
+        UPLOAD_ERR_INI_SIZE   => LoaderException::ERROR_INI_SIZE,
+        UPLOAD_ERR_FORM_SIZE  => LoaderException::ERROR_FORM_SIZE,
+        UPLOAD_ERR_PARTIAL    => LoaderException::ERROR_PARTIAL,
+        UPLOAD_ERR_NO_FILE    => LoaderException::ERROR_NO_FILE,
+        UPLOAD_ERR_NO_TMP_DIR => LoaderException::ERROR_NO_TMP_DIR,
+        UPLOAD_ERR_CANT_WRITE => LoaderException::ERROR_CANT_WRITE,
+        UPLOAD_ERR_EXTENSION  => LoaderException::ERROR_EXTENSION,
     ];
 
     public function __construct(Container $container)
@@ -74,15 +74,15 @@ class LoaderImage
         $this->size = filesize($this->filePath);
 
         if ($this->size > $maxSize) {
-            throw new LoaderException(LoaderException::ERROR_SIZE);
+            throw new LoaderException(LoaderException::MAX_SIZE);
         }
 
         if ($this->errorCode !== UPLOAD_ERR_OK) {
-            throw new LoaderException(self::$errorMessages[$this->errorCode] ?? LoaderException::ERROR_UNKNOWN);
+            throw new LoaderException(self::$errorMessages[$this->errorCode] ?? LoaderException::UNKNOWN);
         }
 
         if (!$this->testMode && !is_uploaded_file($this->filePath)) {
-            throw new LoaderException(LoaderException::ERROR_NO_LOAD);
+            throw new LoaderException(LoaderException::NO_LOAD_TYPE);
         }
     }
 
@@ -104,11 +104,11 @@ class LoaderImage
     private function validateSize(array $image, int $maxWeight, int $maxHeight): void
     {
         if ($image[0] > $maxWeight) {
-            throw new LoaderException(LoaderException::ERROR_WIDTH);
+            throw new LoaderException(LoaderException::MAX_WIDTH);
         }
 
         if ($image[1] > $maxHeight) {
-            throw new LoaderException(LoaderException::ERROR_HEIGHT);
+            throw new LoaderException(LoaderException::MAX_HEIGHT);
         }
     }
 
@@ -125,7 +125,7 @@ class LoaderImage
         finfo_close($FileInfo);
 
         if ($this->validateType($mime)) {
-            throw new LoaderException(LoaderException::ERROR_TYPE);
+            throw new LoaderException(LoaderException::INVALID_TYPE);
         }
 
         return getimagesize($this->filePath);
@@ -146,7 +146,7 @@ class LoaderImage
         $newPath = DIR . $directory . $name . $type;
 
         if (!$this->testMode && !move_uploaded_file($this->filePath, $newPath)) {
-            throw new LoaderException(LoaderException::ERROR_UPLOAD);
+            throw new LoaderException(LoaderException::FAIL_UPLOAD);
         }
 
         if ($this->testMode) {

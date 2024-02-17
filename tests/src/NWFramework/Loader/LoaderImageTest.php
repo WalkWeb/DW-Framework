@@ -49,7 +49,7 @@ class LoaderImageTest extends AbstractTestCase
         ];
 
         $this->expectException(LoaderException::class);
-        $this->expectExceptionMessage('Загружаемый файл был получен только частично');
+        $this->expectExceptionMessage(LoaderException::ERROR_PARTIAL);
         $this->getLoader()->load($data);
     }
 
@@ -60,7 +60,7 @@ class LoaderImageTest extends AbstractTestCase
     public function testLoaderImageFailMaxSize(): void
     {
         $this->expectException(LoaderException::class);
-        $this->expectExceptionMessage(LoaderException::ERROR_SIZE);
+        $this->expectExceptionMessage(LoaderException::MAX_SIZE);
         $this->getLoader()->load($this->getFileData(), 1000);
     }
 
@@ -71,7 +71,7 @@ class LoaderImageTest extends AbstractTestCase
     public function testLoaderImageFailMaxWidth(): void
     {
         $this->expectException(LoaderException::class);
-        $this->expectExceptionMessage(LoaderException::ERROR_WIDTH);
+        $this->expectExceptionMessage(LoaderException::MAX_WIDTH);
         $this->getLoader()->load($this->getFileData(), 100000, 10);
     }
 
@@ -82,7 +82,7 @@ class LoaderImageTest extends AbstractTestCase
     public function testLoaderImageFailMaxHeight(): void
     {
         $this->expectException(LoaderException::class);
-        $this->expectExceptionMessage(LoaderException::ERROR_HEIGHT);
+        $this->expectExceptionMessage(LoaderException::MAX_HEIGHT);
         $this->getLoader()->load($this->getFileData(), 100000, 1000, 10);
     }
 
@@ -118,7 +118,7 @@ class LoaderImageTest extends AbstractTestCase
         ];
 
         $this->expectException(LoaderException::class);
-        $this->expectExceptionMessage(LoaderException::ERROR_TYPE);
+        $this->expectExceptionMessage(LoaderException::INVALID_TYPE);
         $this->getLoader()->load($data, 100000, 1000, 10);
     }
 
