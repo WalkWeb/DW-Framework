@@ -7,6 +7,7 @@ use NW\Container;
 class LoaderImage
 {
     // TODO Вынести константы в config.php
+    // TODO Добавить фиксированный вариант допустимых расширений, и тоже вынести его в конфиг
 
     private const IMAGE_MAX_SIZE   = 5242880;
     private const IMAGE_MAX_WEIGHT = 3000;
@@ -45,7 +46,7 @@ class LoaderImage
      * @return Image
      * @throws LoaderException
      */
-    public function loaderImage(
+    public function load(
         array $files,
         int $maxSize = self::IMAGE_MAX_SIZE,
         int $maxWeight = self::IMAGE_MAX_WEIGHT,
@@ -53,10 +54,10 @@ class LoaderImage
         string $directory = self::DIRECTORY
     ): Image
     {
-        // TODO Валидация формата файла
+        $this->validate($files);
         // TODO Добавить массовую загрузку файлов
-        $this->filePath = $files['upload']['tmp_name'] ?? $files['file']['tmp_name'];
-        $this->errorCode = $files['upload']['error'] ?? $files['file']['error'];
+        $this->filePath = $files['file']['tmp_name'];
+        $this->errorCode = $files['file']['error'];
         $this->preloadValidate($maxSize);
         $image = $this->upload();
         $this->validateSize($image, $maxWeight, $maxHeight);
@@ -153,5 +154,24 @@ class LoaderImage
         }
 
         return new Image($name, $type, $this->size, $image[0], $image[1], DIR . $directory);
+    }
+
+    /**
+     * @param array $data
+     * @throws LoaderException
+     */
+    private function validate(array $data): void
+    {
+        if (!array_key_exists('file', $data) || !is_array($data['file'])) {
+            throw new LoaderException(LoaderException::INVALID_FILE_DATA);
+        }
+
+        if (!array_key_exists('tmp_name', $data['file']) || !is_string($data['file']['tmp_name'])) {
+            throw new LoaderException(LoaderException::INVALID_TMP_NAME);
+        }
+
+        if (!array_key_exists('error', $data['file']) || !is_int($data['file']['error'])) {
+            throw new LoaderException(LoaderException::INVALID_TMP_ERROR);
+        }
     }
 }

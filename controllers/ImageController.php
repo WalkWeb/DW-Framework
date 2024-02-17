@@ -32,7 +32,7 @@ class ImageController extends AbstractController
         $loader = new LoaderImage($this->container);
 
         try {
-            return $this->render('image/index', ['image' => $loader->loaderImage($request->getFiles())]);
+            return $this->render('image/index', ['image' => $loader->load($request->getFiles())]);
         } catch (LoaderException $e) {
             return $this->render('image/index', ['error' => $e->getMessage()]);
         }

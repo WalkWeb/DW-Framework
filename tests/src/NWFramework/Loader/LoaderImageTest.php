@@ -17,7 +17,7 @@ class LoaderImageTest extends AbstractTestCase
      */
     public function testLoaderImageSuccess(): void
     {
-        $image = $this->getLoader()->loaderImage($this->getFileData());
+        $image = $this->getLoader()->load($this->getFileData());
 
         $fileDir = substr($this->dir, 0, -5) . 'public/images/upload/';
         $filePath = $fileDir . $image->getName() . $image->getType();
@@ -36,11 +36,32 @@ class LoaderImageTest extends AbstractTestCase
      * @throws AppException
      * @throws LoaderException
      */
+    public function testLoaderImageErrorCodeNoOk(): void
+    {
+        $data = [
+            'file' => [
+                'name'     => 'file.odt',
+                'type'     => 'application/vnd.oasis.opendocument.text',
+                'tmp_name' => __DIR__ . '/files/file.odt',
+                'error'    => UPLOAD_ERR_PARTIAL,
+                'size'     => 8168,
+            ],
+        ];
+
+        $this->expectException(LoaderException::class);
+        $this->expectExceptionMessage('Загружаемый файл был получен только частично');
+        $this->getLoader()->load($data);
+    }
+
+    /**
+     * @throws AppException
+     * @throws LoaderException
+     */
     public function testLoaderImageFailMaxSize(): void
     {
         $this->expectException(LoaderException::class);
         $this->expectExceptionMessage(LoaderException::ERROR_SIZE);
-        $this->getLoader()->loaderImage($this->getFileData(), 1000);
+        $this->getLoader()->load($this->getFileData(), 1000);
     }
 
     /**
@@ -51,7 +72,7 @@ class LoaderImageTest extends AbstractTestCase
     {
         $this->expectException(LoaderException::class);
         $this->expectExceptionMessage(LoaderException::ERROR_WIDTH);
-        $this->getLoader()->loaderImage($this->getFileData(), 100000, 10);
+        $this->getLoader()->load($this->getFileData(), 100000, 10);
     }
 
     /**
@@ -62,7 +83,22 @@ class LoaderImageTest extends AbstractTestCase
     {
         $this->expectException(LoaderException::class);
         $this->expectExceptionMessage(LoaderException::ERROR_HEIGHT);
-        $this->getLoader()->loaderImage($this->getFileData(), 100000, 1000, 10);
+        $this->getLoader()->load($this->getFileData(), 100000, 1000, 10);
+    }
+
+    /**
+     * Тесты на различные варианты невалидных данных о файле
+     *
+     * @dataProvider invalidFileDataProvider
+     * @param array $data
+     * @param string $error
+     * @throws AppException
+     */
+    public function testLoaderImageInvalidFileData(array $data, string $error): void
+    {
+        $this->expectException(LoaderException::class);
+        $this->expectExceptionMessage($error);
+        $this->getLoader()->load($data);
     }
 
     /**
@@ -73,17 +109,73 @@ class LoaderImageTest extends AbstractTestCase
     {
         $data = [
             'file' => [
-                'name' => 'file.odt',
-                'type' => 'application/vnd.oasis.opendocument.text',
+                'name'     => 'file.odt',
+                'type'     => 'application/vnd.oasis.opendocument.text',
                 'tmp_name' => __DIR__ . '/files/file.odt',
-                'error' => 0,
-                'size' => 8168,
+                'error'    => 0,
+                'size'     => 8168,
             ],
         ];
 
         $this->expectException(LoaderException::class);
         $this->expectExceptionMessage(LoaderException::ERROR_TYPE);
-        $this->getLoader()->loaderImage($data, 100000, 1000, 10);
+        $this->getLoader()->load($data, 100000, 1000, 10);
+    }
+
+    public function invalidFileDataProvider(): array
+    {
+        return [
+            [
+                // Отсутствует file
+                [],
+                LoaderException::INVALID_FILE_DATA,
+            ],
+            [
+                // file некорректного типа
+                [
+                    'file' => 'xxx',
+                ],
+                LoaderException::INVALID_FILE_DATA,
+            ],
+            [
+                // Отсутствует tmp_name
+                [
+                    'file' => [
+                        'error' => 0,
+                    ],
+                ],
+                LoaderException::INVALID_TMP_NAME,
+            ],
+            [
+                // tmp_name некорректного типа
+                [
+                    'file' => [
+                        'tmp_name' => true,
+                        'error'    => 0,
+                    ],
+                ],
+                LoaderException::INVALID_TMP_NAME,
+            ],
+            [
+                // Отсутствует error
+                [
+                    'file' => [
+                        'tmp_name' => __DIR__ . '/files/file.odt',
+                    ],
+                ],
+                LoaderException::INVALID_TMP_ERROR,
+            ],
+            [
+                // error некорректного типа
+                [
+                    'file' => [
+                        'tmp_name' => __DIR__ . '/files/file.odt',
+                        'error'    => '0',
+                    ],
+                ],
+                LoaderException::INVALID_TMP_ERROR,
+            ],
+        ];
     }
 
     /**
@@ -99,11 +191,11 @@ class LoaderImageTest extends AbstractTestCase
     {
         return [
             'file' => [
-                'name' => 'ImageName',
-                'type' => 'image/png',
+                'name'     => 'ImageName',
+                'type'     => 'image/png',
                 'tmp_name' => __DIR__ . '/files/image.png',
-                'error' => 0,
-                'size' => 37308,
+                'error'    => 0,
+                'size'     => 37308,
             ],
         ];
     }
