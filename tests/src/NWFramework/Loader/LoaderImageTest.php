@@ -36,6 +36,27 @@ class LoaderImageTest extends AbstractTestCase
      * @throws AppException
      * @throws LoaderException
      */
+    public function testLoaderImageFileNotFound(): void
+    {
+        $data = [
+            'file' => [
+                'name'     => 'file_not_fund.png',
+                'type'     => 'image/png',
+                'tmp_name' => __DIR__ . '/files/file_not_fund.png',
+                'error'    => 0,
+                'size'     => 15000,
+            ],
+        ];
+
+        $this->expectException(LoaderException::class);
+        $this->expectExceptionMessage(LoaderException::FILE_NOT_FOUND);
+        $this->getLoader()->load($data);
+    }
+
+    /**
+     * @throws AppException
+     * @throws LoaderException
+     */
     public function testLoaderImageErrorCodeNoOk(): void
     {
         $data = [
@@ -119,7 +140,28 @@ class LoaderImageTest extends AbstractTestCase
 
         $this->expectException(LoaderException::class);
         $this->expectExceptionMessage(LoaderException::INVALID_TYPE);
-        $this->getLoader()->load($data, 100000, 1000, 10);
+        $this->getLoader()->load($data, 100000, 1000, 10, '/public/images/upload/', ['gif']);
+    }
+
+    /**
+     * @throws AppException
+     * @throws LoaderException
+     */
+    public function testLoaderImageFailFileExtension(): void
+    {
+        $data = [
+            'file' => [
+                'name'     => 'ImageName',
+                'type'     => 'image/png',
+                'tmp_name' => __DIR__ . '/files/image.png',
+                'error'    => 0,
+                'size'     => 37308,
+            ],
+        ];
+
+        $this->expectException(LoaderException::class);
+        $this->expectExceptionMessage(LoaderException::INVALID_EXTENSION);
+        $this->getLoader()->load($data, 100000, 1000, 10, '/public/images/upload/', ['gif']);
     }
 
     public function invalidFileDataProvider(): array
