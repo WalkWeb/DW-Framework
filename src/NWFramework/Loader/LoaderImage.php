@@ -2,12 +2,15 @@
 
 namespace NW\Loader;
 
+use Exception;
 use NW\Container;
+use NW\Traits\StringTrait;
 
 class LoaderImage
 {
+    use StringTrait;
+
     // TODO Вынести константы в config.php
-    // TODO Добавить фиксированный вариант допустимых расширений, и тоже вынести его в конфиг
 
     private const IMAGE_MAX_SIZE   = 5242880;
     private const IMAGE_MAX_WEIGHT = 3000;
@@ -125,13 +128,12 @@ class LoaderImage
      * @param string $directory
      * @return Image
      * @throws LoaderException
+     * @throws Exception
      */
     private function save(array $image, string $directory): Image
     {
-        // TODO Добавить уникализацию имени
-        // TODO Добавить поддиректории хранения
-        $name = md5_file($this->filePath);
-
+        // TODO Добавить поддиректории хранения от даты загрузки год/месяц/день/имя_файла
+        $name = self::generateString(30);
         $type = image_type_to_extension($image[2]);
         $newPath = DIR . $directory . $name . $type;
 

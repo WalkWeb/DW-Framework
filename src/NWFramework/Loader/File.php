@@ -37,7 +37,7 @@ class File
         return $this->type;
     }
 
-    public function getFilePath(): string
+    public function getAbsoluteFilePath(): string
     {
         return $this->dir . $this->name . $this->type;
     }

@@ -22,14 +22,14 @@ class LoaderImageTest extends AbstractTestCase
         $fileDir = substr($this->dir, 0, -5) . 'public/images/upload/';
         $filePath = $fileDir . $image->getName() . $image->getType();
 
-        self::assertFileExists($image->getFilePath());
-        self::assertEquals('7965a59138ffd57ae30eb9cac9439a6a', $image->getName());
+        self::assertFileExists($image->getAbsoluteFilePath());
+        self::assertEquals(30, strlen($image->getName()));
         self::assertEquals('.png', $image->getType());
         self::assertEquals(357, $image->getWidth());
         self::assertEquals(270, $image->getHeight());
         self::assertEquals(37308, $image->getSize());
         self::assertEquals($fileDir, $image->getDir());
-        self::assertEquals($filePath, $image->getFilePath());
+        self::assertEquals($filePath, $image->getAbsoluteFilePath());
     }
 
     /**
