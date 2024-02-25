@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Controllers;
 
+use Exception;
 use NW\AbstractController;
 use NW\AppException;
 use NW\Loader\LoaderException;
@@ -32,8 +33,24 @@ class ImageController extends AbstractController
         $loader = new LoaderImage($this->container);
 
         try {
-            return $this->render('image/index', ['image' => $loader->load($request->getFiles())]);
-        } catch (LoaderException $e) {
+            return $this->render('image/index', ['images' => [$loader->load($request->getFiles())]]);
+        } catch (Exception $e) {
+            return $this->render('image/index', ['error' => $e->getMessage()]);
+        }
+    }
+
+    /**
+     * @param Request $request
+     * @return Response
+     * @throws AppException
+     */
+    public function multipleLoad(Request $request): Response
+    {
+        $loader = new LoaderImage($this->container);
+
+        try {
+            return $this->render('image/index', ['images' => $loader->multipleLoad($request->getFiles())]);
+        } catch (Exception $e) {
             return $this->render('image/index', ['error' => $e->getMessage()]);
         }
     }

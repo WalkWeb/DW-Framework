@@ -18,8 +18,6 @@ class LoaderImage
     private const DIRECTORY        = '/public/images/upload/';
     private const FILE_EXTENSION   = ['jpg', 'jpeg', 'gif', 'png'];
 
-    private string $filePath;
-    private int $errorCode;
     private int $size;
 
     private bool $testMode;
@@ -49,9 +47,9 @@ class LoaderImage
      * @param int $maxWeight
      * @param int $maxHeight
      * @param string $directory
-     * @param array $fileExtension
+     * @param string[] $fileExtension
      * @return Image
-     * @throws LoaderException
+     * @throws Exception
      */
     public function load(
         array $files,
@@ -63,13 +61,67 @@ class LoaderImage
     ): Image
     {
         $this->validate($files);
-        $this->filePath = $files['file']['tmp_name'];
-        $this->errorCode = $files['file']['error'];
-        $size =  $this->preloadValidate($maxSize, $maxWeight, $maxHeight, $fileExtension);
-        return $this->save($size, $directory);
+        $filePath = $files['file']['tmp_name'];
+        $this->checkError($files['file']['error']);
+        $size = $this->preloadValidate($filePath, $maxSize, $maxWeight, $maxHeight, $fileExtension);
+        return $this->save($filePath, $size, $directory);
     }
 
     /**
+     * TODO Limit images
+     *
+     * @param array $files
+     * @param int $maxSize
+     * @param int $maxWeight
+     * @param int $maxHeight
+     * @param string $directory
+     * @param string[] $fileExtension
+     * @return Image[]
+     * @throws Exception
+     */
+    public function multipleLoad(
+        array $files,
+        int $maxSize = self::IMAGE_MAX_SIZE,
+        int $maxWeight = self::IMAGE_MAX_WEIGHT,
+        int $maxHeight = self::IMAGE_MAX_HEIGHT,
+        string $directory = self::DIRECTORY,
+        array $fileExtension = self::FILE_EXTENSION
+    ): array
+    {
+        // TODO validate
+        $data = [];
+        $loadImages = [];
+
+        foreach ($files['file']['tmp_name'] as $i => $tmpName) {
+            $data[] = [
+                'file' => [
+                    'tmp_name' => $files['file']['tmp_name'][$i],
+                    'size' => $files['file']['size'][$i],
+                    'error' => $files['file']['error'][$i],
+                ],
+            ];
+        }
+
+        foreach ($data as $item) {
+            $loadImages[] = $this->load($item, $maxSize, $maxWeight, $maxHeight, $directory, $fileExtension);
+        }
+
+        return $loadImages;
+    }
+
+    /**
+     * @param int $errorCode
+     * @throws LoaderException
+     */
+    private function checkError(int $errorCode): void
+    {
+        if ($errorCode !== UPLOAD_ERR_OK) {
+            throw new LoaderException(self::$errorMessages[$errorCode] ?? LoaderException::UNKNOWN);
+        }
+    }
+
+    /**
+     * @param string $filePath
      * @param int $maxSize
      * @param int $maxWeight
      * @param int $maxHeight
@@ -77,19 +129,15 @@ class LoaderImage
      * @return array
      * @throws LoaderException
      */
-    private function preloadValidate(int $maxSize, int $maxWeight, int $maxHeight, array $fileExtension): array
+    private function preloadValidate(string $filePath, int $maxSize, int $maxWeight, int $maxHeight, array $fileExtension): array
     {
-        if ($this->errorCode !== UPLOAD_ERR_OK) {
-            throw new LoaderException(self::$errorMessages[$this->errorCode] ?? LoaderException::UNKNOWN);
-        }
-
-        if (!file_exists($this->filePath)) {
+        if (!file_exists($filePath)) {
             throw new LoaderException(LoaderException::FILE_NOT_FOUND);
         }
 
         // TODO Подумать, можно ли избавиться от finfo_open/finfo_close
         $fileInfo = finfo_open(FILEINFO_MIME_TYPE);
-        $mime = (string)finfo_file($fileInfo, $this->filePath);
+        $mime = (string)finfo_file($fileInfo, $filePath);
         finfo_close($fileInfo);
 
         if (strpos($mime, 'image') === false) {
@@ -100,17 +148,17 @@ class LoaderImage
             throw new LoaderException(LoaderException::INVALID_EXTENSION);
         }
 
-        $this->size = filesize($this->filePath);
+        $this->size = filesize($filePath);
 
         if ($this->size > $maxSize) {
             throw new LoaderException(LoaderException::MAX_SIZE);
         }
 
-        if (!$this->testMode && !is_uploaded_file($this->filePath)) {
+        if (!$this->testMode && !is_uploaded_file($filePath)) {
             throw new LoaderException(LoaderException::NO_LOAD_TYPE);
         }
 
-        $size = getimagesize($this->filePath);
+        $size = getimagesize($filePath);
 
         if ($size[0] > $maxWeight) {
             throw new LoaderException(LoaderException::MAX_WIDTH);
@@ -124,25 +172,25 @@ class LoaderImage
     }
 
     /**
+     * @param string $filePath
      * @param array $image
      * @param string $directory
      * @return Image
-     * @throws LoaderException
      * @throws Exception
      */
-    private function save(array $image, string $directory): Image
+    private function save(string $filePath, array $image, string $directory): Image
     {
         // TODO Добавить поддиректории хранения от даты загрузки год/месяц/день/имя_файла
         $name = self::generateString(30);
         $type = image_type_to_extension($image[2]);
         $newPath = DIR . $directory . $name . $type;
 
-        if (!$this->testMode && !move_uploaded_file($this->filePath, $newPath)) {
+        if (!$this->testMode && !move_uploaded_file($filePath, $newPath)) {
             throw new LoaderException(LoaderException::FAIL_UPLOAD);
         }
 
         if ($this->testMode) {
-            copy($this->filePath, $newPath);
+            copy($filePath, $newPath);
         }
 
         return new Image($name, $type, $this->size, $image[0], $image[1], DIR . $directory);

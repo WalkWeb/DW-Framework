@@ -10,15 +10,22 @@ if (!empty($error)) {
     echo "<p>Ошибка: $error</p>";
 }
 
-/** @var Image $image */
-if (!empty($image)) {
-    echo '<p><img src="/images/upload/' . $image->getName() . $image->getType() . '" alt="" /></p>';
+/** @var Image[] $images */
+if (!empty($images)) {
+    foreach ($images as $image) {
+        echo '<p><img src="/images/upload/' . $image->getName() . $image->getType() . '" alt="" /></p>';
+    }
 }
 
 ?>
 
 <form enctype="multipart/form-data" method="post" action="/image">
     <input type="file" name="file">
-    <button>Загрузить</button>
+    <button>Загрузить одну картинку</button>
 </form>
-
+<br /><br />
+<form enctype="multipart/form-data" method="post" action="/image_multiple">
+    <input type="file" name="file[]" multiple>
+    <button>Загрузить несколько картинок</button>
+</form>
+<br /><br />

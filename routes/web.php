@@ -17,6 +17,7 @@ $routes->get('redirect.example', '/redirect', 'MainController@redirectExample');
 
 $routes->get('image', '/image', 'ImageController@index');
 $routes->post('image.load', '/image', 'ImageController@load');
+$routes->post('image.loads', '/image_multiple', 'ImageController@multipleLoad');
 
 //$routes->get('admin', '/admin', 'AdminController@index')->addMiddleware(AuthMiddleware::class);
 
