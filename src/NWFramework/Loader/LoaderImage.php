@@ -2,9 +2,11 @@
 
 namespace NW\Loader;
 
+use DateTime;
 use Exception;
 use NW\Container;
 use NW\Traits\StringTrait;
+use RuntimeException;
 
 class LoaderImage
 {
@@ -17,9 +19,8 @@ class LoaderImage
     private const IMAGE_MAX_HEIGHT = 3000;
     private const LIMIT_IMAGES     = 10;
     private const DIRECTORY        = '/public/images/upload/';
+    public const FRONT_DIRECTORY  = '/images/upload/';
     private const FILE_EXTENSION   = ['jpg', 'jpeg', 'gif', 'png'];
-
-    private int $size;
 
     private bool $testMode;
 
@@ -62,8 +63,8 @@ class LoaderImage
         $this->validate($files);
         $filePath = $files['file']['tmp_name'];
         $this->checkError($files['file']['error']);
-        $size = $this->preloadValidate($filePath, $maxSize, $maxWeight, $maxHeight, $fileExtension);
-        return $this->save($filePath, $size, $directory);
+        $imageInfo = $this->preloadValidate($filePath, $maxSize, $maxWeight, $maxHeight, $fileExtension);
+        return $this->save($filePath, $imageInfo, $directory);
     }
 
     /**
@@ -152,9 +153,19 @@ class LoaderImage
             throw new LoaderException(LoaderException::INVALID_EXTENSION);
         }
 
-        $this->size = filesize($filePath);
+        $imageInfo = getimagesize($filePath);
 
-        if ($this->size > $maxSize) {
+        if ($imageInfo[0] > $maxWeight) {
+            throw new LoaderException(LoaderException::MAX_WIDTH);
+        }
+
+        if ($imageInfo[1] > $maxHeight) {
+            throw new LoaderException(LoaderException::MAX_HEIGHT);
+        }
+
+        $size = filesize($filePath);
+
+        if ($size > $maxSize) {
             throw new LoaderException(LoaderException::MAX_SIZE);
         }
 
@@ -162,17 +173,9 @@ class LoaderImage
             throw new LoaderException(LoaderException::NO_LOAD_TYPE);
         }
 
-        $size = getimagesize($filePath);
+        $imageInfo['size'] = $size;
 
-        if ($size[0] > $maxWeight) {
-            throw new LoaderException(LoaderException::MAX_WIDTH);
-        }
-
-        if ($size[1] > $maxHeight) {
-            throw new LoaderException(LoaderException::MAX_HEIGHT);
-        }
-
-        return $size;
+        return $imageInfo;
     }
 
     /**
@@ -184,8 +187,22 @@ class LoaderImage
      */
     private function save(string $filePath, array $image, string $directory): Image
     {
-        // TODO Добавить поддиректории хранения от даты загрузки год/месяц/день/имя_файла
-        $name = self::generateString(30);
+        $date = new DateTime();
+        $dirSuffix = $date->format('Y') . '/' . $date->format('m') . '/' . $date->format('d') . '/';
+        $directory .= $dirSuffix;
+
+        $dPath = DIR . $directory;
+        if (!is_dir($dPath)) {
+            try {
+                if (!mkdir($dPath, 0755, true) && !is_dir($dPath)) {
+                    throw new RuntimeException(sprintf('Directory "%s" was not created', $dPath));
+                }
+            } catch (Exception $e) {
+                throw new RuntimeException($e->getMessage());
+            }
+        }
+
+        $name = self::generateString(10);
         $type = image_type_to_extension($image[2]);
         $newPath = DIR . $directory . $name . $type;
 
@@ -197,7 +214,15 @@ class LoaderImage
             copy($filePath, $newPath);
         }
 
-        return new Image($name, $type, $this->size, $image[0], $image[1], DIR . $directory);
+        return new Image(
+            $name,
+            $type,
+            $image['size'],
+            $image[0],
+            $image[1],
+            $newPath,
+            self::FRONT_DIRECTORY . $dirSuffix . $name . $type
+        );
     }
 
     /**

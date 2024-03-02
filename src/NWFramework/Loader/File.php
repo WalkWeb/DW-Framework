@@ -6,15 +6,22 @@ class File
 {
     private string $name;
     private string $type;
-    private string $dir;
     private int $size;
+    private string $absoluteFilePath;
+    private string $filePath;
 
-    public function __construct(string $name, string $type, int $size, string $dir)
-    {
+    public function __construct(
+        string $name,
+        string $type,
+        int $size,
+        string $absoluteFilePath,
+        string $filePath
+    ) {
         $this->name = $name;
         $this->type = $type;
         $this->size = $size;
-        $this->dir = $dir;
+        $this->absoluteFilePath = $absoluteFilePath;
+        $this->filePath = $filePath;
     }
 
     public function getName(): string
@@ -27,18 +34,24 @@ class File
         return $this->size;
     }
 
-    public function getDir(): string
-    {
-        return $this->dir;
-    }
-
     public function getType(): string
     {
         return $this->type;
     }
 
+    /**
+     * @return string
+     */
     public function getAbsoluteFilePath(): string
     {
-        return $this->dir . $this->name . $this->type;
+        return $this->absoluteFilePath;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFilePath(): string
+    {
+        return $this->filePath;
     }
 }

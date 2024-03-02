@@ -4,10 +4,13 @@ declare(strict_types=1);
 
 namespace Tests\src\NWFramework\Loader;
 
+use DateTime;
 use Exception;
 use NW\AppException;
+use NW\Loader\Image;
 use NW\Loader\LoaderException;
 use NW\Loader\LoaderImage;
+use RuntimeException;
 use Tests\AbstractTestCase;
 
 class LoaderImageTest extends AbstractTestCase
@@ -20,18 +23,16 @@ class LoaderImageTest extends AbstractTestCase
     public function testLoaderImageSuccess(array $data): void
     {
         $image = $this->getLoader()->load($data);
-
-        $fileDir = substr($this->dir, 0, -5) . 'public/images/upload/';
-        $filePath = $fileDir . $image->getName() . $image->getType();
+        $filePath = $this->getFilePath($image);
 
         self::assertFileExists($image->getAbsoluteFilePath());
-        self::assertEquals(30, strlen($image->getName()));
+        self::assertEquals(10, strlen($image->getName()));
         self::assertEquals('.png', $image->getType());
         self::assertEquals(357, $image->getWidth());
         self::assertEquals(270, $image->getHeight());
         self::assertEquals(37308, $image->getSize());
-        self::assertEquals($fileDir, $image->getDir());
-        self::assertEquals($filePath, $image->getAbsoluteFilePath());
+        self::assertEquals($filePath, $image->getFilePath());
+        self::assertEquals($this->getAbsoluteFilePath($filePath), $image->getAbsoluteFilePath());
     }
 
     /**
@@ -47,17 +48,16 @@ class LoaderImageTest extends AbstractTestCase
         self::assertCount(2, $images);
 
         foreach ($images as $i => $image) {
-            $fileDir = substr($this->dir, 0, -5) . 'public/images/upload/';
-            $filePath = $fileDir . $image->getName() . $image->getType();
+            $filePath = $this->getFilePath($image);
 
             self::assertFileExists($image->getAbsoluteFilePath());
-            self::assertEquals(30, strlen($image->getName()));
+            self::assertEquals(10, strlen($image->getName()));
             self::assertEquals('.png', $image->getType());
             self::assertEquals($expectedSize[$i]['width'], $image->getWidth());
             self::assertEquals($expectedSize[$i]['height'], $image->getHeight());
             self::assertEquals($data['file']['size'][$i], $image->getSize());
-            self::assertEquals($fileDir, $image->getDir());
-            self::assertEquals($filePath, $image->getAbsoluteFilePath());
+            self::assertEquals($filePath, $image->getFilePath());
+            self::assertEquals($this->getAbsoluteFilePath($filePath), $image->getAbsoluteFilePath());
         }
     }
 
@@ -231,6 +231,18 @@ class LoaderImageTest extends AbstractTestCase
         $this->expectException(LoaderException::class);
         $this->expectExceptionMessage(LoaderException::INVALID_EXTENSION);
         $this->getLoader()->load($data, 100000, 1000, 10, '/public/images/upload/', ['gif']);
+    }
+
+    /**
+     * @dataProvider fileDataProvider
+     * @param array $data
+     * @throws Exception
+     */
+    public function testLoaderImageFailCreateDirectory(array $data): void
+    {
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('mkdir(): Permission denied');
+        $image = $this->getLoader()->load($data, 1000000, 2000, 2000, '/../../xxx/images/upload/');
     }
 
     public function invalidFileDataProvider(): array
@@ -431,5 +443,27 @@ class LoaderImageTest extends AbstractTestCase
     private function getLoader(): LoaderImage
     {
         return new LoaderImage($this->getContainer());
+    }
+
+    /**
+     * @param Image $image
+     * @return string
+     */
+    private function getFilePath(Image $image): string
+    {
+        $date = new DateTime();
+
+        return LoaderImage::FRONT_DIRECTORY .
+            $date->format('Y') . '/' . $date->format('m') . '/' . $date->format('d') . '/' .
+            $image->getName() . $image->getType();
+    }
+
+    /**
+     * @param string $filePath
+     * @return string
+     */
+    private function getAbsoluteFilePath(string $filePath): string
+    {
+        return substr($this->dir, 0, -5) . 'public' . $filePath;
     }
 }

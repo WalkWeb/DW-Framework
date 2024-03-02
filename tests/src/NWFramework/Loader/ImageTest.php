@@ -16,15 +16,17 @@ class ImageTest extends AbstractTestCase
         $size = 1024;
         $width = 1000;
         $height = 500;
-        $dir = 'directory';
+        $absoluteFilePath = 'absoluteFilePath';
+        $filePath = 'filePath';
 
-        $file = new Image($name, $type, $size, $width, $height, $dir);
+        $file = new Image($name, $type, $size, $width, $height, $absoluteFilePath, $filePath);
 
         self::assertEquals($name, $file->getName());
         self::assertEquals($type, $file->getType());
         self::assertEquals($size, $file->getSize());
         self::assertEquals($width, $file->getWidth());
         self::assertEquals($height, $file->getHeight());
-        self::assertEquals($dir, $file->getDir());
+        self::assertEquals($absoluteFilePath, $file->getAbsoluteFilePath());
+        self::assertEquals($filePath, $file->getFilePath());
     }
 }

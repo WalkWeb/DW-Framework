@@ -14,13 +14,15 @@ class FileTest extends AbstractTestCase
         $name = 'fileName';
         $type = 'png';
         $size = 1024;
-        $dir = 'directory';
+        $absoluteFilePath = 'absoluteFilePath';
+        $filePath = 'filePath';
 
-        $file = new File($name, $type, $size, $dir);
+        $file = new File($name, $type, $size, $absoluteFilePath, $filePath);
 
         self::assertEquals($name, $file->getName());
         self::assertEquals($type, $file->getType());
         self::assertEquals($size, $file->getSize());
-        self::assertEquals($dir, $file->getDir());
+        self::assertEquals($absoluteFilePath, $file->getAbsoluteFilePath());
+        self::assertEquals($filePath, $file->getFilePath());
     }
 }

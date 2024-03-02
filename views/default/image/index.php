@@ -13,7 +13,7 @@ if (!empty($error)) {
 /** @var Image[] $images */
 if (!empty($images)) {
     foreach ($images as $image) {
-        echo '<p><img src="/images/upload/' . $image->getName() . $image->getType() . '" alt="" /></p>';
+        echo '<p><img src="' . $image->getFilePath() . '" alt="" /></p>';
     }
 }
 
