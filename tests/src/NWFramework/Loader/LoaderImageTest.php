@@ -64,6 +64,28 @@ class LoaderImageTest extends AbstractTestCase
     // TODO Тесты на невалидные данные на массовую загрузку
 
     /**
+     * Тест на ситуацию, когда превышен лимит разово загружаемых картинок
+     *
+     * @dataProvider filesDataProvider
+     * @param array $data
+     * @throws Exception
+     */
+    public function testLoaderImagesFailMaxLimit(array $data): void
+    {
+        $this->expectException(LoaderException::class);
+        $this->expectExceptionMessage(LoaderException::LIMIT_IMAGES);
+        $this->getLoader()->multipleLoad(
+            $data,
+            1000000,
+            2000,
+            2000,
+            '/public/images/upload/',
+            ['jpg', 'jpeg', 'gif', 'png'],
+            1
+        );
+    }
+
+    /**
      * @throws AppException
      * @throws Exception
      */

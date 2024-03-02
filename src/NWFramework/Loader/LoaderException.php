@@ -14,6 +14,7 @@ class LoaderException extends Exception
     public const INVALID_EXTENSION = 'Invalid file extension';
     public const MAX_WIDTH         = 'Image has exceeded maximum width';
     public const MAX_HEIGHT        = 'Image has exceeded maximum height';
+    public const LIMIT_IMAGES      = 'Limit for one-time downloaded images has been exceeded';
     public const NO_LOAD_TYPE      = 'Specified image is not loaded';
     public const INVALID_FILE_DATA = 'Invalid "file", it required and type array';
     public const INVALID_TMP_NAME  = 'Invalid ["file"]["tmp_name"], it required and type string';

@@ -15,6 +15,7 @@ class LoaderImage
     private const IMAGE_MAX_SIZE   = 5242880;
     private const IMAGE_MAX_WEIGHT = 3000;
     private const IMAGE_MAX_HEIGHT = 3000;
+    private const LIMIT_IMAGES     = 10;
     private const DIRECTORY        = '/public/images/upload/';
     private const FILE_EXTENSION   = ['jpg', 'jpeg', 'gif', 'png'];
 
@@ -39,8 +40,6 @@ class LoaderImage
 
     /**
      * Сохраняет картинку на сервере и возвращает её название
-     *
-     * TODO Добавить массовую загрузку файлов
      *
      * @param array $files
      * @param int $maxSize
@@ -68,7 +67,7 @@ class LoaderImage
     }
 
     /**
-     * TODO Limit images
+     * Загрузка сразу нескольких картинок
      *
      * @param array $files
      * @param int $maxSize
@@ -76,6 +75,7 @@ class LoaderImage
      * @param int $maxHeight
      * @param string $directory
      * @param string[] $fileExtension
+     * @param int $limitImages
      * @return Image[]
      * @throws Exception
      */
@@ -85,12 +85,17 @@ class LoaderImage
         int $maxWeight = self::IMAGE_MAX_WEIGHT,
         int $maxHeight = self::IMAGE_MAX_HEIGHT,
         string $directory = self::DIRECTORY,
-        array $fileExtension = self::FILE_EXTENSION
+        array $fileExtension = self::FILE_EXTENSION,
+        int $limitImages = self::LIMIT_IMAGES
     ): array
     {
         // TODO validate
         $data = [];
         $loadImages = [];
+
+        if (count($files['file']['tmp_name']) > $limitImages) {
+            throw new LoaderException(LoaderException::LIMIT_IMAGES);
+        }
 
         foreach ($files['file']['tmp_name'] as $i => $tmpName) {
             $data[] = [
