@@ -35,7 +35,7 @@ class LoaderImageTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider filesDataProvider
+     * @dataProvider successFilesDataProvider
      * @param array $data
      * @param array $expectedSize
      * @throws Exception
@@ -61,12 +61,25 @@ class LoaderImageTest extends AbstractTestCase
         }
     }
 
-    // TODO Тесты на невалидные данные на массовую загрузку
+    /**
+     * Тест на различные варианты невалидных данных из $request->getFiles()
+     *
+     * @dataProvider failFilesDataProvider
+     * @param array $data
+     * @param string $expectedError
+     * @throws Exception
+     */
+    public function testLoaderMultipleImageFail(array $data, string $expectedError): void
+    {
+        $this->expectException(LoaderException::class);
+        $this->expectExceptionMessage($expectedError);
+        $this->getLoader()->multipleLoad($data);
+    }
 
     /**
      * Тест на ситуацию, когда превышен лимит разово загружаемых картинок
      *
-     * @dataProvider filesDataProvider
+     * @dataProvider successFilesDataProvider
      * @param array $data
      * @throws Exception
      */
@@ -293,17 +306,17 @@ class LoaderImageTest extends AbstractTestCase
         ];
     }
 
-    public function filesDataProvider(): array
+    public function successFilesDataProvider(): array
     {
         return [
             [
                 [
                     'file' => [
-                        'name' => [
+                        'name'     => [
                             '01.png',
-                            '02.png'
+                            '02.png',
                         ],
-                        'type' => [
+                        'type'     => [
                             'image/png',
                             'image/png',
                         ],
@@ -311,11 +324,11 @@ class LoaderImageTest extends AbstractTestCase
                             __DIR__ . '/files/01.png',
                             __DIR__ . '/files/02.png',
                         ],
-                        'error' => [
+                        'error'    => [
                             0,
                             0,
                         ],
-                        'size' => [
+                        'size'     => [
                             39852,
                             56418,
                         ],
@@ -323,14 +336,90 @@ class LoaderImageTest extends AbstractTestCase
                 ],
                 [
                     [
-                        'width' => 398,
+                        'width'  => 398,
                         'height' => 261,
                     ],
                     [
-                        'width' => 415,
+                        'width'  => 415,
                         'height' => 353,
                     ],
                 ],
+            ],
+        ];
+    }
+
+    public function failFilesDataProvider(): array
+    {
+        return [
+            [
+                // Отсутствует file
+                [],
+                LoaderException::INVALID_FILE_DATA,
+            ],
+            [
+                // file некорректного типа
+                [
+                    'file' => false,
+                ],
+                LoaderException::INVALID_FILE_DATA,
+            ],
+            [
+                // Отсутствует ['file']['tmp_name']
+                [
+                    'file' => [
+                        'error' => [],
+                    ],
+                ],
+                LoaderException::INVALID_MULTIPLE_TMP_NAME,
+            ],
+            [
+                // ['file']['tmp_name'] некорректного типа
+                [
+                    'file' => [
+                        'tmp_name' => 'name',
+                        'error'    => [],
+                    ],
+                ],
+                LoaderException::INVALID_MULTIPLE_TMP_NAME,
+            ],
+            [
+                // ['file']['tmp_name'] содержит не строки
+                [
+                    'file' => [
+                        'tmp_name' => [1, 2, 3],
+                        'error'    => [],
+                    ],
+                ],
+                LoaderException::INVALID_MULTIPLE_TMP_NAME,
+            ],
+            [
+                // Отсутствует ['file']['error']
+                [
+                    'file' => [
+                        'tmp_name' => [],
+                    ],
+                ],
+                LoaderException::INVALID_MULTIPLE_TMP_ERROR,
+            ],
+            [
+                // ['file']['error'] некорректного типа
+                [
+                    'file' => [
+                        'tmp_name' => [],
+                        'error'    => 0,
+                    ],
+                ],
+                LoaderException::INVALID_MULTIPLE_TMP_ERROR,
+            ],
+            [
+                // ['file']['error'] содержит не int
+                [
+                    'file' => [
+                        'tmp_name' => [],
+                        'error'    => ['1', true],
+                    ],
+                ],
+                LoaderException::INVALID_MULTIPLE_TMP_ERROR,
             ],
         ];
     }

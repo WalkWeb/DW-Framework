@@ -89,7 +89,7 @@ class LoaderImage
         int $limitImages = self::LIMIT_IMAGES
     ): array
     {
-        // TODO validate
+        $this->multipleValidate($files);
         $data = [];
         $loadImages = [];
 
@@ -101,7 +101,6 @@ class LoaderImage
             $data[] = [
                 'file' => [
                     'tmp_name' => $files['file']['tmp_name'][$i],
-                    'size' => $files['file']['size'][$i],
                     'error' => $files['file']['error'][$i],
                 ],
             ];
@@ -217,6 +216,37 @@ class LoaderImage
 
         if (!array_key_exists('error', $data['file']) || !is_int($data['file']['error'])) {
             throw new LoaderException(LoaderException::INVALID_TMP_ERROR);
+        }
+    }
+
+    /**
+     * @param array $data
+     * @throws LoaderException
+     */
+    private function multipleValidate(array $data): void
+    {
+        if (!array_key_exists('file', $data) || !is_array($data['file'])) {
+            throw new LoaderException(LoaderException::INVALID_FILE_DATA);
+        }
+
+        if (!array_key_exists('tmp_name', $data['file']) || !is_array($data['file']['tmp_name'])) {
+            throw new LoaderException(LoaderException::INVALID_MULTIPLE_TMP_NAME);
+        }
+
+        foreach ($data['file']['tmp_name'] as $tmpName) {
+            if (!is_string($tmpName)) {
+                throw new LoaderException(LoaderException::INVALID_MULTIPLE_TMP_NAME);
+            }
+        }
+
+        if (!array_key_exists('error', $data['file']) || !is_array($data['file']['error'])) {
+            throw new LoaderException(LoaderException::INVALID_MULTIPLE_TMP_ERROR);
+        }
+
+        foreach ($data['file']['error'] as $error) {
+            if (!is_int($error)) {
+                throw new LoaderException(LoaderException::INVALID_MULTIPLE_TMP_ERROR);
+            }
         }
     }
 }

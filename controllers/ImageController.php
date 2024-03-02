@@ -7,7 +7,6 @@ namespace Controllers;
 use Exception;
 use NW\AbstractController;
 use NW\AppException;
-use NW\Loader\LoaderException;
 use NW\Loader\LoaderImage;
 use NW\Request;
 use NW\Response;
