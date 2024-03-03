@@ -12,14 +12,12 @@ class LoaderImage
 {
     use StringTrait;
 
-    // TODO Вынести константы в config.php
-
     private const IMAGE_MAX_SIZE   = 5242880;
     private const IMAGE_MAX_WEIGHT = 3000;
     private const IMAGE_MAX_HEIGHT = 3000;
     private const LIMIT_IMAGES     = 10;
     private const DIRECTORY        = '/public/images/upload/';
-    public const FRONT_DIRECTORY  = '/images/upload/';
+    public const FRONT_DIRECTORY   = '/images/upload/';
     private const FILE_EXTENSION   = ['jpg', 'jpeg', 'gif', 'png'];
 
     private bool $testMode;
@@ -77,7 +75,7 @@ class LoaderImage
      * @param string $directory
      * @param string[] $fileExtension
      * @param int $limitImages
-     * @return Image[]
+     * @return ImageCollection
      * @throws Exception
      */
     public function multipleLoad(
@@ -88,11 +86,11 @@ class LoaderImage
         string $directory = self::DIRECTORY,
         array $fileExtension = self::FILE_EXTENSION,
         int $limitImages = self::LIMIT_IMAGES
-    ): array
+    ): ImageCollection
     {
         $this->multipleValidate($files);
+        $loadImages = new ImageCollection();
         $data = [];
-        $loadImages = [];
 
         if (count($files['file']['tmp_name']) > $limitImages) {
             throw new LoaderException(LoaderException::LIMIT_IMAGES);
@@ -108,7 +106,7 @@ class LoaderImage
         }
 
         foreach ($data as $item) {
-            $loadImages[] = $this->load($item, $maxSize, $maxWeight, $maxHeight, $directory, $fileExtension);
+            $loadImages->add($this->load($item, $maxSize, $maxWeight, $maxHeight, $directory, $fileExtension));
         }
 
         return $loadImages;

@@ -8,6 +8,7 @@ use DateTime;
 use Exception;
 use NW\AbstractController;
 use NW\AppException;
+use NW\Loader\ImageCollection;
 use NW\Loader\LoaderImage;
 use NW\Request;
 use NW\Response;
@@ -33,7 +34,9 @@ class ImageController extends AbstractController
         $loader = new LoaderImage($this->container);
 
         try {
-            return $this->render('image/index', ['images' => [$loader->load($request->getFiles())]]);
+            $loadImages = new ImageCollection();
+            $loadImages->add($loader->load($request->getFiles()));
+            return $this->render('image/index', ['images' => $loadImages]);
         } catch (Exception $e) {
             return $this->render('image/index', ['error' => $e->getMessage()]);
         }

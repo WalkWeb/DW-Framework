@@ -1,6 +1,6 @@
 <?php
 
-use NW\Loader\Image;
+use NW\Loader\ImageCollection;
 
 $this->title = 'Загрузка картинки';
 
@@ -10,7 +10,7 @@ if (!empty($error)) {
     echo "<p>Ошибка: $error</p>";
 }
 
-/** @var Image[] $images */
+/** @var ImageCollection $images */
 if (!empty($images)) {
     foreach ($images as $image) {
         echo '<p><img src="' . $image->getFilePath() . '" alt="" /></p>';

@@ -48,6 +48,4 @@ class Image extends File
     {
         return $this->height;
     }
-
-    // TODO Добавить относительный путь к файлу (для фронта: src="$image->getFilePath()")
 }

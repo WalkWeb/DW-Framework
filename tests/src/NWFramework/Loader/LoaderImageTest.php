@@ -46,6 +46,8 @@ class LoaderImageTest extends AbstractTestCase
         $images = $this->getLoader()->multipleLoad($data);
 
         self::assertCount(2, $images);
+        self::assertEquals(2, $images->count());
+        self::assertEquals(array_sum($data['file']['size']), $images->getTotalSize());
 
         foreach ($images as $i => $image) {
             $filePath = $this->getFilePath($image);
@@ -242,7 +244,7 @@ class LoaderImageTest extends AbstractTestCase
     {
         $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('mkdir(): Permission denied');
-        $image = $this->getLoader()->load($data, 1000000, 2000, 2000, '/../../xxx/images/upload/');
+        $this->getLoader()->load($data, 1000000, 2000, 2000, '/../../xxx/images/upload/');
     }
 
     public function invalidFileDataProvider(): array
