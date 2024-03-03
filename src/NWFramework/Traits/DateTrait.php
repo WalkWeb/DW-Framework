@@ -29,7 +29,7 @@ trait DateTrait
     ];
 
     public static array $minutes = [
-        'минута', 'минуты', 'минут',
+        'минуту', 'минуты', 'минут',
     ];
 
     /**
@@ -37,8 +37,6 @@ trait DateTrait
      *
      * Пример использования:
      * getElapsedTime(\DateTime::createFromFormat('Y-m-d H:i:s', $account->getRegisterDate()))
-     *
-     * TODO Доработать: "1 минута назад" => "1 минуту назад"
      *
      * @param DateTime $data
      * @return string
