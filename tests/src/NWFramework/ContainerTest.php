@@ -12,6 +12,7 @@ use NW\Cookie;
 use NW\Csrf;
 use NW\Logger;
 use NW\Request;
+use NW\Runtime;
 use NW\Validator;
 use Tests\AbstractTestCase;
 
@@ -117,6 +118,19 @@ class ContainerTest extends AbstractTestCase
     /**
      * @throws AppException
      */
+    public function testContainerGetRuntime(): void
+    {
+        $container = $this->getContainer();
+        $cookie = new Runtime();
+
+        $container->set(Runtime::class, $cookie);
+
+        self::assertEquals($cookie, $container->getRuntime());
+    }
+
+    /**
+     * @throws AppException
+     */
     public function testContainerGetValidator(): void
     {
         $container = $this->getContainer();
@@ -145,28 +159,33 @@ class ContainerTest extends AbstractTestCase
     }
 
     /**
+     * @dataProvider getServiceErrorDataProvider
+     * @param string $class
+     * @param string $error
      * @throws AppException
      */
-    public function testContainerGetFail(): void
+    public function testContainerGetServiceFail(string $class, string $error): void
     {
         $container = $this->getContainer();
 
         $this->expectException(AppException::class);
-        $this->expectExceptionMessage('Request не может быть создан автоматически, он должен быть добавлен в контейнер через set() вручную');
-        $container->get(Request::class);
-
+        $this->expectExceptionMessage($error);
+        $container->get($class);
     }
 
     /**
+     * @dataProvider getMethodServiceErrorDataProvider
+     * @param string $method
+     * @param string $error
      * @throws AppException
      */
-    public function testContainerGetRequestFail(): void
+    public function testContainerGetMethodServiceFail(string $method, string $error): void
     {
         $container = $this->getContainer();
 
         $this->expectException(AppException::class);
-        $this->expectExceptionMessage('Request не может быть создан автоматически, он должен быть добавлен в контейнер через set() вручную');
-        $container->getRequest();
+        $this->expectExceptionMessage($error);
+        $container->$method();
     }
 
     /**
@@ -233,5 +252,41 @@ class ContainerTest extends AbstractTestCase
     public function testContainerNoExistService(): void
     {
         self::assertFalse($this->getContainer()->exist('UnknownService'));
+    }
+
+    public function getServiceErrorDataProvider(): array
+    {
+        return [
+            [
+                Request::class,
+                sprintf(Container::GET_ERROR, 'Request'),
+            ],
+            [
+                Cookie::class,
+                sprintf(Container::GET_ERROR, 'Cookie'),
+            ],
+            [
+                Runtime::class,
+                sprintf(Container::GET_ERROR, 'Runtime'),
+            ],
+        ];
+    }
+
+    public function getMethodServiceErrorDataProvider(): array
+    {
+        return [
+            [
+                'getRequest',
+                sprintf(Container::GET_ERROR, 'Request'),
+            ],
+            [
+                'getCookies',
+                sprintf(Container::GET_ERROR, 'Cookie'),
+            ],
+            [
+                'getRuntime',
+                sprintf(Container::GET_ERROR, 'Runtime'),
+            ],
+        ];
     }
 }

@@ -10,6 +10,8 @@ class Container
     public const APP_DEV  = 'dev';
     public const APP_TEST = 'test';
 
+    public const GET_ERROR = '%s cannot be created automatically, it must be added to the container via set() manually';
+
     private array $map = [
         Connection::class => Connection::class,
         'connection'      => Connection::class,
@@ -23,6 +25,7 @@ class Container
         'validator'       => Validator::class,
         Request::class    => Request::class,
         Cookie::class    => Cookie::class,
+        Runtime::class    => Runtime::class,
     ];
 
     private array $storage = [];
@@ -89,9 +92,9 @@ class Container
             return $this->storage[$class];
         }
 
-        if ($class === Request::class || $class === Cookie::class) {
+        if ($class === Request::class || $class === Cookie::class || $class === Runtime::class) {
             throw new AppException(
-                "$class не может быть создан автоматически, он должен быть добавлен в контейнер через set() вручную"
+                sprintf(self::GET_ERROR, $class)
             );
         }
 
@@ -183,6 +186,17 @@ class Container
     {
         /** @var Cookie $service */
         $service = $this->get(Cookie::class);
+        return $service;
+    }
+
+    /**
+     * @return Runtime
+     * @throws AppException
+     */
+    public function getRuntime(): Runtime
+    {
+        /** @var Runtime $service */
+        $service = $this->get(Runtime::class);
         return $service;
     }
 
