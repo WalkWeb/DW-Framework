@@ -8,23 +8,12 @@ use NW\Route\Router;
 class App
 {
     private Router $router;
-    private static ?Container $container = null;
+    private static Container $container;
 
-    public function __construct(Router $router, ?Container $container = null)
+    public function __construct(Router $router, Container $container)
     {
         $this->router = $router;
-        self::$container = $container ?? new Container(
-                APP_ENV,
-                DB_HOST,
-                DB_USER,
-                DB_PASSWORD,
-                DB_NAME,
-                SAVE_LOG,
-                LOG_DIR,
-                LOG_FILE_NAME,
-                CONTROLLERS_DIR,
-                CACHE_DIR,
-            );
+        self::$container = $container;
     }
 
     /**
@@ -82,6 +71,7 @@ class App
             LOG_FILE_NAME,
             CONTROLLERS_DIR,
             CACHE_DIR,
+            VIEW_DIR,
         );
     }
 
@@ -93,10 +83,6 @@ class App
      */
     public static function emit(Response $response): void
     {
-        if (!self::$container) {
-            throw new AppException('Метод emit не может вызываться до создания App');
-        }
-
         if (self::$container->getAppEnv() !== Container::APP_TEST) {
             self::saveHeader($response);
             self::saveCookies();
@@ -145,8 +131,7 @@ class App
      */
     private function createNotFoundPage(): Response
     {
-        // TODO Получать корневую директорию с вьюхами из контейнера
-        $view = __DIR__ . '/../../../views/default/errors/404.php';
+        $view = DIR . '/' . $this->getContainer()->getViewDir() . '/default/errors/404.php';
         $content = file_exists($view) ? file_get_contents($view) : '404: Page not found';
 
         return new Response($content, Response::NOT_FOUND);

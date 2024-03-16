@@ -40,6 +40,7 @@ class Container
     private string $loggerFileName;
     private string $controllersDir;
     private string $cacheDir;
+    private string $viewDir;
 
     /**
      * @param string $appEnv
@@ -52,6 +53,7 @@ class Container
      * @param string $loggerFileName
      * @param string $controllersDir
      * @param string $cacheDir
+     * @param string $viewDir
      * @throws AppException
      */
     public function __construct(
@@ -64,7 +66,8 @@ class Container
         string $loggerDir,
         string $loggerFileName,
         string $controllersDir,
-        string $cacheDir
+        string $cacheDir,
+        string $viewDir
     )
     {
         $this->setAppEnv($appEnv);
@@ -77,6 +80,7 @@ class Container
         $this->loggerFileName = $loggerFileName;
         $this->controllersDir = $controllersDir;
         $this->cacheDir = $cacheDir;
+        $this->viewDir = $viewDir;
     }
 
     /**
@@ -214,6 +218,14 @@ class Container
     public function getCacheDir(): string
     {
         return $this->cacheDir;
+    }
+
+    /**
+     * @return string
+     */
+    public function getViewDir(): string
+    {
+        return $this->viewDir;
     }
 
     /**

@@ -205,6 +205,14 @@ class ContainerTest extends AbstractTestCase
     }
 
     /**
+     * @throws AppException
+     */
+    public function testContainerGetViewDir(): void
+    {
+        self::assertEquals(VIEW_DIR, $this->getContainer()->getViewDir());
+    }
+
+    /**
      * Тест на успешную установку APP_ENV
      *
      * @throws AppException

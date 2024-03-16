@@ -25,7 +25,7 @@ $request = Request::fromGlobals();
 $router = require __DIR__ . '/../routes/web.php';
 
 // Создаем объект приложения
-$app = new App($router);
+$app = new App($router, $container);
 
 // Получаем объект response на основе запроса
 try {

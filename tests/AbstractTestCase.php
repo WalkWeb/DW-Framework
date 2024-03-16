@@ -55,6 +55,7 @@ class AbstractTestCase extends TestCase
             LOG_FILE_NAME,
             CONTROLLERS_DIR,
             CACHE_DIR,
+            VIEW_DIR,
         );
         $container->set(Runtime::class, new Runtime());
 

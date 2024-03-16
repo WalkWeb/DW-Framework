@@ -32,6 +32,9 @@ define('CONTROLLERS_DIR', 'Controllers');
 /** Директория с кэшем */
 define('CACHE_DIR', 'cache');
 
+/** Директория с кэшем */
+define('VIEW_DIR', 'views');
+
 /** Сохранять ли логи в файл */
 define('SAVE_LOG', false);
 

@@ -11,8 +11,6 @@ use NW\Request;
 use NW\Response;
 use NW\Route\RouteCollection;
 use NW\Route\Router;
-use ReflectionClass;
-use ReflectionException;
 use Tests\AbstractTestCase;
 
 class AppTest extends AbstractTestCase
@@ -41,7 +39,25 @@ class AppTest extends AbstractTestCase
 
         $response = $app->handle($request);
 
-        self::assertEquals('404: Page not found', $response->getBody());
+        $expectedContent = <<<EOT
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <title>Ошибка 404: Страница не найдена</title>
+    <meta name="Description" content="">
+    <meta name="Keywords" content="">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <link rel="stylesheet" type="text/css" href="/styles/main.css">
+</head>
+<body>
+<div class="content">
+    <h1>Ошибка 404: Страница не найдена</h1>
+</body>
+</html>
+EOT;
+
+        self::assertEquals($expectedContent, $response->getBody());
         self::assertEquals(Response::NOT_FOUND, $response->getStatusCode());
     }
 
@@ -91,25 +107,6 @@ class AppTest extends AbstractTestCase
         self::assertRegExp('/Главная страница нашего замечательного сайта./', $content);
     }
 
-    /**
-     * @throws AppException
-     * @throws ReflectionException
-     */
-    public function testAppEmitError(): void
-    {
-        $this->expectException(AppException::class);
-        $this->expectExceptionMessage('Метод emit не может вызываться до создания App');
-        $this->expectExceptionCode(Response::INTERNAL_SERVER_ERROR);
-
-        $reflectionClass = new ReflectionClass(App::class);
-
-        $reflectionProperty = $reflectionClass->getProperty('container');
-        $reflectionProperty->setAccessible(true);
-        $reflectionProperty->setValue($reflectionClass, null);
-
-        App::emit(new Response());
-    }
-
     public function testAppCreateDefaultContainer(): void
     {
         self::assertEquals(
@@ -124,6 +121,7 @@ class AppTest extends AbstractTestCase
                 LOG_FILE_NAME,
                 CONTROLLERS_DIR,
                 CACHE_DIR,
+                VIEW_DIR,
             ),
             App::createDefaultContainer()
         );
