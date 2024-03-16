@@ -21,9 +21,7 @@
 </div>
 <div class="content">
     <?= $content ?? 'Отсутствует контент для отображения' ?>
-    <?php if (DEV) {
-        echo NW\Runtime::end();
-    } ?>
+    <?php //echo NW\Runtime::end() ?>
 </div>
 </body>
 </html>

@@ -14,9 +14,7 @@ use NW\Request;
 use NW\Runtime;
 use NW\App;
 
-if (DEV) {
-    Runtime::start();
-}
+//Runtime::start();
 
 // Создаем объект request на основе глобальных параметров
 $request = Request::fromGlobals();

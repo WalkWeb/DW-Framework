@@ -2,45 +2,40 @@
 
 namespace NW;
 
-// TODO Уйти от статики
-
 class Runtime
 {
     /**
      * Время точки отсчета
      *
-     * @var float|null
+     * @var float
      */
-    private static ?float $startTime = null;
+    private float $startTime;
 
     /**
      * Затраченная память с точки отсчета
      *
-     * @var int|null
+     * @var int
      */
-    private static ?int $startMemory = null;
+    private int $startMemory;
 
     /**
      * Затраченное время на выполнение
      *
      * @var float|null
      */
-    private static ?float $runtime = null;
+    private ?float $runtime = null;
 
     /**
      * Количество байт памяти затраченной на выполнение
      *
      * @var int|null
      */
-    private static ?int $memoryCost = null;
+    private ?int $memoryCost = null;
 
-    /**
-     * Засекает время и расход памяти
-     */
-    public static function start(): void
+    public function __construct()
     {
-        self::$startTime = microtime(true);
-        self::$startMemory = memory_get_peak_usage();
+        $this->startTime = microtime(true);
+        $this->startMemory = memory_get_peak_usage();
     }
 
     /**
@@ -50,12 +45,12 @@ class Runtime
      *
      * @return string
      */
-    public static function end(): string
+    public function end(): string
     {
         return '<hr color="#444">
                 <p>
-                Время вывода страницы: ' . self::getRuntime() . ' ms<br />
-                Расход памяти: ' . self::getMemoryCostClipped() . '
+                Время вывода страницы: ' . $this->getRuntime() . ' ms<br />
+                Расход памяти: ' . $this->getMemoryCostClipped() . '
                 </p>';
     }
 
@@ -64,13 +59,13 @@ class Runtime
      *
      * @return float
      */
-    public static function getRuntime(): float
+    public function getRuntime(): float
     {
-        if (self::$runtime === null) {
-            self::$runtime = round((microtime(true) - self::$startTime) * 1000, 2);
+        if ($this->runtime === null) {
+            $this->runtime = round((microtime(true) - $this->startTime) * 1000, 2);
         }
 
-        return self::$runtime;
+        return $this->runtime;
     }
 
     /**
@@ -78,13 +73,13 @@ class Runtime
      *
      * @return int
      */
-    public static function getMemoryCost(): int
+    public function getMemoryCost(): int
     {
-        if (self::$memoryCost === null) {
-            self::$memoryCost = memory_get_peak_usage() - self::$startMemory;
+        if ($this->memoryCost === null) {
+            $this->memoryCost = memory_get_peak_usage() - $this->startMemory;
         }
 
-        return self::$memoryCost;
+        return $this->memoryCost;
     }
 
     /**
@@ -92,9 +87,9 @@ class Runtime
      *
      * @return string
      */
-    public static function getMemoryCostClipped(): string
+    public function getMemoryCostClipped(): string
     {
-        return self::convert(self::getMemoryCost());
+        return $this->convert($this->getMemoryCost());
     }
 
     /**
@@ -103,7 +98,7 @@ class Runtime
      * @param $size
      * @return string
      */
-    private static function convert($size): string
+    private function convert($size): string
     {
         $unit = ['b', 'kb', 'mb', 'gb', 'tb', 'pb'];
         $i = (int)floor(log($size, 1024));
