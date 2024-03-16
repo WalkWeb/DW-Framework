@@ -14,7 +14,9 @@ use NW\Request;
 use NW\Runtime;
 use NW\App;
 
-//Runtime::start();
+// Создаем контейнер
+$container = App::createDefaultContainer();
+$container->set(Runtime::class, new Runtime());
 
 // Создаем объект request на основе глобальных параметров
 $request = Request::fromGlobals();

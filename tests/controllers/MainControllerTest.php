@@ -3,6 +3,7 @@
 namespace Tests\controllers;
 
 use Exception;
+use NW\AppException;
 use NW\Response;
 use NW\Route\RouteCollection;
 use NW\Route\Router;
@@ -14,6 +15,9 @@ class MainControllerTest extends AbstractTestCase
 {
     private App $app;
 
+    /**
+     * @throws AppException
+     */
     public function setUp(): void
     {
         parent::setUp();
@@ -21,7 +25,7 @@ class MainControllerTest extends AbstractTestCase
         $routes = new RouteCollection();
         $routes->get('home', '/', 'MainController@index');
         $router = new Router($routes);
-        $this->app = new App($router);
+        $this->app = new App($router, $this->getContainer());
     }
 
     /**

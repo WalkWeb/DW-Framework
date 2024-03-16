@@ -20,9 +20,6 @@ define('DB_NAME', 'YOUR_DB_NAME');
 define('DB_USER', 'YOUR_USER_NAME');
 define('DB_PASSWORD', 'YOUR_PASSWORD');
 
-/** Режим разработчика - true / продакшена - false */
-define('DEV', false);
-
 /** Базовый шаблон дизайна сайта */
 define('TEMPLATE_DEFAULT', 'default');
 

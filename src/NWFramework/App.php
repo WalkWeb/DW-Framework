@@ -69,6 +69,22 @@ class App
         return self::$container;
     }
 
+    public static function createDefaultContainer(): Container
+    {
+        return new Container(
+            APP_ENV,
+            DB_HOST,
+            DB_USER,
+            DB_PASSWORD,
+            DB_NAME,
+            SAVE_LOG,
+            LOG_DIR,
+            LOG_FILE_NAME,
+            CONTROLLERS_DIR,
+            CACHE_DIR,
+        );
+    }
+
     /**
      * Создает ответ сервера на основе Response
      *

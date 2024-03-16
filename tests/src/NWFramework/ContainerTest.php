@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\src\NWFramework;
 
+use NW\App;
 use NW\AppException;
 use NW\Captcha;
 use NW\Connection;
@@ -166,7 +167,7 @@ class ContainerTest extends AbstractTestCase
      */
     public function testContainerGetServiceFail(string $class, string $error): void
     {
-        $container = $this->getContainer();
+        $container = App::createDefaultContainer();
 
         $this->expectException(AppException::class);
         $this->expectExceptionMessage($error);
@@ -177,11 +178,10 @@ class ContainerTest extends AbstractTestCase
      * @dataProvider getMethodServiceErrorDataProvider
      * @param string $method
      * @param string $error
-     * @throws AppException
      */
     public function testContainerGetMethodServiceFail(string $method, string $error): void
     {
-        $container = $this->getContainer();
+        $container = App::createDefaultContainer();
 
         $this->expectException(AppException::class);
         $this->expectExceptionMessage($error);

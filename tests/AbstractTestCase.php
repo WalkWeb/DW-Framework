@@ -9,6 +9,7 @@ use NW\AppException;
 use NW\Connection;
 use NW\Container;
 use NW\Route\Router;
+use NW\Runtime;
 use PHPUnit\Framework\TestCase;
 
 class AbstractTestCase extends TestCase
@@ -43,7 +44,7 @@ class AbstractTestCase extends TestCase
      */
     protected function getContainer(string $appEnv = APP_ENV): Container
     {
-        return new Container(
+        $container = new Container(
             $appEnv,
             DB_HOST,
             DB_USER,
@@ -55,6 +56,9 @@ class AbstractTestCase extends TestCase
             CONTROLLERS_DIR,
             CACHE_DIR,
         );
+        $container->set(Runtime::class, new Runtime());
+
+        return $container;
     }
 
     /**
