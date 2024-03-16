@@ -7,8 +7,6 @@ trait PaginationTrait
     /**
      * Собирает и возвращает html-контент для отображения пагинации на странице
      *
-     * TODO Доработать пагинацию при странице по середине - с.м. тест
-     *
      * @param $elements
      * @param $page
      * @param $url
@@ -32,7 +30,7 @@ trait PaginationTrait
                 $content .= ' <span>' . $i . '</span> ';
             } else {
                 if ($i < ($page - 3)) {
-                    $left = ' <a href="' . $url . '" title="">1</a> ' . (($page - 4 <= $numberPage) ? '' : '...');
+                    $left = ' <a href="' . $url . '" title="">1</a> ' . (($page - 4 <= $numberPage) ? '...' : '');
                 } elseif ($i > ($page + 3)) {
                     $right = (($page + 4 >= $numberPage) ? '' : '...') . ' <a href="' . $url . $numberPage . '" title="">' . $numberPage . '</a> ';
                 } else {

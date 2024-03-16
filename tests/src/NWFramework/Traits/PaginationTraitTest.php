@@ -37,7 +37,7 @@ class PaginationTraitTest extends AbstractTestCase
         $perPage = 10;
 
         self::assertEquals(
-            '<a href="pages/" title="">1</a>  <a href="pages/7" title="">7</a>  <a href="pages/8" title="">8</a>  <a href="pages/9" title="">9</a>  <span>10</span>',
+            '<a href="pages/" title="">1</a> ... <a href="pages/7" title="">7</a>  <a href="pages/8" title="">8</a>  <a href="pages/9" title="">9</a>  <span>10</span>',
             $this->getPages($elements, $page, $url, $perPage)
         );
     }
@@ -49,10 +49,8 @@ class PaginationTraitTest extends AbstractTestCase
         $url = 'pages/';
         $perPage = 10;
 
-        // TODO Доработать пагинацию при странице по середине
-
         self::assertEquals(
-            '<a href="pages/" title="">1</a>  <a href="pages/7" title="">7</a>  <a href="pages/8" title="">8</a>  <a href="pages/9" title="">9</a>  <span>10</span>  <a href="pages/11" title="">11</a>  <a href="pages/12" title="">12</a>  <a href="pages/13" title="">13</a> ... <a href="pages/20" title="">20</a>',
+            '<a href="pages/" title="">1</a> ... <a href="pages/7" title="">7</a>  <a href="pages/8" title="">8</a>  <a href="pages/9" title="">9</a>  <span>10</span>  <a href="pages/11" title="">11</a>  <a href="pages/12" title="">12</a>  <a href="pages/13" title="">13</a> ... <a href="pages/20" title="">20</a>',
             $this->getPages($elements, $page, $url, $perPage)
         );
     }
