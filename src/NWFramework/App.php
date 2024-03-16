@@ -7,7 +7,12 @@ use NW\Route\Router;
 
 class App
 {
-    public const ERROR_MISS_CONTAINER = 'The emit method cannot be called before the App is created';
+    public const ERROR_MISS_CONTAINER  = 'The emit method cannot be called before the App is created';
+    public const ERROR_MISS_CONTROLLER = 'Controller missing: %s';
+    public const ERROR_MISS_METHOD     = 'Controller method missing: %s';
+
+    public const TEMPLATE_500_PAGE     = '/default/errors/500.php';
+    public const TEMPLATE_404_PAGE     = '/default/errors/404.php';
 
     private Router $router;
     private static ?Container $container = null;
@@ -42,16 +47,14 @@ class App
 
         $handlerClass = self::$container->getControllersDir() . '\\' . $handlerClass;
 
-        // TODO Ошибки перевести в английский и вынести в константы
-
         if (!class_exists($handlerClass)) {
-            throw new AppException('Отсутствует контроллер: ' . $handlerClass, Response::INTERNAL_SERVER_ERROR);
+            throw new AppException(sprintf(self::ERROR_MISS_CONTROLLER, $handlerClass), Response::INTERNAL_SERVER_ERROR);
         }
 
         $class = new $handlerClass(self::$container);
 
         if (!method_exists($class, $action)) {
-            throw new AppException('Метод не найден: ' . $action, Response::INTERNAL_SERVER_ERROR);
+            throw new AppException(sprintf(self::ERROR_MISS_METHOD, $action), Response::INTERNAL_SERVER_ERROR);
         }
 
         return $class->$action($request);
@@ -89,8 +92,8 @@ class App
             throw new AppException(self::ERROR_MISS_CONTAINER);
         }
 
-        $view = DIR . '/' . self::$container->getViewDir() . '/default/errors/500.php';
-        $content = file_exists($view) ? file_get_contents($view) : '500: Internal Server Error';
+        $view = DIR . '/' . self::$container->getViewDir() . self::TEMPLATE_500_PAGE;
+        $content = file_exists($view) ? file_get_contents($view) : Response::DEFAULT_500_ERROR;
         return new Response($content, Response::INTERNAL_SERVER_ERROR);
     }
 
@@ -154,8 +157,8 @@ class App
      */
     private function createNotFoundPage(): Response
     {
-        $view = DIR . '/' . $this->getContainer()->getViewDir() . '/default/errors/404.php';
-        $content = file_exists($view) ? file_get_contents($view) : '404: Page not found';
+        $view = DIR . '/' . $this->getContainer()->getViewDir() . self::TEMPLATE_404_PAGE;
+        $content = file_exists($view) ? file_get_contents($view) : Response::DEFAULT_404_ERROR;
 
         return new Response($content, Response::NOT_FOUND);
     }

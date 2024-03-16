@@ -39,8 +39,6 @@ class Session
     }
 
     /**
-     * TODO В случае отсутствия может лучше кидать exception?
-     *
      * @param $key
      * @return string|null
      */

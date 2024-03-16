@@ -19,6 +19,9 @@ class Response
     public const INTERNAL_SERVER_ERROR           = 500;
     public const BAD_GATEWAY                     = 502;
 
+    public const DEFAULT_500_ERROR = '500: Internal Server Error';
+    public const DEFAULT_404_ERROR = '404: Page not found';
+
     /**
      * @var string - Тело ответа
      */

@@ -72,7 +72,7 @@ EOT;
         $app = $this->getApp($this->createRouter('/', 'UnknownController@index'));
 
         $this->expectException(AppException::class);
-        $this->expectExceptionMessage('Отсутствует контроллер: Controllers\UnknownController');
+        $this->expectExceptionMessage(sprintf(App::ERROR_MISS_CONTROLLER, 'Controllers\UnknownController'));
         $this->expectExceptionCode(Response::INTERNAL_SERVER_ERROR);
         $app->handle($request);
     }
@@ -86,7 +86,7 @@ EOT;
         $app = $this->getApp($this->createRouter('/', 'MainController@unknownMethod'));
 
         $this->expectException(AppException::class);
-        $this->expectExceptionMessage('Метод не найден: unknownMethod');
+        $this->expectExceptionMessage(sprintf(App::ERROR_MISS_METHOD, 'unknownMethod'));
         $this->expectExceptionCode(Response::INTERNAL_SERVER_ERROR);
         $app->handle($request);
     }
