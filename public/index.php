@@ -27,14 +27,10 @@ $router = require __DIR__ . '/../routes/web.php';
 // Создаем объект приложения
 $app = new App($router, $container);
 
-// Получаем объект response на основе запроса
-try {
-    $response = $app->handle($request);
+// Получаем объект ответа на основе запроса
+$response = $app->handle($request);
 
-    // Распечатываем response
-    App::emit($response);
+// Распечатываем ответ
+App::emit($response);
 
-} catch (Exception $e) {
-    // TODO В обычном режиме возвращается заглушка 500/401/404 ошибки, а в DEV-режиме возвращаем детализацию ошибки
-    echo $e->getMessage();
-}
+// exception не перехватываются - их корректная обработка для разных режимов (APP_ENV=prod/dev/test) происходит в AppException

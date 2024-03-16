@@ -11,6 +11,8 @@ use NW\Request;
 use NW\Response;
 use NW\Route\RouteCollection;
 use NW\Route\Router;
+use ReflectionClass;
+use ReflectionException;
 use Tests\AbstractTestCase;
 
 class AppTest extends AbstractTestCase
@@ -107,6 +109,25 @@ EOT;
         self::assertRegExp('/Главная страница нашего замечательного сайта./', $content);
     }
 
+    /**
+     * @throws AppException
+     * @throws ReflectionException
+     */
+    public function testAppEmitError(): void
+    {
+        $this->expectException(AppException::class);
+        $this->expectExceptionMessage(App::ERROR_MISS_CONTAINER);
+        $this->expectExceptionCode(Response::INTERNAL_SERVER_ERROR);
+
+        $reflectionClass = new ReflectionClass(App::class);
+
+        $reflectionProperty = $reflectionClass->getProperty('container');
+        $reflectionProperty->setAccessible(true);
+        $reflectionProperty->setValue($reflectionClass, null);
+
+        App::emit(new Response());
+    }
+
     public function testAppCreateDefaultContainer(): void
     {
         self::assertEquals(
@@ -125,6 +146,74 @@ EOT;
             ),
             App::createDefaultContainer()
         );
+    }
+
+    /**
+     * @throws AppException
+     */
+    public function testAppCreateInternalErrorResponseExistTemplateSuccess(): void
+    {
+        $router = new Router(new RouteCollection());
+        new App($router, $this->getContainer());
+
+        $response = App::createInternalErrorResponse();
+
+        $content = <<<EOT
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <title>500: Internal Server Error</title>
+    <meta name="Description" content="">
+    <meta name="Keywords" content="">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <link rel="stylesheet" type="text/css" href="/styles/main.css">
+</head>
+<body>
+<div class="content">
+    <h1 class="center">500: Internal Server Error</h1>
+    <p class="center">Кажется что-то сломалось. Попробуйте обратиться позже.</p>
+</body>
+</html>
+EOT;
+
+        self::assertEquals(Response::INTERNAL_SERVER_ERROR, $response->getStatusCode());
+        self::assertEquals($content, $response->getBody());
+    }
+
+    /**
+     * @throws AppException
+     */
+    public function testAppCreateInternalErrorResponseNoTemplateSuccess(): void
+    {
+        $router = new Router(new RouteCollection());
+        new App($router, $this->getContainer(APP_ENV, 'unknown_view'));
+
+        $response = App::createInternalErrorResponse();
+
+        $content = '500: Internal Server Error';
+
+        self::assertEquals(Response::INTERNAL_SERVER_ERROR, $response->getStatusCode());
+        self::assertEquals($content, $response->getBody());
+    }
+
+    /**
+     * @throws AppException
+     * @throws ReflectionException
+     */
+    public function testAppCreateInternalErrorResponseFail(): void
+    {
+        $this->expectException(AppException::class);
+        $this->expectExceptionMessage(App::ERROR_MISS_CONTAINER);
+        $this->expectExceptionCode(Response::INTERNAL_SERVER_ERROR);
+
+        $reflectionClass = new ReflectionClass(App::class);
+
+        $reflectionProperty = $reflectionClass->getProperty('container');
+        $reflectionProperty->setAccessible(true);
+        $reflectionProperty->setValue($reflectionClass, null);
+
+        App::createInternalErrorResponse();
     }
 
     /**

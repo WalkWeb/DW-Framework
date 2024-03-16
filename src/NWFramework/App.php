@@ -7,8 +7,10 @@ use NW\Route\Router;
 
 class App
 {
+    public const ERROR_MISS_CONTAINER = 'The emit method cannot be called before the App is created';
+
     private Router $router;
-    private static Container $container;
+    private static ?Container $container = null;
 
     public function __construct(Router $router, Container $container)
     {
@@ -39,6 +41,8 @@ class App
         [$handlerClass, $action] = explode('@', $handler);
 
         $handlerClass = self::$container->getControllersDir() . '\\' . $handlerClass;
+
+        // TODO Ошибки перевести в английский и вынести в константы
 
         if (!class_exists($handlerClass)) {
             throw new AppException('Отсутствует контроллер: ' . $handlerClass, Response::INTERNAL_SERVER_ERROR);
@@ -76,6 +80,21 @@ class App
     }
 
     /**
+     * @return Response
+     * @throws AppException
+     */
+    public static function createInternalErrorResponse(): Response
+    {
+        if (self::$container === null) {
+            throw new AppException(self::ERROR_MISS_CONTAINER);
+        }
+
+        $view = DIR . '/' . self::$container->getViewDir() . '/default/errors/500.php';
+        $content = file_exists($view) ? file_get_contents($view) : '500: Internal Server Error';
+        return new Response($content, Response::INTERNAL_SERVER_ERROR);
+    }
+
+    /**
      * Создает ответ сервера на основе Response
      *
      * @param Response $response
@@ -83,6 +102,10 @@ class App
      */
     public static function emit(Response $response): void
     {
+        if (self::$container === null) {
+            throw new AppException(self::ERROR_MISS_CONTAINER);
+        }
+
         if (self::$container->getAppEnv() !== Container::APP_TEST) {
             self::saveHeader($response);
             self::saveCookies();

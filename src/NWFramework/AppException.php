@@ -42,11 +42,7 @@ class AppException extends Exception
                 $this->code
             );
         } else {
-            // TODO Получать корневую директорию с вьюхами из контейнера
-            // TODO А так как для этого нужен контейнер - можно создавать 500 response в App
-            $view = __DIR__ . '/../../views/default/errors/500.php';
-            $content = file_exists($view) ? file_get_contents($view) : '500: Internal Server Error';
-            $response = new Response($content, Response::INTERNAL_SERVER_ERROR);
+            $response = App::createInternalErrorResponse();
         }
 
         App::emit($response);

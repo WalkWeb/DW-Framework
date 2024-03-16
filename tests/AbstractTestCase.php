@@ -39,10 +39,11 @@ class AbstractTestCase extends TestCase
 
     /**
      * @param string $appEnv
+     * @param string $viewDir
      * @return Container
      * @throws AppException
      */
-    protected function getContainer(string $appEnv = APP_ENV): Container
+    protected function getContainer(string $appEnv = APP_ENV, string $viewDir = VIEW_DIR): Container
     {
         $container = new Container(
             $appEnv,
@@ -55,7 +56,7 @@ class AbstractTestCase extends TestCase
             LOG_FILE_NAME,
             CONTROLLERS_DIR,
             CACHE_DIR,
-            VIEW_DIR,
+            $viewDir,
         );
         $container->set(Runtime::class, new Runtime());
 
