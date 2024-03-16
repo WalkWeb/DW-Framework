@@ -68,7 +68,7 @@ class Validator
     {
         $this->connection = $container->getConnection();
     }
-    
+
     /**
      * Принимает валидируемый параметр и дополнительные параметры, и проверяет его на основе правил
      *
@@ -84,9 +84,9 @@ class Validator
      */
     public function check(string $name, $param, array $rules, string $table = null, string $column = null, string $error = null): bool
     {
-       $this->name = $name;
-       $this->errors = [];
-       $this->defaultError = $error;
+        $this->name = $name;
+        $this->errors = [];
+        $this->defaultError = $error;
 
         // В текущем варианте перебора параметров возвращается ошибка при первом же несоблюдении какого-либо правила
         // Можно доработать, чтобы проверялись все правила, и возвращался сразу список несоответствий
@@ -156,9 +156,7 @@ class Validator
     }
 
     /**
-     * Проверяет строку на минимальную длину
-     *
-     * TODO Доработать и проверку к int
+     * Проверяет строку на минимальную длину или int на минимальную величину
      *
      * @param $param
      * @param $value
@@ -166,6 +164,14 @@ class Validator
      */
     protected function min($param, $value): bool
     {
+        if (is_int($param)) {
+            if ($param >= $value) {
+                return true;
+            }
+            $this->addError($this->name . ' должен быть больше или равен ' . $value);
+            return false;
+        }
+
         if (mb_strlen($param) >= $value) {
             return true;
         }
@@ -174,9 +180,7 @@ class Validator
     }
 
     /**
-     * Проверяет строку на максимальную длину
-     *
-     * TODO Доработать и проверку к int
+     * Проверяет строку на максимальную длину или int на максимальную величину
      *
      * @param $param
      * @param $value
@@ -184,6 +188,14 @@ class Validator
      */
     protected function max($param, $value): bool
     {
+        if (is_int($param)) {
+            if ($param <= $value) {
+                return true;
+            }
+            $this->addError($this->name . ' должен быть меньше или равен ' . $value);
+            return false;
+        }
+
         if (mb_strlen($param) <= $value) {
             return true;
         }
@@ -303,9 +315,9 @@ class Validator
     private function addError(string $error): void
     {
         if ($this->defaultError) {
-           $this->errors[] =$this->defaultError;
+            $this->errors[] =$this->defaultError;
         } else {
-           $this->errors[] = $error;
+            $this->errors[] = $error;
         }
     }
 }

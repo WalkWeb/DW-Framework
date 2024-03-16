@@ -101,11 +101,11 @@ class ValidatorTest extends AbstractTestCase
     }
 
     /**
-     * На данный момент реализована только проверка минимальной/максимальной длины строки
+     * Проверка минимальной длины строки
      *
      * @throws AppException
      */
-    public function testValidatorMin(): void
+    public function testValidatorMinString(): void
     {
         $validator = $this->getContainer()->getValidator();
 
@@ -115,13 +115,29 @@ class ValidatorTest extends AbstractTestCase
         // False
         self::assertFalse($validator->check('min string', 'Login', ['string', 'min' => 10]));
         self::assertEquals('min string должен быть больше или равен 10 символов', $validator->getError());
+    }
 
+    /**
+     * Проверка минимального значения int
+     *
+     * @throws AppException
+     */
+    public function testValidatorMinInt(): void
+    {
+        $validator = $this->getContainer()->getValidator();
+
+        // Success
+        self::assertTrue($validator->check('min int', 10, ['int', 'min' => 9]));
+
+        // False
+        self::assertFalse($validator->check('min int', 9, ['int', 'min' => 10]));
+        self::assertEquals('min int должен быть больше или равен 10', $validator->getError());
     }
 
     /**
      * @throws AppException
      */
-    public function testValidatorMax(): void
+    public function testValidatorMaxString(): void
     {
         $validator = $this->getContainer()->getValidator();
 
@@ -131,6 +147,21 @@ class ValidatorTest extends AbstractTestCase
         // False
         self::assertFalse($validator->check('max string', 'Login', ['string', 'max' => 3]));
         self::assertEquals('max string должен быть меньше или равен 3 символов', $validator->getError());
+    }
+
+    /**
+     * @throws AppException
+     */
+    public function testValidatorMaxInt(): void
+    {
+        $validator = $this->getContainer()->getValidator();
+
+        // Success
+        self::assertTrue($validator->check('max int', 10, ['int', 'max' => 10]));
+
+        // False
+        self::assertFalse($validator->check('max int', 4, ['int', 'max' => 3]));
+        self::assertEquals('max int должен быть меньше или равен 3', $validator->getError());
     }
 
     /**
