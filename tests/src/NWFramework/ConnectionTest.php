@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Tests\src\NWFramework;
 
+use NW\AppException;
 use NW\Connection;
-use Exception;
 use Tests\AbstractTestCase;
 
 /**
@@ -23,7 +23,7 @@ class ConnectionTest extends AbstractTestCase
     /**
      * Тест на успешное подключение к MySQL базе
      *
-     * @throws Exception
+     * @throws AppException
      */
     public function testConnectionCreateSuccess(): void
     {
@@ -37,11 +37,11 @@ class ConnectionTest extends AbstractTestCase
     /**
      * Тест на ошибку подключения к MySQL базе
      *
-     * @throws Exception
+     * @throws AppException
      */
-    public function testConnectionCreateFail(): void
+    public function testConnectionCreateFailException(): void
     {
-        $this->expectException(Exception::class);
+        $this->expectException(AppException::class);
         // Проверяем лишь по основной части сообщения: Невозможно подключиться к MySQL: mysqli_connect()
         // В разных вариантах запуска базы полный текст ошибки будет разным, например:
         // MySQL установленный локально: Невозможно подключиться к MySQL: mysqli_connect(): (HY000/1045): Access denied for user 'user'@'localhost' (using password: YES)
@@ -51,7 +51,27 @@ class ConnectionTest extends AbstractTestCase
     }
 
     /**
-     * @throws Exception
+     * Тест на проверку записи в логах об ошибке
+     *
+     * @throws AppException
+     */
+    public function testConnectionCreateFailLog(): void
+    {
+        $container = $this->getContainer();
+        try {
+            new Connection('localhost', 'user', 'invalid_pass', 'db', $container);
+        } catch (AppException $e) {
+            // Ignore exception
+        }
+
+        self::assertEquals(
+            ["Невозможно подключиться к MySQL: mysqli_connect(): (HY000/1045): Access denied for user 'user'@'localhost' (using password: YES)"],
+            $container->getLogger()->getLogs()
+        );
+    }
+
+    /**
+     * @throws AppException
      */
     public function testConnectionQuerySuccess(): void
     {

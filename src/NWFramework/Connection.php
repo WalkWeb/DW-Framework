@@ -31,31 +31,10 @@ final class Connection
      * @param Container $container
      * @throws AppException
      */
-    public function __construct(
-        string $host,
-        string $user,
-        string $password,
-        string $database,
-        Container $container
-    )
+    public function __construct(string $host, string $user, string $password, string $database, Container $container)
     {
         $this->logger = $container->getLogger();
-
-        // TODO Вынести подключение к базе в отдельный метод и логировать ошибку
-
-        try {
-            $this->connection = mysqli_connect($host, $user, $password, $database);
-        } catch (Throwable $e) {
-            throw new AppException(self::ERROR_CONNECT . $e->getMessage());
-        }
-
-        // Проверка соединения
-        if (mysqli_connect_errno()) {
-            throw new AppException(self::ERROR_CONNECT . mysqli_connect_error());
-        }
-
-        $this->connection->query('SET NAMES utf8');
-        $this->connection->set_charset('utf8');
+        $this->createConnection($host, $user, $password, $database);
     }
 
     /**
@@ -208,5 +187,33 @@ final class Connection
     public function getQueryNumber(): int
     {
         return $this->queryNumber;
+    }
+
+    /**
+     * @param string $host
+     * @param string $user
+     * @param string $password
+     * @param string $database
+     * @throws AppException
+     */
+    private function createConnection(string $host, string $user, string $password, string $database): void
+    {
+        try {
+            $this->connection = mysqli_connect($host, $user, $password, $database);
+        } catch (Throwable $e) {
+            $error = self::ERROR_CONNECT . $e->getMessage();
+            $this->logger->addLog($error);
+            throw new AppException($error);
+        }
+
+        // Проверка соединения
+        if (mysqli_connect_errno()) {
+            $error = self::ERROR_CONNECT . mysqli_connect_error();
+            $this->logger->addLog($error);
+            throw new AppException($error);
+        }
+
+        $this->connection->query('SET NAMES utf8');
+        $this->connection->set_charset('utf8');
     }
 }
