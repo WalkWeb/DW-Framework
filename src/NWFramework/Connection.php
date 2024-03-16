@@ -59,6 +59,16 @@ final class Connection
     }
 
     /**
+     * @param string $error
+     * @throws AppException
+     */
+    public function setError(string $error): void
+    {
+        $this->logger->addLog($error);
+        $this->error = $error;
+    }
+
+    /**
      * Возвращает ошибку
      *
      * @return string
@@ -88,6 +98,7 @@ final class Connection
         }
 
         if ($this->logger) {
+            // TODO Сделать отдельное хранилище для SQL запросов
             $this->logger->addLog($sql);
         }
 
@@ -105,7 +116,7 @@ final class Connection
 
         $stmt = $this->connection->prepare($sql);
         if ($stmt === false) {
-            $this->error = self::ERROR_PREPARE . $this->connection->errno . ' ' . $this->connection->error . '. SQL: ' . $sql;
+            $this->setError(self::ERROR_PREPARE . $this->connection->errno . ' ' . $this->connection->error . '. SQL: ' . $sql);
         } else {
             // Если параметры не пришли - то bind_param не требуется
             if (count($params) > 0) {
@@ -125,7 +136,7 @@ final class Connection
                     }
                 }
             } else {
-                $this->error = '' . $stmt->errno . ' ' . $stmt->error . '. SQL: ' . $sql;
+                $this->setError($stmt->errno . ' ' . $stmt->error . '. SQL: ' . $sql);
             }
         }
 
@@ -202,13 +213,6 @@ final class Connection
             $this->connection = mysqli_connect($host, $user, $password, $database);
         } catch (Throwable $e) {
             $error = self::ERROR_CONNECT . $e->getMessage();
-            $this->logger->addLog($error);
-            throw new AppException($error);
-        }
-
-        // Проверка соединения
-        if (mysqli_connect_errno()) {
-            $error = self::ERROR_CONNECT . mysqli_connect_error();
             $this->logger->addLog($error);
             throw new AppException($error);
         }
