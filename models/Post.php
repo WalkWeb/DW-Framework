@@ -2,7 +2,8 @@
 
 namespace Models;
 
-use NW\Validator;
+use NW\AppException;
+use NW\Container;
 use Models\Exceptions\PostException;
 
 /**
@@ -12,23 +13,28 @@ use Models\Exceptions\PostException;
  */
 class Post
 {
-    private $title;
+    private string $title;
 
-    private $text;
+    private string $text;
+
+    private Container $container;
 
     /**
+     * @param Container $container
      * @param string $title
      * @param string $text
-     * @throws PostException
+     * @throws AppException
      */
-    public function __construct(string $title, string $text)
+    public function __construct(Container $container, string $title, string $text)
     {
+        $this->container = $container;
+
         if (!$this->titleValidate($title)) {
-            throw new PostException(Validator::getError());
+            throw new PostException($container, $this->container->getValidator()->getError());
         }
 
         if (!$this->textValidate($text)) {
-            throw new PostException(Validator::getError());
+            throw new PostException($container, $this->container->getValidator()->getError());
         }
 
         $this->title = $title;
@@ -45,9 +51,14 @@ class Post
         return htmlspecialchars($this->text);
     }
 
+    /**
+     * @param string $title
+     * @return bool
+     * @throws AppException
+     */
     private function titleValidate(string $title): bool
     {
-        if (!Validator::check('Заголовок', $title, [
+        if (!$this->container->getValidator()->check('Заголовок', $title, [
             'required',
             'string',
             'min'    => 5,
@@ -60,9 +71,14 @@ class Post
         return true;
     }
 
+    /**
+     * @param string $text
+     * @return bool
+     * @throws AppException
+     */
     private function textValidate(string $text): bool
     {
-        if (!Validator::check('Содержимое поста', $text, [
+        if (!$this->container->getValidator()->check('Содержимое поста', $text, [
             'required',
             'string',
             'min' => 5,

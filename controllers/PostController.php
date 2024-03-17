@@ -98,7 +98,7 @@ class PostController extends AbstractController
         }
 
         try {
-            $post = new Post($request->title, $request->text);
+            $post = new Post($this->container, $request->title, $request->text);
 
             return $this->render('post/create', [
                 'post' => $post,

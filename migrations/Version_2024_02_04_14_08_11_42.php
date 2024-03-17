@@ -19,14 +19,14 @@ class Version_2024_02_04_14_08_11_42
     {
         $connection->query("
             CREATE TABLE IF NOT EXISTS `users` (
-                `id` VARCHAR(36) NOT NULL,
+                `id`   VARCHAR(36) NOT NULL,
                 `name` VARCHAR(255) NOT NULL 
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
         ");
 
         $connection->query("
             CREATE TABLE IF NOT EXISTS `books` (
-                `id` VARCHAR(36) NOT NULL,
+                `id`   VARCHAR(36) NOT NULL,
                 `name` VARCHAR(255) NOT NULL 
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
         ");

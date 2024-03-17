@@ -10,6 +10,8 @@ use Tests\AbstractTestCase;
 
 class MigrationTest extends AbstractTestCase
 {
+    private const ACTUAL_MIGRATION_COUNT = 3;
+
     private const MIGRATIONS_DIR = __DIR__ . '/../../../migrations/';
 
     /**
@@ -33,7 +35,7 @@ class MigrationTest extends AbstractTestCase
         }
 
         // Проверяем, что создана две миграции (одна базовая и одна созданная в тесте)
-        self::assertCount(2, $migrations);
+        self::assertCount(self::ACTUAL_MIGRATION_COUNT, $migrations);
 
         // Получаем содержимое
         $content = file_get_contents(self::MIGRATIONS_DIR . $migrations[1]);
@@ -74,7 +76,7 @@ class MigrationTest extends AbstractTestCase
         // Проверяем наличие в ней двух записей (одна базовая и одна созданная в тесте)
         $versions = $connection->query("SELECT * FROM $tableName");
 
-        self::assertCount(2, $versions);
+        self::assertCount(self::ACTUAL_MIGRATION_COUNT, $versions);
 
         // Удаляем созданную миграцию и запись о её добавлении
         unlink($filePath);
