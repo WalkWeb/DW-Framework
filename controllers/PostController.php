@@ -5,6 +5,7 @@ namespace Controllers;
 use Exception;
 use Models\Exceptions\PostException;
 use NW\AbstractController;
+use NW\AppException;
 use NW\Traits\PaginationTrait;
 use NW\Request;
 use NW\Response;
@@ -88,7 +89,7 @@ class PostController extends AbstractController
     {
         $capthca = $this->container->getCaptcha();
 
-        if (!$capthca->checkCaptcha($request->captcha)) {
+        if (!$capthca->checkCaptcha($request->captcha ?? '')) {
             return $this->render('post/add', [
                 'message' => Captcha::INVALID_CAPTCHA,
                 'title'   => $request->title,
@@ -104,7 +105,7 @@ class PostController extends AbstractController
                 'post' => $post,
             ]);
 
-        } catch (PostException $e) {
+        } catch (AppException $e) {
             $message = $e->getMessage();
             return $this->render('post/add', [
                 'message' => $message,

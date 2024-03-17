@@ -6,6 +6,8 @@ use Exception;
 
 class Captcha
 {
+    // TODO Добавить контейер. Если APP_ENV === 'test' то любую капчу считаем всегда успешной
+
     public const INVALID_CAPTCHA = 'Символы с картинки указаны неверно';
 
     private string $captcha = '';

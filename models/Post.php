@@ -7,11 +7,9 @@ use NW\Container;
 use Models\Exceptions\PostException;
 
 /**
- * Задача этого класса - продемонстрировать функционал валидации входящих данных
- *
- * Как таковой моделью этот класс, разумеется, не является.
+ * Это вариация модели в которой валидация интегрирована внутрь самой модели и реализована через класс Validator
  */
-class Post
+class Post implements PostInterface
 {
     private string $title;
 

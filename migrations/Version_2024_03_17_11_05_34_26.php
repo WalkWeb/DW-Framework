@@ -12,6 +12,9 @@ class Version_2024_03_17_11_05_34_26
     /**
      * Добавляется таблица posts
      *
+     * TODO Добавить постам уникальность
+     * TODO Добавить title_translate
+     *
      * @param Connection $connection
      * @throws AppException
      */
