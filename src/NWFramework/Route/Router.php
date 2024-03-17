@@ -7,6 +7,8 @@ use NW\Request;
 
 class Router
 {
+    public const ERROR_MISS_ROUTE = 'Route not found';
+
     private RouteCollection $routes;
 
     /**
@@ -32,7 +34,7 @@ class Router
             }
         }
 
-        throw new AppException('404: Страница не найдена');
+        throw new AppException(self::ERROR_MISS_ROUTE);
     }
 
     /**

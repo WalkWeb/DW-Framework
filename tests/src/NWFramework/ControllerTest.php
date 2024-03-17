@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\src\NWFramework;
 
 use Exception;
+use NW\AbstractController;
 use NW\AppException;
 use NW\Response;
 use Tests\AbstractTestCase;
@@ -32,7 +33,7 @@ class ControllerTest extends AbstractTestCase
 
         // Дальше в ошибке указывается полный путь к view, но он будет разным в зависимости от размещения проекта
         $this->expectException(AppException::class);
-        $this->expectExceptionMessage('View не найден: /var/www/dw-framework.loc/src/NWFramework/../../views/default/unknown_view.php');
+        $this->expectExceptionMessage('View missing');
         $controller->render('unknown_view');
     }
 
@@ -42,14 +43,13 @@ class ControllerTest extends AbstractTestCase
     public function testControllerMissedLayout(): void
     {
         $controller = new ExampleController($this->getContainer());
+        $layout = 'unknown_layout';
 
-        $controller->setLayoutUrl('unknown_layout');
+        $controller->setLayoutUrl($layout);
 
         // Дальше в ошибке указывается полный путь к layout, но он будет разным в зависимости от размещения проекта
         $this->expectException(AppException::class);
-        $this->expectExceptionMessage(
-            'Layout не найден: '
-        );
+        $this->expectExceptionMessage(sprintf(AbstractController::ERROR_MISS_LAYOUT, $layout));
         $controller->render('errors/404');
     }
 
@@ -167,9 +167,7 @@ class ControllerTest extends AbstractTestCase
 
         // Дальше в ошибке указывается полный путь к кэшу, но он будет разным в зависимости от размещения проекта
         $this->expectException(AppException::class);
-        $this->expectExceptionMessage(
-            'Указанного кэша не существует: '
-        );
+        $this->expectExceptionMessage('Cache missing');
         $controller->deleteCache($cacheName);
     }
 

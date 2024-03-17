@@ -60,7 +60,7 @@ class ResponseTest extends AbstractTestCase
         $invalidCode = 999;
 
         $this->expectException(AppException::class);
-        $this->expectExceptionMessage('Указан некорректный код ответа');
+        $this->expectExceptionMessage(Response::ERROR_INVALID_CODE);
 
         $response->setStatusCode($invalidCode);
     }
@@ -90,7 +90,7 @@ class ResponseTest extends AbstractTestCase
         $value = 'WalkWeb';
 
         $this->expectException(AppException::class);
-        $this->expectExceptionMessage('HTTP заголовок должен быть строкой');
+        $this->expectExceptionMessage(Response::ERROR_INVALID_HTTP_HEADER);
         $response->withHeader($header, $value);
     }
 
@@ -102,7 +102,7 @@ class ResponseTest extends AbstractTestCase
         $value = 'WalkWeb';
 
         $this->expectException(AppException::class);
-        $this->expectExceptionMessage('Недопустимые символы в HTTP заголовке');
+        $this->expectExceptionMessage(Response::ERROR_INVALID_HEADER_CHARS);
         $response->withHeader($header, $value);
     }
 
@@ -114,7 +114,7 @@ class ResponseTest extends AbstractTestCase
         $value = ['WalkWeb'];
 
         $this->expectException(AppException::class);
-        $this->expectExceptionMessage('Значение HTTP заголовка может быть только строкой или числом');
+        $this->expectExceptionMessage(Response::ERROR_INVALID_HEADER_VALUE);
         $response->withHeader($header, $value);
     }
 
@@ -126,7 +126,7 @@ class ResponseTest extends AbstractTestCase
         $value = "\r";
 
         $this->expectException(AppException::class);
-        $this->expectExceptionMessage('Некорректный формат значения HTTP заголовка');
+        $this->expectExceptionMessage(Response::ERROR_INVALID_HEADER_VALUE);
         $response->withHeader($header, $value);
     }
 }

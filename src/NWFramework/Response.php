@@ -19,8 +19,13 @@ class Response
     public const INTERNAL_SERVER_ERROR           = 500;
     public const BAD_GATEWAY                     = 502;
 
-    public const DEFAULT_500_ERROR = '500: Internal Server Error';
-    public const DEFAULT_404_ERROR = '404: Page not found';
+    public const DEFAULT_500_ERROR  = '500: Internal Server Error';
+    public const DEFAULT_404_ERROR  = '404: Page not found';
+
+    public const ERROR_INVALID_CODE         = 'Invalid response code specified';
+    public const ERROR_INVALID_HTTP_HEADER  = 'HTTP-header must be string';
+    public const ERROR_INVALID_HEADER_CHARS = 'Invalid characters in HTTP-header';
+    public const ERROR_INVALID_HEADER_VALUE = 'HTTP-header value can only be string or a number';
 
     /**
      * @var string - Тело ответа
@@ -106,7 +111,7 @@ class Response
     public function setStatusCode(int $status): void
     {
         if (empty(self::$phrases[$status])) {
-            throw new AppException('Указан некорректный код ответа');
+            throw new AppException(self::ERROR_INVALID_CODE);
         }
 
         $this->statusCode = $status;
@@ -168,10 +173,10 @@ class Response
     private function validateHeaderName($name): void
     {
         if (!is_string($name)) {
-            throw new AppException('HTTP заголовок должен быть строкой');
+            throw new AppException(self::ERROR_INVALID_HTTP_HEADER);
         }
         if (!preg_match('/^[a-zA-Z0-9\'`#$%&*+.^_|~!-]+$/', $name)) {
-            throw new AppException('Недопустимые символы в HTTP заголовке');
+            throw new AppException(self::ERROR_INVALID_HEADER_CHARS);
         }
     }
 
@@ -187,7 +192,7 @@ class Response
     private function validateHeaderValue($value): void
     {
         if (!is_string($value) && !is_numeric($value)) {
-            throw new AppException('Значение HTTP заголовка может быть только строкой или числом');
+            throw new AppException(self::ERROR_INVALID_HEADER_VALUE);
         }
 
         // Look for:
@@ -205,7 +210,7 @@ class Response
 
         if (preg_match("#(?:(?:(?<!\r)\n)|(?:\r(?!\n))|(?:\r\n(?![ \t])))#", $value) ||
             preg_match('/[^\x09\x0a\x0d\x20-\x7E\x80-\xFE]/', $value)) {
-            throw new AppException('Некорректный формат значения HTTP заголовка');
+            throw new AppException(self::ERROR_INVALID_HEADER_VALUE);
         }
     }
 }

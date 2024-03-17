@@ -6,6 +6,10 @@ use Exception;
 
 abstract class AbstractController
 {
+    public const ERROR_MISS_VIEW   = 'View missing: %s';
+    public const ERROR_MISS_LAYOUT = 'Layout missing: %s';
+    public const ERROR_MISS_CACHE  = 'Cache missing: %s';
+
     // Месторасположение директории с вьюхами
     private const DIR = __DIR__ . '/../../views/';
 
@@ -94,11 +98,11 @@ abstract class AbstractController
         $viewPath = self::DIR . $this->templates . $view . '.php';
 
         if (!file_exists($viewPath)) {
-            throw new AppException("View не найден: $viewPath");
+            throw new AppException(sprintf(self::ERROR_MISS_VIEW, $viewPath));
         }
 
         if ($this->layout && !file_exists(self::DIR . $this->templates . $this->layoutUrl)) {
-            throw new AppException("Layout не найден: $viewPath");
+            throw new AppException(sprintf(self::ERROR_MISS_LAYOUT, $this->layoutUrl));
         }
 
         ob_start();
@@ -231,7 +235,7 @@ abstract class AbstractController
     protected function deleteCache(string $name): void
     {
         if (!file_exists(self::CACHE_DIR . $name)) {
-            throw new AppException('Указанного кэша не существует: ' . self::CACHE_DIR . $name);
+            throw new AppException(sprintf(self::ERROR_MISS_CACHE, self::CACHE_DIR . $name));
         }
 
         if ($name) {
