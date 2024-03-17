@@ -6,7 +6,6 @@ namespace Tests\src\NWFramework;
 
 use NW\App;
 use NW\AppException;
-use NW\Container;
 use NW\Request;
 use NW\Response;
 use NW\Route\RouteCollection;
@@ -126,26 +125,6 @@ EOT;
         $reflectionProperty->setValue($reflectionClass, null);
 
         App::emit(new Response());
-    }
-
-    public function testAppCreateDefaultContainer(): void
-    {
-        self::assertEquals(
-            new Container(
-                APP_ENV,
-                DB_HOST,
-                DB_USER,
-                DB_PASSWORD,
-                DB_NAME,
-                SAVE_LOG,
-                LOG_DIR,
-                LOG_FILE_NAME,
-                CONTROLLERS_DIR,
-                CACHE_DIR,
-                VIEW_DIR,
-            ),
-            App::createDefaultContainer()
-        );
     }
 
     /**

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Tests\src\NWFramework;
 
-use NW\App;
 use NW\AppException;
 use NW\Captcha;
 use NW\Connection;
@@ -19,6 +18,66 @@ use Tests\AbstractTestCase;
 
 class ContainerTest extends AbstractTestCase
 {
+    /**
+     * @throws AppException
+     */
+    public function testContainerCreate(): void
+    {
+        // create default
+        $container = Container::create();
+
+        self::assertEquals(
+            new Connection(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME, $container),
+            $container->getConnection()
+        );
+        self::assertEquals(
+            new Logger(SAVE_LOG, LOG_DIR, LOG_FILE_NAME),
+            $container->getLogger()
+        );
+        self::assertEquals(new Csrf(), $container->getCsrf());
+        self::assertEquals(new Captcha(), $container->getCaptcha());
+        self::assertEquals(new Validator($container), $container->getValidator());
+        self::assertEquals(CONTROLLERS_DIR, $container->getControllersDir());
+        self::assertEquals(CACHE_DIR, $container->getCacheDir());
+        self::assertEquals(VIEW_DIR, $container->getViewDir());
+        self::assertEquals(APP_ENV, $container->getAppEnv());
+
+        // create manually
+        $appEnv = Container::APP_PROD;
+        $loggerSaveLog = false;
+        $loggerDir = 'logger_dir';
+        $loggerFileName = 'logger_file_name';
+        $controllersDir = 'controllers_dir';
+        $cacheDir = 'cache_dir';
+        $viewDir = 'view_dir';
+
+        $container = Container::create(
+            $appEnv,
+            DB_HOST,
+            DB_USER,
+            DB_PASSWORD,
+            DB_NAME,
+            $loggerSaveLog,
+            $loggerDir,
+            $loggerFileName,
+            $controllersDir,
+            $cacheDir,
+            $viewDir,
+        );
+
+        self::assertEquals(
+            new Logger($loggerSaveLog, $loggerDir, $loggerFileName),
+            $container->getLogger()
+        );
+        self::assertEquals(new Csrf(), $container->getCsrf());
+        self::assertEquals(new Captcha(), $container->getCaptcha());
+        self::assertEquals(new Validator($container), $container->getValidator());
+        self::assertEquals($controllersDir, $container->getControllersDir());
+        self::assertEquals($cacheDir, $container->getCacheDir());
+        self::assertEquals($viewDir, $container->getViewDir());
+        self::assertEquals($appEnv, $container->getAppEnv());
+    }
+
     /**
      * Тест на ручное добавление сервиса в контейнер
      *
@@ -167,7 +226,7 @@ class ContainerTest extends AbstractTestCase
      */
     public function testContainerGetServiceFail(string $class, string $error): void
     {
-        $container = App::createDefaultContainer();
+        $container = Container::create();
 
         $this->expectException(AppException::class);
         $this->expectExceptionMessage($error);
@@ -178,10 +237,11 @@ class ContainerTest extends AbstractTestCase
      * @dataProvider getMethodServiceErrorDataProvider
      * @param string $method
      * @param string $error
+     * @throws AppException
      */
     public function testContainerGetMethodServiceFail(string $method, string $error): void
     {
-        $container = App::createDefaultContainer();
+        $container = Container::create();
 
         $this->expectException(AppException::class);
         $this->expectExceptionMessage($error);

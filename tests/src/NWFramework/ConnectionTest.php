@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Tests\src\NWFramework;
 
-use NW\App;
 use NW\AppException;
 use NW\Connection;
+use NW\Container;
 use Tests\AbstractTestCase;
 
 /**
@@ -119,7 +119,7 @@ class ConnectionTest extends AbstractTestCase
      */
     public function testConnectionQueryError(): void
     {
-        $container = App::createDefaultContainer();
+        $container = Container::create();
         $db = $container->getConnection();
         $sql = 'SELECT * FROM unknown_table';
         $error = "Ошибка выполнения SQL: 1146 Table 'dw-framework.unknown_table' doesn't exist. SQL: SELECT * FROM unknown_table";

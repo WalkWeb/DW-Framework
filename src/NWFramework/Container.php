@@ -84,6 +84,50 @@ class Container
     }
 
     /**
+     * @param string $appEnv
+     * @param string $dbHost
+     * @param string $dbUser
+     * @param string $dbPassword
+     * @param string $dbName
+     * @param bool $loggerSaveLog
+     * @param string $loggerDir
+     * @param string $loggerFileName
+     * @param string $controllersDir
+     * @param string $cacheDir
+     * @param string $viewDir
+     * @return static
+     * @throws AppException
+     */
+    public static function create(
+        string $appEnv = APP_ENV,
+        string $dbHost = DB_HOST,
+        string $dbUser = DB_USER,
+        string $dbPassword = DB_PASSWORD,
+        string $dbName = DB_NAME,
+        bool $loggerSaveLog = SAVE_LOG,
+        string $loggerDir = LOG_DIR,
+        string $loggerFileName = LOG_FILE_NAME,
+        string $controllersDir = CONTROLLERS_DIR,
+        string $cacheDir = CACHE_DIR,
+        string $viewDir = VIEW_DIR
+    ): self
+    {
+        return new self(
+            $appEnv,
+            $dbHost,
+            $dbUser,
+            $dbPassword,
+            $dbName,
+            $loggerSaveLog,
+            $loggerDir,
+            $loggerFileName,
+            $controllersDir,
+            $cacheDir,
+            $viewDir
+        );
+    }
+
+    /**
      * @param string $id
      * @return object
      * @throws AppException
@@ -102,7 +146,7 @@ class Container
             );
         }
 
-        return $this->create($class);
+        return $this->createService($class);
     }
 
     /**
@@ -274,7 +318,7 @@ class Container
      * @return object
      * @throws AppException
      */
-    private function create(string $class): object
+    private function createService(string $class): object
     {
         if ($class === Connection::class) {
             $service = new Connection(
