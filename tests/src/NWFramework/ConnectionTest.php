@@ -36,6 +36,28 @@ class ConnectionTest extends AbstractTestCase
     }
 
     /**
+     * @throws AppException
+     */
+    public function testConnectionQueryLogs(): void
+    {
+        $db = $this->getContainer()->getConnection();
+
+        self::assertEquals(0, $db->getQueryNumber());
+        self::assertEquals([], $db->getQueries());
+
+        $sql1 = "SELECT 'hello'";
+        $sql2 = "SELECT 'my'";
+        $sql3 = "SELECT 'world'";
+
+        $db->query($sql1);
+        $db->query($sql2);
+        $db->query($sql3);
+
+        self::assertEquals(3, $db->getQueryNumber());
+        self::assertEquals([$sql1, $sql2, $sql3], $db->getQueries());
+    }
+
+    /**
      * Тест на ошибку подключения к MySQL базе
      *
      * @throws AppException
@@ -131,6 +153,6 @@ class ConnectionTest extends AbstractTestCase
         }
 
         self::assertEquals($error, $db->getError());
-        self::assertEquals([$sql, $error], $container->getLogger()->getLogs());
+        self::assertEquals([$error], $container->getLogger()->getLogs());
     }
 }

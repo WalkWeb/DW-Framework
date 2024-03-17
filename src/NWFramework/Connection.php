@@ -15,9 +15,18 @@ final class Connection
     private string $error = '';
 
     /**
-     * @var int Количество запросов
+     * Количество запросов
+     *
+     * @var int
      */
     private int $queryNumber = 0;
+
+    /**
+     * Все выполненные запросы в базу
+     *
+     * @var string[]
+     */
+    private array $queries = [];
 
     private Logger $logger;
 
@@ -98,8 +107,7 @@ final class Connection
         }
 
         if ($this->logger) {
-            // TODO Сделать отдельное хранилище для SQL запросов
-            $this->logger->addLog($sql);
+            $this->saveQuery($sql);
         }
 
         $param_arr = null;
@@ -201,6 +209,16 @@ final class Connection
     }
 
     /**
+     * Возвращает выполненные запросы в базу
+     *
+     * @return string[]
+     */
+    public function getQueries(): array
+    {
+        return $this->queries;
+    }
+
+    /**
      * @param string $host
      * @param string $user
      * @param string $password
@@ -219,5 +237,13 @@ final class Connection
 
         $this->connection->query('SET NAMES utf8');
         $this->connection->set_charset('utf8');
+    }
+
+    /**
+     * @param string $query
+     */
+    private function saveQuery(string $query): void
+    {
+        $this->queries[] = $query;
     }
 }
