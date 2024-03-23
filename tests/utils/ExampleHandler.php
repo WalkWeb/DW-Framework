@@ -32,7 +32,7 @@ class ExampleHandler extends AbstractHandler
         parent::createCache($name, $content, $id, $prefix);
     }
 
-    public function redirect(string $url, string $body = '', int $code = Response::FOUND): Response
+    public function redirect(string $url, string $body = '', int $code = Response::MOVED_PERMANENTLY): Response
     {
         return parent::redirect($url, $body, $code);
     }

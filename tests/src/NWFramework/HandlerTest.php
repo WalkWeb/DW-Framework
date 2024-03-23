@@ -206,19 +206,18 @@ class HandlerTest extends AbstractTestCase
     public function testHandlerRedirect(): void
     {
         $redirectUrl = 'http://example.com';
-
         $controller = new ExampleHandler($this->getContainer());
 
         // Редирект с дефолтными параметрами
         $response = $controller->redirect($redirectUrl);
 
-        self::assertEquals(Response::FOUND, $response->getStatusCode());
+        self::assertEquals(Response::MOVED_PERMANENTLY, $response->getStatusCode());
         self::assertEquals(['Location' => $redirectUrl], $response->getHeaders());
         self::assertEquals('', $response->getBody());
 
-        // Редирект с пользовательским body и кодом ответа (например, нужно вернуть 301, а не 302)
+        // Редирект с пользовательским body и кодом ответа (например, нужно вернуть 302, а не 301)
         $body = 'redirect body';
-        $responseCode = Response::MOVED_PERMANENTLY;
+        $responseCode = Response::FOUND;
 
         $response = $controller->redirect($redirectUrl, $body, $responseCode);
 

@@ -176,7 +176,7 @@ abstract class AbstractHandler
      * @return Response
      * @throws AppException
      */
-    protected function redirect(string $url, string $body = '', int $code = Response::FOUND): Response
+    protected function redirect(string $url, string $body = '', int $code = Response::MOVED_PERMANENTLY): Response
     {
         $response = new Response($body, $code);
         $response->withHeader('Location', $url);
