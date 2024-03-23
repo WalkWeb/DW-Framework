@@ -12,6 +12,8 @@ use Tests\AbstractTestCase;
 
 abstract class AbstractPostHandlerTest extends AbstractTestCase
 {
+    // TODO Возможно стоит просто вынести в AbstractTestCase и добавить все существующие роуты
+
     protected App $app;
 
     /**

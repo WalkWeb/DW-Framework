@@ -1,21 +1,20 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\handlers;
 
-use Exception;
+use NW\App;
 use NW\AppException;
+use NW\Request;
 use NW\Response;
 use NW\Route\RouteCollection;
 use NW\Route\Router;
-use NW\Request;
-use NW\App;
 use Tests\AbstractTestCase;
 
-// TODO Переписать в соответствии с заменой контроллеров на хандлеры
-
-class MainControllerTest extends AbstractTestCase
+class MainHandlerTest extends AbstractTestCase
 {
-    private App $app;
+    protected App $app;
 
     /**
      * @throws AppException
@@ -33,7 +32,7 @@ class MainControllerTest extends AbstractTestCase
     /**
      * Проверяем ответ от главной страницы
      *
-     * @throws Exception
+     * @throws AppException
      */
     public function testMainPage(): void
     {
@@ -47,7 +46,7 @@ class MainControllerTest extends AbstractTestCase
     /**
      * Проверяем ответ о несуществующей странице
      *
-     * @throws Exception
+     * @throws AppException
      */
     public function testNotFoundPage(): void
     {
