@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace Tests\utils;
 
-use NW\AbstractController;
+use NW\AbstractHandler;
 use NW\Container;
+use NW\Request;
 use NW\Response;
 
 /**
@@ -14,8 +15,13 @@ use NW\Response;
  *
  * @package Tests\utils
  */
-class ExampleController extends AbstractController
+class ExampleHandler extends AbstractHandler
 {
+    public function __invoke(Request $request): Response
+    {
+        return new Response('example html content');
+    }
+
     public function getCache($name, $time, string $id = ''): string
     {
         return parent::getCache($name, $time, $id);

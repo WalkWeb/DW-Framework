@@ -6,12 +6,12 @@ namespace Handlers\Post;
 
 use Models\Exceptions\PostException;
 use Models\PostDataProvider;
-use NW\AbstractController;
+use NW\AbstractHandler;
 use NW\AppException;
 use NW\Request;
 use NW\Response;
 
-class PostGetHandler extends AbstractController
+class PostGetHandler extends AbstractHandler
 {
     /**
      * Отображает пост по указанному ID

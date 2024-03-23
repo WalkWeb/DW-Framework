@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Handlers\Cookie;
 
-use NW\AbstractController;
+use NW\AbstractHandler;
 use NW\AppException;
 use NW\Request;
 use NW\Response;
 
-class CookieAddHandler extends AbstractController
+class CookieAddHandler extends AbstractHandler
 {
     /**
      * Добавляет новые куки

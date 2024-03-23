@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace Handlers\Post;
 
 use Models\Post;
-use NW\AbstractController;
+use NW\AbstractHandler;
 use NW\AppException;
 use NW\Captcha;
 use NW\Request;
 use NW\Response;
 
-class PostCreateHandler extends AbstractController
+class PostCreateHandler extends AbstractHandler
 {
     /**
      * Обрабатывает запрос на создание нового поста

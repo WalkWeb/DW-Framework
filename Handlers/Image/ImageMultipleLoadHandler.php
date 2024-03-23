@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace Handlers\Image;
 
 use Exception;
-use NW\AbstractController;
+use NW\AbstractHandler;
 use NW\AppException;
 use NW\Loader\LoaderImage;
 use NW\Request;
 use NW\Response;
 
-class ImageMultipleLoadHandler extends AbstractController
+class ImageMultipleLoadHandler extends AbstractHandler
 {
     /**
      * Загрузка нескольких картинок

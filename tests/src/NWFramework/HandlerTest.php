@@ -5,21 +5,21 @@ declare(strict_types=1);
 namespace Tests\src\NWFramework;
 
 use Exception;
-use NW\AbstractController;
+use NW\AbstractHandler;
 use NW\AppException;
 use NW\Response;
 use Tests\AbstractTestCase;
-use Tests\utils\ExampleController;
+use Tests\utils\ExampleHandler;
 
-class ControllerTest extends AbstractTestCase
+class HandlerTest extends AbstractTestCase
 {
     /**
      * @throws Exception
      */
-    public function testControllerGetContainer(): void
+    public function testHandlerGetContainer(): void
     {
         $container = $this->getContainer();
-        $controller = new ExampleController($container);
+        $controller = new ExampleHandler($container);
 
         self::assertEquals($container, $controller->getContainer());
     }
@@ -27,9 +27,9 @@ class ControllerTest extends AbstractTestCase
     /**
      * @throws Exception
      */
-    public function testControllerMissedView(): void
+    public function testHandlerMissedView(): void
     {
-        $controller = new ExampleController($this->getContainer());
+        $controller = new ExampleHandler($this->getContainer());
 
         // Дальше в ошибке указывается полный путь к view, но он будет разным в зависимости от размещения проекта
         $this->expectException(AppException::class);
@@ -40,16 +40,16 @@ class ControllerTest extends AbstractTestCase
     /**
      * @throws Exception
      */
-    public function testControllerMissedLayout(): void
+    public function testHandlerMissedLayout(): void
     {
-        $controller = new ExampleController($this->getContainer());
+        $controller = new ExampleHandler($this->getContainer());
         $layout = 'unknown_layout';
 
         $controller->setLayoutUrl($layout);
 
         // Дальше в ошибке указывается полный путь к layout, но он будет разным в зависимости от размещения проекта
         $this->expectException(AppException::class);
-        $this->expectExceptionMessage(sprintf(AbstractController::ERROR_MISS_LAYOUT, $layout));
+        $this->expectExceptionMessage(sprintf(AbstractHandler::ERROR_MISS_LAYOUT, $layout));
         $controller->render('errors/404');
     }
 
@@ -58,9 +58,9 @@ class ControllerTest extends AbstractTestCase
      * @param array $data
      * @throws Exception
      */
-    public function testControllerJson(array $data): void
+    public function testHandlerJson(array $data): void
     {
-        $controller = new ExampleController($this->getContainer());
+        $controller = new ExampleHandler($this->getContainer());
 
         $response = $controller->json($data);
 
@@ -74,9 +74,9 @@ class ControllerTest extends AbstractTestCase
     /**
      * @throws Exception
      */
-    public function testControllerErrorPage(): void
+    public function testHandlerErrorPage(): void
     {
-        $controller = new ExampleController($this->getContainer());
+        $controller = new ExampleHandler($this->getContainer());
 
         $response = $controller->renderErrorPage();
 
@@ -93,14 +93,14 @@ class ControllerTest extends AbstractTestCase
     /**
      * @throws AppException
      */
-    public function testControllerGetCache(): void
+    public function testHandlerGetCache(): void
     {
         $cacheName = 'name';
         $cacheTime = 100;
         $cacheId = 'uuid';
         $cacheContent = 'content';
         $cachePrefix = '_cache';
-        $controller = new ExampleController($this->getContainer());
+        $controller = new ExampleHandler($this->getContainer());
 
         // Если тест запускается не первый раз - то кэш уже будет, соответственно его нужно удалить
         $cacheFile = __DIR__ . '/../../../cache/html/' . $cacheName . '_' . $cacheId;
@@ -123,7 +123,7 @@ class ControllerTest extends AbstractTestCase
      *
      * @throws Exception
      */
-    public function testControllerDeleteCache(): void
+    public function testHandlerDeleteCache(): void
     {
         // Вначале нам нужно создать кэш - код повторяет тест выше
         $cacheName = 'name';
@@ -131,7 +131,7 @@ class ControllerTest extends AbstractTestCase
         $cacheId = 'uuid';
         $cacheContent = 'content';
         $cachePrefix = '_cache';
-        $controller = new ExampleController($this->getContainer());
+        $controller = new ExampleHandler($this->getContainer());
 
         // Если тест запускается не первый раз - то кэш уже будет, соответственно его нужно удалить
         $cacheFile = __DIR__ . '/../../../cache/html/' . $cacheName . '_' . $cacheId;
@@ -160,9 +160,9 @@ class ControllerTest extends AbstractTestCase
      *
      * @throws Exception
      */
-    public function testControllerDeleteMissedCache(): void
+    public function testHandlerDeleteMissedCache(): void
     {
-        $controller = new ExampleController($this->getContainer());
+        $controller = new ExampleHandler($this->getContainer());
         $cacheName = 'unknown_cache';
 
         // Дальше в ошибке указывается полный путь к кэшу, но он будет разным в зависимости от размещения проекта
@@ -177,13 +177,13 @@ class ControllerTest extends AbstractTestCase
      *
      * @throws Exception
      */
-    public function testControllerCacheHTML(): void
+    public function testHandlerCacheHTML(): void
     {
         $controllerAction = 'exampleAction';
         $cacheId = 'uuid2';
         $cacheTime = 100;
         $cachePrefix = '_cache';
-        $controller = new ExampleController($this->getContainer());
+        $controller = new ExampleHandler($this->getContainer());
         $content = 'example html content';
 
         // Если тест запускается не первый раз - то кэш уже будет, соответственно его нужно удалить
@@ -203,11 +203,11 @@ class ControllerTest extends AbstractTestCase
     /**
      * @throws Exception
      */
-    public function testControllerRedirect(): void
+    public function testHandlerRedirect(): void
     {
         $redirectUrl = 'http://example.com';
 
-        $controller = new ExampleController($this->getContainer());
+        $controller = new ExampleHandler($this->getContainer());
 
         // Редирект с дефолтными параметрами
         $response = $controller->redirect($redirectUrl);

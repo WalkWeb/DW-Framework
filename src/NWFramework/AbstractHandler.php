@@ -4,9 +4,7 @@ namespace NW;
 
 use Exception;
 
-// TODO Заменить на абстрактный хандлер
-
-abstract class AbstractController
+abstract class AbstractHandler
 {
     public const ERROR_MISS_VIEW   = 'View missing: %s';
     public const ERROR_MISS_LAYOUT = 'Layout missing: %s';
@@ -83,6 +81,8 @@ abstract class AbstractController
         $this->container = $container;
         $this->time = microtime(true);
     }
+
+    abstract public function __invoke(Request $request): Response;
 
     /**
      * Объединяет шаблон страницы с данными и создает объект Response с содержимым страницы
@@ -254,6 +254,8 @@ abstract class AbstractController
      * Задумка применения: к примеру, у нас есть страница поста с какими-то комментариями. Чтобы каждый раз не делать
      * запросы в базу - берем контент из кэша (делаем обращение через этот метод), а если пост изменился или добавился
      * комментарий - удаляем кэш. При следующем запросе к странице он создается вновь.
+     *
+     * TODO Переделать с учетом ухода от методов на __invoke()
      *
      * @param string $controllerAction
      * @param string $id

@@ -6,13 +6,13 @@ namespace Handlers\Post;
 
 use Models\Exceptions\PostException;
 use Models\PostDataProvider;
-use NW\AbstractController;
+use NW\AbstractHandler;
 use NW\AppException;
 use NW\Request;
 use NW\Response;
 use NW\Traits\PaginationTrait;
 
-class PostGetListHandler extends AbstractController
+class PostGetListHandler extends AbstractHandler
 {
     use PaginationTrait;
 
