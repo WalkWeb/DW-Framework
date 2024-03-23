@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Controllers\Cookie;
+namespace Handlers\Cookie;
 
 use NW\AbstractController;
 use NW\AppException;

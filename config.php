@@ -28,7 +28,7 @@ define('KEY', 'YOU_KEY');
 
 // TODO Заменить на HANDLERS_DIR
 /** Директория с контролерами */
-define('CONTROLLERS_DIR', 'Controllers');
+define('CONTROLLERS_DIR', 'Handlers');
 
 /** Директория с кэшем */
 define('CACHE_DIR', 'cache');

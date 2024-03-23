@@ -71,7 +71,7 @@ EOT;
         $app = $this->getApp($this->createRouter('/', 'UnknownHandler'));
 
         $this->expectException(AppException::class);
-        $this->expectExceptionMessage(sprintf(App::ERROR_MISS_CONTROLLER, 'Controllers\UnknownHandler'));
+        $this->expectExceptionMessage(sprintf(App::ERROR_MISS_CONTROLLER, CONTROLLERS_DIR . '\UnknownHandler'));
         $this->expectExceptionCode(Response::INTERNAL_SERVER_ERROR);
         $app->handle($request);
     }

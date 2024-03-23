@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Controllers\Image;
+namespace Handlers\Image;
 
 use Exception;
 use NW\AbstractController;

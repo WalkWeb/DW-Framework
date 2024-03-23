@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Controllers\Post;
+namespace Handlers\Post;
 
 use Models\Exceptions\PostException;
 use Models\PostDataProvider;

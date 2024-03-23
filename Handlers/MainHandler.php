@@ -2,22 +2,22 @@
 
 declare(strict_types=1);
 
-namespace Controllers;
+namespace Handlers;
 
 use NW\AbstractController;
 use NW\AppException;
 use NW\Response;
 
-class RedirectHandler extends AbstractController
+class MainHandler extends AbstractController
 {
     /**
-     * Пример редиректа
+     * Главная страница
      *
      * @return Response
      * @throws AppException
      */
     public function __invoke(): Response
     {
-        return $this->redirect('https://www.google.com/');
+        return $this->render('index');
     }
 }
