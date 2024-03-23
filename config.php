@@ -29,6 +29,9 @@ define('KEY', 'YOU_KEY');
 /** Директория с контролерами */
 define('HANDLERS_DIR', 'Handlers');
 
+/** Директория с middleware */
+define('MIDDLEWARE_DIR', 'Middleware');
+
 /** Директория с кэшем */
 define('CACHE_DIR', 'cache');
 

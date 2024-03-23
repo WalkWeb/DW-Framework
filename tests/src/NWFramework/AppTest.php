@@ -182,6 +182,46 @@ EOT;
     }
 
     /**
+     * Тест на ситуацию, когда указанного middleware не существует
+     *
+     * @throws AppException
+     */
+    public function testAppMissMiddleware(): void
+    {
+        $middleware = 'UnknownMiddleware';
+        $routes = new RouteCollection();
+        $routes->get('test', '/', 'MainHandler')->addMiddleware($middleware);
+        $router = new Router($routes);
+        $request = new Request(['REQUEST_URI' => '/']);
+        $container = $this->getContainer();
+        $app = new App($router, $container);
+
+        $this->expectException(AppException::class);
+        $this->expectExceptionMessage(sprintf(App::ERROR_MISS_MIDDLEWARE, $container->getMiddlewareDir() . '\\' . $middleware));
+        $app->handle($request);
+    }
+
+    /**
+     * Тест на ситуацию, когда middleware не имеет метода __invoke()
+     *
+     * @throws AppException
+     */
+    public function testAppInvalidMiddleware(): void
+    {
+        $middleware = 'InvalidMiddleware';
+        $routes = new RouteCollection();
+        $routes->get('test', '/', 'MainHandler')->addMiddleware($middleware);
+        $router = new Router($routes);
+        $request = new Request(['REQUEST_URI' => '/']);
+        $container = $this->getContainer(APP_ENV, VIEW_DIR, '\\Tests\\utils');
+        $app = new App($router, $container);
+
+        $this->expectException(AppException::class);
+        $this->expectExceptionMessage(sprintf(App::ERROR_INVALID_MIDDLEWARE, $container->getMiddlewareDir() . '\\' . $middleware));
+        $app->handle($request);
+    }
+
+    /**
      * @param string $path
      * @param string $handler
      * @return Router

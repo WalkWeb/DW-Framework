@@ -1,10 +1,8 @@
 <?php
 
-use Middleware\CreatedByMiddleware;
-
 $routes = new NW\Route\RouteCollection();
 
-$routes->get('home', '/', 'MainHandler')->addMiddleware(new CreatedByMiddleware());
+$routes->get('home', '/', 'MainHandler')->addMiddleware('CreatedByMiddleware');
 
 $routes->get('posts', '/posts/{page}', 'Post\\PostGetListHandler', ['page' => '\d+']);
 $routes->get('post.id', '/post/{id}', 'Post\\PostGetHandler', ['id' => '\d+']);

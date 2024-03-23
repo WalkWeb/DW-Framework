@@ -165,9 +165,9 @@ class Route
     }
 
     /**
-     * @param callable $middleware
+     * @param string $middleware
      */
-    public function addMiddleware(callable $middleware): void
+    public function addMiddleware(string $middleware): void
     {
         $this->middleware[] = $middleware;
     }

@@ -38,6 +38,7 @@ class ContainerTest extends AbstractTestCase
         self::assertEquals(new Captcha(), $container->getCaptcha());
         self::assertEquals(new Validator($container), $container->getValidator());
         self::assertEquals(HANDLERS_DIR, $container->getHandlersDir());
+        self::assertEquals(MIDDLEWARE_DIR, $container->getMiddlewareDir());
         self::assertEquals(CACHE_DIR, $container->getCacheDir());
         self::assertEquals(VIEW_DIR, $container->getViewDir());
         self::assertEquals(APP_ENV, $container->getAppEnv());
@@ -48,6 +49,7 @@ class ContainerTest extends AbstractTestCase
         $loggerDir = 'logger_dir';
         $loggerFileName = 'logger_file_name';
         $handlersDir = 'handlers_dir';
+        $middlewareDir = 'middleware_dir';
         $cacheDir = 'cache_dir';
         $viewDir = 'view_dir';
 
@@ -61,6 +63,7 @@ class ContainerTest extends AbstractTestCase
             $loggerDir,
             $loggerFileName,
             $handlersDir,
+            $middlewareDir,
             $cacheDir,
             $viewDir,
         );
@@ -73,6 +76,7 @@ class ContainerTest extends AbstractTestCase
         self::assertEquals(new Captcha(), $container->getCaptcha());
         self::assertEquals(new Validator($container), $container->getValidator());
         self::assertEquals($handlersDir, $container->getHandlersDir());
+        self::assertEquals($middlewareDir, $container->getMiddlewareDir());
         self::assertEquals($cacheDir, $container->getCacheDir());
         self::assertEquals($viewDir, $container->getViewDir());
         self::assertEquals($appEnv, $container->getAppEnv());
@@ -246,30 +250,6 @@ class ContainerTest extends AbstractTestCase
         $this->expectException(AppException::class);
         $this->expectExceptionMessage($error);
         $container->$method();
-    }
-
-    /**
-     * @throws AppException
-     */
-    public function testContainerGetHandlersDir(): void
-    {
-        self::assertEquals(HANDLERS_DIR, $this->getContainer()->getHandlersDir());
-    }
-
-    /**
-     * @throws AppException
-     */
-    public function testContainerGetCacheDir(): void
-    {
-        self::assertEquals(CACHE_DIR, $this->getContainer()->getCacheDir());
-    }
-
-    /**
-     * @throws AppException
-     */
-    public function testContainerGetViewDir(): void
-    {
-        self::assertEquals(VIEW_DIR, $this->getContainer()->getViewDir());
     }
 
     /**

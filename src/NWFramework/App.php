@@ -7,8 +7,10 @@ use NW\Route\Router;
 
 class App
 {
-    public const ERROR_MISS_CONTAINER  = 'The emit method cannot be called before the App is created';
-    public const ERROR_MISS_HANDLER    = 'Handler missing: %s';
+    public const ERROR_MISS_CONTAINER     = 'The emit method cannot be called before the App is created';
+    public const ERROR_MISS_HANDLER       = 'Handler missing: %s';
+    public const ERROR_MISS_MIDDLEWARE    = 'Middleware missing: %s';
+    public const ERROR_INVALID_MIDDLEWARE = 'Invalid middleware class: %s, expected callable';
 
     public const TEMPLATE_500_PAGE     = '/default/errors/500.php';
     public const TEMPLATE_404_PAGE     = '/default/errors/404.php';
@@ -46,7 +48,7 @@ class App
         $handlerClass = self::$container->getHandlersDir() . '\\' . $handler;
 
         if (!class_exists($handlerClass)) {
-            throw new AppException(sprintf(self::ERROR_MISS_HANDLER, $handlerClass), Response::INTERNAL_SERVER_ERROR);
+            throw new AppException(sprintf(self::ERROR_MISS_HANDLER, $handlerClass));
         }
 
         return $this->handleRequest($request, $middleware, new $handlerClass(self::$container));
@@ -134,10 +136,11 @@ class App
      * @param array $middleware
      * @param callable $handler
      * @return Response
+     * @throws AppException
      */
     private function handleRequest(Request $request, array $middleware, callable $handler): Response
     {
-        $this->middleware = $middleware;
+        $this->middleware = $this->createMiddleware($middleware);
 
         return $this->next($request, $handler);
     }
@@ -168,5 +171,33 @@ class App
         $content = file_exists($view) ? file_get_contents($view) : Response::DEFAULT_404_ERROR;
 
         return new Response($content, Response::NOT_FOUND);
+    }
+
+    /**
+     * @param array $middlewares
+     * @return array
+     * @throws AppException
+     */
+    private function createMiddleware(array $middlewares): array
+    {
+        $classes = [];
+
+        foreach ($middlewares as $middleware) {
+            $className = $this->getContainer()->getMiddlewareDir() . '\\' . $middleware;
+
+            if (!class_exists($className)) {
+                throw new AppException(sprintf(self::ERROR_MISS_MIDDLEWARE, $className));
+            }
+
+            $class = new $className;
+
+            if (!is_callable($class)) {
+                throw new AppException(sprintf(self::ERROR_INVALID_MIDDLEWARE, $className));
+            }
+
+            $classes[] = $class;
+        }
+
+        return $classes;
     }
 }

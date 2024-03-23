@@ -47,10 +47,15 @@ class AbstractTestCase extends TestCase
     /**
      * @param string $appEnv
      * @param string $viewDir
+     * @param string $middlewareDir
      * @return Container
      * @throws AppException
      */
-    protected function getContainer(string $appEnv = APP_ENV, string $viewDir = VIEW_DIR): Container
+    protected function getContainer(
+        string $appEnv = APP_ENV,
+        string $viewDir = VIEW_DIR,
+        string $middlewareDir = MIDDLEWARE_DIR
+    ): Container
     {
         $container = new Container(
             $appEnv,
@@ -62,6 +67,7 @@ class AbstractTestCase extends TestCase
             LOG_DIR,
             LOG_FILE_NAME,
             HANDLERS_DIR,
+            $middlewareDir,
             CACHE_DIR,
             $viewDir,
         );

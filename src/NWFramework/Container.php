@@ -39,6 +39,7 @@ class Container
     private string $loggerDir;
     private string $loggerFileName;
     private string $handlersDir;
+    private string $middlewareDir;
     private string $cacheDir;
     private string $viewDir;
 
@@ -52,6 +53,7 @@ class Container
      * @param string $loggerDir
      * @param string $loggerFileName
      * @param string $handlersDir
+     * @param string $middlewareDir
      * @param string $cacheDir
      * @param string $viewDir
      * @throws AppException
@@ -66,6 +68,7 @@ class Container
         string $loggerDir,
         string $loggerFileName,
         string $handlersDir,
+        string $middlewareDir,
         string $cacheDir,
         string $viewDir
     )
@@ -79,6 +82,7 @@ class Container
         $this->loggerDir = $loggerDir;
         $this->loggerFileName = $loggerFileName;
         $this->handlersDir = $handlersDir;
+        $this->middlewareDir = $middlewareDir;
         $this->cacheDir = $cacheDir;
         $this->viewDir = $viewDir;
     }
@@ -93,6 +97,7 @@ class Container
      * @param string $loggerDir
      * @param string $loggerFileName
      * @param string $handlersDir
+     * @param string $middlewareDir
      * @param string $cacheDir
      * @param string $viewDir
      * @return static
@@ -108,6 +113,7 @@ class Container
         string $loggerDir = LOG_DIR,
         string $loggerFileName = LOG_FILE_NAME,
         string $handlersDir = HANDLERS_DIR,
+        string $middlewareDir = MIDDLEWARE_DIR,
         string $cacheDir = CACHE_DIR,
         string $viewDir = VIEW_DIR
     ): self
@@ -122,6 +128,7 @@ class Container
             $loggerDir,
             $loggerFileName,
             $handlersDir,
+            $middlewareDir,
             $cacheDir,
             $viewDir
         );
@@ -254,6 +261,14 @@ class Container
     public function getHandlersDir(): string
     {
         return $this->handlersDir;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMiddlewareDir(): string
+    {
+        return $this->middlewareDir;
     }
 
     /**
