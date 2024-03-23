@@ -54,7 +54,7 @@ class AbstractTestCase extends TestCase
             SAVE_LOG,
             LOG_DIR,
             LOG_FILE_NAME,
-            CONTROLLERS_DIR,
+            HANDLERS_DIR,
             CACHE_DIR,
             $viewDir,
         );

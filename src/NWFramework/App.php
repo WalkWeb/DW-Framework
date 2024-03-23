@@ -43,7 +43,7 @@ class App
             return $this->createNotFoundPage();
         }
 
-        $handlerClass = self::$container->getControllersDir() . '\\' . $handler;
+        $handlerClass = self::$container->getHandlersDir() . '\\' . $handler;
 
         if (!class_exists($handlerClass)) {
             throw new AppException(sprintf(self::ERROR_MISS_CONTROLLER, $handlerClass), Response::INTERNAL_SERVER_ERROR);

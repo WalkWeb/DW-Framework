@@ -26,9 +26,8 @@ define('TEMPLATE_DEFAULT', 'default');
 /** Ключ для хэшей */
 define('KEY', 'YOU_KEY');
 
-// TODO Заменить на HANDLERS_DIR
 /** Директория с контролерами */
-define('CONTROLLERS_DIR', 'Handlers');
+define('HANDLERS_DIR', 'Handlers');
 
 /** Директория с кэшем */
 define('CACHE_DIR', 'cache');

@@ -38,7 +38,7 @@ class Container
     private bool $loggerSaveLog;
     private string $loggerDir;
     private string $loggerFileName;
-    private string $controllersDir;
+    private string $handlersDir;
     private string $cacheDir;
     private string $viewDir;
 
@@ -51,7 +51,7 @@ class Container
      * @param bool $loggerSaveLog
      * @param string $loggerDir
      * @param string $loggerFileName
-     * @param string $controllersDir
+     * @param string $handlersDir
      * @param string $cacheDir
      * @param string $viewDir
      * @throws AppException
@@ -65,7 +65,7 @@ class Container
         bool $loggerSaveLog,
         string $loggerDir,
         string $loggerFileName,
-        string $controllersDir,
+        string $handlersDir,
         string $cacheDir,
         string $viewDir
     )
@@ -78,7 +78,7 @@ class Container
         $this->loggerSaveLog = $loggerSaveLog;
         $this->loggerDir = $loggerDir;
         $this->loggerFileName = $loggerFileName;
-        $this->controllersDir = $controllersDir;
+        $this->handlersDir = $handlersDir;
         $this->cacheDir = $cacheDir;
         $this->viewDir = $viewDir;
     }
@@ -92,7 +92,7 @@ class Container
      * @param bool $loggerSaveLog
      * @param string $loggerDir
      * @param string $loggerFileName
-     * @param string $controllersDir
+     * @param string $handlersDir
      * @param string $cacheDir
      * @param string $viewDir
      * @return static
@@ -107,7 +107,7 @@ class Container
         bool $loggerSaveLog = SAVE_LOG,
         string $loggerDir = LOG_DIR,
         string $loggerFileName = LOG_FILE_NAME,
-        string $controllersDir = CONTROLLERS_DIR,
+        string $handlersDir = HANDLERS_DIR,
         string $cacheDir = CACHE_DIR,
         string $viewDir = VIEW_DIR
     ): self
@@ -121,7 +121,7 @@ class Container
             $loggerSaveLog,
             $loggerDir,
             $loggerFileName,
-            $controllersDir,
+            $handlersDir,
             $cacheDir,
             $viewDir
         );
@@ -251,9 +251,9 @@ class Container
     /**
      * @return string
      */
-    public function getControllersDir(): string
+    public function getHandlersDir(): string
     {
-        return $this->controllersDir;
+        return $this->handlersDir;
     }
 
     /**

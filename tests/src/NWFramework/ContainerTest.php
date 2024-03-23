@@ -37,7 +37,7 @@ class ContainerTest extends AbstractTestCase
         self::assertEquals(new Csrf(), $container->getCsrf());
         self::assertEquals(new Captcha(), $container->getCaptcha());
         self::assertEquals(new Validator($container), $container->getValidator());
-        self::assertEquals(CONTROLLERS_DIR, $container->getControllersDir());
+        self::assertEquals(HANDLERS_DIR, $container->getHandlersDir());
         self::assertEquals(CACHE_DIR, $container->getCacheDir());
         self::assertEquals(VIEW_DIR, $container->getViewDir());
         self::assertEquals(APP_ENV, $container->getAppEnv());
@@ -47,7 +47,7 @@ class ContainerTest extends AbstractTestCase
         $loggerSaveLog = false;
         $loggerDir = 'logger_dir';
         $loggerFileName = 'logger_file_name';
-        $controllersDir = 'controllers_dir';
+        $handlersDir = 'handlers_dir';
         $cacheDir = 'cache_dir';
         $viewDir = 'view_dir';
 
@@ -60,7 +60,7 @@ class ContainerTest extends AbstractTestCase
             $loggerSaveLog,
             $loggerDir,
             $loggerFileName,
-            $controllersDir,
+            $handlersDir,
             $cacheDir,
             $viewDir,
         );
@@ -72,7 +72,7 @@ class ContainerTest extends AbstractTestCase
         self::assertEquals(new Csrf(), $container->getCsrf());
         self::assertEquals(new Captcha(), $container->getCaptcha());
         self::assertEquals(new Validator($container), $container->getValidator());
-        self::assertEquals($controllersDir, $container->getControllersDir());
+        self::assertEquals($handlersDir, $container->getHandlersDir());
         self::assertEquals($cacheDir, $container->getCacheDir());
         self::assertEquals($viewDir, $container->getViewDir());
         self::assertEquals($appEnv, $container->getAppEnv());
@@ -251,9 +251,9 @@ class ContainerTest extends AbstractTestCase
     /**
      * @throws AppException
      */
-    public function testContainerGetControllersDir(): void
+    public function testContainerGetHandlersDir(): void
     {
-        self::assertEquals(CONTROLLERS_DIR, $this->getContainer()->getControllersDir());
+        self::assertEquals(HANDLERS_DIR, $this->getContainer()->getHandlersDir());
     }
 
     /**

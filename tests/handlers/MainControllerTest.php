@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\controllers;
+namespace Tests\handlers;
 
 use Exception;
 use NW\AppException;
