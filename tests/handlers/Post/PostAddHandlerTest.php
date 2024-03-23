@@ -7,8 +7,9 @@ namespace Tests\handlers\Post;
 use NW\AppException;
 use NW\Request;
 use NW\Response;
+use Tests\AbstractTestCase;
 
-class PostAddHandlerTest extends AbstractPostHandlerTest
+class PostAddHandlerTest extends AbstractTestCase
 {
     /**
      * Тест на отображение формы для добавления поста

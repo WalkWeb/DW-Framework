@@ -7,8 +7,9 @@ namespace Tests\handlers\Post;
 use NW\AppException;
 use NW\Request;
 use NW\Response;
+use Tests\AbstractTestCase;
 
-class PostGetListHandlerTest extends AbstractPostHandlerTest
+class PostGetListHandlerTest extends AbstractTestCase
 {
     /**
      * Тест на получения списка постов

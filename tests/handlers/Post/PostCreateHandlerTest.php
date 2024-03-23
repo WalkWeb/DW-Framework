@@ -7,8 +7,9 @@ namespace Tests\handlers\Post;
 use NW\AppException;
 use NW\Request;
 use NW\Response;
+use Tests\AbstractTestCase;
 
-class PostCreateHandlerTest extends AbstractPostHandlerTest
+class PostCreateHandlerTest extends AbstractTestCase
 {
     // TODO testPostCreateSuccess - нужно доработать класс Captcha
 

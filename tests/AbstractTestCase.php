@@ -8,14 +8,19 @@ use NW\App;
 use NW\AppException;
 use NW\Connection;
 use NW\Container;
+use NW\Route\RouteCollection;
 use NW\Route\Router;
 use NW\Runtime;
 use PHPUnit\Framework\TestCase;
 
 class AbstractTestCase extends TestCase
 {
+    protected App $app;
     protected string $dir;
 
+    /**
+     * @throws AppException
+     */
     public function setUp(): void
     {
         $this->dir = __DIR__;
@@ -25,6 +30,9 @@ class AbstractTestCase extends TestCase
         } else {
             require_once __DIR__ . '/../config.php';
         }
+
+        $router = require __DIR__ . '/../routes/web.php';
+        $this->app = new App($router, $this->getContainer());
     }
 
     /**
