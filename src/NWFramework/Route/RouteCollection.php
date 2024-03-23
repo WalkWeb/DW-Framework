@@ -4,6 +4,8 @@ namespace NW\Route;
 
 class RouteCollection
 {
+    // TODO Добавить добавление сразу групп роутов с одними middleware
+
     /**
      * @var Route[]
      */

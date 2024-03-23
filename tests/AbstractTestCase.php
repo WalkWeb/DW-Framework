@@ -8,7 +8,6 @@ use NW\App;
 use NW\AppException;
 use NW\Connection;
 use NW\Container;
-use NW\Route\RouteCollection;
 use NW\Route\Router;
 use NW\Runtime;
 use PHPUnit\Framework\TestCase;

@@ -14,6 +14,7 @@ class App
     public const TEMPLATE_404_PAGE     = '/default/errors/404.php';
 
     private Router $router;
+    private array $middleware;
     private static ?Container $container = null;
 
     public function __construct(Router $router, Container $container)
@@ -35,7 +36,7 @@ class App
         self::$container->set(Cookie::class, clone $request->getCookies());
 
         try {
-            ['handler' => $handler, 'request' => $request] = $this->router->getHandler($request);
+            ['handler' => $handler, 'request' => $request, 'middleware' => $middleware] = $this->router->getHandler($request);
         } catch (Exception $e) {
 
             // Если маршрут не найден, значит вызывается несуществующая страница
@@ -48,11 +49,12 @@ class App
             throw new AppException(sprintf(self::ERROR_MISS_HANDLER, $handlerClass), Response::INTERNAL_SERVER_ERROR);
         }
 
-        $class = new $handlerClass(self::$container);
-
-        return $class($request);
+        return $this->handleRequest($request, $middleware, new $handlerClass(self::$container));
     }
 
+    /**
+     * @return Container
+     */
     public function getContainer(): Container
     {
         return self::$container;
@@ -125,6 +127,35 @@ class App
                 setcookie($aKey, '', -1, '/');
             }
         }
+    }
+
+    /**
+     * @param Request $request
+     * @param array $middleware
+     * @param callable $handler
+     * @return Response
+     */
+    private function handleRequest(Request $request, array $middleware, callable $handler): Response
+    {
+        $this->middleware = $middleware;
+
+        return $this->next($request, $handler);
+    }
+
+    /**
+     * @param Request $request
+     * @param callable $default
+     * @return Response
+     */
+    private function next(Request $request, callable $default): Response
+    {
+        if (!$current = array_shift($this->middleware)) {
+            return $default($request, $default);
+        }
+
+        return $current($request, function (Request $request) use ($default) {
+            return $this->next($request, $default);
+        });
     }
 
     /**

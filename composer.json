@@ -24,6 +24,7 @@
   "autoload": {
     "psr-4": {
       "Handlers\\": "Handlers/",
+      "Middleware\\": "Middleware/",
       "Models\\": "models/",
       "NW\\": "src/NWFramework",
       "Migrations\\": "migrations/",

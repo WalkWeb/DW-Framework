@@ -90,8 +90,9 @@ class Route
 
         if (!$this->params && $request->getUri() === $this->path) {
             return [
-                'handler' => $this->handler,
-                'request' => $request,
+                'handler'    => $this->handler,
+                'request'    => $request,
+                'middleware' => $this->middleware,
             ];
         }
 
@@ -109,8 +110,9 @@ class Route
         }
 
         return [
-            'handler' => $this->handler,
-            'request' => $request,
+            'handler'    => $this->handler,
+            'request'    => $request,
+            'middleware' => $this->middleware,
         ];
     }
 
@@ -160,6 +162,14 @@ class Route
     public function getNamespace()
     {
         return $this->namespace;
+    }
+
+    /**
+     * @param callable $middleware
+     */
+    public function addMiddleware(callable $middleware): void
+    {
+        $this->middleware[] = $middleware;
     }
 
     /**

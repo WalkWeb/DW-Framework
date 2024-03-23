@@ -23,6 +23,7 @@ class MainHandlerTest extends AbstractTestCase
 
         self::assertRegExp('/Главная страница/', $response->getBody());
         self::assertEquals(Response::OK, $response->getStatusCode());
+        self::assertEquals(['CreatedBy' => 'WalkWeb'], $response->getHeaders());
     }
 
     /**

@@ -82,6 +82,8 @@ class Response
         $this->setStatusCode($status);
     }
 
+    // TODO setBody()
+
     /**
      * Возвращает тело ответа (html-контент)
      *
@@ -106,9 +108,10 @@ class Response
      * Устанавливает код ответа и соответствующее ему текстовое описание
      *
      * @param int $status
+     * @return Response
      * @throws AppException
      */
-    public function setStatusCode(int $status): void
+    public function setStatusCode(int $status): self
     {
         if (empty(self::$phrases[$status])) {
             throw new AppException(self::ERROR_INVALID_CODE);
@@ -116,6 +119,8 @@ class Response
 
         $this->statusCode = $status;
         $this->reasonPhrase = self::$phrases[$status];
+
+        return $this;
     }
 
     /**
@@ -144,14 +149,17 @@ class Response
      *
      * @param $header
      * @param $value
+     * @return Response
      * @throws AppException
      */
-    public function withHeader($header, $value): void
+    public function withHeader($header, $value): self
     {
         $this->validateHeaderName($header);
         $this->validateHeaderValue($value);
 
         $this->headers[$header] = $value;
+
+        return $this;
     }
 
     /**
