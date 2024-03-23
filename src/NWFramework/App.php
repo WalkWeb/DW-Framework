@@ -7,9 +7,8 @@ use NW\Route\Router;
 
 class App
 {
-    // TODO Заменить ошибки на хандлеры
     public const ERROR_MISS_CONTAINER  = 'The emit method cannot be called before the App is created';
-    public const ERROR_MISS_CONTROLLER = 'Controller missing: %s';
+    public const ERROR_MISS_HANDLER    = 'Handler missing: %s';
 
     public const TEMPLATE_500_PAGE     = '/default/errors/500.php';
     public const TEMPLATE_404_PAGE     = '/default/errors/404.php';
@@ -46,7 +45,7 @@ class App
         $handlerClass = self::$container->getHandlersDir() . '\\' . $handler;
 
         if (!class_exists($handlerClass)) {
-            throw new AppException(sprintf(self::ERROR_MISS_CONTROLLER, $handlerClass), Response::INTERNAL_SERVER_ERROR);
+            throw new AppException(sprintf(self::ERROR_MISS_HANDLER, $handlerClass), Response::INTERNAL_SERVER_ERROR);
         }
 
         $class = new $handlerClass(self::$container);

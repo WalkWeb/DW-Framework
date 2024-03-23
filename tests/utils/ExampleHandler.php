@@ -10,8 +10,8 @@ use NW\Request;
 use NW\Response;
 
 /**
- * Так как NW\Controller является абстрактным классом, мы не можем протестировать его напрямую. Для этого создан
- * TestController, который просто наследуется от NW\Controller
+ * Так как NW\Handler является абстрактным классом, мы не можем протестировать его напрямую. Для этого создан
+ * ExampleHandler, который просто наследуется от NW\Handler
  *
  * @package Tests\utils
  */
