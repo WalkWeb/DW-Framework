@@ -1,0 +1,56 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Controllers\Post;
+
+use Models\Post;
+use NW\AbstractController;
+use NW\AppException;
+use NW\Captcha;
+use NW\Request;
+use NW\Response;
+
+class PostCreateHandler extends AbstractController
+{
+    /**
+     * Обрабатывает запрос на создание нового поста
+     *
+     * Исходим из того, что тому, кто захочет посмотреть работу фреймворка будет лень подключать базу,
+     * соответственно функционал создания поста не делаем, а просто валидируем и отображаем отправленные данные.
+     *
+     * @param Request $request
+     * @return Response
+     * @throws AppException
+     */
+    public function __invoke(Request $request): Response
+    {
+        $capthca = $this->container->getCaptcha();
+
+        if (!$capthca->checkCaptcha($request->captcha)) {
+            return $this->render('post/add', [
+                'message' => Captcha::INVALID_CAPTCHA,
+                'title'   => $request->title,
+                'text'    => $request->text,
+                'captcha' => $capthca->getCaptchaImage(),
+            ]);
+        }
+
+        try {
+            $post = new Post($this->container, $request->title, $request->text);
+
+            return $this->render('post/create', [
+                'post' => $post,
+            ]);
+
+        } catch (AppException $e) {
+            $message = $e->getMessage();
+            return $this->render('post/add', [
+                'message' => $message,
+                'title'   => $request->title,
+                'text'    => $request->text,
+                'captcha' => $capthca->getCaptchaImage(),
+            ]);
+        }
+    }
+}

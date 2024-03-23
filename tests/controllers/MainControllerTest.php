@@ -11,6 +11,8 @@ use NW\Request;
 use NW\App;
 use Tests\AbstractTestCase;
 
+// TODO Переписать в соответствии с заменой контроллеров на хандлеры
+
 class MainControllerTest extends AbstractTestCase
 {
     private App $app;
@@ -23,7 +25,7 @@ class MainControllerTest extends AbstractTestCase
         parent::setUp();
 
         $routes = new RouteCollection();
-        $routes->get('home', '/', 'MainController@index');
+        $routes->get('home', '/', 'MainHandler');
         $router = new Router($routes);
         $this->app = new App($router, $this->getContainer());
     }

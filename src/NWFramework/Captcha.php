@@ -19,7 +19,7 @@ class Captcha
      * @param int $length
      * @param int $fontSize
      * @return string
-     * @throws Exception
+     * @throws AppException
      */
     public function getCaptchaImage(
         int $widthImage = 150,
@@ -28,43 +28,47 @@ class Captcha
         int $length = 4,
         int $fontSize = 28): string
     {
-        $image = imagecreatetruecolor($widthImage, $heightImage);
-        $imageColor = imagecolorallocate($image, 30, 25, 21);
-        imagefilledrectangle($image, 0, 0, 400, 50, $imageColor);
-        $font = DIR . '/public/fonts/11610.ttf';
-        $height = 40;
+        try {
+            $image = imagecreatetruecolor($widthImage, $heightImage);
+            $imageColor = imagecolorallocate($image, 30, 25, 21);
+            imagefilledrectangle($image, 0, 0, 400, 50, $imageColor);
+            $font = DIR . '/public/fonts/11610.ttf';
+            $height = 40;
 
-        for ($i = 0; $i < $length; $i++) {
+            for ($i = 0; $i < $length; $i++) {
 
-            // Дописываем случайный символ
-            $this->captcha .= $letters[random_int(0, strlen($letters) - 1)];
+                // Дописываем случайный символ
+                $this->captcha .= $letters[random_int(0, strlen($letters) - 1)];
 
-            // Расстояние между символами
-            $x = 20 + 30 * $i;
+                // Расстояние между символами
+                $x = 20 + 30 * $i;
 
-            // Случайное смещение
-            $x = random_int($x, $x + 4);
+                // Случайное смещение
+                $x = random_int($x, $x + 4);
 
-            // Координата Y
-            $y = $height - (($height - $fontSize) / 2);
+                // Координата Y
+                $y = $height - (($height - $fontSize) / 2);
 
-            // Цвет для текущей буквы
-            $color = imagecolorallocate($image, random_int(100, 200), random_int(100, 200), random_int(100, 200));
+                // Цвет для текущей буквы
+                $color = imagecolorallocate($image, random_int(100, 200), random_int(100, 200), random_int(100, 200));
 
-            // Случайный угол наклона
-            $angle = random_int(-45, 45);
+                // Случайный угол наклона
+                $angle = random_int(-45, 45);
 
-            // Вывод текста
-            imagettftext($image, $fontSize, $angle, $x, $y, $color, $font, $this->captcha[$i]);
+                // Вывод текста
+                imagettftext($image, $fontSize, $angle, $x, $y, $color, $font, $this->captcha[$i]);
+            }
+
+            Session::setParam('captcha', md5($this->captcha . KEY));
+
+            ob_start();
+            imagepng($image);
+            $image = ob_get_clean();
+            $imageData = base64_encode($image);
+            return "data:image/png;base64,{$imageData}";
+        } catch (Exception $e) {
+            throw new AppException($e->getMessage());
         }
-
-        Session::setParam('captcha', md5($this->captcha . KEY));
-
-        ob_start();
-        imagepng($image);
-        $image = ob_get_clean();
-        $imageData = base64_encode($image);
-        return "data:image/png;base64,{$imageData}";
     }
 
     /**

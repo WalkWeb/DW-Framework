@@ -12,6 +12,8 @@ use NW\Route\RouteCollection;
 use NW\Route\Router;
 use Tests\AbstractTestCase;
 
+// TODO Переписать в соответствии с заменой контроллеров на хандлеры
+
 class PostControllerTest extends AbstractTestCase
 {
     private App $app;
@@ -24,10 +26,10 @@ class PostControllerTest extends AbstractTestCase
         parent::setUp();
 
         $routes = new RouteCollection();
-        $routes->get('posts', '/posts/{page}', 'PostController@index', ['page' => '\d+']);
-        $routes->get('post.id', '/post/{id}', 'PostController@view', ['id' => '\d+']);
-        $routes->get('post.add', '/post/create', 'PostController@add');
-        $routes->post('post.create', '/post/create', 'PostController@create');
+        $routes->get('posts', '/posts/{page}', 'Post\\PostGetListHandler', ['page' => '\d+']);
+        $routes->get('post.id', '/post/{id}', 'Post\\PostGetHandler', ['id' => '\d+']);
+        $routes->get('post.add', '/post/create', 'Post\\PostAddHandler');
+        $routes->post('post.create', '/post/create', 'Post\\PostCreateHandler');
         $router = new Router($routes);
         $this->app = new App($router, $this->getContainer());
     }

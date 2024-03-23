@@ -22,7 +22,7 @@ class AppTest extends AbstractTestCase
     public function testAppPageFound(): void
     {
         $request = new Request(['REQUEST_URI' => '/']);
-        $app = $this->getApp($this->createRouter('/', 'MainController@index'));
+        $app = $this->getApp($this->createRouter('/', 'MainHandler'));
 
         $response = $app->handle($request);
 
@@ -68,24 +68,10 @@ EOT;
     public function testAppControllerNotFound(): void
     {
         $request = new Request(['REQUEST_URI' => '/']);
-        $app = $this->getApp($this->createRouter('/', 'UnknownController@index'));
+        $app = $this->getApp($this->createRouter('/', 'UnknownHandler'));
 
         $this->expectException(AppException::class);
-        $this->expectExceptionMessage(sprintf(App::ERROR_MISS_CONTROLLER, 'Controllers\UnknownController'));
-        $this->expectExceptionCode(Response::INTERNAL_SERVER_ERROR);
-        $app->handle($request);
-    }
-
-    /**
-     * @throws AppException
-     */
-    public function testAppMethodNotFound(): void
-    {
-        $request = new Request(['REQUEST_URI' => '/']);
-        $app = $this->getApp($this->createRouter('/', 'MainController@unknownMethod'));
-
-        $this->expectException(AppException::class);
-        $this->expectExceptionMessage(sprintf(App::ERROR_MISS_METHOD, 'unknownMethod'));
+        $this->expectExceptionMessage(sprintf(App::ERROR_MISS_CONTROLLER, 'Controllers\UnknownHandler'));
         $this->expectExceptionCode(Response::INTERNAL_SERVER_ERROR);
         $app->handle($request);
     }
@@ -96,7 +82,7 @@ EOT;
     public function testAppEmitSuccess(): void
     {
         $request = new Request(['REQUEST_URI' => '/']);
-        $app = $this->getApp($this->createRouter('/', 'MainController@index'));
+        $app = $this->getApp($this->createRouter('/', 'MainHandler'));
 
         $response = $app->handle($request);
 

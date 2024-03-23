@@ -4,6 +4,8 @@ namespace NW;
 
 use Exception;
 
+// TODO Заменить на абстрактный хандлер
+
 abstract class AbstractController
 {
     public const ERROR_MISS_VIEW   = 'View missing: %s';
@@ -147,7 +149,7 @@ abstract class AbstractController
      * @param string $error
      * @param int $code
      * @return Response
-     * @throws Exception
+     * @throws AppException
      */
     public function renderErrorPage(string $error = '', int $code = Response::NOT_FOUND): Response
     {

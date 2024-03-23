@@ -7,9 +7,9 @@ use NW\Route\Router;
 
 class App
 {
+    // TODO Заменить ошибки на хандлеры
     public const ERROR_MISS_CONTAINER  = 'The emit method cannot be called before the App is created';
     public const ERROR_MISS_CONTROLLER = 'Controller missing: %s';
-    public const ERROR_MISS_METHOD     = 'Controller method missing: %s';
 
     public const TEMPLATE_500_PAGE     = '/default/errors/500.php';
     public const TEMPLATE_404_PAGE     = '/default/errors/404.php';
@@ -43,9 +43,7 @@ class App
             return $this->createNotFoundPage();
         }
 
-        [$handlerClass, $action] = explode('@', $handler);
-
-        $handlerClass = self::$container->getControllersDir() . '\\' . $handlerClass;
+        $handlerClass = self::$container->getControllersDir() . '\\' . $handler;
 
         if (!class_exists($handlerClass)) {
             throw new AppException(sprintf(self::ERROR_MISS_CONTROLLER, $handlerClass), Response::INTERNAL_SERVER_ERROR);
@@ -53,11 +51,7 @@ class App
 
         $class = new $handlerClass(self::$container);
 
-        if (!method_exists($class, $action)) {
-            throw new AppException(sprintf(self::ERROR_MISS_METHOD, $action), Response::INTERNAL_SERVER_ERROR);
-        }
-
-        return $class->$action($request);
+        return $class($request);
     }
 
     public function getContainer(): Container
