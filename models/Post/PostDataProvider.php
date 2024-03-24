@@ -1,8 +1,7 @@
 <?php
 
-namespace Models;
+namespace Models\Post;
 
-use Models\Exceptions\PostException;
 use NW\Response;
 
 /**

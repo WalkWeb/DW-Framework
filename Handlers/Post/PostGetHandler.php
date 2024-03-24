@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Handlers\Post;
 
-use Models\Exceptions\PostException;
-use Models\PostDataProvider;
+use Models\Post\PostException;
+use Models\Post\PostDataProvider;
 use NW\AbstractHandler;
 use NW\AppException;
 use NW\Request;

@@ -25,6 +25,7 @@
     "psr-4": {
       "Handlers\\": "Handlers/",
       "Middleware\\": "Middleware/",
+      "Repository\\": "Repository/",
       "Models\\": "models/",
       "NW\\": "src/NWFramework",
       "Migrations\\": "migrations/",

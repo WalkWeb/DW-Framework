@@ -1,10 +1,9 @@
 <?php
 
-namespace Models;
+namespace Models\Post;
 
 use NW\AppException;
 use NW\Container;
-use Models\Exceptions\PostException;
 
 /**
  * Это вариация модели в которой валидация интегрирована внутрь самой модели и реализована через класс Validator
