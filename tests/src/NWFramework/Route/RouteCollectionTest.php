@@ -56,4 +56,23 @@ class RouteCollectionTest extends AbstractTestCase
             self::assertEquals($namespace, $route->getNamespace());
         }
     }
+
+    public function testRouteCollectionAddMiddleware(): void
+    {
+        $middleware = 'CreatedByMiddleware';
+        $routes = new RouteCollection();
+
+        $routes->get('posts', '/posts/{page}', 'Post\\PostGetListHandler', ['page' => '\d+']);
+        $routes->get('post.id', '/post/{id}', 'Post\\PostGetHandler', ['id' => '\d+']);
+
+        foreach ($routes->getRoutes() as $route) {
+            self::assertEquals([], $route->getMiddleware());
+        }
+
+        $routes->addMiddleware($middleware);
+
+        foreach ($routes->getRoutes() as $route) {
+            self::assertEquals([$middleware], $route->getMiddleware());
+        }
+    }
 }
