@@ -2,27 +2,34 @@
 
 namespace Models\Post;
 
+use Exception;
 use NW\AppException;
 use NW\Container;
+use NW\Traits\StringTrait;
 
 /**
  * Это вариация модели в которой валидация интегрирована внутрь самой модели и реализована через класс Validator
  */
 class Post implements PostInterface
 {
-    private string $title;
+    use StringTrait;
 
+    private string $id;
+    private string $title;
+    private string $slug;
     private string $text;
 
     private Container $container;
 
     /**
      * @param Container $container
+     * @param string $id
      * @param string $title
      * @param string $text
      * @throws AppException
+     * @throws PostException
      */
-    public function __construct(Container $container, string $title, string $text)
+    public function __construct(Container $container, string $id, string $title, string $text)
     {
         $this->container = $container;
 
@@ -34,13 +41,31 @@ class Post implements PostInterface
             throw new PostException($this->container->getValidator()->getError());
         }
 
+        try {
+            $slugSuffix = '-' . random_int(10000, 99999);
+        } catch (Exception $e) {
+            throw new AppException($e->getMessage());
+        }
+
+        $this->id = $id;
         $this->title = $title;
+        $this->slug = strtolower(self::transliterate($title)) . $slugSuffix;
         $this->text = $text;
+    }
+
+    public function getId(): string
+    {
+        return $this->id;
     }
 
     public function getTitle(): string
     {
         return htmlspecialchars($this->title);
+    }
+
+    public function getSlug(): string
+    {
+        return $this->slug;
     }
 
     public function getText(): string

@@ -17,7 +17,7 @@ class StringTraitTest extends AbstractTestCase
      *
      * @throws Exception
      */
-    public function testToolsGetRandStr(): void
+    public function testStringTraitGetRandStr(): void
     {
         $length = 5;
         $string = self::generateString($length);
@@ -30,5 +30,24 @@ class StringTraitTest extends AbstractTestCase
 
         self::assertIsString($string);
         self::assertEquals($length, mb_strlen($string));
+    }
+
+    /**
+     * Тесты на транслитерацию кириллицы в латиницу
+     */
+    public function testStringTraitTransliterate(): void
+    {
+        self::assertEquals(
+            'Pered nachalom ustanovki vy dolzhny znat, dlya chego vy hotite ispolzovat PHP',
+            self::transliterate('Перед началом установки вы должны знать, для чего вы хотите использовать PHP')
+        );
+        self::assertEquals(
+            'Sozdavat veb-sayty i veb-prilozheniya (Skripty na storone servera)',
+            self::transliterate('Создавать веб-сайты и веб-приложения (Скрипты на стороне сервера)')
+        );
+        self::assertEquals(
+            'V sluchae ustanovki servera i PHP samostoyatelno',
+            self::transliterate('В случае установки сервера и PHP самостоятельно')
+        );
     }
 }

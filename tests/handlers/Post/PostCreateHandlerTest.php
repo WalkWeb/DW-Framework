@@ -24,12 +24,14 @@ class PostCreateHandlerTest extends AbstractTestCase
     {
         $request = new Request(
             ['REQUEST_URI' => '/post/create', 'REQUEST_METHOD' => 'POST'],
-            ['title' => 'title', 'text' => 'text text text', 'captcha' => '1234']
+            ['title' => 'Заголовок', 'text' => 'text text text', 'captcha' => '1234']
         );
         $response = $this->app->handle($request);
 
         self::assertRegExp('/Сервер получил POST-данные/', $response->getBody());
-        self::assertRegExp('/Заголовок: title/', $response->getBody());
+        self::assertRegExp('/ID/', $response->getBody());
+        self::assertRegExp('/Заголовок: Заголовок/', $response->getBody());
+        self::assertRegExp('/Slug: zagolovok-/', $response->getBody());
         self::assertRegExp('/Содержимое: text text text/', $response->getBody());
         self::assertEquals(Response::OK, $response->getStatusCode());
     }

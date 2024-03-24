@@ -10,6 +10,7 @@ use NW\AppException;
 use NW\Captcha;
 use NW\Request;
 use NW\Response;
+use Ramsey\Uuid\Uuid;
 
 class PostCreateHandler extends AbstractHandler
 {
@@ -37,7 +38,7 @@ class PostCreateHandler extends AbstractHandler
         }
 
         try {
-            $post = new Post($this->container, $request->title, $request->text);
+            $post = new Post($this->container, Uuid::uuid4()->toString(), $request->title, $request->text);
 
             return $this->render('post/create', [
                 'post' => $post,
