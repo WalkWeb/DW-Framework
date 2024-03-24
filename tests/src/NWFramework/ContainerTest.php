@@ -35,7 +35,7 @@ class ContainerTest extends AbstractTestCase
             $container->getLogger()
         );
         self::assertEquals(new Csrf(), $container->getCsrf());
-        self::assertEquals(new Captcha(), $container->getCaptcha());
+        self::assertEquals(new Captcha($container), $container->getCaptcha());
         self::assertEquals(new Validator($container), $container->getValidator());
         self::assertEquals(HANDLERS_DIR, $container->getHandlersDir());
         self::assertEquals(MIDDLEWARE_DIR, $container->getMiddlewareDir());
@@ -73,7 +73,7 @@ class ContainerTest extends AbstractTestCase
             $container->getLogger()
         );
         self::assertEquals(new Csrf(), $container->getCsrf());
-        self::assertEquals(new Captcha(), $container->getCaptcha());
+        self::assertEquals(new Captcha($container), $container->getCaptcha());
         self::assertEquals(new Validator($container), $container->getValidator());
         self::assertEquals($handlersDir, $container->getHandlersDir());
         self::assertEquals($middlewareDir, $container->getMiddlewareDir());

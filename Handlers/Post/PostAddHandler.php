@@ -21,7 +21,7 @@ class PostAddHandler extends AbstractHandler
      */
     public function __invoke(Request $request): Response
     {
-        $capthca = new Captcha();
+        $capthca = new Captcha($this->getContainer());
 
         return $this->render('post/add', [
             'captcha' => $capthca->getCaptchaImage(),

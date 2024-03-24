@@ -6,11 +6,16 @@ use Exception;
 
 class Captcha
 {
-    // TODO Добавить контейер. Если APP_ENV === 'test' то любую капчу считаем всегда успешной
+    private Container $container;
 
     public const INVALID_CAPTCHA = 'Символы с картинки указаны неверно';
 
     private string $captcha = '';
+
+    public function __construct(Container $container)
+    {
+        $this->container = $container;
+    }
 
     /**
      * @param int $widthImage
@@ -79,6 +84,10 @@ class Captcha
      */
     public function checkCaptcha(string $captcha): bool
     {
+        if ($this->container->getAppEnv() === Container::APP_TEST) {
+            return true;
+        }
+
         return md5($captcha . KEY) === Session::getParam('captcha');
     }
 

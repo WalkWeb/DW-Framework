@@ -28,11 +28,11 @@ class Post implements PostInterface
         $this->container = $container;
 
         if (!$this->titleValidate($title)) {
-            throw new PostException($container, $this->container->getValidator()->getError());
+            throw new AppException($this->container->getValidator()->getError());
         }
 
         if (!$this->textValidate($text)) {
-            throw new PostException($container, $this->container->getValidator()->getError());
+            throw new AppException($this->container->getValidator()->getError());
         }
 
         $this->title = $title;
