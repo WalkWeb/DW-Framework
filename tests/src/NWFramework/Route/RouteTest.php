@@ -31,6 +31,10 @@ class RouteTest extends AbstractTestCase
         self::assertEquals($params, $route->getParams());
         self::assertEquals($namespace, $route->getNamespace());
         self::assertEquals([], $route->getMiddleware());
+
+        $route->addMiddleware('CreatedByMiddleware');
+
+        self::assertEquals(['CreatedByMiddleware'], $route->getMiddleware());
     }
 
     /**

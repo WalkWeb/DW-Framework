@@ -41,17 +41,11 @@ class Runtime
     /**
      * Возвращает результат: сколько времени выполнялся скрипт и максимальный расход памяти во время выполнения
      *
-     * TODO Уйти от html в коде
-     *
      * @return string
      */
     public function end(): string
     {
-        return '<hr color="#444">
-                <p>
-                Время вывода страницы: ' . $this->getRuntime() . ' ms<br />
-                Расход памяти: ' . $this->getMemoryCostClipped() . '
-                </p>';
+        return 'Runtime: ' . $this->getRuntime() . ' ms, memory cost: ' . $this->getMemoryCostClipped();
     }
 
     /**

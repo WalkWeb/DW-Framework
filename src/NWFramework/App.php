@@ -10,7 +10,7 @@ class App
     public const ERROR_MISS_CONTAINER     = 'The emit method cannot be called before the App is created';
     public const ERROR_MISS_HANDLER       = 'Handler missing: %s';
     public const ERROR_MISS_MIDDLEWARE    = 'Middleware missing: %s';
-    public const ERROR_INVALID_MIDDLEWARE = 'Invalid middleware class: %s, expected callable';
+    public const ERROR_INVALID_MIDDLEWARE = 'Invalid middleware class: %s, expected extends AbstractMiddleware';
 
     public const TEMPLATE_500_PAGE     = '/default/errors/500.php';
     public const TEMPLATE_404_PAGE     = '/default/errors/404.php';
@@ -189,9 +189,9 @@ class App
                 throw new AppException(sprintf(self::ERROR_MISS_MIDDLEWARE, $className));
             }
 
-            $class = new $className;
+            $class = new $className(self::$container);
 
-            if (!is_callable($class)) {
+            if (!($class instanceof AbstractMiddleware)) {
                 throw new AppException(sprintf(self::ERROR_INVALID_MIDDLEWARE, $className));
             }
 

@@ -21,7 +21,7 @@
 </div>
 <div class="content">
     <?= $content ?? 'Отсутствует контент для отображения' ?>
-    <?= $this->getContainer()->getRuntime()->end() ?>
+    <hr color="#444">
 </div>
 </body>
 </html>

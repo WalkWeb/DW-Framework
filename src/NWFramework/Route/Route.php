@@ -166,10 +166,13 @@ class Route
 
     /**
      * @param string $middleware
+     * @return $this
      */
-    public function addMiddleware(string $middleware): void
+    public function addMiddleware(string $middleware): self
     {
         $this->middleware[] = $middleware;
+
+        return $this;
     }
 
     /**

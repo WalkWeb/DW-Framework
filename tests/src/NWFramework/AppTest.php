@@ -90,8 +90,40 @@ EOT;
         App::emit($response);
         $content = ob_get_clean();
 
-        // TODO Когда из html будет убрана статистика по используемой памяти/времени выполнении - сделать проверку на точное совпадение строк
-        self::assertRegExp('/Главная страница нашего замечательного сайта./', $content);
+        $expectedContent = <<<EOT
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <title>Главная страница</title>
+    <meta name="Description" content="">
+    <meta name="Keywords" content="">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <link rel="stylesheet" type="text/css" href="/styles/main.css">
+</head>
+<body>
+<div class="menu">
+    <ul class="navigation">
+        <li><a href="/" title="">Главная</a></li>
+        <li><a href="/posts/1" title="">Посты</a></li>
+        <li><a href="/post/create" title="">Создать пост</a></li>
+        <li><a href="/redirect" title="">Редирект</a></li>
+        <li><a href="/cookies" title="">Cookies</a></li>
+        <li><a href="/image" title="">Загрузка картинки</a></li>
+    </ul>
+</div>
+<div class="content">
+    
+<h1>Главная страница</h1>
+
+<p>Главная страница нашего замечательного сайта.</p>
+    <hr color="#444">
+</div>
+</body>
+</html>
+EOT;
+
+        self::assertEquals($expectedContent, $content);
     }
 
     /**
