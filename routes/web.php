@@ -5,9 +5,9 @@ $routes = new NW\Route\RouteCollection();
 $routes->get('home', '/', 'MainHandler');
 
 $routes->get('posts', '/posts/{page}', 'Post\\PostGetListHandler', ['page' => '\d+']);
-$routes->get('post.id', '/post/{id}', 'Post\\PostGetHandler', ['id' => '\d+']);
 $routes->get('post.add', '/post/create', 'Post\\PostAddHandler');
 $routes->post('post.create', '/post/create', 'Post\\PostCreateHandler');
+$routes->get('post.id', '/post/{id}', 'Post\\PostGetHandler', ['id' => '[a-z0-9-]+']);
 
 $routes->get('cookies', '/cookies', 'Cookie\\CookieGetListHandler');
 $routes->post('cookies.add', '/cookies/add', 'Cookie\\CookieAddHandler');

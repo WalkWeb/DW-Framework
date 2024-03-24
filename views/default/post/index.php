@@ -10,18 +10,17 @@ $this->title = 'Посты';
 
 if (!empty($posts)) {
     foreach ($posts as $post) {
-        $url = '/post/' . $post['id'];
+        $url = '/post/' . $post['slug'];
         echo '
             <h2><a href="' . $url . '">' . htmlspecialchars($post['title']) . '</a></h2>
             <p>' . htmlspecialchars($post['text']) . '</p>';
     }
+    echo '<hr color="#444">';
 } else {
-    echo 'На сайте пока нет постов';
+    echo '<p>На сайте пока нет постов</p>';
 }
 
 ?>
-
-<hr color="#444">
 
 <div class="pagination">
     <?= $pagination ?? '' ?>

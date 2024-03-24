@@ -22,8 +22,28 @@ class PostGetListHandlerTest extends AbstractTestCase
         $response = $this->app->handle($request);
 
         self::assertRegExp('/Посты/', $response->getBody());
-        self::assertRegExp('/Заголовок первого поста/', $response->getBody());
+        self::assertRegExp('/Пост 1/', $response->getBody());
         self::assertRegExp('/Содержимое первого поста/', $response->getBody());
+        self::assertRegExp('/Пост 5/', $response->getBody());
+        self::assertRegExp('/Содержимое пятого поста/', $response->getBody());
+        self::assertEquals(Response::OK, $response->getStatusCode());
+
+        $request = new Request(['REQUEST_URI' => '/posts/2']);
+        $response = $this->app->handle($request);
+
+        self::assertRegExp('/Посты/', $response->getBody());
+        self::assertRegExp('/Пост 6/', $response->getBody());
+        self::assertRegExp('/Содержимое шестого поста/', $response->getBody());
+        self::assertRegExp('/Пост 10/', $response->getBody());
+        self::assertRegExp('/Содержимое десятого поста/', $response->getBody());
+        self::assertEquals(Response::OK, $response->getStatusCode());
+
+        $request = new Request(['REQUEST_URI' => '/posts/3']);
+        $response = $this->app->handle($request);
+
+        self::assertRegExp('/Посты/', $response->getBody());
+        self::assertRegExp('/Пост 11/', $response->getBody());
+        self::assertRegExp('/Содержимое одиннадцатого поста/', $response->getBody());
         self::assertEquals(Response::OK, $response->getStatusCode());
     }
 
@@ -56,6 +76,10 @@ class PostGetListHandlerTest extends AbstractTestCase
             // страница не int
             [
                 '/posts/abc',
+            ],
+            // страница на которой нет постов
+            [
+                '/posts/4',
             ],
         ];
     }
