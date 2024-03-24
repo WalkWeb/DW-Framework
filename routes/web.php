@@ -4,6 +4,7 @@ $routes = new NW\Route\RouteCollection();
 
 $routes->get('home', '/', 'MainHandler')
     ->addMiddleware('CreatedByMiddleware')
+    ->addMiddleware('StatisticsMiddleware')
 ;
 
 $routes->get('posts', '/posts/{page}', 'Post\\PostGetListHandler', ['page' => '\d+']);

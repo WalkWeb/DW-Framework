@@ -23,7 +23,23 @@ class MainHandlerTest extends AbstractTestCase
 
         self::assertRegExp('/Главная страница/', $response->getBody());
         self::assertEquals(Response::OK, $response->getStatusCode());
-        self::assertEquals(['CreatedBy' => 'WalkWeb'], $response->getHeaders());
+
+        self::assertCount(2, $response->getHeaders());
+
+        $i = 0;
+        foreach ($response->getHeaders() as $header => $value) {
+            if ($i === 0) {
+                self::assertEquals('Statistic', $header);
+                self::assertRegExp('/Runtime: /', $value);
+                self::assertRegExp('/memory cost: /', $value);
+                self::assertRegExp('/queries: 0/', $value);
+            }
+            if ($i === 1) {
+                self::assertEquals('CreatedBy', $header);
+                self::assertEquals('WalkWeb', $value);
+            }
+            $i++;
+        }
     }
 
     /**

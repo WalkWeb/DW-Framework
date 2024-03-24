@@ -20,5 +20,8 @@ class RuntimeTest extends AbstractTestCase
         self::assertTrue($runtime->getMemoryCost() < 5000000);
         // Что именно выведет заранее не предсказать, это может быть и "0 b" и, например "60.77 kb"
         self::assertIsString($runtime->getMemoryCostClipped());
+        // Просто проверяем, что получена строка
+        self::assertRegExp('/Runtime: /', $runtime->getStatistic());
+        self::assertRegExp('/ ms, memory cost: /', $runtime->getStatistic());
     }
 }

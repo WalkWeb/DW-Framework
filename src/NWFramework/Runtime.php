@@ -43,7 +43,7 @@ class Runtime
      *
      * @return string
      */
-    public function end(): string
+    public function getStatistic(): string
     {
         return 'Runtime: ' . $this->getRuntime() . ' ms, memory cost: ' . $this->getMemoryCostClipped();
     }
