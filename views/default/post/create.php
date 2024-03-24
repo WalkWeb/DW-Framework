@@ -1,12 +1,12 @@
 <?php
 
-use Models\Post\Post;
+use Models\Post\LegacyPost;
 use NW\AppException;
 
 $this->title = 'Сервер получил POST-данные';
 
 /**
- * @var Post $post
+ * @var LegacyPost $post
  */
 if (empty($post)) {
     // Такой ситуации не должно произойти, но на всякий случай проверяем (и чтобы phpStorm не ругался)

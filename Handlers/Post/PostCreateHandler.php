@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Handlers\Post;
 
-use Models\Post\Post;
+use Models\Post\LegacyPost;
 use NW\AbstractHandler;
 use NW\AppException;
 use NW\Captcha;
@@ -38,7 +38,7 @@ class PostCreateHandler extends AbstractHandler
         }
 
         try {
-            $post = new Post($this->container, Uuid::uuid4()->toString(), $request->title, $request->text);
+            $post = new LegacyPost($this->container, Uuid::uuid4()->toString(), $request->title, $request->text);
 
             return $this->render('post/create', [
                 'post' => $post,

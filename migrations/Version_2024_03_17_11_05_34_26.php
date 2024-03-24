@@ -20,7 +20,7 @@ class Version_2024_03_17_11_05_34_26
         $connection->query("
             CREATE TABLE IF NOT EXISTS `posts` (
                 `id`         VARCHAR(36) NOT NULL PRIMARY KEY ,
-                `title`      VARCHAR(255) NOT NULL,
+                `title`      VARCHAR(255) NOT NULL, -- TODO Заменить до 50
                 `slug`       VARCHAR(255) NOT NULL UNIQUE,
                 `text`       TEXT NOT NULL,
                 `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,   
