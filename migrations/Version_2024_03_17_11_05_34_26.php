@@ -12,9 +12,6 @@ class Version_2024_03_17_11_05_34_26
     /**
      * Добавляется таблица posts
      *
-     * TODO Добавить постам уникальность
-     * TODO Добавить title_translate
-     *
      * @param Connection $connection
      * @throws AppException
      */
@@ -22,8 +19,9 @@ class Version_2024_03_17_11_05_34_26
     {
         $connection->query("
             CREATE TABLE IF NOT EXISTS `posts` (
-                `id`         VARCHAR(36) NOT NULL,
+                `id`         VARCHAR(36) NOT NULL PRIMARY KEY ,
                 `title`      VARCHAR(255) NOT NULL,
+                `slug`       VARCHAR(255) NOT NULL UNIQUE,
                 `text`       TEXT NOT NULL,
                 `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,   
                 `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
