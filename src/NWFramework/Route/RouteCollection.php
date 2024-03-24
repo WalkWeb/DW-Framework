@@ -2,44 +2,43 @@
 
 namespace NW\Route;
 
-class RouteCollection
-{
-    // TODO Добавить объединение коллекций - таким образом можно будет делать коллекции под разные группы методов
-    // TODO Переделать на нормальную коллекцию, удалить getRoutes()
+use Countable;
+use Iterator;
+use NW\Traits\CollectionTrait;
 
-    /**
-     * @var Route[]
-     */
-    private array $routes = [];
+// TODO Добавить объединение коллекций - таким образом можно будет делать коллекции под разные группы методов
+
+class RouteCollection implements Iterator, Countable
+{
+    use CollectionTrait;
+
+    private array $elements = [];
 
     public function get($name, $path, $handler, $param = [], $namespace = ''): Route
     {
         $route = new Route($name, $path, $handler, 'GET', $param, $namespace);
-        $this->routes[] = $route;
+        $this->elements[] = $route;
         return $route;
     }
 
     public function post($name, $path, $handler, $param = [], $namespace = ''): Route
     {
         $route = new Route($name, $path, $handler, 'POST', $param, $namespace);
-        $this->routes[] = $route;
+        $this->elements[] = $route;
         return $route;
     }
 
     public function addMiddleware(string $middleware): self
     {
-        foreach ($this->routes as $route) {
+        foreach ($this->elements as $route) {
             $route->addMiddleware($middleware);
         }
 
         return $this;
     }
 
-    /**
-     * @return Route[]
-     */
-    public function getRoutes(): array
+    public function current(): Route
     {
-        return $this->routes;
+        return current($this->elements);
     }
 }

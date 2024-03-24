@@ -28,7 +28,7 @@ class Router
      */
     public function getHandler(Request $request): array
     {
-        foreach ($this->routes->getRoutes() as $route) {
+        foreach ($this->routes as $route) {
             if ($handler = $this->checkHandler($route, $request)) {
                 return $handler;
             }

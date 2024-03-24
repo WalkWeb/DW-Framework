@@ -11,7 +11,7 @@ class RouteCollectionTest extends AbstractTestCase
 {
     public function testRouteCollectionGet(): void
     {
-        $routeCollection = new RouteCollection();
+        $routes = new RouteCollection();
 
         $name = 'testGetRoute';
         $path = 'home';
@@ -19,11 +19,11 @@ class RouteCollectionTest extends AbstractTestCase
         $param = ['test' => 'test'];
         $namespace = 'namespace';
 
-        $routeCollection->get($name, $path, $handler, $param, $namespace);
+        $routes->get($name, $path, $handler, $param, $namespace);
 
-        self::assertCount(1, $routeCollection->getRoutes());
+        self::assertCount(1, $routes);
 
-        foreach ($routeCollection->getRoutes() as $route) {
+        foreach ($routes as $route) {
             self::assertEquals('GET', $route->getMethod());
             self::assertEquals($name, $route->getName());
             self::assertEquals($path, $route->getPath());
@@ -31,11 +31,13 @@ class RouteCollectionTest extends AbstractTestCase
             self::assertEquals($param, $route->getParams());
             self::assertEquals($namespace, $route->getNamespace());
         }
+
+        self::assertNull($routes->key());
     }
 
     public function testRouteCollectionPost(): void
     {
-        $routeCollection = new RouteCollection();
+        $routes = new RouteCollection();
 
         $name = 'testPostRoute';
         $path = '/post/create';
@@ -43,11 +45,11 @@ class RouteCollectionTest extends AbstractTestCase
         $param = ['body' => 'body'];
         $namespace = 'namespace';
 
-        $routeCollection->post($name, $path, $handler, $param, $namespace);
+        $routes->post($name, $path, $handler, $param, $namespace);
 
-        self::assertCount(1, $routeCollection->getRoutes());
+        self::assertCount(1, $routes);
 
-        foreach ($routeCollection->getRoutes() as $route) {
+        foreach ($routes as $route) {
             self::assertEquals('POST', $route->getMethod());
             self::assertEquals($name, $route->getName());
             self::assertEquals($path, $route->getPath());
@@ -65,13 +67,13 @@ class RouteCollectionTest extends AbstractTestCase
         $routes->get('posts', '/posts/{page}', 'Post\\PostGetListHandler', ['page' => '\d+']);
         $routes->get('post.id', '/post/{id}', 'Post\\PostGetHandler', ['id' => '\d+']);
 
-        foreach ($routes->getRoutes() as $route) {
+        foreach ($routes as $route) {
             self::assertEquals([], $route->getMiddleware());
         }
 
         $routes->addMiddleware($middleware);
 
-        foreach ($routes->getRoutes() as $route) {
+        foreach ($routes as $route) {
             self::assertEquals([$middleware], $route->getMiddleware());
         }
     }
