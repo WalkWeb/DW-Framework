@@ -24,8 +24,11 @@ class Container
         Validator::class  => Validator::class,
         'validator'       => Validator::class,
         Request::class    => Request::class,
-        Cookie::class    => Cookie::class,
+        Cookie::class     => Cookie::class,
         Runtime::class    => Runtime::class,
+
+        // User this is any custom object
+        'user'            => 'user',
     ];
 
     private array $storage = [];
@@ -147,7 +150,7 @@ class Container
             return $this->storage[$class];
         }
 
-        if ($class === Request::class || $class === Cookie::class || $class === Runtime::class) {
+        if ($class === Request::class || $class === Cookie::class || $class === Runtime::class || $class === 'user') {
             throw new AppException(
                 sprintf(self::GET_ERROR, $class)
             );
@@ -253,6 +256,15 @@ class Container
         /** @var Runtime $service */
         $service = $this->get(Runtime::class);
         return $service;
+    }
+
+    /**
+     * @return object
+     * @throws AppException
+     */
+    public function getUser(): object
+    {
+        return $this->get('user');
     }
 
     /**

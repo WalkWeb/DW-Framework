@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\src\NWFramework;
 
+use Models\User\UserFactory;
 use NW\AppException;
 use NW\Captcha;
 use NW\Connection;
@@ -220,6 +221,34 @@ class ContainerTest extends AbstractTestCase
         $container->set(Request::class, $request);
 
         self::assertEquals($request, $container->getRequest());
+    }
+
+    /**
+     * @throws AppException
+     */
+    public function testContainerGetUserNotSet(): void
+    {
+        $container = $this->getContainer();
+
+        $this->expectException(AppException::class);
+        $this->expectExceptionMessage(sprintf(Container::GET_ERROR, 'user'));
+        $container->getUser();
+    }
+
+    /**
+     * @throws AppException
+     */
+    public function testContainerGetUserSuccess(): void
+    {
+        $container = $this->getContainer();
+        $user = UserFactory::createNew(['login' => 'Login', 'email' => 'email@email.com', 'password' => '12345'], 'hash_key');
+
+        self::assertFalse($container->exist('user'));
+
+        $container->set('user', $user);
+
+        self::assertTrue($container->exist('user'));
+        self::assertEquals($user, $container->getUser());
     }
 
     /**
