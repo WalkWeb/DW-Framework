@@ -14,9 +14,9 @@
         <li><a href="/" title="">Главная</a></li>
         <li><a href="/posts/1" title="">Посты</a></li>
         <li><a href="/post/create" title="">Создать пост</a></li>
-        <li><a href="/redirect" title="">Редирект</a></li>
         <li><a href="/cookies" title="">Cookies</a></li>
         <li><a href="/image" title="">Загрузка картинки</a></li>
+        <li><a href="/registration" title="">Регистрация</a></li>
     </ul>
 </div>
 <div class="content">
