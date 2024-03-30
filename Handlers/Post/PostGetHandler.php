@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Handlers\Post;
 
 use Models\Post\PostException;
-use Models\Post\PostDataProvider;
+use Models\Post\PostRepository;
 use NW\AbstractHandler;
 use NW\AppException;
 use NW\Request;
@@ -23,8 +23,10 @@ class PostGetHandler extends AbstractHandler
     public function __invoke(Request $request): Response
     {
         try {
+            $repository = new PostRepository($this->container);
+
             return $this->render('post/view', [
-                'post' => PostDataProvider::getPostById($request->id),
+                'post' => $repository->get($request->id),
             ]);
         } catch (PostException $e) {
             return $this->renderErrorPage($e->getMessage());

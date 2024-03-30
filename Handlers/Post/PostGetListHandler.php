@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Handlers\Post;
 
 use Models\Post\PostException;
-use Models\Post\PostDataProvider;
+use Models\Post\PostRepository;
 use NW\AbstractHandler;
 use NW\AppException;
 use NW\Request;
@@ -29,11 +29,22 @@ class PostGetListHandler extends AbstractHandler
     public function __invoke(Request $request): Response
     {
         try {
-            $posts = PostDataProvider::getPacksPost($request->page);
+            $repository = new PostRepository($this->container);
+
+            $page = $request->page;
+            $perPage = 5;
+            $offset = ($page - 1) * $perPage;
+            $total = $repository->getTotalCount();
+
+            if ($page > ceil($total / $perPage)) {
+                throw new PostException(PostException::NOT_FOUND, Response::NOT_FOUND);
+            }
+
+            $posts = $repository->getList($offset, $perPage);
 
             return $this->render('post/index', [
                 'posts'      => $posts,
-                'pagination' => $this->getPages(PostDataProvider::getPostsCount(), $request->page, '/posts/'),
+                'pagination' => $this->getPages($total, $page, '/posts/', $perPage),
             ]);
 
         } catch (PostException $e) {

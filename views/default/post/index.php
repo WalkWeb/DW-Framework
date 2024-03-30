@@ -1,5 +1,7 @@
 <?php
 
+use Models\Post\PostInterface;
+
 $this->title = 'Посты';
 
 ?>
@@ -8,12 +10,15 @@ $this->title = 'Посты';
 
 <?php
 
+/**
+ * @var PostInterface[] $posts
+ */
 if (!empty($posts)) {
     foreach ($posts as $post) {
-        $url = '/post/' . $post['slug'];
+        $url = '/post/' . $post->getSlug();
         echo '
-            <h2><a href="' . $url . '">' . htmlspecialchars($post['title']) . '</a></h2>
-            <p>' . htmlspecialchars($post['text']) . '</p>';
+            <h2><a href="' . $url . '">' . htmlspecialchars($post->getTitle()) . '</a></h2>
+            <p>' . htmlspecialchars($post->getText()) . '</p>';
     }
     echo '<hr color="#444">';
 } else {

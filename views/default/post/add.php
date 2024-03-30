@@ -3,6 +3,8 @@
 $this->title = 'Добавить новый пост';
 $postAction = '/post/create';
 
+// TODO Add csrf-token
+
 ?>
 
 <h1><?= htmlspecialchars($this->title) ?></h1>
