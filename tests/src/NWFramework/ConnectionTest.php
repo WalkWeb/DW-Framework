@@ -99,13 +99,13 @@ class ConnectionTest extends AbstractTestCase
     public function testConnectionQuerySuccess(): void
     {
         $id = 'bc313e0f-ba0f-4e04-b17e-f796d7ba8be0';
-        $user = 'User#1';
+        $user = 'Book#1';
         $db = $this->getContainer()->getConnection();
         $db->autocommit(false);
 
         // Insert
         $db->query(
-            "INSERT INTO `users` (`id`, `name`) VALUES (?, ?);",
+            "INSERT INTO `books` (`id`, `name`) VALUES (?, ?);",
             [
                 ['type' => 's', 'value' => $id],
                 ['type' => 's', 'value' => $user],
@@ -115,14 +115,14 @@ class ConnectionTest extends AbstractTestCase
         self::assertIsInt($id = $db->getInsertId());
 
         // Select all
-        $users = $db->query("SELECT `name` FROM `users`");
+        $users = $db->query("SELECT `name` FROM `books`");
 
         self::assertCount(1, $users);
         self::assertEquals($user, $users[0]['name']);
 
         // Select one
         $userData = $db->query(
-            'SELECT `name` FROM `users` WHERE id = ?',
+            'SELECT `name` FROM `books` WHERE id = ?',
             [['type' => 'i', 'value' => $id]],
             true
         );

@@ -19,8 +19,16 @@ class Version_2024_02_04_14_08_11_42
     {
         $connection->query("
             CREATE TABLE IF NOT EXISTS `users` (
-                `id`   VARCHAR(36) NOT NULL,
-                `name` VARCHAR(255) NOT NULL 
+                `id`             VARCHAR(36) NOT NULL PRIMARY KEY,
+                `login`          VARCHAR(14) NOT NULL UNIQUE,
+                `password`       VARCHAR(60) NOT NULL,
+                `email`          VARCHAR(30) NOT NULL UNIQUE,
+                `reg_complete`   TINYINT NOT NULL DEFAULT 0,
+                `email_verified` TINYINT NOT NULL DEFAULT 0,
+                `auth_token`     VARCHAR(30) NOT NULL,
+                `verified_token` VARCHAR(30) NOT NULL,
+                `created_at`     TIMESTAMP DEFAULT CURRENT_TIMESTAMP,   
+                `updated_at`     TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
         ");
 

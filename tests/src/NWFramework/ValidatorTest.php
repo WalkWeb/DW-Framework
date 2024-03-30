@@ -216,7 +216,7 @@ class ValidatorTest extends AbstractTestCase
             'unique',
         ];
 
-        self::assertTrue($validator->check('login', 'abc', $rules, 'users', 'name'));
+        self::assertTrue($validator->check('login', 'abc', $rules, 'books', 'name'));
         self::assertEquals('', $validator->getError());
     }
 
