@@ -17,6 +17,7 @@
         <li><a href="/cookies" title="">Cookies</a></li>
         <li><a href="/image" title="">Загрузка картинки</a></li>
         <li><a href="/registration" title="">Регистрация</a></li>
+        <li><a href="/profile" title="">Профиль</a></li>
     </ul>
 </div>
 <div class="content">

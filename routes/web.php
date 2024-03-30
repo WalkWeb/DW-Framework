@@ -19,6 +19,7 @@ $routes->post('image.loads', '/image_multiple', 'Image\\ImageMultipleLoadHandler
 
 $routes->get('registration', '/registration', 'User\\UserRegistrationHandler');
 $routes->post('registration', '/registration', 'User\\UserCreateHandler');
+$routes->get('profile', '/profile', 'User\\UserProfileHandler');
 
 $routes
     ->addMiddleware('CreatedByMiddleware')
