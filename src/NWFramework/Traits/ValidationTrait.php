@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace NW\Traits;
 
+use DateTime;
+use DateTimeInterface;
+use Exception;
 use NW\AppException;
 use Ramsey\Uuid\Uuid;
 
@@ -57,5 +60,82 @@ trait ValidationTrait
         }
 
         return $string;
+    }
+
+    /**
+     * @param string $string
+     * @param string $regexp
+     * @param string $error
+     * @return string
+     * @throws AppException
+     */
+    protected static function parent(string $string, string $regexp, string $error): string
+    {
+        if (preg_match($regexp, $string)) {
+            return $string;
+        }
+
+        throw new AppException($error);
+    }
+
+    /**
+     * @param string $email
+     * @param string $error
+     * @return string
+     * @throws AppException
+     */
+    protected static function email(string $email, string $error): string
+    {
+        if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            return $email;
+        }
+
+        throw new AppException($error);
+    }
+
+    /**
+     * @param array $data
+     * @param string $filed
+     * @param string $error
+     * @return bool
+     * @throws AppException
+     */
+    protected static function bool(array $data, string $filed, string $error): bool
+    {
+        if (!array_key_exists($filed, $data) || !is_bool($data[$filed])) {
+            throw new AppException($error);
+        }
+
+        return $data[$filed];
+    }
+
+    /**
+     * @param string $date
+     * @param string $error
+     * @return DateTimeInterface
+     * @throws AppException
+     */
+    protected static function date(string $date, string $error): DateTimeInterface
+    {
+        try {
+            return new DateTime($date);
+        } catch (Exception $e) {
+            throw new AppException($error);
+        }
+    }
+    /**
+     * @param array $data
+     * @param string $filed
+     * @param string $error
+     * @return int
+     * @throws AppException
+     */
+    protected static function int(array $data, string $filed, string $error): int
+    {
+        if (!array_key_exists($filed, $data) || !is_int($data[$filed])) {
+            throw new AppException($error);
+        }
+
+        return $data[$filed];
     }
 }

@@ -17,8 +17,6 @@ $routes->get('image', '/image', 'Image\\ImageIndexHandler');
 $routes->post('image.load', '/image', 'Image\\ImageLoadHandler');
 $routes->post('image.loads', '/image_multiple', 'Image\\ImageMultipleLoadHandler');
 
-//$routes->get('admin', '/admin', 'AdminController@index')->addMiddleware(AuthMiddleware::class);
-
 $routes
     ->addMiddleware('CreatedByMiddleware')
     ->addMiddleware('StatisticsMiddleware')
