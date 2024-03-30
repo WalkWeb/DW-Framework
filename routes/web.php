@@ -24,6 +24,7 @@ $routes->get('profile', '/profile', 'User\\UserProfileHandler');
 $routes
     ->addMiddleware('CreatedByMiddleware')
     ->addMiddleware('StatisticsMiddleware')
+    ->addMiddleware('AuthMiddleware')
 ;
 
 $routes->get('redirect.example', '/redirect', 'RedirectHandler');
