@@ -10,10 +10,13 @@ use NW\Connection;
 use NW\Container;
 use NW\Route\Router;
 use NW\Runtime;
+use NW\Traits\StringTrait;
 use PHPUnit\Framework\TestCase;
 
 class AbstractTestCase extends TestCase
 {
+    use StringTrait;
+
     protected App $app;
     protected string $dir;
 

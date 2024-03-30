@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace NW\Traits;
 
 use NW\AppException;
+use Ramsey\Uuid\Uuid;
 
 trait ValidationTrait
 {
@@ -37,6 +38,21 @@ trait ValidationTrait
         $length = mb_strlen($string);
 
         if ($length < $minLength || $length > $maxLength) {
+            throw new AppException($error);
+        }
+
+        return $string;
+    }
+
+    /**
+     * @param string $string
+     * @param string $error
+     * @return string
+     * @throws AppException
+     */
+    protected static function uuid(string $string, string $error): string
+    {
+        if (!Uuid::isValid($string)) {
             throw new AppException($error);
         }
 

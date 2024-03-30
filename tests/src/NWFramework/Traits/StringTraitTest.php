@@ -5,13 +5,10 @@ declare(strict_types=1);
 namespace Tests\src\NWFramework\Traits;
 
 use Exception;
-use NW\Traits\StringTrait;
 use Tests\AbstractTestCase;
 
 class StringTraitTest extends AbstractTestCase
 {
-    use StringTrait;
-
     /**
      * Тест на генерацию случайной строки указанной длинны
      *
