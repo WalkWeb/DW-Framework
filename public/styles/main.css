@@ -174,3 +174,13 @@ td {
 td p {
     padding: 3px;
 }
+
+.logout {
+    width: 15px;
+    height: 15px;
+    opacity: 50%;
+}
+
+li:hover .logout {
+    opacity: 100%;
+}

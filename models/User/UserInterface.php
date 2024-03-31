@@ -13,6 +13,8 @@ interface UserInterface
     // TODO Пользовательская группа (что угодно в зависимости от тематики сайта)
     // TODO template
 
+    public const AUTH_TOKEN                = 'auth';
+
     public const LOGIN_MIN_LENGTH          = 4;
     public const LOGIN_MAX_LENGTH          = 14;
     public const PASSWORD_MIN_LENGTH       = 5;

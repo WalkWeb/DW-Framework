@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Handlers\User;
 
 use Models\User\UserFactory;
+use Models\User\UserInterface;
 use Models\User\UserRepository;
 use NW\AbstractHandler;
 use NW\AppException;
@@ -25,8 +26,8 @@ class UserCreateHandler extends AbstractHandler
         try {
             $user = UserFactory::createNew($request->getBody(), KEY);
             $repository = new UserRepository($this->container);
-            $repository->save($user);
-            $this->container->getCookies()->setCookie('auth', $user->getAuthToken());
+            $repository->add($user);
+            $this->container->getCookies()->setCookie(UserInterface::AUTH_TOKEN, $user->getAuthToken());
 
             return $this->redirect('/');
 

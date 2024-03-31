@@ -14,6 +14,8 @@ class Cookie
     /**
      * Возвращает текущие куки
      *
+     * TODO Rename to getArray
+     *
      * @return array
      */
     public function getCookies(): array

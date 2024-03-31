@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\handlers\User;
 
+use Models\User\UserInterface;
 use NW\AppException;
 use NW\Request;
 use NW\Response;
@@ -34,7 +35,7 @@ class UserProfileHandlerTest extends AbstractTestCase
     public function testUserProfileHandlerAuthUnknownAuthToken(): void
     {
         $authToken = 'VBajfT8P6PFtrkHhCqb7ZNwIFG4xxx';
-        $request = new Request(['REQUEST_URI' => '/profile'], [], ['auth' => $authToken]);
+        $request = new Request(['REQUEST_URI' => '/profile'], [], [UserInterface::AUTH_TOKEN => $authToken]);
         $response = $this->app->handle($request);
 
         self::assertEquals(Response::OK, $response->getStatusCode());
@@ -50,7 +51,7 @@ class UserProfileHandlerTest extends AbstractTestCase
     public function testUserProfileHandlerAuth(): void
     {
         $authToken = 'VBajfT8P6PFtrkHhCqb7ZNwIFG45a5';
-        $request = new Request(['REQUEST_URI' => '/profile'], [], ['auth' => $authToken]);
+        $request = new Request(['REQUEST_URI' => '/profile'], [], [UserInterface::AUTH_TOKEN => $authToken]);
         $response = $this->app->handle($request);
 
         self::assertEquals(Response::OK, $response->getStatusCode());

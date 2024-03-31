@@ -20,7 +20,7 @@ class UserRepository
      * @param UserInterface $user
      * @throws AppException
      */
-    public function save(UserInterface $user): void
+    public function add(UserInterface $user): void
     {
         $this->container->getConnection()->query(
             'INSERT INTO `users` (`id`, `login`, `password`, `email`, `auth_token`, `verified_token`) VALUES (?, ?, ?, ?, ?, ?)',

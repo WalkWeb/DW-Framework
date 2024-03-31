@@ -42,6 +42,7 @@ class UserRegistrationHandlerTest extends AbstractTestCase
         <li><a href="/image" title="">Загрузка картинки</a></li>
         <li><a href="/registration" title="">Регистрация</a></li>
         <li><a href="/profile" title="">Профиль</a></li>
+        <li><a href="/logout" title=""><img src="/images/logout.png" class="logout" alt="" /></a></li>
     </ul>
 </div>
 <div class="content">
