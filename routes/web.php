@@ -22,6 +22,7 @@ $routes->post('registration', '/registration', 'User\\UserCreateHandler');
 $routes->get('profile', '/profile', 'User\\UserProfileHandler');
 $routes->get('logout', '/logout', 'User\\LogoutHandler');
 $routes->get('login', '/login', 'User\\LoginPageHandler');
+$routes->post('login', '/login', 'User\\LoginHandler');
 
 $routes
     ->addMiddleware('CreatedByMiddleware')

@@ -170,6 +170,8 @@ abstract class AbstractHandler
     /**
      * Делает редирект на указанный URL
      *
+     * TODO Поменять местами body и code
+     *
      * @param string $url
      * @param string $body
      * @param int $code

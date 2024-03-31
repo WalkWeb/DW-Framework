@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Models\User;
 
+use Models\User\DTO\LoginRequest;
 use NW\AppException;
 use NW\Container;
 
@@ -62,6 +63,37 @@ class UserRepository
         }
 
         return UserFactory::createFromDB($data);
+    }
+
+    /**
+     * Проверяет, существует ли пользователь с указанным логином и паролем, и если есть - возвращает его авторизационный
+     * токен
+     *
+     * @param LoginRequest $request
+     * @param string $hashKey
+     * @return string|null
+     * @throws AppException
+     */
+    public function auth(LoginRequest $request, string $hashKey): ?string
+    {
+        $data = $this->container->getConnection()->query(
+            'SELECT `auth_token`, `password` FROM `users` WHERE `login` = ?',
+            [
+                ['type' => 's', 'value' => $request->getLogin()],
+            ],
+            true
+        );
+
+        if (
+            $data &&
+            array_key_exists('password', $data) &&
+            array_key_exists('auth_token', $data) &&
+            password_verify($request->getPassword() . $hashKey, $data['password'])
+        ) {
+            return $data['auth_token'];
+        }
+
+        return null;
     }
 
     /**

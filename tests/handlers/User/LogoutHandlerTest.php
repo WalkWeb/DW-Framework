@@ -23,7 +23,7 @@ class LogoutHandlerTest extends AbstractTestCase
         $request = new Request(['REQUEST_URI' => '/logout'], [], [UserInterface::AUTH_TOKEN => $authToken]);
         $response = $this->app->handle($request);
 
-        self::assertEquals(Response::MOVED_PERMANENTLY, $response->getStatusCode());
+        self::assertEquals(Response::FOUND, $response->getStatusCode());
         self::assertEquals([], $this->app->getContainer()->getCookies()->getArray());
     }
 }
