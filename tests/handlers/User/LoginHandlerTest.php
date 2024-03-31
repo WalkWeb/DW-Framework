@@ -27,7 +27,7 @@ class LoginHandlerTest extends AbstractTestCase
         $response = $this->app->handle($request);
         $token = 'VBajfT8P6PFtrkHhCqb7ZNwIFG45a5';
 
-        self::assertEquals(Response::MOVED_PERMANENTLY, $response->getStatusCode());
+        self::assertEquals(Response::FOUND, $response->getStatusCode());
         self::assertEquals([UserInterface::AUTH_TOKEN => $token], $this->app->getContainer()->getCookies()->getArray());
     }
 

@@ -211,15 +211,15 @@ class HandlerTest extends AbstractTestCase
         // Редирект с дефолтными параметрами
         $response = $controller->redirect($redirectUrl);
 
-        self::assertEquals(Response::MOVED_PERMANENTLY, $response->getStatusCode());
+        self::assertEquals(Response::FOUND, $response->getStatusCode());
         self::assertEquals(['Location' => $redirectUrl], $response->getHeaders());
         self::assertEquals('', $response->getBody());
 
-        // Редирект с пользовательским body и кодом ответа (например, нужно вернуть 302, а не 301)
+        // Редирект с пользовательским body и кодом ответа (например, нужно вернуть 301, а не 302)
         $body = 'redirect body';
-        $responseCode = Response::FOUND;
+        $responseCode = Response::MOVED_PERMANENTLY;
 
-        $response = $controller->redirect($redirectUrl, $body, $responseCode);
+        $response = $controller->redirect($redirectUrl, $responseCode, $body);
 
         self::assertEquals($responseCode, $response->getStatusCode());
         self::assertEquals(['Location' => $redirectUrl], $response->getHeaders());

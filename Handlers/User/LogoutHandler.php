@@ -22,6 +22,6 @@ class LogoutHandler extends AbstractHandler
     public function __invoke(Request $request): Response
     {
         $this->container->getCookies()->delete(UserInterface::AUTH_TOKEN);
-        return $this->redirect('/', '', Response::FOUND);
+        return $this->redirect('/');
     }
 }

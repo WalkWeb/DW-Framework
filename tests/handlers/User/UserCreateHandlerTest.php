@@ -31,7 +31,7 @@ class UserCreateHandlerTest extends AbstractTestCase
 
         $response = $this->app->handle($request);
 
-        self::assertEquals(Response::MOVED_PERMANENTLY, $response->getStatusCode());
+        self::assertEquals(Response::FOUND, $response->getStatusCode());
 
         $data = $connection->query(
             'SELECT * FROM `users` WHERE `login` = ?',

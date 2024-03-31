@@ -79,6 +79,6 @@ EOT;
 
         $response = $this->app->handle($request);
 
-        self::assertEquals(Response::MOVED_PERMANENTLY, $response->getStatusCode());
+        self::assertEquals(Response::FOUND, $response->getStatusCode());
     }
 }

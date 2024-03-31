@@ -22,6 +22,6 @@ class RedirectHandlerTest extends AbstractTestCase
         $response = $this->app->handle($request);
 
         self::assertEquals(['Location' => 'https://www.google.com/'], $response->getHeaders());
-        self::assertEquals(Response::MOVED_PERMANENTLY, $response->getStatusCode());
+        self::assertEquals(Response::FOUND, $response->getStatusCode());
     }
 }
