@@ -7,13 +7,13 @@ trait PaginationTrait
     /**
      * Собирает и возвращает html-контент для отображения пагинации на странице
      *
-     * @param $elements
-     * @param $page
-     * @param $url
+     * @param int $elements
+     * @param int $page
+     * @param string $url
      * @param int $perPage
      * @return string
      */
-    public function getPages($elements, $page, $url, $perPage = 5): string
+    public function getPages(int $elements, int $page, string $url, int $perPage = 5): string
     {
         $numberPage = (int)ceil($elements / $perPage);
         $content = '';
