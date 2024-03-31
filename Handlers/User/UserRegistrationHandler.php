@@ -20,6 +20,10 @@ class UserRegistrationHandler extends AbstractHandler
      */
     public function __invoke(Request $request): Response
     {
+        if ($this->container->exist('user')) {
+            return $this->redirect('/');
+        }
+
         return $this->render('user/registration');
     }
 }

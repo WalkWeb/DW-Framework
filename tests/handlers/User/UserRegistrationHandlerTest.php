@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\handlers\User;
 
+use Models\User\UserInterface;
 use NW\AppException;
 use NW\Request;
 use NW\Response;
@@ -62,5 +63,21 @@ EOT;
 
         self::assertEquals($expectedBody, $response->getBody());
         self::assertEquals(Response::OK, $response->getStatusCode());
+    }
+
+    /**
+     * Тест на ситуацию, когда авторизованный пользователь пытается открыть страницу регистрации - его переадресовывает
+     * на главную
+     *
+     * @throws AppException
+     */
+    public function testUserRegistrationHandlerAlreadyAuth(): void
+    {
+        $token = 'VBajfT8P6PFtrkHhCqb7ZNwIFG45a5';
+        $request = new Request(['REQUEST_URI' => '/registration'], [], [UserInterface::AUTH_TOKEN => $token]);
+
+        $response = $this->app->handle($request);
+
+        self::assertEquals(Response::MOVED_PERMANENTLY, $response->getStatusCode());
     }
 }

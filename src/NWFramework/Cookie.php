@@ -26,6 +26,8 @@ class Cookie
     /**
      * Устанавливает куки
      *
+     * TODO Rename set
+     *
      * @param string $name
      * @param string $value
      */
@@ -36,6 +38,8 @@ class Cookie
 
     /**
      * Возвращает куки по указанному имени, если они есть
+     *
+     * TODO Rename get
      *
      * @param string $name
      * @return null|string
@@ -48,6 +52,8 @@ class Cookie
     /**
      * Проверяет наличие куков по имени
      *
+     * TODO Rename check
+     *
      * @param string $name
      * @return bool
      */
@@ -58,6 +64,8 @@ class Cookie
 
     /**
      * Удаляет куки по имени
+     *
+     * TODO Rename delete
      *
      * @param string $name
      */
