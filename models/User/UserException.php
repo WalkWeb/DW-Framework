@@ -6,6 +6,9 @@ namespace Models\User;
 
 class UserException
 {
+    public const LOGIN_ALREADY_EXIST          = 'User with this login already exists';
+    public const EMAIL_ALREADY_EXIST          = 'User with this email already exists';
+
     // id
     public const INVALID_ID                    = 'Incorrect parameter "id", it required and type string';
     public const INVALID_ID_VALUE              = 'Incorrect parameter "id", excepted uuid';

@@ -22,6 +22,14 @@ class UserRepository
      */
     public function add(UserInterface $user): void
     {
+        if ($this->existUserByLogin($user->getLogin())) {
+            throw new AppException(UserException::LOGIN_ALREADY_EXIST);
+        }
+
+        if ($this->existUserByEmail($user->getEmail())) {
+            throw new AppException(UserException::EMAIL_ALREADY_EXIST);
+        }
+
         $this->container->getConnection()->query(
             'INSERT INTO `users` (`id`, `login`, `password`, `email`, `auth_token`, `verified_token`) VALUES (?, ?, ?, ?, ?, ?)',
             [
@@ -54,5 +62,35 @@ class UserRepository
         }
 
         return UserFactory::createFromDB($data);
+    }
+
+    /**
+     * @param string $login
+     * @return bool
+     * @throws AppException
+     */
+    private function existUserByLogin(string $login): bool
+    {
+        $data = $this->container->getConnection()->query(
+            'SELECT * FROM `users` WHERE `login` = ?',
+            [['type' => 's', 'value' => $login]],
+        );
+
+        return count($data) > 0;
+    }
+
+    /**
+     * @param string $email
+     * @return bool
+     * @throws AppException
+     */
+    private function existUserByEmail(string $email): bool
+    {
+        $data = $this->container->getConnection()->query(
+            'SELECT * FROM `users` WHERE `email` = ?',
+            [['type' => 's', 'value' => $email]],
+        );
+
+        return count($data) > 0;
     }
 }

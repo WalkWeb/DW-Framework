@@ -12,6 +12,8 @@ use Tests\AbstractTestCase;
 class UserCreateHandlerTest extends AbstractTestCase
 {
     /**
+     * Тест на успешную регистрацию нового пользователя
+     *
      * @throws AppException
      */
     public function testUserCreateHandlerSuccess(): void
@@ -44,32 +46,67 @@ class UserCreateHandlerTest extends AbstractTestCase
     }
 
     /**
+     * Тест на различные ошибки при регистрации нового пользователя
+     *
+     * @dataProvider failDataProvider
+     * @param string $login
+     * @param string $email
+     * @param string $error
+     * @param bool $existUser
      * @throws AppException
      */
-    public function testUserCreateHandlerFail(): void
+    public function testUserCreateHandlerFail(string $login, string $email, string $error, bool $existUser): void
     {
         $connection = $this->app->getContainer()->getConnection();
         $connection->autocommit(false);
-        $login = 'xxx';
 
         $request = new Request(
             ['REQUEST_URI' => '/registration', 'REQUEST_METHOD' => 'POST'],
-            ['login' => $login, 'email' => 'mail@mail.com', 'password' => '12345'],
+            ['login' => $login, 'email' => $email, 'password' => '12345'],
         );
 
         $response = $this->app->handle($request);
 
         self::assertEquals(Response::OK, $response->getStatusCode());
-        self::assertRegExp('/Incorrect parameter "login", should be min-max length: 4-14/', $response->getBody());
+        self::assertRegExp("/$error/", $response->getBody());
 
-        $data = $connection->query(
-            'SELECT * FROM `users` WHERE `login` = ?',
-            [['type' => 's', 'value' => $login]],
-            true
-        );
+        if (!$existUser) {
+            $data = $connection->query(
+                'SELECT * FROM `users` WHERE `login` = ?',
+                [['type' => 's', 'value' => $login]],
+                true
+            );
 
-        self::assertEquals([], $data);
+            self::assertEquals([], $data);
+        }
 
         $connection->rollback();
+    }
+
+    public function failDataProvider(): array
+    {
+        return [
+            // Тест на ошибку валидации
+            [
+                'xxx',
+                'mymail@mail.ru',
+                'Incorrect parameter "login", should be min-max length: 4-14',
+                false,
+            ],
+            // Пользователь с таким логином уже существует
+            [
+                'Login-1',
+                'mymail@mail.ru',
+                'User with this login already exists',
+                true,
+            ],
+            // Пользователь с такой почтой уже существует
+            [
+                'Login',
+                'mail1@mail.com',
+                'User with this email already exists',
+                true,
+            ],
+        ];
     }
 }
