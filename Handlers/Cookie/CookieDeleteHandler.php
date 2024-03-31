@@ -22,7 +22,7 @@ class CookieDeleteHandler extends AbstractHandler
     {
         $data = $request->getBody();
 
-        $this->container->getCookies()->deleteCookie((string)$data['name']);
+        $this->container->getCookies()->delete((string)$data['name']);
 
         return $this->redirect('/cookies');
     }

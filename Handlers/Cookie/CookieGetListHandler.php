@@ -22,7 +22,7 @@ class CookieGetListHandler extends AbstractHandler
     {
         return $this->render(
             'cookies/index',
-            ['cookies' => $this->container->getRequest()->getCookies()->getCookies()]
+            ['cookies' => $this->container->getRequest()->getCookies()->getArray()]
         );
     }
 }

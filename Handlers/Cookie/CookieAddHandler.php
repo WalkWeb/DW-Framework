@@ -22,7 +22,7 @@ class CookieAddHandler extends AbstractHandler
     {
         $data = $request->getBody();
 
-        $this->container->getCookies()->setCookie((string)$data['name'], (string)$data['value']);
+        $this->container->getCookies()->set((string)$data['name'], (string)$data['value']);
 
         return $this->redirect('/cookies');
     }

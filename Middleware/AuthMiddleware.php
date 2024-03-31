@@ -21,7 +21,7 @@ class AuthMiddleware extends AbstractMiddleware
      */
     public function __invoke(Request $request, callable $handler): Response
     {
-        if ($authToken = $this->container->getCookies()->getCookie(UserInterface::AUTH_TOKEN)) {
+        if ($authToken = $this->container->getCookies()->get(UserInterface::AUTH_TOKEN)) {
             $repository = new UserRepository($this->container);
             if ($user = $repository->get($authToken)) {
                 $this->container->set('user', $user);

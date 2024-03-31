@@ -111,8 +111,8 @@ class App
      */
     private static function saveCookies(): void
     {
-        $serverCookies = self::$container->getRequest()->getCookies()->getCookies();
-        $cookies = self::$container->getCookies()->getCookies();
+        $serverCookies = self::$container->getRequest()->getCookies()->getArray();
+        $cookies = self::$container->getCookies()->getArray();
 
         foreach ($cookies as $key => $value) {
             if (!array_key_exists($key, $serverCookies)) {

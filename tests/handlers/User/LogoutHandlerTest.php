@@ -24,6 +24,6 @@ class LogoutHandlerTest extends AbstractTestCase
         $response = $this->app->handle($request);
 
         self::assertEquals(Response::MOVED_PERMANENTLY, $response->getStatusCode());
-        self::assertEquals([], $this->app->getContainer()->getCookies()->getCookies());
+        self::assertEquals([], $this->app->getContainer()->getCookies()->getArray());
     }
 }

@@ -27,7 +27,7 @@ class UserCreateHandler extends AbstractHandler
             $user = UserFactory::createNew($request->getBody(), KEY);
             $repository = new UserRepository($this->container);
             $repository->add($user);
-            $this->container->getCookies()->setCookie(UserInterface::AUTH_TOKEN, $user->getAuthToken());
+            $this->container->getCookies()->set(UserInterface::AUTH_TOKEN, $user->getAuthToken());
 
             return $this->redirect('/');
 

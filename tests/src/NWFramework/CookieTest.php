@@ -17,24 +17,24 @@ class CookieTest extends AbstractTestCase
         $cookie = new Cookie();
 
         // add
-        $cookie->setCookie($key, $value);
+        $cookie->set($key, $value);
 
-        self::assertTrue($cookie->checkCookie($key));
-        self::assertEquals($value, $cookie->getCookie($key));
-        self::assertEquals([$key => $value], $cookie->getCookies());
+        self::assertTrue($cookie->check($key));
+        self::assertEquals($value, $cookie->get($key));
+        self::assertEquals([$key => $value], $cookie->getArray());
 
         // update
         $newValue = 'new_value';
 
-        $cookie->setCookie($key, $newValue);
-        self::assertEquals($newValue, $cookie->getCookie($key));
-        self::assertEquals([$key => $newValue], $cookie->getCookies());
+        $cookie->set($key, $newValue);
+        self::assertEquals($newValue, $cookie->get($key));
+        self::assertEquals([$key => $newValue], $cookie->getArray());
 
         // delete
-        $cookie->deleteCookie($key);
-        self::assertFalse($cookie->checkCookie($key));
-        self::assertNull($cookie->getCookie($key));
-        self::assertEquals([], $cookie->getCookies());
+        $cookie->delete($key);
+        self::assertFalse($cookie->check($key));
+        self::assertNull($cookie->get($key));
+        self::assertEquals([], $cookie->getArray());
     }
 
     /**
@@ -44,7 +44,7 @@ class CookieTest extends AbstractTestCase
     {
         $cookie = new Cookie();
 
-        self::assertNull($cookie->getCookie('no_cookie'));
+        self::assertNull($cookie->get('no_cookie'));
     }
 
     /**
@@ -54,6 +54,6 @@ class CookieTest extends AbstractTestCase
     {
         $cookie = new Cookie();
 
-        self::assertFalse($cookie->checkCookie('no_cookie'));
+        self::assertFalse($cookie->check('no_cookie'));
     }
 }
