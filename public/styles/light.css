@@ -1,0 +1,186 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background: #f1f1f1;
+}
+
+h1, h2, h3, p, li {
+    color: #333;
+    font-family: Arial, sans-serif;
+}
+
+h1 {
+    padding: 20px 0 30px 0;
+}
+
+h2 {
+    font-size: 120%;
+    padding: 0 0 20px 0;
+}
+
+h3 {
+    padding: 60px 0 20px 0;
+}
+
+p {
+    padding: 0 0 15px 0;
+}
+
+b {
+    color: #d45500;
+    font-weight: 100;
+}
+
+a {
+    color: #c38339;
+}
+
+a:hover {
+    color: #5176d5;
+}
+
+div.content {
+    padding: 20px;
+}
+
+hr {
+    margin: 10px 0;
+}
+
+label {
+    display: block;
+    color: #333;
+    font-family: Arial, sans-serif;
+    padding: 3px;
+}
+
+input, select, textarea {
+    padding: 4px;
+    border: 1px solid #555;
+    background-color: #ddd;
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.6) inset;
+    border-radius: 2px;
+    color: #333;
+    font-family: Verdana, sans-serif;
+    font-size: 100%;
+}
+
+input.delete {
+    border: none;
+    box-shadow: none;
+    font-size: 150%;
+}
+
+input.delete:hover {
+    color: #D2A456;
+    cursor: pointer;
+}
+
+button {
+    display: block;
+    margin-top: 10px;
+    text-decoration: none;
+    border: 1px solid #1A120D;
+    padding: 4px 10px;
+    background: #333;
+    color: #D2A456;
+    border-radius: 3px;
+    box-shadow: 0 1px 0 0 #444 inset, 0 2px 3px rgba(0, 0, 0, 0.2);
+    font: 120% Verdana, sans-serif;
+}
+
+button:hover {
+    cursor: pointer;
+    color: #D25456;
+}
+
+.menu {
+    width: 100%;
+    background: #ddd;
+    border-bottom: 1px solid #aaa;
+}
+
+.navigation {
+    margin: 0 auto;
+    text-align: center;
+    list-style: none;
+}
+
+.navigation > li {
+    display: inline-block;
+    vertical-align: middle;
+    position: static;
+    border-left: 1px solid #aaa;
+    border-right: 1px solid #aaa;
+}
+
+ul.navigation > li > a {
+    display: block;
+    color: #333;
+    padding: 20px;
+}
+
+ul.navigation > li > a:hover {
+    color: #0062cc;
+}
+
+.pagination span {
+    display: inline-block;
+    padding: 5px 10px;
+    background: #555;
+    margin-right: 5px;
+    color: #aaa;
+}
+
+.pagination a {
+    display: inline-block;
+    padding: 5px 10px;
+    background: #1c7430;
+    margin-right: 5px;
+    text-decoration: none;
+    color: #aaa;
+}
+
+.pagination a:hover {
+    background: #1c9450;
+}
+
+.center {
+    text-align: center;
+}
+
+table {
+    border: none;
+    border-collapse: collapse;
+}
+
+tr {
+    display: table-row;
+    vertical-align: inherit;
+}
+
+td {
+    border: #999 solid 1px;
+    padding: 2px 1px;
+    background-color: #ddd;
+    font-family: arial, sans-serif;
+    color: #333;
+    text-align: center;
+}
+
+td p {
+    padding: 3px;
+}
+
+.logout {
+    width: 15px;
+    height: 15px;
+    opacity: 50%;
+}
+
+li:hover .logout {
+    opacity: 100%;
+}
