@@ -24,6 +24,7 @@ $routes->get('logout', '/logout', 'User\\LogoutHandler');
 $routes->get('login', '/login', 'User\\LoginPageHandler');
 $routes->post('login', '/login', 'User\\LoginHandler');
 $routes->get('change.template', '/change_template/{template}', 'User\\TemplateChangeHandler', ['template' => '[a-z]+']);
+$routes->get('not.verified.email', '/verified_email', 'User\\NotVerifiedEmailHandler');
 
 $routes
     ->addMiddleware('CreatedByMiddleware')

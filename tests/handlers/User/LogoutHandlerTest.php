@@ -19,7 +19,7 @@ class LogoutHandlerTest extends AbstractTestCase
      */
     public function testLogoutHandler(): void
     {
-        $authToken = 'VBajfT8P6PFtrkHhCqb7ZNwIFG4xxx';
+        $authToken = 'VBajfT8P6PFtrkHhCqb7ZNwIFG45a5';
         $request = new Request(['REQUEST_URI' => '/logout'], [], [UserInterface::AUTH_TOKEN => $authToken]);
         $response = $this->app->handle($request);
 

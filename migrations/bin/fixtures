@@ -17,7 +17,7 @@ use NW\Route\Router;
 
 try {
     $app = new App(new Router(new RouteCollection()), Container::create());
-    $db = $app->getContainer()->getConnection();
+    $db = $app->getContainer()->getConnectionPool()->getConnection();
 
     $db->query("
         INSERT INTO `posts`(`id`, `title`, `slug`, `text`, `created_at`, `updated_at`) VALUES
@@ -39,7 +39,10 @@ try {
 
     $db->query("
         INSERT INTO `users`(`id`, `login`, `password`, `email`, `reg_complete`, `email_verified`, `auth_token`, `verified_token`, `template`, `created_at`, `updated_at`) VALUES
-        ('23388e70-7171-4f14-bf13-39c1d77861bb', 'Login-1', '$token', 'mail1@mail.com', 0, 0, 'VBajfT8P6PFtrkHhCqb7ZNwIFG45a5', 'ISUgTBiTjVht2PIVQqSR52hmeXNs2Z', 'default', '2024-03-30 20:59:50', '2024-03-30 20:59:50')
+        -- Пользователь с неподтвержденным email
+        ('23388e70-7171-4f14-bf13-39c1d77861bb', 'Login-1', '$token', 'mail1@mail.com', 0, 0, 'VBajfT8P6PFtrkHhCqb7ZNwIFG45a5', 'ISUgTBiTjVht2PIVQqSR52hmeXNs2Z', 'default', '2024-03-30 20:59:50', '2024-03-30 20:59:50'),
+        -- Пользователь с подтвержденным email и завершенной регистрацией                                                                                                                                                                         
+        ('3ec17a7a-ac4a-41af-b9a0-b0565a7b7afa', 'Login-2', '$token', 'mail2@mail.com', 1, 1, 'VBajfT8P6PFtrkHhCqb7ZNwIFGyyyy', 'ISUgTBiTjVht2PIVQqSR52hmeXNxxx', 'default', '2024-03-30 21:00:00', '2024-03-30 21:00:00')
         ;
     ");
 
