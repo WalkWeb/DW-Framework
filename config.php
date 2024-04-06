@@ -17,8 +17,8 @@ define('HOST', 'https://dw-framework.ru/');
 /** Параметры подключения к БД, их может быть несколько */
 define('DB_CONFIGS', [
     'default' => [
-        'host' => '127.0.0.1',
-        'user' => 'YOUR_DB_USER_NAME',
+        'host'     => '127.0.0.1',
+        'user'     => 'YOUR_DB_USER_NAME',
         'password' => 'YOUR_DB_PASSWORD',
         'database' => 'YOUR_DB_NAME',
     ],
@@ -48,5 +48,15 @@ define('SAVE_LOG', false);
 /** Директория хранения файла */
 define('LOG_DIR', __DIR__);
 
-/** Директория хранения файла */
+/** Имя файла для хранения логов */
 define('LOG_FILE_NAME', 'logs');
+
+/** Параметры для отправки почты */
+define('MAIL_CONFIG', [
+    'smtp_host'     => 'smtp_host',
+    'smtp_port'     => 465,
+    'smtp_auth'     => true,
+    'smtp_user'     => 'smtp_user',
+    'smtp_password' => 'smtp_password',
+    'from'          => 'mail@mail.com',
+]);
