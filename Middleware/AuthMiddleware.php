@@ -24,6 +24,7 @@ class AuthMiddleware extends AbstractMiddleware
         if ($authToken = $this->container->getCookies()->get(UserInterface::AUTH_TOKEN)) {
             $repository = new UserRepository($this->container);
             if ($user = $repository->get($authToken)) {
+                $this->container->setTemplate($user->getTemplate());
                 $this->container->set('user', $user);
             }
         }

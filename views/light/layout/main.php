@@ -25,6 +25,14 @@
 <div class="content">
     <?= $content ?? 'Отсутствует контент для отображения' ?>
     <hr color="#444">
+    <label>
+        Дизайн:
+        <select name="select" id="template">
+            <option value="value2">default</option>
+            <option value="value3" selected>light</option>
+        </select>
+    </label>
 </div>
+<script src="/js/main.js?v=1.00"></script>
 </body>
 </html>

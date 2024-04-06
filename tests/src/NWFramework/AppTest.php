@@ -121,7 +121,15 @@ EOT;
 
 <p>Главная страница нашего замечательного сайта.</p>
     <hr color="#444">
+    <label>
+        Дизайн:
+        <select name="select" id="template">
+            <option value="value2" selected>default</option>
+            <option value="value3">light</option>
+        </select>
+    </label>
 </div>
+<script src="/js/main.js?v=1.00"></script>
 </body>
 </html>
 EOT;
