@@ -73,6 +73,7 @@ class AbstractTestCase extends TestCase
             $middlewareDir,
             CACHE_DIR,
             $viewDir,
+            TEMPLATE_DEFAULT,
         );
         $container->set(Runtime::class, new Runtime());
 

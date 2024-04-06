@@ -45,6 +45,7 @@ class Container
     private string $middlewareDir;
     private string $cacheDir;
     private string $viewDir;
+    private string $template;
 
     /**
      * @param string $appEnv
@@ -59,6 +60,7 @@ class Container
      * @param string $middlewareDir
      * @param string $cacheDir
      * @param string $viewDir
+     * @param string $template
      * @throws AppException
      */
     public function __construct(
@@ -73,7 +75,8 @@ class Container
         string $handlersDir,
         string $middlewareDir,
         string $cacheDir,
-        string $viewDir
+        string $viewDir,
+        string $template
     )
     {
         $this->setAppEnv($appEnv);
@@ -88,6 +91,7 @@ class Container
         $this->middlewareDir = $middlewareDir;
         $this->cacheDir = $cacheDir;
         $this->viewDir = $viewDir;
+        $this->template = $template;
     }
 
     /**
@@ -103,6 +107,7 @@ class Container
      * @param string $middlewareDir
      * @param string $cacheDir
      * @param string $viewDir
+     * @param string $template
      * @return static
      * @throws AppException
      */
@@ -118,7 +123,8 @@ class Container
         string $handlersDir = HANDLERS_DIR,
         string $middlewareDir = MIDDLEWARE_DIR,
         string $cacheDir = CACHE_DIR,
-        string $viewDir = VIEW_DIR
+        string $viewDir = VIEW_DIR,
+        string $template = TEMPLATE_DEFAULT
     ): self
     {
         return new self(
@@ -133,7 +139,8 @@ class Container
             $handlersDir,
             $middlewareDir,
             $cacheDir,
-            $viewDir
+            $viewDir,
+            $template
         );
     }
 
@@ -305,6 +312,22 @@ class Container
     public function getAppEnv(): string
     {
         return $this->appEnv;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTemplate(): string
+    {
+        return $this->template;
+    }
+
+    /**
+     * @param string $template
+     */
+    public function setTemplate(string $template): void
+    {
+        $this->template = $template;
     }
 
     /**

@@ -17,15 +17,6 @@ abstract class AbstractHandler
     private const CACHE_DIR = __DIR__ . '/../../cache/html/';
 
     /**
-     * Шаблон (по умолчанию используется шаблон "old")
-     *
-     * Может подменяться через пользовательские настройки
-     *
-     * @var string
-     */
-    protected string $templates = TEMPLATE_DEFAULT . '/';
-
-    /**
      * Title
      *
      * @var string
@@ -47,7 +38,7 @@ abstract class AbstractHandler
     protected string $keywords = '';
 
     /**
-     * Текущее время (используется при работе с кэшем
+     * Текущее время (используется при работе с кэшем)
      *
      * @var float
      */
@@ -97,13 +88,14 @@ abstract class AbstractHandler
     {
         extract($params, EXTR_OVERWRITE);
 
-        $viewPath = self::DIR . $this->templates . $view . '.php';
+        $template = $this->container->getTemplate() . '/';
+        $viewPath = self::DIR . $template . $view . '.php';
 
         if (!file_exists($viewPath)) {
             throw new AppException(sprintf(self::ERROR_MISS_VIEW, $viewPath));
         }
 
-        if ($this->layout && !file_exists(self::DIR . $this->templates . $this->layoutUrl)) {
+        if ($this->layout && !file_exists(self::DIR . $template . $this->layoutUrl)) {
             throw new AppException(sprintf(self::ERROR_MISS_LAYOUT, $this->layoutUrl));
         }
 
@@ -117,7 +109,7 @@ abstract class AbstractHandler
             $content = ob_get_clean();
             ob_start();
 
-            require self::DIR . $this->templates . $this->layoutUrl;
+            require self::DIR . $template . $this->layoutUrl;
         }
 
         $response = new Response(ob_get_clean());
@@ -134,11 +126,16 @@ abstract class AbstractHandler
      *
      * @param array $json
      * @return Response
-     * @throws Exception
+     * @throws AppException
      */
     public function json(array $json): Response
     {
-        $response = new Response(json_encode($json, JSON_THROW_ON_ERROR | JSON_UNESCAPED_UNICODE));
+        try {
+            $response = new Response(json_encode($json, JSON_THROW_ON_ERROR | JSON_UNESCAPED_UNICODE));
+        } catch (Exception $e) {
+            throw new AppException('False JSON encoded');
+        }
+
         $response->withHeader('Content-Type', 'application/json');
         return $response;
     }

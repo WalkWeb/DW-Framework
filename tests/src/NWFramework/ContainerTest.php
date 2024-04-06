@@ -53,6 +53,7 @@ class ContainerTest extends AbstractTestCase
         $middlewareDir = 'middleware_dir';
         $cacheDir = 'cache_dir';
         $viewDir = 'view_dir';
+        $template = 'template';
 
         $container = Container::create(
             $appEnv,
@@ -67,6 +68,7 @@ class ContainerTest extends AbstractTestCase
             $middlewareDir,
             $cacheDir,
             $viewDir,
+            $template,
         );
 
         self::assertEquals(
@@ -81,6 +83,7 @@ class ContainerTest extends AbstractTestCase
         self::assertEquals($cacheDir, $container->getCacheDir());
         self::assertEquals($viewDir, $container->getViewDir());
         self::assertEquals($appEnv, $container->getAppEnv());
+        self::assertEquals($template, $container->getTemplate());
     }
 
     /**
@@ -241,7 +244,10 @@ class ContainerTest extends AbstractTestCase
     public function testContainerGetUserSuccess(): void
     {
         $container = $this->getContainer();
-        $user = UserFactory::createNew(['login' => 'Login', 'email' => 'email@email.com', 'password' => '12345'], 'hash_key');
+        $user = UserFactory::createNew(
+            ['login' => 'Login', 'email' => 'email@email.com', 'password' => '12345'],
+            'hash_key',
+        );
 
         self::assertFalse($container->exist('user'));
 
@@ -252,6 +258,8 @@ class ContainerTest extends AbstractTestCase
     }
 
     /**
+     * Тест на ситуацию, когда запрашиваются сервисы Request/Cookie/Runtime до того, как они установлены через set()
+     *
      * @dataProvider getServiceErrorDataProvider
      * @param string $class
      * @param string $error
@@ -267,6 +275,8 @@ class ContainerTest extends AbstractTestCase
     }
 
     /**
+     * Аналогично testContainerGetServiceFail, только запрос идет к конкретному методу на получение сервиса
+     *
      * @dataProvider getMethodServiceErrorDataProvider
      * @param string $method
      * @param string $error
@@ -303,6 +313,28 @@ class ContainerTest extends AbstractTestCase
         $this->getContainer('invalid_app_env');
     }
 
+    /**
+     * Тест на установку нового template
+     *
+     * @throws AppException
+     */
+    public function testContainerSetTemplate(): void
+    {
+        $container = Container::create();
+
+        self::assertEquals(TEMPLATE_DEFAULT, $container->getTemplate());
+
+        $template = 'new_template';
+        $container->setTemplate($template);
+
+        self::assertEquals($template, $container->getTemplate());
+    }
+
+    /**
+     * Тест на ситуацию, когда запрашивается неизвестный сервис
+     *
+     * @throws AppException
+     */
     public function testContainerUnknownService(): void
     {
         $this->expectException(AppException::class);
@@ -331,6 +363,9 @@ class ContainerTest extends AbstractTestCase
         self::assertFalse($this->getContainer()->exist('UnknownService'));
     }
 
+    /**
+     * @return array
+     */
     public function getServiceErrorDataProvider(): array
     {
         return [
@@ -349,6 +384,9 @@ class ContainerTest extends AbstractTestCase
         ];
     }
 
+    /**
+     * @return array
+     */
     public function getMethodServiceErrorDataProvider(): array
     {
         return [
