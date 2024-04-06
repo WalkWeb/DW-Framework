@@ -23,6 +23,7 @@ $routes->get('profile', '/profile', 'User\\UserProfileHandler');
 $routes->get('logout', '/logout', 'User\\LogoutHandler');
 $routes->get('login', '/login', 'User\\LoginPageHandler');
 $routes->post('login', '/login', 'User\\LoginHandler');
+$routes->get('change.template', '/change_template/{template}', 'User\\TemplateChangeHandler', ['template' => '[a-z]+']);
 
 $routes
     ->addMiddleware('CreatedByMiddleware')

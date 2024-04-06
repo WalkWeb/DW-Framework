@@ -8,6 +8,7 @@ use NW\App;
 use NW\AppException;
 use NW\Connection;
 use NW\Container;
+use NW\Response;
 use NW\Route\Router;
 use NW\Runtime;
 use NW\Traits\StringTrait;
@@ -105,5 +106,16 @@ class AbstractTestCase extends TestCase
     protected function clearTable(Connection $db, string $table): void
     {
         $db->query("DELETE FROM `$table`;");
+    }
+
+    /**
+     * Проверяет, что получен успешный json ответ
+     *
+     * @param Response $response
+     */
+    protected static function assertJsonSuccess(Response $response): void
+    {
+        self::assertEquals(Response::OK, $response->getStatusCode());
+        self::assertEquals('{"success":true}', $response->getBody());
     }
 }

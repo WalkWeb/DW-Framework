@@ -24,7 +24,7 @@ class UserCreateHandler extends AbstractHandler
     public function __invoke(Request $request): Response
     {
         try {
-            $user = UserFactory::createNew($request->getBody(), KEY, 'default');
+            $user = UserFactory::createNew($request->getBody(), KEY, TEMPLATE_DEFAULT);
             $repository = new UserRepository($this->container);
             $repository->add($user);
             $this->container->getCookies()->set(UserInterface::AUTH_TOKEN, $user->getAuthToken());
