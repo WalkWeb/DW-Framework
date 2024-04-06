@@ -7,7 +7,7 @@ namespace Tests\src\NWFramework;
 use Models\User\UserFactory;
 use NW\AppException;
 use NW\Captcha;
-use NW\Connection;
+use NW\ConnectionPool;
 use NW\Container;
 use NW\Cookie;
 use NW\Csrf;
@@ -28,8 +28,8 @@ class ContainerTest extends AbstractTestCase
         $container = Container::create();
 
         self::assertEquals(
-            new Connection(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME, $container),
-            $container->getConnection()
+            new ConnectionPool($container, DB_CONFIGS),
+            $container->getConnectionPool()
         );
         self::assertEquals(
             new Logger(SAVE_LOG, LOG_DIR, LOG_FILE_NAME),
@@ -57,10 +57,7 @@ class ContainerTest extends AbstractTestCase
 
         $container = Container::create(
             $appEnv,
-            DB_HOST,
-            DB_USER,
-            DB_PASSWORD,
-            DB_NAME,
+            DB_CONFIGS,
             $loggerSaveLog,
             $loggerDir,
             $loggerFileName,
@@ -105,18 +102,18 @@ class ContainerTest extends AbstractTestCase
     /**
      * @throws AppException
      */
-    public function testContainerGetConnection(): void
+    public function testContainerGetConnectionPool(): void
     {
         $container = $this->getContainer();
 
-        $connection = $container->get(Connection::class);
-        self::assertInstanceOf(Connection::class, $connection);
+        $connectionPool = $container->get(ConnectionPool::class);
+        self::assertInstanceOf(ConnectionPool::class, $connectionPool);
 
-        $connection = $container->get('connection');
-        self::assertInstanceOf(Connection::class, $connection);
+        $connectionPool = $container->get('connection_pool');
+        self::assertInstanceOf(ConnectionPool::class, $connectionPool);
 
-        $connection = $container->getConnection();
-        self::assertInstanceOf(Connection::class, $connection);
+        $connectionPool = $container->getConnectionPool();
+        self::assertInstanceOf(ConnectionPool::class, $connectionPool);
     }
 
     /**

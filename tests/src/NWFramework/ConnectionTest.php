@@ -12,8 +12,6 @@ use Tests\AbstractTestCase;
 /**
  * ВАЖНО: Выполнение этих тестов требует настройку подключения к существующей базе в config.test.php или config.php
  *
- * Для тестов достаточно просто пустой базы, никаких таблиц и данных в ней не требуется
- *
  * Если работа с MySQL базой не планируется (а соответственно и тестировать данный функционал не нужно) - просто удалите
  * этот класс
  *
@@ -28,7 +26,7 @@ class ConnectionTest extends AbstractTestCase
      */
     public function testConnectionCreateSuccess(): void
     {
-        $db = $this->getContainer()->getConnection();
+        $db = $this->getContainer()->getConnectionPool()->getConnection();
 
         // Если при подключении не произошло исключений - значит оно прошло успешно
         self::assertTrue($db->isSuccess());
@@ -40,7 +38,7 @@ class ConnectionTest extends AbstractTestCase
      */
     public function testConnectionQueryLogs(): void
     {
-        $db = $this->getContainer()->getConnection();
+        $db = $this->getContainer()->getConnectionPool()->getConnection();
 
         self::assertEquals(0, $db->getQueryNumber());
         self::assertEquals([], $db->getQueries());
@@ -100,7 +98,7 @@ class ConnectionTest extends AbstractTestCase
     {
         $id = 'bc313e0f-ba0f-4e04-b17e-f796d7ba8be0';
         $user = 'Book#1';
-        $db = $this->getContainer()->getConnection();
+        $db = $this->getContainer()->getConnectionPool()->getConnection();
         $db->autocommit(false);
 
         // Insert
@@ -142,7 +140,7 @@ class ConnectionTest extends AbstractTestCase
     public function testConnectionQueryError(): void
     {
         $container = Container::create();
-        $db = $container->getConnection();
+        $db = $container->getConnectionPool()->getConnection();
         $sql = 'SELECT * FROM unknown_table';
         $error = "Ошибка выполнения SQL: 1146 Table 'dw-framework.unknown_table' doesn't exist. SQL: SELECT * FROM unknown_table";
 

@@ -67,7 +67,7 @@ class TemplateChangeHandlerTest extends AbstractTestCase
     {
         $template = 'light';
         $container = $this->getContainer();
-        $container->getConnection()->autocommit(false);
+        $container->getConnectionPool()->getConnection()->autocommit(false);
         $authToken = 'VBajfT8P6PFtrkHhCqb7ZNwIFG45a5';
         $request = new Request(['REQUEST_URI' => "/change_template/$template"], [], [UserInterface::AUTH_TOKEN => $authToken]);
         $router = require __DIR__ . '/../../../routes/web.php';
@@ -76,6 +76,6 @@ class TemplateChangeHandlerTest extends AbstractTestCase
         self::assertJsonSuccess($app->handle($request));
         self::assertEquals($template, $container->getUser()->getTemplate());
 
-        $container->getConnection()->rollback();
+        $container->getConnectionPool()->getConnection()->rollback();
     }
 }

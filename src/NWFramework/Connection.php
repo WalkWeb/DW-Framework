@@ -201,6 +201,8 @@ final class Connection
     /**
      * Возвращает количество сделанных запросов
      *
+     * TODO Rename to getCountQuery
+     *
      * @return int
      */
     public function getQueryNumber(): int

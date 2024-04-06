@@ -23,7 +23,7 @@ class Migration
     public function __construct()
     {
         $router = new Router(new RouteCollection());
-        $this->connection = (new App($router, Container::create()))->getContainer()->getConnection();
+        $this->connection = (new App($router, Container::create()))->getContainer()->getConnectionPool()->getConnection();
     }
 
     /**

@@ -25,7 +25,7 @@ class PostRepository
      */
     public function get(string $slug): PostInterface
     {
-        $data =  $this->container->getConnection()->query(
+        $data =  $this->container->getConnectionPool()->getConnection()->query(
             'SELECT `id`, `title`, `slug`, `text`, `created_at`, `updated_at` FROM `posts` WHERE `slug` = ?',
             [['type' => 's', 'value' => $slug]],
             true
@@ -47,7 +47,7 @@ class PostRepository
     public function getList(int $offset, int $limit): array
     {
         $postList = [];
-        $data = $this->container->getConnection()->query(
+        $data = $this->container->getConnectionPool()->getConnection()->query(
             'SELECT `id`, `title`, `slug`, `text`, `created_at`, `updated_at` FROM `posts` ORDER BY `created_at` DESC LIMIT ? OFFSET ?',
             [
                 ['type' => 'i', 'value' => $limit],
@@ -68,6 +68,10 @@ class PostRepository
      */
     public function getTotalCount(): int
     {
-        return $this->container->getConnection()->query('SELECT count(`id`) as `total` FROM `posts`', [], true)['total'] ?: 0;
+        return $this->container->getConnectionPool()->getConnection()->query(
+            'SELECT count(`id`) as `total` FROM `posts`',
+            [],
+            true
+        )['total'] ?: 0;
     }
 }

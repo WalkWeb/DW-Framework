@@ -14,11 +14,15 @@ define('LOGS_FILE', false);
 /** Полный URL сайта */
 define('HOST', 'https://dw-framework.ru/');
 
-/** Параметры подключения к БД */
-define('DB_HOST', '127.0.0.1');
-define('DB_NAME', 'YOUR_DB_NAME');
-define('DB_USER', 'YOUR_USER_NAME');
-define('DB_PASSWORD', 'YOUR_PASSWORD');
+/** Параметры подключения к БД, их может быть несколько */
+define('DB_CONFIGS', [
+    'default' => [
+        'host' => '127.0.0.1',
+        'user' => 'YOUR_DB_USER_NAME',
+        'password' => 'YOUR_DB_PASSWORD',
+        'database' => 'YOUR_DB_NAME',
+    ],
+]);
 
 /** Базовый шаблон дизайна сайта */
 define('TEMPLATE_DEFAULT', 'default');

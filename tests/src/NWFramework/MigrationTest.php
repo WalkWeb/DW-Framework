@@ -57,7 +57,7 @@ class MigrationTest extends AbstractTestCase
      */
     public function testMigrationRun(): void
     {
-        $connection = $this->getContainer()->getConnection();
+        $connection = $this->getContainer()->getConnectionPool()->getConnection();
         $tableName = Migration::TABLE_NAME;
 
         // Создаем миграцию
@@ -97,7 +97,7 @@ class MigrationTest extends AbstractTestCase
     private function removeInsertRow(): void
     {
         $tableName = Migration::TABLE_NAME;
-        $this->getContainer()->getConnection()->query(
+        $this->getContainer()->getConnectionPool()->getConnection()->query(
             "DELETE FROM `$tableName` ORDER BY executed_at DESC LIMIT 1;"
         );
     }

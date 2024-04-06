@@ -260,7 +260,7 @@ class ValidatorTest extends AbstractTestCase
     public function testValidatorUniqueExist(): void
     {
         $container = $this->getContainer();
-        $connection = $container->getConnection();
+        $connection = $container->getConnectionPool()->getConnection();
         $table = 'books';
         $id = '6e9043d1-18fb-44ea-be60-c356048f63a2';
         $book = 'Book-1';

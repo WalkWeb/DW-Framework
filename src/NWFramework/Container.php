@@ -7,37 +7,34 @@ namespace NW;
 class Container
 {
     public const APP_PROD = 'prod';
-    public const APP_DEV  = 'dev';
+    public const APP_DEV = 'dev';
     public const APP_TEST = 'test';
 
     public const GET_ERROR = '%s cannot be created automatically, it must be added to the container via set() manually';
 
     private array $map = [
-        Connection::class => Connection::class,
-        'connection'      => Connection::class,
-        Logger::class     => Logger::class,
-        'logger'          => Logger::class,
-        Csrf::class       => Csrf::class,
-        'csrf'            => Csrf::class,
-        Captcha::class    => Captcha::class,
-        'captcha'         => Captcha::class,
-        Validator::class  => Validator::class,
-        'validator'       => Validator::class,
-        Request::class    => Request::class,
-        Cookie::class     => Cookie::class,
-        Runtime::class    => Runtime::class,
+        ConnectionPool::class => ConnectionPool::class,
+        'connection_pool'     => ConnectionPool::class,
+        Logger::class         => Logger::class,
+        'logger'              => Logger::class,
+        Csrf::class           => Csrf::class,
+        'csrf'                => Csrf::class,
+        Captcha::class        => Captcha::class,
+        'captcha'             => Captcha::class,
+        Validator::class      => Validator::class,
+        'validator'           => Validator::class,
+        Request::class        => Request::class,
+        Cookie::class         => Cookie::class,
+        Runtime::class        => Runtime::class,
 
         // User this is any custom object
-        'user'            => 'user',
+        'user'                => 'user',
     ];
 
     private array $storage = [];
 
     private string $appEnv;
-    private string $dbHost;
-    private string $dbUser;
-    private string $dbPassword;
-    private string $dbName;
+    private array $dbConfigs;
     private bool $loggerSaveLog;
     private string $loggerDir;
     private string $loggerFileName;
@@ -49,10 +46,7 @@ class Container
 
     /**
      * @param string $appEnv
-     * @param string $dbHost
-     * @param string $dbUser
-     * @param string $dbPassword
-     * @param string $dbName
+     * @param array $dbConfigs
      * @param bool $loggerSaveLog
      * @param string $loggerDir
      * @param string $loggerFileName
@@ -65,10 +59,7 @@ class Container
      */
     public function __construct(
         string $appEnv,
-        string $dbHost,
-        string $dbUser,
-        string $dbPassword,
-        string $dbName,
+        array $dbConfigs,
         bool $loggerSaveLog,
         string $loggerDir,
         string $loggerFileName,
@@ -80,10 +71,7 @@ class Container
     )
     {
         $this->setAppEnv($appEnv);
-        $this->dbHost = $dbHost;
-        $this->dbUser = $dbUser;
-        $this->dbPassword = $dbPassword;
-        $this->dbName = $dbName;
+        $this->dbConfigs = $dbConfigs;
         $this->loggerSaveLog = $loggerSaveLog;
         $this->loggerDir = $loggerDir;
         $this->loggerFileName = $loggerFileName;
@@ -96,10 +84,7 @@ class Container
 
     /**
      * @param string $appEnv
-     * @param string $dbHost
-     * @param string $dbUser
-     * @param string $dbPassword
-     * @param string $dbName
+     * @param array $dbConfigs
      * @param bool $loggerSaveLog
      * @param string $loggerDir
      * @param string $loggerFileName
@@ -113,10 +98,7 @@ class Container
      */
     public static function create(
         string $appEnv = APP_ENV,
-        string $dbHost = DB_HOST,
-        string $dbUser = DB_USER,
-        string $dbPassword = DB_PASSWORD,
-        string $dbName = DB_NAME,
+        array $dbConfigs = DB_CONFIGS,
         bool $loggerSaveLog = SAVE_LOG,
         string $loggerDir = LOG_DIR,
         string $loggerFileName = LOG_FILE_NAME,
@@ -129,10 +111,7 @@ class Container
     {
         return new self(
             $appEnv,
-            $dbHost,
-            $dbUser,
-            $dbPassword,
-            $dbName,
+            $dbConfigs,
             $loggerSaveLog,
             $loggerDir,
             $loggerFileName,
@@ -178,13 +157,13 @@ class Container
     }
 
     /**
-     * @return Connection
+     * @return ConnectionPool
      * @throws AppException
      */
-    public function getConnection(): Connection
+    public function getConnectionPool(): ConnectionPool
     {
-        /** @var Connection $service */
-        $service = $this->get(Connection::class);
+        /** @var ConnectionPool $service */
+        $service = $this->get(ConnectionPool::class);
         return $service;
     }
 
@@ -370,13 +349,10 @@ class Container
      */
     private function createService(string $class): object
     {
-        if ($class === Connection::class) {
-            $service = new Connection(
-                $this->dbHost,
-                $this->dbUser,
-                $this->dbPassword,
-                $this->dbName,
-                $this
+        if ($class === ConnectionPool::class) {
+            $service = new ConnectionPool(
+                $this,
+                $this->dbConfigs,
             );
         } elseif ($class === Logger::class) {
             $service = new Logger(

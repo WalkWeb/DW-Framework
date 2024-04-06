@@ -31,7 +31,7 @@ class UserRepository
             throw new AppException(UserException::EMAIL_ALREADY_EXIST);
         }
 
-        $this->container->getConnection()->query(
+        $this->container->getConnectionPool()->getConnection()->query(
             'INSERT INTO `users` (`id`, `login`, `password`, `email`, `auth_token`, `verified_token`) VALUES (?, ?, ?, ?, ?, ?)',
             [
                 ['type' => 's', 'value' => $user->getId()],
@@ -51,7 +51,7 @@ class UserRepository
      */
     public function get(string $authToken): ?UserInterface
     {
-        $data = $this->container->getConnection()->query(
+        $data = $this->container->getConnectionPool()->getConnection()->query(
             'SELECT `id`, `login`, `password`, `email`, `auth_token`, `verified_token`, `created_at`, `reg_complete`, `email_verified`, `template` 
                 FROM `users` WHERE auth_token = ?',
             [['type' => 's', 'value' => $authToken]],
@@ -76,7 +76,7 @@ class UserRepository
      */
     public function auth(LoginRequest $request, string $hashKey): ?string
     {
-        $data = $this->container->getConnection()->query(
+        $data = $this->container->getConnectionPool()->getConnection()->query(
             'SELECT `auth_token`, `password` FROM `users` WHERE `login` = ?',
             [
                 ['type' => 's', 'value' => $request->getLogin()],
@@ -102,7 +102,7 @@ class UserRepository
      */
     public function saveTemplate(UserInterface $user): void
     {
-        $this->container->getConnection()->query(
+        $this->container->getConnectionPool()->getConnection()->query(
             'UPDATE `users` SET `template` = ? WHERE `id` = ?',
             [
                 ['type' => 's', 'value' => $user->getTemplate()],
@@ -118,7 +118,7 @@ class UserRepository
      */
     private function existUserByLogin(string $login): bool
     {
-        $data = $this->container->getConnection()->query(
+        $data = $this->container->getConnectionPool()->getConnection()->query(
             'SELECT * FROM `users` WHERE `login` = ?',
             [['type' => 's', 'value' => $login]],
         );
@@ -133,7 +133,7 @@ class UserRepository
      */
     private function existUserByEmail(string $email): bool
     {
-        $data = $this->container->getConnection()->query(
+        $data = $this->container->getConnectionPool()->getConnection()->query(
             'SELECT * FROM `users` WHERE `email` = ?',
             [['type' => 's', 'value' => $email]],
         );

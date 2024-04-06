@@ -18,7 +18,7 @@ class UserCreateHandlerTest extends AbstractTestCase
      */
     public function testUserCreateHandlerSuccess(): void
     {
-        $connection = $this->app->getContainer()->getConnection();
+        $connection = $this->app->getContainer()->getConnectionPool()->getConnection();
         $connection->autocommit(false);
         $login = 'User-1';
         $email = 'mail@mail.com';
@@ -57,7 +57,7 @@ class UserCreateHandlerTest extends AbstractTestCase
      */
     public function testUserCreateHandlerFail(string $login, string $email, string $error, bool $existUser): void
     {
-        $connection = $this->app->getContainer()->getConnection();
+        $connection = $this->app->getContainer()->getConnectionPool()->getConnection();
         $connection->autocommit(false);
 
         $request = new Request(

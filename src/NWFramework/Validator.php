@@ -61,12 +61,14 @@ class Validator
     private ?string $defaultError;
 
     /**
+     * TODO Переделать - храним пулл коннектов, при проверке unique запрашиваем название в какой базе смотреть
+     *
      * @param Container $container
      * @throws AppException
      */
     public function __construct(Container $container)
     {
-        $this->connection = $container->getConnection();
+        $this->connection = $container->getConnectionPool()->getConnection();
     }
 
     /**
