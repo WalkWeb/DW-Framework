@@ -27,6 +27,7 @@ class Version_2024_02_04_14_08_11_42
                 `email_verified` TINYINT NOT NULL DEFAULT 0,
                 `auth_token`     VARCHAR(30) NOT NULL,
                 `verified_token` VARCHAR(30) NOT NULL,
+                `template`       VARCHAR(10) NOT NULL DEFAULT 'default',
                 `created_at`     TIMESTAMP DEFAULT CURRENT_TIMESTAMP,   
                 `updated_at`     TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

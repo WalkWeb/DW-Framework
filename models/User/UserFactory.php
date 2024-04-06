@@ -21,10 +21,11 @@ class UserFactory
      *
      * @param array $data
      * @param string $hashKey
+     * @param string $defaultTemplate
      * @return UserInterface
      * @throws AppException
      */
-    public static function createNew(array $data, string $hashKey): UserInterface
+    public static function createNew(array $data, string $hashKey, string $defaultTemplate): UserInterface
     {
         try {
             $password = self::passwordValidate($data);
@@ -39,6 +40,7 @@ class UserFactory
                 false,
                 self::generateString(30),
                 self::generateString(30),
+                $defaultTemplate,
                 new DateTime()
             );
         } catch (Exception $e) {
@@ -67,6 +69,7 @@ class UserFactory
             (bool)self::int($data, 'email_verified', UserException::INVALID_EMAIL_VERIFIED),
             self::authTokenValidate($data),
             self::verifiedTokenValidate($data),
+            self::templateValidate($data),
             self::date($createdAt, UserException::INVALID_CREATED_AT_VALUE),
         );
     }
@@ -168,5 +171,24 @@ class UserFactory
         );
 
         return $verifiedToken;
+    }
+
+    /**
+     * @param array $data
+     * @return string
+     * @throws AppException
+     */
+    private static function templateValidate(array $data): string
+    {
+        $template = self::string($data, 'template', UserException::INVALID_TEMPLATE);
+
+        self::stringMinMaxLength(
+            $template,
+            UserInterface::TEMPLATE_MIN_LENGTH,
+            UserInterface::TEMPLATE_MAX_LENGTH,
+            UserException::INVALID_TEMPLATE_LENGTH . UserInterface::TEMPLATE_MIN_LENGTH . '-' . UserInterface::TEMPLATE_MAX_LENGTH
+        );
+
+        return $template;
     }
 }

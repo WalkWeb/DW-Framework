@@ -247,6 +247,7 @@ class ContainerTest extends AbstractTestCase
         $user = UserFactory::createNew(
             ['login' => 'Login', 'email' => 'email@email.com', 'password' => '12345'],
             'hash_key',
+            'default',
         );
 
         self::assertFalse($container->exist('user'));

@@ -52,7 +52,7 @@ class UserRepository
     public function get(string $authToken): ?UserInterface
     {
         $data = $this->container->getConnection()->query(
-            'SELECT `id`, `login`, `password`, `email`, `auth_token`, `verified_token`, `created_at`, `reg_complete`, `email_verified` 
+            'SELECT `id`, `login`, `password`, `email`, `auth_token`, `verified_token`, `created_at`, `reg_complete`, `email_verified`, `template` 
                 FROM `users` WHERE auth_token = ?',
             [['type' => 's', 'value' => $authToken]],
             true
@@ -94,6 +94,21 @@ class UserRepository
         }
 
         return null;
+    }
+
+    /**
+     * @param UserInterface $user
+     * @throws AppException
+     */
+    public function saveTemplate(UserInterface $user): void
+    {
+        $this->container->getConnection()->query(
+            'UPDATE `users` SET `template` = ? WHERE `id` = ?',
+            [
+                ['type' => 's', 'value' => $user->getTemplate()],
+                ['type' => 's', 'value' => $user->getId()],
+            ],
+        );
     }
 
     /**

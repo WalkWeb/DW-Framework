@@ -34,6 +34,9 @@ class UserException
     // verified_token
     public const INVALID_VERIFIED_TOKEN        = 'Incorrect parameter "verified_token", it required and type string';
     public const INVALID_VERIFIED_TOKEN_LENGTH = 'Incorrect parameter "verified_token", should be min-max length: ';
+    // template
+    public const INVALID_TEMPLATE              = 'Incorrect parameter "template", it required and type string';
+    public const INVALID_TEMPLATE_LENGTH       = 'Incorrect parameter "template", should be min-max length: ';
     // created_at
     public const INVALID_CREATED_AT            = 'Incorrect parameter "created_at", it required and type string';
     public const INVALID_CREATED_AT_VALUE      = 'Incorrect parameter "created_at", expected date';

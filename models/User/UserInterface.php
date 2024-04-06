@@ -11,7 +11,6 @@ interface UserInterface
     // TODO Статус пользователя (активен, забанен)
     // TODO Системная группа юзера (админ/модератор/обычный юзер)
     // TODO Пользовательская группа (что угодно в зависимости от тематики сайта)
-    // TODO template
 
     public const AUTH_TOKEN                = 'auth';
 
@@ -25,6 +24,8 @@ interface UserInterface
     public const AUTH_TOKEN_MAX_LENGTH     = 30;
     public const VERIFIED_TOKEN_MIN_LENGTH = 30;
     public const VERIFIED_TOKEN_MAX_LENGTH = 30;
+    public const TEMPLATE_MIN_LENGTH       = 2;
+    public const TEMPLATE_MAX_LENGTH       = 10;
 
     /**
      * Возвращает uuid пользователя
@@ -81,6 +82,13 @@ interface UserInterface
      * @return string
      */
     public function getVerifiedToken(): string;
+
+    /**
+     * Возвращает шаблон дизайна сайта который будет использоваться для данного пользователя
+     *
+     * @return string
+     */
+    public function getTemplate(): string;
 
     /**
      * Возвращает дату регистрации пользователя

@@ -16,6 +16,7 @@ class User implements UserInterface
     private bool $emailVerified;
     private string $authToken;
     private string $verifiedToken;
+    private string $template;
     private DateTimeInterface $createdAt;
 
     public function __construct(
@@ -27,6 +28,7 @@ class User implements UserInterface
         bool $emailVerified,
         string $authToken,
         string $verifiedToken,
+        string $template,
         DateTimeInterface $createdAt
     )
     {
@@ -38,6 +40,7 @@ class User implements UserInterface
         $this->emailVerified = $emailVerified;
         $this->authToken = $authToken;
         $this->verifiedToken = $verifiedToken;
+        $this->template = $template;
         $this->createdAt = $createdAt;
     }
 
@@ -103,6 +106,22 @@ class User implements UserInterface
     public function getVerifiedToken(): string
     {
         return $this->verifiedToken;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTemplate(): string
+    {
+        return $this->template;
+    }
+
+    /**
+     * @param string $template
+     */
+    public function setTemplate(string $template): void
+    {
+        $this->template = $template;
     }
 
     /**

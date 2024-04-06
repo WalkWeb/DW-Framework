@@ -24,7 +24,8 @@ class UserFactoryTest extends AbstractTestCase
      */
     public function testUserFactoryCreateNewSuccess(array $data): void
     {
-        $user = UserFactory::createNew($data, 'pass_key');
+        $templateDefault = 'template';
+        $user = UserFactory::createNew($data, 'pass_key', $templateDefault);
 
         self::assertTrue(Uuid::isValid($user->getId()));
         self::assertEquals($data['login'], $user->getLogin());
@@ -34,6 +35,7 @@ class UserFactoryTest extends AbstractTestCase
         self::assertFalse($user->isEmailVerified());
         self::assertEquals(30, strlen($user->getAuthToken()));
         self::assertEquals(30, strlen($user->getVerifiedToken()));
+        self::assertEquals($templateDefault, $user->getTemplate());
         self::assertEquals(
             (new DateTime())->format('Y-m-d H:i:s'),
             $user->getCreatedAt()->format('Y-m-d H:i:s')
@@ -52,7 +54,7 @@ class UserFactoryTest extends AbstractTestCase
     {
         $this->expectException(AppException::class);
         $this->expectExceptionMessage($error);
-        UserFactory::createNew($data, 'hash_key');
+        UserFactory::createNew($data, 'hash_key', 'default');
     }
 
     /**
@@ -74,6 +76,7 @@ class UserFactoryTest extends AbstractTestCase
         self::assertEquals((bool)$data['email_verified'], $user->isEmailVerified());
         self::assertEquals($data['auth_token'], $user->getAuthToken());
         self::assertEquals($data['verified_token'], $user->getVerifiedToken());
+        self::assertEquals($data['template'], $user->getTemplate());
         self::assertEquals($data['created_at'], $user->getCreatedAt()->format('Y-m-d H:i:s'));
     }
 
@@ -257,6 +260,7 @@ class UserFactoryTest extends AbstractTestCase
                     'email_verified' => 1,
                     'auth_token'     => '82lUb2FtK5r23n25isE3EgUrQDKm8F',
                     'verified_token' => 'd3YxD0rQ3mlNHa4uPOIVT6luDkigzS',
+                    'template'       => 'default',
                     'created_at'     => '2024-03-28 12:06:35',
                 ],
             ],
@@ -280,6 +284,7 @@ class UserFactoryTest extends AbstractTestCase
                     'email_verified' => 1,
                     'auth_token'     => '82lUb2FtK5r23n25isE3EgUrQDKm8F',
                     'verified_token' => 'd3YxD0rQ3mlNHa4uPOIVT6luDkigzS',
+                    'template'       => 'default',
                     'created_at'     => '2024-03-28 12:06:35',
                 ],
                 UserException::INVALID_ID,
@@ -295,6 +300,7 @@ class UserFactoryTest extends AbstractTestCase
                     'email_verified' => 1,
                     'auth_token'     => '82lUb2FtK5r23n25isE3EgUrQDKm8F',
                     'verified_token' => 'd3YxD0rQ3mlNHa4uPOIVT6luDkigzS',
+                    'template'       => 'default',
                     'created_at'     => '2024-03-28 12:06:35',
                 ],
                 UserException::INVALID_ID,
@@ -310,6 +316,7 @@ class UserFactoryTest extends AbstractTestCase
                     'email_verified' => 1,
                     'auth_token'     => '82lUb2FtK5r23n25isE3EgUrQDKm8F',
                     'verified_token' => 'd3YxD0rQ3mlNHa4uPOIVT6luDkigzS',
+                    'template'       => 'default',
                     'created_at'     => '2024-03-28 12:06:35',
                 ],
                 UserException::INVALID_ID_VALUE,
@@ -324,6 +331,7 @@ class UserFactoryTest extends AbstractTestCase
                     'email_verified' => 1,
                     'auth_token'     => '82lUb2FtK5r23n25isE3EgUrQDKm8F',
                     'verified_token' => 'd3YxD0rQ3mlNHa4uPOIVT6luDkigzS',
+                    'template'       => 'default',
                     'created_at'     => '2024-03-28 12:06:35',
                 ],
                 UserException::INVALID_LOGIN,
@@ -339,6 +347,7 @@ class UserFactoryTest extends AbstractTestCase
                     'email_verified' => 1,
                     'auth_token'     => '82lUb2FtK5r23n25isE3EgUrQDKm8F',
                     'verified_token' => 'd3YxD0rQ3mlNHa4uPOIVT6luDkigzS',
+                    'template'       => 'default',
                     'created_at'     => '2024-03-28 12:06:35',
                 ],
                 UserException::INVALID_LOGIN,
@@ -354,6 +363,7 @@ class UserFactoryTest extends AbstractTestCase
                     'email_verified' => 1,
                     'auth_token'     => '82lUb2FtK5r23n25isE3EgUrQDKm8F',
                     'verified_token' => 'd3YxD0rQ3mlNHa4uPOIVT6luDkigzS',
+                    'template'       => 'default',
                     'created_at'     => '2024-03-28 12:06:35',
                 ],
                 UserException::INVALID_LOGIN_LENGTH . UserInterface::LOGIN_MIN_LENGTH . '-' . UserInterface::LOGIN_MAX_LENGTH,
@@ -369,6 +379,7 @@ class UserFactoryTest extends AbstractTestCase
                     'email_verified' => 1,
                     'auth_token'     => '82lUb2FtK5r23n25isE3EgUrQDKm8F',
                     'verified_token' => 'd3YxD0rQ3mlNHa4uPOIVT6luDkigzS',
+                    'template'       => 'default',
                     'created_at'     => '2024-03-28 12:06:35',
                 ],
                 UserException::INVALID_LOGIN_LENGTH . UserInterface::LOGIN_MIN_LENGTH . '-' . UserInterface::LOGIN_MAX_LENGTH,
@@ -384,6 +395,7 @@ class UserFactoryTest extends AbstractTestCase
                     'email_verified' => 1,
                     'auth_token'     => '82lUb2FtK5r23n25isE3EgUrQDKm8F',
                     'verified_token' => 'd3YxD0rQ3mlNHa4uPOIVT6luDkigzS',
+                    'template'       => 'default',
                     'created_at'     => '2024-03-28 12:06:35',
                 ],
                 UserException::INVALID_LOGIN_SYMBOL,
@@ -398,6 +410,7 @@ class UserFactoryTest extends AbstractTestCase
                     'email_verified' => 1,
                     'auth_token'     => '82lUb2FtK5r23n25isE3EgUrQDKm8F',
                     'verified_token' => 'd3YxD0rQ3mlNHa4uPOIVT6luDkigzS',
+                    'template'       => 'default',
                     'created_at'     => '2024-03-28 12:06:35',
                 ],
                 UserException::INVALID_PASSWORD,
@@ -413,6 +426,7 @@ class UserFactoryTest extends AbstractTestCase
                     'email_verified' => 1,
                     'auth_token'     => '82lUb2FtK5r23n25isE3EgUrQDKm8F',
                     'verified_token' => 'd3YxD0rQ3mlNHa4uPOIVT6luDkigzS',
+                    'template'       => 'default',
                     'created_at'     => '2024-03-28 12:06:35',
                 ],
                 UserException::INVALID_PASSWORD,
@@ -428,6 +442,7 @@ class UserFactoryTest extends AbstractTestCase
                     'email_verified' => 1,
                     'auth_token'     => '82lUb2FtK5r23n25isE3EgUrQDKm8F',
                     'verified_token' => 'd3YxD0rQ3mlNHa4uPOIVT6luDkigzS',
+                    'template'       => 'default',
                     'created_at'     => '2024-03-28 12:06:35',
                 ],
                 UserException::INVALID_PASSWORD_LENGTH . UserInterface::PASSWORD_MIN_LENGTH . '-' . UserInterface::PASSWORD_MAX_LENGTH,
@@ -443,6 +458,7 @@ class UserFactoryTest extends AbstractTestCase
                     'email_verified' => 1,
                     'auth_token'     => '82lUb2FtK5r23n25isE3EgUrQDKm8F',
                     'verified_token' => 'd3YxD0rQ3mlNHa4uPOIVT6luDkigzS',
+                    'template'       => 'default',
                     'created_at'     => '2024-03-28 12:06:35',
                 ],
                 UserException::INVALID_PASSWORD_LENGTH . UserInterface::PASSWORD_MIN_LENGTH . '-' . UserInterface::PASSWORD_MAX_LENGTH,
@@ -457,6 +473,7 @@ class UserFactoryTest extends AbstractTestCase
                     'email_verified' => 1,
                     'auth_token'     => '82lUb2FtK5r23n25isE3EgUrQDKm8F',
                     'verified_token' => 'd3YxD0rQ3mlNHa4uPOIVT6luDkigzS',
+                    'template'       => 'default',
                     'created_at'     => '2024-03-28 12:06:35',
                 ],
                 UserException::INVALID_EMAIL,
@@ -472,6 +489,7 @@ class UserFactoryTest extends AbstractTestCase
                     'email_verified' => 1,
                     'auth_token'     => '82lUb2FtK5r23n25isE3EgUrQDKm8F',
                     'verified_token' => 'd3YxD0rQ3mlNHa4uPOIVT6luDkigzS',
+                    'template'       => 'default',
                     'created_at'     => '2024-03-28 12:06:35',
                 ],
                 UserException::INVALID_EMAIL,
@@ -487,6 +505,7 @@ class UserFactoryTest extends AbstractTestCase
                     'email_verified' => 1,
                     'auth_token'     => '82lUb2FtK5r23n25isE3EgUrQDKm8F',
                     'verified_token' => 'd3YxD0rQ3mlNHa4uPOIVT6luDkigzS',
+                    'template'       => 'default',
                     'created_at'     => '2024-03-28 12:06:35',
                 ],
                 UserException::INVALID_EMAIL_LENGTH . UserInterface::EMAIL_MIN_LENGTH . '-' . UserInterface::EMAIL_MAX_LENGTH,
@@ -502,6 +521,7 @@ class UserFactoryTest extends AbstractTestCase
                     'email_verified' => 1,
                     'auth_token'     => '82lUb2FtK5r23n25isE3EgUrQDKm8F',
                     'verified_token' => 'd3YxD0rQ3mlNHa4uPOIVT6luDkigzS',
+                    'template'       => 'default',
                     'created_at'     => '2024-03-28 12:06:35',
                 ],
                 UserException::INVALID_EMAIL_LENGTH . UserInterface::EMAIL_MIN_LENGTH . '-' . UserInterface::EMAIL_MAX_LENGTH,
@@ -517,6 +537,7 @@ class UserFactoryTest extends AbstractTestCase
                     'email_verified' => 1,
                     'auth_token'     => '82lUb2FtK5r23n25isE3EgUrQDKm8F',
                     'verified_token' => 'd3YxD0rQ3mlNHa4uPOIVT6luDkigzS',
+                    'template'       => 'default',
                     'created_at'     => '2024-03-28 12:06:35',
                 ],
                 UserException::INVALID_EMAIL_SYMBOL,
@@ -531,6 +552,7 @@ class UserFactoryTest extends AbstractTestCase
                     'email_verified' => 1,
                     'auth_token'     => '82lUb2FtK5r23n25isE3EgUrQDKm8F',
                     'verified_token' => 'd3YxD0rQ3mlNHa4uPOIVT6luDkigzS',
+                    'template'       => 'default',
                     'created_at'     => '2024-03-28 12:06:35',
                 ],
                 UserException::INVALID_REG_COMPLETE,
@@ -546,6 +568,7 @@ class UserFactoryTest extends AbstractTestCase
                     'email_verified' => 1,
                     'auth_token'     => '82lUb2FtK5r23n25isE3EgUrQDKm8F',
                     'verified_token' => 'd3YxD0rQ3mlNHa4uPOIVT6luDkigzS',
+                    'template'       => 'default',
                     'created_at'     => '2024-03-28 12:06:35',
                 ],
                 UserException::INVALID_REG_COMPLETE,
@@ -560,6 +583,7 @@ class UserFactoryTest extends AbstractTestCase
                     'reg_complete'   => 1,
                     'auth_token'     => '82lUb2FtK5r23n25isE3EgUrQDKm8F',
                     'verified_token' => 'd3YxD0rQ3mlNHa4uPOIVT6luDkigzS',
+                    'template'       => 'default',
                     'created_at'     => '2024-03-28 12:06:35',
                 ],
                 UserException::INVALID_EMAIL_VERIFIED,
@@ -575,6 +599,7 @@ class UserFactoryTest extends AbstractTestCase
                     'email_verified' => 'true',
                     'auth_token'     => '82lUb2FtK5r23n25isE3EgUrQDKm8F',
                     'verified_token' => 'd3YxD0rQ3mlNHa4uPOIVT6luDkigzS',
+                    'template'       => 'default',
                     'created_at'     => '2024-03-28 12:06:35',
                 ],
                 UserException::INVALID_EMAIL_VERIFIED,
@@ -589,6 +614,7 @@ class UserFactoryTest extends AbstractTestCase
                     'reg_complete'   => 1,
                     'email_verified' => 1,
                     'verified_token' => 'd3YxD0rQ3mlNHa4uPOIVT6luDkigzS',
+                    'template'       => 'default',
                     'created_at'     => '2024-03-28 12:06:35',
                 ],
                 UserException::INVALID_AUTH_TOKEN,
@@ -604,6 +630,7 @@ class UserFactoryTest extends AbstractTestCase
                     'email_verified' => 1,
                     'auth_token'     => 123,
                     'verified_token' => 'd3YxD0rQ3mlNHa4uPOIVT6luDkigzS',
+                    'template'       => 'default',
                     'created_at'     => '2024-03-28 12:06:35',
                 ],
                 UserException::INVALID_AUTH_TOKEN,
@@ -619,6 +646,7 @@ class UserFactoryTest extends AbstractTestCase
                     'email_verified' => 0,
                     'auth_token'     => self::generateString(UserInterface::AUTH_TOKEN_MIN_LENGTH - 1),
                     'verified_token' => 'd3YxD0rQ3mlNHa4uPOIVT6luDkigzS',
+                    'template'       => 'default',
                     'created_at'     => '2024-03-28 12:06:35',
                 ],
                 UserException::INVALID_AUTH_TOKEN_LENGTH . UserInterface::AUTH_TOKEN_MIN_LENGTH . '-' . UserInterface::AUTH_TOKEN_MAX_LENGTH,
@@ -634,6 +662,7 @@ class UserFactoryTest extends AbstractTestCase
                     'email_verified' => 0,
                     'auth_token'     => self::generateString(UserInterface::AUTH_TOKEN_MAX_LENGTH + 1),
                     'verified_token' => 'd3YxD0rQ3mlNHa4uPOIVT6luDkigzS',
+                    'template'       => 'default',
                     'created_at'     => '2024-03-28 12:06:35',
                 ],
                 UserException::INVALID_AUTH_TOKEN_LENGTH . UserInterface::AUTH_TOKEN_MIN_LENGTH . '-' . UserInterface::AUTH_TOKEN_MAX_LENGTH,
@@ -648,6 +677,7 @@ class UserFactoryTest extends AbstractTestCase
                     'reg_complete'   => 0,
                     'email_verified' => 0,
                     'auth_token'     => '82lUb2FtK5r23n25isE3EgUrQDKm8F',
+                    'template'       => 'default',
                     'created_at'     => '2024-03-28 12:06:35',
                 ],
                 UserException::INVALID_VERIFIED_TOKEN,
@@ -663,6 +693,7 @@ class UserFactoryTest extends AbstractTestCase
                     'email_verified' => 0,
                     'auth_token'     => '82lUb2FtK5r23n25isE3EgUrQDKm8F',
                     'verified_token' => false,
+                    'template'       => 'default',
                     'created_at'     => '2024-03-28 12:06:35',
                 ],
                 UserException::INVALID_VERIFIED_TOKEN,
@@ -678,6 +709,7 @@ class UserFactoryTest extends AbstractTestCase
                     'email_verified' => 0,
                     'auth_token'     => '82lUb2FtK5r23n25isE3EgUrQDKm8F',
                     'verified_token' => self::generateString(UserInterface::VERIFIED_TOKEN_MIN_LENGTH - 1),
+                    'template'       => 'default',
                     'created_at'     => '2024-03-28 12:06:35',
                 ],
                 UserException::INVALID_VERIFIED_TOKEN_LENGTH . UserInterface::AUTH_TOKEN_MIN_LENGTH . '-' . UserInterface::AUTH_TOKEN_MAX_LENGTH,
@@ -693,9 +725,73 @@ class UserFactoryTest extends AbstractTestCase
                     'email_verified' => 0,
                     'auth_token'     => '82lUb2FtK5r23n25isE3EgUrQDKm8F',
                     'verified_token' => self::generateString(UserInterface::VERIFIED_TOKEN_MAX_LENGTH + 1),
+                    'template'       => 'default',
                     'created_at'     => '2024-03-28 12:06:35',
                 ],
                 UserException::INVALID_VERIFIED_TOKEN_LENGTH . UserInterface::AUTH_TOKEN_MIN_LENGTH . '-' . UserInterface::AUTH_TOKEN_MAX_LENGTH,
+            ],
+            [
+                // Отсутствует template
+                [
+                    'id'             => 'e19725de-24ad-41d0-a8b1-96016f26de64',
+                    'login'          => 'Login-1',
+                    'password'       => '12345',
+                    'email'          => 'email@email.com',
+                    'reg_complete'   => 0,
+                    'email_verified' => 0,
+                    'auth_token'     => '82lUb2FtK5r23n25isE3EgUrQDKm8F',
+                    'verified_token' => '82lUb2FtK5r23n25isE3EgUrQDKm8F',
+                    'created_at'     => '2024-03-28 12:06:35',
+                ],
+                UserException::INVALID_TEMPLATE,
+            ],
+            [
+                // template некорректного типа
+                [
+                    'id'             => 'e19725de-24ad-41d0-a8b1-96016f26de64',
+                    'login'          => 'Login-1',
+                    'password'       => '12345',
+                    'email'          => 'email@email.com',
+                    'reg_complete'   => 0,
+                    'email_verified' => 0,
+                    'auth_token'     => '82lUb2FtK5r23n25isE3EgUrQDKm8F',
+                    'verified_token' => '82lUb2FtK5r23n25isE3EgUrQDKm8F',
+                    'template'       => true,
+                    'created_at'     => '2024-03-28 12:06:35',
+                ],
+                UserException::INVALID_TEMPLATE,
+            ],
+            [
+                // template меньше минимальной длинны
+                [
+                    'id'             => 'e19725de-24ad-41d0-a8b1-96016f26de64',
+                    'login'          => 'Login-1',
+                    'password'       => '12345',
+                    'email'          => 'email@email.com',
+                    'reg_complete'   => 0,
+                    'email_verified' => 0,
+                    'auth_token'     => '82lUb2FtK5r23n25isE3EgUrQDKm8F',
+                    'verified_token' => '82lUb2FtK5r23n25isE3EgUrQDKm8F',
+                    'template'       => self::generateString(UserInterface::TEMPLATE_MIN_LENGTH - 1),
+                    'created_at'     => '2024-03-28 12:06:35',
+                ],
+                UserException::INVALID_TEMPLATE_LENGTH . UserInterface::TEMPLATE_MIN_LENGTH . '-' . UserInterface::TEMPLATE_MAX_LENGTH,
+            ],
+            [
+                // template больше максимальной длинны
+                [
+                    'id'             => 'e19725de-24ad-41d0-a8b1-96016f26de64',
+                    'login'          => 'Login-1',
+                    'password'       => '12345',
+                    'email'          => 'email@email.com',
+                    'reg_complete'   => 0,
+                    'email_verified' => 0,
+                    'auth_token'     => '82lUb2FtK5r23n25isE3EgUrQDKm8F',
+                    'verified_token' => '82lUb2FtK5r23n25isE3EgUrQDKm8F',
+                    'template'       => self::generateString(UserInterface::TEMPLATE_MAX_LENGTH + 1),
+                    'created_at'     => '2024-03-28 12:06:35',
+                ],
+                UserException::INVALID_TEMPLATE_LENGTH . UserInterface::TEMPLATE_MIN_LENGTH . '-' . UserInterface::TEMPLATE_MAX_LENGTH,
             ],
             [
                 // Отсутствует created_at
@@ -708,6 +804,7 @@ class UserFactoryTest extends AbstractTestCase
                     'email_verified' => 0,
                     'auth_token'     => '82lUb2FtK5r23n25isE3EgUrQDKm8F',
                     'verified_token' => 'd3YxD0rQ3mlNHa4uPOIVT6luDkigzS',
+                    'template'       => 'default',
                 ],
                 UserException::INVALID_CREATED_AT,
             ],
@@ -722,6 +819,7 @@ class UserFactoryTest extends AbstractTestCase
                     'email_verified' => 0,
                     'auth_token'     => '82lUb2FtK5r23n25isE3EgUrQDKm8F',
                     'verified_token' => 'd3YxD0rQ3mlNHa4uPOIVT6luDkigzS',
+                    'template'       => 'default',
                     'created_at'     => 1.2,
                 ],
                 UserException::INVALID_CREATED_AT,
@@ -737,6 +835,7 @@ class UserFactoryTest extends AbstractTestCase
                     'email_verified' => 0,
                     'auth_token'     => '82lUb2FtK5r23n25isE3EgUrQDKm8F',
                     'verified_token' => 'd3YxD0rQ3mlNHa4uPOIVT6luDkigzS',
+                    'template'       => 'default',
                     'created_at'     => 'vss-03-28dd',
                 ],
                 UserException::INVALID_CREATED_AT_VALUE,

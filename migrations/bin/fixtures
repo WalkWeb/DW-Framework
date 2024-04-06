@@ -38,8 +38,8 @@ try {
     $token = '$2y$10$L5kAtDLMJxy3wU94cNzOE.P5QeoSX7XEBA6CvY8dEwRPp7zqquSKO';
 
     $db->query("
-        INSERT INTO `users`(`id`, `login`, `password`, `email`, `reg_complete`, `email_verified`, `auth_token`, `verified_token`, `created_at`, `updated_at`) VALUES
-        ('23388e70-7171-4f14-bf13-39c1d77861bb', 'Login-1', '$token', 'mail1@mail.com', 0, 0, 'VBajfT8P6PFtrkHhCqb7ZNwIFG45a5', 'ISUgTBiTjVht2PIVQqSR52hmeXNs2Z', '2024-03-30 20:59:50', '2024-03-30 20:59:50')
+        INSERT INTO `users`(`id`, `login`, `password`, `email`, `reg_complete`, `email_verified`, `auth_token`, `verified_token`, `template`, `created_at`, `updated_at`) VALUES
+        ('23388e70-7171-4f14-bf13-39c1d77861bb', 'Login-1', '$token', 'mail1@mail.com', 0, 0, 'VBajfT8P6PFtrkHhCqb7ZNwIFG45a5', 'ISUgTBiTjVht2PIVQqSR52hmeXNs2Z', 'default', '2024-03-30 20:59:50', '2024-03-30 20:59:50')
         ;
     ");
 
