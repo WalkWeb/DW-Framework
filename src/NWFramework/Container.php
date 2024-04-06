@@ -23,6 +23,8 @@ class Container
         'captcha'             => Captcha::class,
         Validator::class      => Validator::class,
         'validator'           => Validator::class,
+        Mailer::class         => Mailer::class,
+        'mailer'              => Mailer::class,
         Request::class        => Request::class,
         Cookie::class         => Cookie::class,
         Runtime::class        => Runtime::class,
@@ -35,6 +37,7 @@ class Container
 
     private string $appEnv;
     private array $dbConfigs;
+    private array $mailerConfig;
     private bool $loggerSaveLog;
     private string $loggerDir;
     private string $loggerFileName;
@@ -47,6 +50,7 @@ class Container
     /**
      * @param string $appEnv
      * @param array $dbConfigs
+     * @param array $mailerConfig
      * @param bool $loggerSaveLog
      * @param string $loggerDir
      * @param string $loggerFileName
@@ -60,6 +64,7 @@ class Container
     public function __construct(
         string $appEnv,
         array $dbConfigs,
+        array $mailerConfig,
         bool $loggerSaveLog,
         string $loggerDir,
         string $loggerFileName,
@@ -72,6 +77,7 @@ class Container
     {
         $this->setAppEnv($appEnv);
         $this->dbConfigs = $dbConfigs;
+        $this->mailerConfig = $mailerConfig;
         $this->loggerSaveLog = $loggerSaveLog;
         $this->loggerDir = $loggerDir;
         $this->loggerFileName = $loggerFileName;
@@ -85,6 +91,7 @@ class Container
     /**
      * @param string $appEnv
      * @param array $dbConfigs
+     * @param array $mailerConfig
      * @param bool $loggerSaveLog
      * @param string $loggerDir
      * @param string $loggerFileName
@@ -99,6 +106,7 @@ class Container
     public static function create(
         string $appEnv = APP_ENV,
         array $dbConfigs = DB_CONFIGS,
+        array $mailerConfig = MAIL_CONFIG,
         bool $loggerSaveLog = SAVE_LOG,
         string $loggerDir = LOG_DIR,
         string $loggerFileName = LOG_FILE_NAME,
@@ -112,6 +120,7 @@ class Container
         return new self(
             $appEnv,
             $dbConfigs,
+            $mailerConfig,
             $loggerSaveLog,
             $loggerDir,
             $loggerFileName,
@@ -245,6 +254,17 @@ class Container
     }
 
     /**
+     * @return Mailer
+     * @throws AppException
+     */
+    public function getMailer(): Mailer
+    {
+        /** @var Mailer $service */
+        $service = $this->get(Mailer::class);
+        return $service;
+    }
+
+    /**
      * @return object
      * @throws AppException
      */
@@ -354,7 +374,12 @@ class Container
                 $this,
                 $this->dbConfigs,
             );
-        } elseif ($class === Logger::class) {
+        } elseif ($class === Mailer::class) {
+            $service = new Mailer(
+                $this,
+                $this->mailerConfig
+            );
+        }  elseif ($class === Logger::class) {
             $service = new Logger(
                 $this->loggerSaveLog,
                 $this->loggerDir,

@@ -12,6 +12,7 @@ use NW\Container;
 use NW\Cookie;
 use NW\Csrf;
 use NW\Logger;
+use NW\Mailer;
 use NW\Request;
 use NW\Runtime;
 use NW\Validator;
@@ -58,6 +59,7 @@ class ContainerTest extends AbstractTestCase
         $container = Container::create(
             $appEnv,
             DB_CONFIGS,
+            MAIL_CONFIG,
             $loggerSaveLog,
             $loggerDir,
             $loggerFileName,
@@ -208,6 +210,23 @@ class ContainerTest extends AbstractTestCase
 
         $validator = $container->getValidator();
         self::assertInstanceOf(Validator::class, $validator);
+    }
+
+    /**
+     * @throws AppException
+     */
+    public function testContainerGetMailer(): void
+    {
+        $container = $this->getContainer();
+
+        $mailer = $container->get(Mailer::class);
+        self::assertInstanceOf(Mailer::class, $mailer);
+
+        $mailer = $container->get('mailer');
+        self::assertInstanceOf(Mailer::class, $mailer);
+
+        $mailer = $container->getMailer();
+        self::assertInstanceOf(Mailer::class, $mailer);
     }
 
     /**

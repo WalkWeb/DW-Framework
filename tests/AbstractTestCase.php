@@ -64,6 +64,7 @@ class AbstractTestCase extends TestCase
         $container = new Container(
             $appEnv,
             DB_CONFIGS,
+            MAIL_CONFIG,
             SAVE_LOG,
             LOG_DIR,
             LOG_FILE_NAME,
