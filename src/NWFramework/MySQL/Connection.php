@@ -1,8 +1,11 @@
 <?php
 
-namespace NW;
+namespace NW\MySQL;
 
 use mysqli;
+use NW\AppException;
+use NW\Container;
+use NW\Logger;
 use Throwable;
 
 final class Connection

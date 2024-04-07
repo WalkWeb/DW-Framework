@@ -6,7 +6,7 @@ namespace Tests;
 
 use NW\App;
 use NW\AppException;
-use NW\Connection;
+use NW\MySQL\Connection;
 use NW\Container;
 use NW\Response;
 use NW\Route\Router;

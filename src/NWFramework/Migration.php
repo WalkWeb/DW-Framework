@@ -6,6 +6,7 @@ namespace NW;
 
 use DateTime;
 use Exception;
+use NW\MySQL\Connection;
 use NW\Route\RouteCollection;
 use NW\Route\Router;
 
@@ -43,7 +44,7 @@ declare(strict_types=1);
 
 namespace Migrations;
 
-use NW\Connection;
+use NW\MySQL\Connection;
 
 class ' . $className . '
 {

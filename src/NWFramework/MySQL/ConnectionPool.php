@@ -2,7 +2,10 @@
 
 declare(strict_types=1);
 
-namespace NW;
+namespace NW\MySQL;
+
+use NW\AppException;
+use NW\Container;
 
 /**
  * ConnectionPool создан для того, чтобы можно было работать сразу с несколькими разными базами MySQL

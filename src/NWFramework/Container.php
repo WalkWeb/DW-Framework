@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace NW;
 
+use NW\MySQL\ConnectionPool;
+
 class Container
 {
     public const APP_PROD = 'prod';

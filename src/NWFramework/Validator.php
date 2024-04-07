@@ -2,6 +2,8 @@
 
 namespace NW;
 
+use NW\MySQL\Connection;
+
 /**
  * Реализовано:
  * (+) email

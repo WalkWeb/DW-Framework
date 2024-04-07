@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Migrations;
 
 use NW\AppException;
-use NW\Connection;
+use NW\MySQL\Connection;
 
 class Version_2024_03_17_11_05_34_26
 {

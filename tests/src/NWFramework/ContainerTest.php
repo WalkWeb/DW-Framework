@@ -7,7 +7,7 @@ namespace Tests\src\NWFramework;
 use Models\User\UserFactory;
 use NW\AppException;
 use NW\Captcha;
-use NW\ConnectionPool;
+use NW\MySQL\ConnectionPool;
 use NW\Container;
 use NW\Cookie;
 use NW\Csrf;

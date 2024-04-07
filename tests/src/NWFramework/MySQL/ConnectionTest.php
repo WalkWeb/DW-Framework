@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Tests\src\NWFramework;
+namespace Tests\src\NWFramework\MySQL;
 
 use NW\AppException;
-use NW\Connection;
+use NW\MySQL\Connection;
 use NW\Container;
 use Tests\AbstractTest;
 
