@@ -112,6 +112,22 @@ class UserRepository
     }
 
     /**
+     * @param UserInterface $user
+     * @throws AppException
+     */
+    public function saveVerified(UserInterface $user): void
+    {
+        $this->container->getConnectionPool()->getConnection()->query(
+            'UPDATE `users` SET `email_verified` = ?, `reg_complete` = ? WHERE `id` = ?',
+            [
+                ['type' => 'i', 'value' => (int)$user->isEmailVerified()],
+                ['type' => 'i', 'value' => (int)$user->isRegComplete()],
+                ['type' => 's', 'value' => $user->getId()],
+            ],
+        );
+    }
+
+    /**
      * @param string $login
      * @return bool
      * @throws AppException

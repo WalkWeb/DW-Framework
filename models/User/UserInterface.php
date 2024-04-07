@@ -70,6 +70,11 @@ interface UserInterface
     public function isEmailVerified(): bool;
 
     /**
+     * Указывает, что email подтвержден
+     */
+    public function emailVerified(): void;
+
+    /**
      * Возвращает авторизационный токен
      *
      * @return string

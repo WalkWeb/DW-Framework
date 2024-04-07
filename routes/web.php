@@ -25,6 +25,7 @@ $routes->get('login', '/login', 'User\\LoginPageHandler');
 $routes->post('login', '/login', 'User\\LoginHandler');
 $routes->get('change.template', '/change_template/{template}', 'User\\TemplateChangeHandler', ['template' => '[a-z]+']);
 $routes->get('verified.email', '/verified_email', 'User\\VerifiedEmailHandler');
+$routes->get('check.email', '/check_email/{token}', 'User\\CheckEmailHandler', ['token' => '[a-zA-Z0-9-]+']);
 
 $routes
     ->addMiddleware('CreatedByMiddleware')

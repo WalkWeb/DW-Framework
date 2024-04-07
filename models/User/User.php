@@ -92,6 +92,14 @@ class User implements UserInterface
         return $this->emailVerified;
     }
 
+    public function emailVerified(): void
+    {
+        $this->emailVerified = true;
+        // Помимо подтверждения email могут быть другие необходимые действия для завершения регистрации
+        // Но в текущей простой версии подтверждении email автоматически завершает регистрацию
+        $this->regComplete = true;
+    }
+
     /**
      * @return string
      */
