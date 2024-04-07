@@ -54,10 +54,53 @@ class UserProfileHandlerTest extends AbstractTestCase
         $request = new Request(['REQUEST_URI' => '/profile'], [], [UserInterface::AUTH_TOKEN => $authToken]);
         $response = $this->app->handle($request);
 
+        $expectedContent = <<<EOT
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <title>Профиль</title>
+    <meta name="Description" content="">
+    <meta name="Keywords" content="">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <link rel="stylesheet" type="text/css" href="/styles/main.css">
+</head>
+<body>
+<div class="menu">
+    <ul class="navigation">
+        <li><a href="/" title="">Главная</a></li>
+        <li><a href="/posts/1" title="">Посты</a></li>
+        <li><a href="/post/create" title="">Создать пост</a></li>
+        <li><a href="/cookies" title="">Cookies</a></li>
+        <li><a href="/image" title="">Загрузка картинки</a></li>
+        <li><a href="/login" title="">Вход</a></li>
+        <li><a href="/registration" title="">Регистрация</a></li>
+        <li><a href="/profile" title="">Профиль</a></li>
+        <li><a href="/logout" title=""><img src="/images/logout.png" class="logout" alt="" /></a></li>
+    </ul>
+</div>
+<div class="content">
+    <h1>Профиль</h1><p><b>ID</b>: 23388e70-7171-4f14-bf13-39c1d77861bb<br />
+    <b>Логин</b>: Login-1<br />
+    <b>Email</b>: mail1@mail.com<br />
+    <b>Email подтвержден?</b> нет<br />
+    <b>Регистрация завершена?</b> нет<br />
+    <b>Шаблон</b>: default<br />
+    <b>Дата регистрации</b>: 2024-03-30 20:59:50</p>    <hr color="#444">
+    <label>
+        Дизайн:
+        <select name="select" id="template">
+            <option value="value2" selected>default</option>
+            <option value="value3">light</option>
+        </select>
+    </label>
+</div>
+<script src="/js/main.js?v=1.00"></script>
+</body>
+</html>
+EOT;
+
         self::assertEquals(Response::OK, $response->getStatusCode());
-        self::assertRegExp('/23388e70-7171-4f14-bf13-39c1d77861bb/', $response->getBody());
-        self::assertRegExp('/Login-1/', $response->getBody());
-        self::assertRegExp('/mail1@mail.com/', $response->getBody());
-        self::assertRegExp('/2024-03-30 20:59:50/', $response->getBody());
+        self::assertEquals($expectedContent, $response->getBody());
     }
 }
