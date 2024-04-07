@@ -11,9 +11,9 @@ use Models\User\UserFactory;
 use Models\User\UserInterface;
 use NW\AppException;
 use Ramsey\Uuid\Uuid;
-use Tests\AbstractTestCase;
+use Tests\AbstractTest;
 
-class UserFactoryTest extends AbstractTestCase
+class UserFactoryTest extends AbstractTest
 {
     /**
      * Тест на успешное создание объекта User на основе данных из формы регистрации

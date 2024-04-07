@@ -9,9 +9,9 @@ use Models\User\UserInterface;
 use NW\AppException;
 use NW\Request;
 use NW\Response;
-use Tests\AbstractTestCase;
+use Tests\AbstractTest;
 
-class LoginHandlerTest extends AbstractTestCase
+class LoginHandlerTest extends AbstractTest
 {
     /**
      * Тест на успешную авторизацию

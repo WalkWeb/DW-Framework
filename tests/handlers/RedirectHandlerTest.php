@@ -7,9 +7,9 @@ namespace Tests\handlers;
 use NW\AppException;
 use NW\Request;
 use NW\Response;
-use Tests\AbstractTestCase;
+use Tests\AbstractTest;
 
-class RedirectHandlerTest extends AbstractTestCase
+class RedirectHandlerTest extends AbstractTest
 {
     /**
      * Тест на редирект

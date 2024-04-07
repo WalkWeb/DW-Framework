@@ -6,9 +6,9 @@ namespace Tests\src\NWFramework\Traits;
 
 use DateTime;
 use NW\Traits\DateTrait;
-use Tests\AbstractTestCase;
+use Tests\AbstractTest;
 
-class DateTraitTest extends AbstractTestCase
+class DateTraitTest extends AbstractTest
 {
     use DateTrait;
 

@@ -6,9 +6,9 @@ namespace Tests\src\NWFramework;
 
 use NW\Csrf;
 use NW\Session;
-use Tests\AbstractTestCase;
+use Tests\AbstractTest;
 
-class CsrfTest extends AbstractTestCase
+class CsrfTest extends AbstractTest
 {
     /**
      * Тест на генерацию csrf-токена

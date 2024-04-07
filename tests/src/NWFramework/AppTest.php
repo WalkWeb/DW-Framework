@@ -12,9 +12,9 @@ use NW\Route\RouteCollection;
 use NW\Route\Router;
 use ReflectionClass;
 use ReflectionException;
-use Tests\AbstractTestCase;
+use Tests\AbstractTest;
 
-class AppTest extends AbstractTestCase
+class AppTest extends AbstractTest
 {
     /**
      * @throws AppException

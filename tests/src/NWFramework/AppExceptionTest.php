@@ -9,9 +9,9 @@ use NW\Container;
 use NW\Response;
 use NW\Route\RouteCollection;
 use NW\Route\Router;
-use Tests\AbstractTestCase;
+use Tests\AbstractTest;
 
-class AppExceptionTest extends AbstractTestCase
+class AppExceptionTest extends AbstractTest
 {
     public function testAppExceptionCreate(): void
     {

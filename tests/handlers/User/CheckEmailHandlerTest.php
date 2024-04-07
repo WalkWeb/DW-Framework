@@ -9,9 +9,9 @@ use NW\App;
 use NW\AppException;
 use NW\Request;
 use NW\Response;
-use Tests\AbstractTestCase;
+use Tests\AbstractTest;
 
-class CheckEmailHandlerTest extends AbstractTestCase
+class CheckEmailHandlerTest extends AbstractTest
 {
     /**
      * Тест на успешное подтверждение email

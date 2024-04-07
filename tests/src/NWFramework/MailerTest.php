@@ -6,9 +6,9 @@ namespace Tests\src\NWFramework;
 
 use NW\AppException;
 use NW\Mailer;
-use Tests\AbstractTestCase;
+use Tests\AbstractTest;
 
-class MailerTest extends AbstractTestCase
+class MailerTest extends AbstractTest
 {
     /**
      * Тест на успешную отправку email

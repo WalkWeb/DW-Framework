@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Tests\src\NWFramework\Loader;
 
 use NW\Loader\File;
-use Tests\AbstractTestCase;
+use Tests\AbstractTest;
 
-class FileTest extends AbstractTestCase
+class FileTest extends AbstractTest
 {
     public function testFileCreate(): void
     {

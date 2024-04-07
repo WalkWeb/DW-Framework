@@ -6,9 +6,9 @@ namespace Tests\src\NWFramework;
 
 use NW\AppException;
 use NW\Response;
-use Tests\AbstractTestCase;
+use Tests\AbstractTest;
 
-class ResponseTest extends AbstractTestCase
+class ResponseTest extends AbstractTest
 {
     public function testCreateEmptyResponse(): void
     {

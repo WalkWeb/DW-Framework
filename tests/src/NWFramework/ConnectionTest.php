@@ -7,7 +7,7 @@ namespace Tests\src\NWFramework;
 use NW\AppException;
 use NW\Connection;
 use NW\Container;
-use Tests\AbstractTestCase;
+use Tests\AbstractTest;
 
 /**
  * ВАЖНО: Выполнение этих тестов требует настройку подключения к существующей базе в config.test.php или config.php
@@ -17,7 +17,7 @@ use Tests\AbstractTestCase;
  *
  * @package Tests\src\NWFramework
  */
-class ConnectionTest extends AbstractTestCase
+class ConnectionTest extends AbstractTest
 {
     /**
      * Тест на успешное подключение к MySQL базе

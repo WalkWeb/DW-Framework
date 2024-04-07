@@ -8,9 +8,9 @@ use Models\User\UserInterface;
 use NW\AppException;
 use NW\Request;
 use NW\Response;
-use Tests\AbstractTestCase;
+use Tests\AbstractTest;
 
-class LogoutHandlerTest extends AbstractTestCase
+class LogoutHandlerTest extends AbstractTest
 {
     /**
      * Тест на разлогинивание пользователя (удаление авторизационного токена + переадресация на главную)

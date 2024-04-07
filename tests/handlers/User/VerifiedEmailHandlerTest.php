@@ -8,9 +8,9 @@ use Models\User\UserInterface;
 use NW\AppException;
 use NW\Request;
 use NW\Response;
-use Tests\AbstractTestCase;
+use Tests\AbstractTest;
 
-class VerifiedEmailHandlerTest extends AbstractTestCase
+class VerifiedEmailHandlerTest extends AbstractTest
 {
     /**
      * Тест на успешное отображение страницы о необходимости подтвердить email-адрес

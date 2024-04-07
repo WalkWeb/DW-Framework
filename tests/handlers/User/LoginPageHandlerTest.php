@@ -9,9 +9,9 @@ use Models\User\UserInterface;
 use NW\AppException;
 use NW\Request;
 use NW\Response;
-use Tests\AbstractTestCase;
+use Tests\AbstractTest;
 
-class LoginPageHandlerTest extends AbstractTestCase
+class LoginPageHandlerTest extends AbstractTest
 {
     /**
      * Тест на отображение формы авторизации

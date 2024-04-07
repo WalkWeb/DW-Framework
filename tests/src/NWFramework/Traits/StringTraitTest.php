@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Tests\src\NWFramework\Traits;
 
 use Exception;
-use Tests\AbstractTestCase;
+use Tests\AbstractTest;
 
-class StringTraitTest extends AbstractTestCase
+class StringTraitTest extends AbstractTest
 {
     /**
      * Тест на генерацию случайной строки указанной длинны

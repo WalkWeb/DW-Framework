@@ -7,9 +7,9 @@ namespace Tests\handlers\Post;
 use NW\AppException;
 use NW\Request;
 use NW\Response;
-use Tests\AbstractTestCase;
+use Tests\AbstractTest;
 
-class PostGetHandlerTest extends AbstractTestCase
+class PostGetHandlerTest extends AbstractTest
 {
     /**
      * Тест на получения конкретного поста

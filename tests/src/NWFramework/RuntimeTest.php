@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Tests\src\NWFramework;
 
 use NW\Runtime;
-use Tests\AbstractTestCase;
+use Tests\AbstractTest;
 
-class RuntimeTest extends AbstractTestCase
+class RuntimeTest extends AbstractTest
 {
     public function testRuntime(): void
     {

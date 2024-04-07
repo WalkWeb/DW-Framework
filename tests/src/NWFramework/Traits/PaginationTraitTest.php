@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Tests\src\NWFramework\Traits;
 
 use NW\Traits\PaginationTrait;
-use Tests\AbstractTestCase;
+use Tests\AbstractTest;
 
-class PaginationTraitTest extends AbstractTestCase
+class PaginationTraitTest extends AbstractTest
 {
     use PaginationTrait;
 

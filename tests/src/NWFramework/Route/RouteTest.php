@@ -6,9 +6,9 @@ namespace Tests\src\NWFramework\Route;
 
 use NW\Request;
 use NW\Route\Route;
-use Tests\AbstractTestCase;
+use Tests\AbstractTest;
 
-class RouteTest extends AbstractTestCase
+class RouteTest extends AbstractTest
 {
     /**
      * Тест на создание маршрута

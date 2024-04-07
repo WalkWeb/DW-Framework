@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Tests\src\NWFramework;
 
 use NW\Cookie;
-use Tests\AbstractTestCase;
+use Tests\AbstractTest;
 
-class CookieTest extends AbstractTestCase
+class CookieTest extends AbstractTest
 {
     public function testCookieSetUpdateDelete(): void
     {

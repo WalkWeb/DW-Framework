@@ -6,9 +6,9 @@ namespace Tests\src\NWFramework;
 
 use Exception;
 use NW\Migration;
-use Tests\AbstractTestCase;
+use Tests\AbstractTest;
 
-class MigrationTest extends AbstractTestCase
+class MigrationTest extends AbstractTest
 {
     private const ACTUAL_MIGRATION_COUNT = 3;
 

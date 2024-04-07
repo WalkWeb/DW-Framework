@@ -8,10 +8,10 @@ use Exception;
 use NW\AbstractHandler;
 use NW\AppException;
 use NW\Response;
-use Tests\AbstractTestCase;
+use Tests\AbstractTest;
 use Tests\utils\ExampleHandler;
 
-class HandlerTest extends AbstractTestCase
+class HandlerTest extends AbstractTest
 {
     /**
      * @throws Exception

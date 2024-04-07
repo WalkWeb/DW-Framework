@@ -9,9 +9,9 @@ use Models\User\DTO\LoginRequestFactory;
 use Models\User\UserException;
 use Models\User\UserInterface;
 use NW\AppException;
-use Tests\AbstractTestCase;
+use Tests\AbstractTest;
 
-class LoginRequestFactoryTest extends AbstractTestCase
+class LoginRequestFactoryTest extends AbstractTest
 {
     /**
      * Тест на успешное создание объекта LoginRequest на основе данных из формы

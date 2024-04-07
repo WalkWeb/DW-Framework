@@ -6,9 +6,9 @@ namespace Tests\src\NWFramework;
 
 use NW\AppException;
 use NW\Logger;
-use Tests\AbstractTestCase;
+use Tests\AbstractTest;
 
-class LoggerTest extends AbstractTestCase
+class LoggerTest extends AbstractTest
 {
     /**
      * Тест на простое сохранение и получение логов

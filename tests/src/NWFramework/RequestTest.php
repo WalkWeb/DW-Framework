@@ -6,9 +6,9 @@ namespace Tests\src\NWFramework;
 
 use NW\Cookie;
 use NW\Request;
-use Tests\AbstractTestCase;
+use Tests\AbstractTest;
 
-class RequestTest extends AbstractTestCase
+class RequestTest extends AbstractTest
 {
     public function testCreateEmptyRequest(): void
     {

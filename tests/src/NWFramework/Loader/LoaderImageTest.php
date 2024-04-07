@@ -11,9 +11,9 @@ use NW\Loader\Image;
 use NW\Loader\LoaderException;
 use NW\Loader\LoaderImage;
 use RuntimeException;
-use Tests\AbstractTestCase;
+use Tests\AbstractTest;
 
-class LoaderImageTest extends AbstractTestCase
+class LoaderImageTest extends AbstractTest
 {
     /**
      * @dataProvider fileDataProvider

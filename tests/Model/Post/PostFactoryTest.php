@@ -10,9 +10,9 @@ use Models\Post\PostFactory;
 use Models\Post\PostInterface;
 use NW\AppException;
 use Ramsey\Uuid\Uuid;
-use Tests\AbstractTestCase;
+use Tests\AbstractTest;
 
-class PostFactoryTest extends AbstractTestCase
+class PostFactoryTest extends AbstractTest
 {
     /**
      * Тест на успешное создание поста из данных создания поста на сайте

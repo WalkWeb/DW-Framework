@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Tests\src\NWFramework\Loader;
 
 use NW\Loader\Image;
-use Tests\AbstractTestCase;
+use Tests\AbstractTest;
 
-class ImageTest extends AbstractTestCase
+class ImageTest extends AbstractTest
 {
     public function testImageCreate(): void
     {

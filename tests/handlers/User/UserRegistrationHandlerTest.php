@@ -8,9 +8,9 @@ use Models\User\UserInterface;
 use NW\AppException;
 use NW\Request;
 use NW\Response;
-use Tests\AbstractTestCase;
+use Tests\AbstractTest;
 
-class UserRegistrationHandlerTest extends AbstractTestCase
+class UserRegistrationHandlerTest extends AbstractTest
 {
     /**
      * Тест на отображение формы регистрации

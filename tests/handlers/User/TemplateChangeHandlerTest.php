@@ -9,9 +9,9 @@ use NW\App;
 use NW\AppException;
 use NW\Request;
 use NW\Response;
-use Tests\AbstractTestCase;
+use Tests\AbstractTest;
 
-class TemplateChangeHandlerTest extends AbstractTestCase
+class TemplateChangeHandlerTest extends AbstractTest
 {
     /**
      * Тест на ситуацию, когда неавторизованный пользователь обращается к методу на смену шаблона сайта

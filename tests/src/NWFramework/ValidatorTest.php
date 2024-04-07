@@ -6,9 +6,9 @@ namespace Tests\src\NWFramework;
 
 use Exception;
 use NW\AppException;
-use Tests\AbstractTestCase;
+use Tests\AbstractTest;
 
-class ValidatorTest extends AbstractTestCase
+class ValidatorTest extends AbstractTest
 {
     /**
      * @throws AppException

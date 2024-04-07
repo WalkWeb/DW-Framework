@@ -7,9 +7,9 @@ namespace Tests\handlers\User;
 use NW\AppException;
 use NW\Request;
 use NW\Response;
-use Tests\AbstractTestCase;
+use Tests\AbstractTest;
 
-class UserCreateHandlerTest extends AbstractTestCase
+class UserCreateHandlerTest extends AbstractTest
 {
     /**
      * Тест на успешную регистрацию нового пользователя

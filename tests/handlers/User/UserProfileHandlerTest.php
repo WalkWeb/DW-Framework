@@ -8,9 +8,9 @@ use Models\User\UserInterface;
 use NW\AppException;
 use NW\Request;
 use NW\Response;
-use Tests\AbstractTestCase;
+use Tests\AbstractTest;
 
-class UserProfileHandlerTest extends AbstractTestCase
+class UserProfileHandlerTest extends AbstractTest
 {
     /**
      * Тест на ситуацию, когда открывается страница профиля без авторизационного токена

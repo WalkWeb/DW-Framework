@@ -7,9 +7,9 @@ namespace Tests\handlers;
 use NW\AppException;
 use NW\Request;
 use NW\Response;
-use Tests\AbstractTestCase;
+use Tests\AbstractTest;
 
-class MainHandlerTest extends AbstractTestCase
+class MainHandlerTest extends AbstractTest
 {
     /**
      * Проверяем ответ от главной страницы

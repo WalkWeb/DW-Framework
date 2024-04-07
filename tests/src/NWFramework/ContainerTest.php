@@ -16,9 +16,9 @@ use NW\Mailer;
 use NW\Request;
 use NW\Runtime;
 use NW\Validator;
-use Tests\AbstractTestCase;
+use Tests\AbstractTest;
 
-class ContainerTest extends AbstractTestCase
+class ContainerTest extends AbstractTest
 {
     /**
      * @throws AppException

@@ -6,9 +6,9 @@ namespace Tests\src\NWFramework;
 
 use NW\AppException;
 use NW\ConnectionPool;
-use Tests\AbstractTestCase;
+use Tests\AbstractTest;
 
-class ConnectionPoolTest extends AbstractTestCase
+class ConnectionPoolTest extends AbstractTest
 {
     /**
      * Тест на создание пула подключений.

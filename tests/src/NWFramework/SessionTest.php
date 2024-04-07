@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Tests\src\NWFramework;
 
 use NW\Session;
-use Tests\AbstractTestCase;
+use Tests\AbstractTest;
 
-class SessionTest extends AbstractTestCase
+class SessionTest extends AbstractTest
 {
     public function testSessionStart(): void
     {

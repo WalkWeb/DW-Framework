@@ -11,9 +11,9 @@ use NW\Request;
 use NW\Response;
 use NW\Route\RouteCollection;
 use NW\Route\Router;
-use Tests\AbstractTestCase;
+use Tests\AbstractTest;
 
-class PostCreateHandlerTest extends AbstractTestCase
+class PostCreateHandlerTest extends AbstractTest
 {
     /**
      * Тест на создание нового поста

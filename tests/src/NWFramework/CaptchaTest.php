@@ -8,9 +8,9 @@ use Exception;
 use NW\AppException;
 use NW\Captcha;
 use NW\Container;
-use Tests\AbstractTestCase;
+use Tests\AbstractTest;
 
-class CaptchaTest extends AbstractTestCase
+class CaptchaTest extends AbstractTest
 {
     /**
      * В проверке генерации картинки мы допускаем, что нам достаточно того, что мы получили строку и никаких ошибок не

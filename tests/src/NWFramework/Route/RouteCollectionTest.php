@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Tests\src\NWFramework\Route;
 
 use NW\Route\RouteCollection;
-use Tests\AbstractTestCase;
+use Tests\AbstractTest;
 
-class RouteCollectionTest extends AbstractTestCase
+class RouteCollectionTest extends AbstractTest
 {
     public function testRouteCollectionGet(): void
     {

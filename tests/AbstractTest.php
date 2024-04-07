@@ -14,7 +14,7 @@ use NW\Runtime;
 use NW\Traits\StringTrait;
 use PHPUnit\Framework\TestCase;
 
-class AbstractTestCase extends TestCase
+abstract class AbstractTest extends TestCase
 {
     use StringTrait;
 
