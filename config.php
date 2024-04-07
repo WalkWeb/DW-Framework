@@ -12,7 +12,10 @@ define('LOGS', false);
 define('LOGS_FILE', false);
 
 /** Полный URL сайта */
-define('HOST', 'https://dw-framework.ru/');
+define('HOST', 'https://you-domain.com/');
+
+/** Название проекта, используется, например, при отправке почты */
+define('APP_NAME', 'You App Name');
 
 /** Параметры подключения к БД, их может быть несколько */
 define('DB_CONFIGS', [

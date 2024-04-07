@@ -40,6 +40,7 @@ class Mailer
             $this->mail->SMTPAuth = $config['smtp_auth'];
             $this->mail->Username = $config['smtp_user'];
             $this->mail->Password = $config['smtp_password'];
+            $this->mail->CharSet = 'UTF-8';
             $this->mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
             $this->mail->isHTML(true);
             $this->mail->setFrom($config['from']);

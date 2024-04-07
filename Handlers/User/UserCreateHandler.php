@@ -29,7 +29,19 @@ class UserCreateHandler extends AbstractHandler
             $repository->add($user);
             $this->container->getCookies()->set(UserInterface::AUTH_TOKEN, $user->getAuthToken());
 
-            return $this->redirect('/');
+            $appName = APP_NAME;
+            $url = HOST . 'check_email/' . $user->getVerifiedToken();
+
+            $this->container->getMailer()->send(
+                $user->getEmail(),
+                "Подтверждение регистрации на $appName",
+                "<p>Кто-то (возможно, вы) зарегистрировался на $appName, если это были вы - для завершения регистрации перейдите 
+                        по ссылке <a href='$url'>$url</a></p>
+                        <p>Если вы не регистрировались на $appName, то просто проигнорируйте это письмо.</p>
+                        <p>В любом случае не передавайте третьим лицам ссылку из письма.</p>",
+            );
+
+            return $this->redirect('/verified_email');
 
         } catch (AppException $e) {
             return $this->render('user/registration', ['error' => $e->getMessage()]);
