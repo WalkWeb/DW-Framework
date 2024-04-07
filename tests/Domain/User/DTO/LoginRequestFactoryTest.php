@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Tests\Model\User\DTO;
+namespace Tests\Domain\User\DTO;
 
 use Exception;
-use Models\User\DTO\LoginRequestFactory;
-use Models\User\UserException;
-use Models\User\UserInterface;
+use Domain\User\DTO\LoginRequestFactory;
+use Domain\User\UserException;
+use Domain\User\UserInterface;
 use NW\AppException;
 use Tests\AbstractTest;
 

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Models\Post;
+namespace Domain\Post;
 
 /**
  * Это новый вариант модели, в которой валидация вынесена во внешнюю фабрику

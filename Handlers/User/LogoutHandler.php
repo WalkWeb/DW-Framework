@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Handlers\User;
 
-use Models\User\UserInterface;
+use Domain\User\UserInterface;
 use NW\AbstractHandler;
 use NW\AppException;
 use NW\Request;

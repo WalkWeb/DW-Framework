@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Tests\Model\User;
+namespace Tests\Domain\User;
 
 use DateTime;
 use Exception;
-use Models\User\UserException;
-use Models\User\UserFactory;
-use Models\User\UserInterface;
+use Domain\User\UserException;
+use Domain\User\UserFactory;
+use Domain\User\UserInterface;
 use NW\AppException;
 use Ramsey\Uuid\Uuid;
 use Tests\AbstractTest;

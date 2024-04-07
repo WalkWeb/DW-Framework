@@ -1,6 +1,6 @@
 <?php
 
-use Models\Post\PostInterface;
+use Domain\Post\PostInterface;
 
 $this->title = 'Посты';
 

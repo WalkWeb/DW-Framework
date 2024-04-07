@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Middleware;
 
-use Models\User\UserInterface;
-use Models\User\UserRepository;
+use Domain\User\UserInterface;
+use Domain\User\UserRepository;
 use NW\AbstractMiddleware;
 use NW\AppException;
 use NW\Request;

@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Models\User\DTO;
+namespace Domain\User\DTO;
 
-use Models\User\UserException;
-use Models\User\UserInterface;
+use Domain\User\UserException;
+use Domain\User\UserInterface;
 use NW\AppException;
 use NW\Traits\ValidationTrait;
 

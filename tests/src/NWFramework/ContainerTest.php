@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\src\NWFramework;
 
-use Models\User\UserFactory;
+use Domain\User\UserFactory;
 use NW\AppException;
 use NW\Captcha;
 use NW\MySQL\ConnectionPool;

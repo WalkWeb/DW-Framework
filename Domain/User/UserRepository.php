@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Models\User;
+namespace Domain\User;
 
-use Models\User\DTO\LoginRequest;
+use Domain\User\DTO\LoginRequest;
 use NW\AppException;
 use NW\Container;
 

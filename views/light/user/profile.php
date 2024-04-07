@@ -1,6 +1,6 @@
 <?php
 
-use Models\User\UserInterface;
+use Domain\User\UserInterface;
 
 $this->title = 'Профиль';
 

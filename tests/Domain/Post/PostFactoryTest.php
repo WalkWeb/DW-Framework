@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Tests\Model\Post;
+namespace Tests\Domain\Post;
 
 use Exception;
-use Models\Post\PostException;
-use Models\Post\PostFactory;
-use Models\Post\PostInterface;
+use Domain\Post\PostException;
+use Domain\Post\PostFactory;
+use Domain\Post\PostInterface;
 use NW\AppException;
 use Ramsey\Uuid\Uuid;
 use Tests\AbstractTest;

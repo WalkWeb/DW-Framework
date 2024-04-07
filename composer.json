@@ -28,7 +28,7 @@
       "Handlers\\": "Handlers/",
       "Middleware\\": "Middleware/",
       "Repository\\": "Repository/",
-      "Models\\": "models/",
+      "Domain\\": "Domain/",
       "NW\\": "src/NWFramework",
       "Migrations\\": "migrations/",
       "Tests\\": "tests/"

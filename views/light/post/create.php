@@ -1,6 +1,6 @@
 <?php
 
-use Models\Post\LegacyPost;
+use Domain\Post\LegacyPost;
 use NW\AppException;
 
 $this->title = 'Сервер получил POST-данные';

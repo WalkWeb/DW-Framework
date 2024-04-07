@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Tests\handlers\User;
 
 use Handlers\User\LoginPageHandler;
-use Models\User\UserInterface;
+use Domain\User\UserInterface;
 use NW\AppException;
 use NW\Request;
 use NW\Response;

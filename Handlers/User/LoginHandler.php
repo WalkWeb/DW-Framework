@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Handlers\User;
 
-use Models\User\DTO\LoginRequestFactory;
-use Models\User\UserException;
-use Models\User\UserInterface;
-use Models\User\UserRepository;
+use Domain\User\DTO\LoginRequestFactory;
+use Domain\User\UserException;
+use Domain\User\UserInterface;
+use Domain\User\UserRepository;
 use NW\AbstractHandler;
 use NW\AppException;
 use NW\Request;

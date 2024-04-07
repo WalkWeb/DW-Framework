@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Handlers\Post;
 
-use Models\Post\LegacyPost;
+use Domain\Post\LegacyPost;
 use NW\AbstractHandler;
 use NW\AppException;
 use NW\Captcha;

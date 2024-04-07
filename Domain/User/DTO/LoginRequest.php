@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Models\User\DTO;
+namespace Domain\User\DTO;
 
 class LoginRequest
 {

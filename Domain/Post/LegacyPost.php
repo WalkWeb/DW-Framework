@@ -1,6 +1,6 @@
 <?php
 
-namespace Models\Post;
+namespace Domain\Post;
 
 use Exception;
 use NW\AppException;
