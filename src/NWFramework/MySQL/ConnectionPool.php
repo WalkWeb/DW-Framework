@@ -76,7 +76,7 @@ class ConnectionPool
         $count = 0;
 
         foreach ($this->connections as $connection) {
-            $count += $connection->getQueryNumber();
+            $count += $connection->getCountQuery();
         }
 
         return $count;

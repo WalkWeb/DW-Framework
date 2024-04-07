@@ -40,7 +40,7 @@ class ConnectionTest extends AbstractTest
     {
         $db = $this->getContainer()->getConnectionPool()->getConnection();
 
-        self::assertEquals(0, $db->getQueryNumber());
+        self::assertEquals(0, $db->getCountQuery());
         self::assertEquals([], $db->getQueries());
 
         $sql1 = "SELECT 'hello'";
@@ -51,7 +51,7 @@ class ConnectionTest extends AbstractTest
         $db->query($sql2);
         $db->query($sql3);
 
-        self::assertEquals(3, $db->getQueryNumber());
+        self::assertEquals(3, $db->getCountQuery());
         self::assertEquals([$sql1, $sql2, $sql3], $db->getQueries());
     }
 
@@ -127,7 +127,7 @@ class ConnectionTest extends AbstractTest
 
         self::assertEquals($user, $userData['name']);
 
-        self::assertEquals(3, $db->getQueryNumber());
+        self::assertEquals(3, $db->getCountQuery());
 
         $db->rollback();
     }

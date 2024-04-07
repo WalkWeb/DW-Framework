@@ -22,7 +22,7 @@ class StatisticsMiddleware extends AbstractMiddleware
         return $handler($request)
             ->withHeader(
                 'Statistic',
-                $this->container->getRuntime()->getStatistic() . ', queries: ' . $this->container->getConnectionPool()->getConnection()->getQueryNumber()
+                $this->container->getRuntime()->getStatistic() . ', queries: ' . $this->container->getConnectionPool()->getConnection()->getCountQuery()
             );
     }
 }

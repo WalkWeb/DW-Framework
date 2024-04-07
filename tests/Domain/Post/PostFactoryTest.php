@@ -28,7 +28,7 @@ class PostFactoryTest extends AbstractTest
         self::assertEquals(36, strlen($post->getId()));
         self::assertTrue(Uuid::isValid($post->getId()));
         self::assertEquals($data['title'], $post->getTitle());
-        self::assertRegExp('/zagolovok posta-/', $post->getSlug()); // TODO пробел в slug заменять на "-"
+        self::assertRegExp('/zagolovok-posta-/', $post->getSlug());
         self::assertEquals($data['text'], $post->getText());
     }
 
