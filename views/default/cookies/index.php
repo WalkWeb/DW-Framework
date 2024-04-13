@@ -6,6 +6,12 @@ $this->title = 'Cookies';
 
 <h1><?= htmlspecialchars($this->title) ?></h1>
 
+<?php
+    if (!empty($error)) {
+        echo "<p class='red'>Error: $error</p>";
+    }
+?>
+
 <table style="width: 50%;">
     <tr>
         <td><p>Key</p></td>

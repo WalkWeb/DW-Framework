@@ -31,6 +31,8 @@ class RouteCollection implements Iterator, Countable
         return $route;
     }
 
+    // TODO put, delete
+
     public function addMiddleware(string $middleware, int $priority = Route::DEFAULT_PRIORITY): self
     {
         foreach ($this->elements as $route) {

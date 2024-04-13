@@ -184,3 +184,7 @@ td p {
 li:hover .logout {
     opacity: 100%;
 }
+
+.red {
+    color: #f11;
+}
