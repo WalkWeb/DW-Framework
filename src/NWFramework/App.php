@@ -142,6 +142,9 @@ class App
     {
         $this->middleware = $this->createMiddleware($middleware);
 
+        // Сортирует middleware по приоритету выполнения
+        krsort($this->middleware);
+
         return $this->next($request, $handler);
     }
 
@@ -182,7 +185,7 @@ class App
     {
         $classes = [];
 
-        foreach ($middlewares as $middleware) {
+        foreach ($middlewares as $priority => $middleware) {
             $className = $this->getContainer()->getMiddlewareDir() . '\\' . $middleware;
 
             if (!class_exists($className)) {
@@ -195,7 +198,7 @@ class App
                 throw new AppException(sprintf(self::ERROR_INVALID_MIDDLEWARE, $className));
             }
 
-            $classes[] = $class;
+            $classes[$priority] = $class;
         }
 
         return $classes;

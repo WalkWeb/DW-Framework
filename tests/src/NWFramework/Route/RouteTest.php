@@ -34,7 +34,7 @@ class RouteTest extends AbstractTest
 
         $route->addMiddleware('CreatedByMiddleware');
 
-        self::assertEquals(['CreatedByMiddleware'], $route->getMiddleware());
+        self::assertEquals([Route::DEFAULT_PRIORITY => 'CreatedByMiddleware'], $route->getMiddleware());
     }
 
     /**

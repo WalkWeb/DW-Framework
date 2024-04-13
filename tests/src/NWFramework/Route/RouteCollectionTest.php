@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\src\NWFramework\Route;
 
+use NW\Route\Route;
 use NW\Route\RouteCollection;
 use Tests\AbstractTest;
 
@@ -74,7 +75,7 @@ class RouteCollectionTest extends AbstractTest
         $routes->addMiddleware($middleware);
 
         foreach ($routes as $route) {
-            self::assertEquals([$middleware], $route->getMiddleware());
+            self::assertEquals([Route::DEFAULT_PRIORITY => $middleware], $route->getMiddleware());
         }
     }
 }

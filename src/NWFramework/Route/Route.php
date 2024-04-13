@@ -6,6 +6,8 @@ use NW\Request;
 
 class Route
 {
+    public const DEFAULT_PRIORITY = 50;
+
     /**
      * @var string - Название маршрута
      */
@@ -45,7 +47,7 @@ class Route
     private string $namespace;
 
     /**
-     * @var array - Массив посредников, которые будут обрабатываться перед выполнением конечного экшена в контроллере
+     * @var array - Массив посредников, которые будут обрабатываться перед выполнением хандлера
      */
     private array $middleware = [];
 
@@ -165,12 +167,31 @@ class Route
     }
 
     /**
+     * Очередность выполнения:
+     *
+     * $routes->get('test', '/', 'ExampleHandler')
+     *     ->addMiddleware('Middleware1')
+     *     ->addMiddleware('Middleware2')
+     *     ->addMiddleware('Middleware3')
+     * ;
+     *
+     * Будет аналогична:
+     *
+     * $routes->get('test', '/', 'ExampleHandler')
+     *     ->addMiddleware('Middleware1', 100)
+     *     ->addMiddleware('Middleware2', 90)
+     *     ->addMiddleware('Middleware3', 80)
+     * ;
+     *
+     * Вначале выполняется первый добавленный Middleware, либо с наибольшим приоритетом.
+     *
      * @param string $middleware
+     * @param int $priority
      * @return $this
      */
-    public function addMiddleware(string $middleware): self
+    public function addMiddleware(string $middleware, int $priority = self::DEFAULT_PRIORITY): self
     {
-        $this->middleware[] = $middleware;
+        $this->middleware[$this->currentPriority($priority)] = $middleware;
 
         return $this;
     }
@@ -181,5 +202,22 @@ class Route
     public function getMiddleware(): array
     {
         return $this->middleware;
+    }
+
+    /**
+     * Корректирует приоритет middleware - если уже существует middleware с таким приоритетом, то уменьшает указанный
+     * приоритет на 1 и пробует добавить middleware еще раз.
+     *
+     * @param int $priority
+     * @return int
+     */
+    private function currentPriority(int $priority): int
+    {
+        if (!array_key_exists($priority, $this->middleware)) {
+            return $priority;
+        }
+
+        $priority--;
+        return $this->currentPriority($priority);
     }
 }

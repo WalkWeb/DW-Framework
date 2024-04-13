@@ -12,6 +12,9 @@ class RouteCollection implements Iterator, Countable
 {
     use CollectionTrait;
 
+    /**
+     * @var Route[]
+     */
     private array $elements = [];
 
     public function get($name, $path, $handler, $param = [], $namespace = ''): Route
@@ -28,10 +31,10 @@ class RouteCollection implements Iterator, Countable
         return $route;
     }
 
-    public function addMiddleware(string $middleware): self
+    public function addMiddleware(string $middleware, int $priority = Route::DEFAULT_PRIORITY): self
     {
         foreach ($this->elements as $route) {
-            $route->addMiddleware($middleware);
+            $route->addMiddleware($middleware, $priority);
         }
 
         return $this;

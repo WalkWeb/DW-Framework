@@ -265,6 +265,64 @@ EOT;
     }
 
     /**
+     * Тест на проверку очередности выполнения middleware по-умолчанию
+     *
+     * Middleware1 выполняется первым
+     * Middleware3 выполняется последним
+     *
+     * @throws AppException
+     */
+    public function testDefaultMiddlewareDefault(): void
+    {
+        $routes = new RouteCollection();
+        $routes->get('test', '/', 'ExampleHandler')
+            ->addMiddleware('Middleware1')
+            ->addMiddleware('Middleware2')
+            ->addMiddleware('Middleware3')
+        ;
+        $router = new Router($routes);
+
+        $container = $this->getContainer(APP_ENV, VIEW_DIR, '\\Tests\\utils', '\\Tests\\utils');
+
+        $app = new App($router, $container);
+
+        $request = new Request(['REQUEST_URI' => '/']);
+
+        $response = $app->handle($request);
+
+        self::assertEquals('[middleware-1][middleware-2][middleware-3]example html content', $response->getBody());
+    }
+
+    /**
+     * Тест на проверку очередности выполнения middleware с пользовательскими приоритетами
+     *
+     * Middleware1 выполняется первым
+     * Middleware3 выполняется последним
+     *
+     * @throws AppException
+     */
+    public function testDefaultMiddlewareCustom(): void
+    {
+        $routes = new RouteCollection();
+        $routes->get('test', '/', 'ExampleHandler')
+            ->addMiddleware('Middleware1', 50)
+            ->addMiddleware('Middleware2', 100)
+            ->addMiddleware('Middleware3', 10)
+        ;
+        $router = new Router($routes);
+
+        $container = $this->getContainer(APP_ENV, VIEW_DIR, '\\Tests\\utils', '\\Tests\\utils');
+
+        $app = new App($router, $container);
+
+        $request = new Request(['REQUEST_URI' => '/']);
+
+        $response = $app->handle($request);
+
+        self::assertEquals('[middleware-2][middleware-1][middleware-3]example html content', $response->getBody());
+    }
+
+    /**
      * @param string $path
      * @param string $handler
      * @return Router
