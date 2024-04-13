@@ -70,7 +70,6 @@ class Response
 
     /**
      * Создаем объект Response на основе указанного тела запроса и кода ответа.
-     * При необходимости можно сразу передать массив с заголовками.
      *
      * @param string $body
      * @param int $status
@@ -82,8 +81,6 @@ class Response
         $this->setStatusCode($status);
     }
 
-    // TODO setBody()
-
     /**
      * Возвращает тело ответа (html-контент)
      *
@@ -92,6 +89,18 @@ class Response
     public function getBody(): string
     {
         return $this->body;
+    }
+
+    /**
+     * Устанавливает тело ответа
+     *
+     * @param string $body
+     * @return $this
+     */
+    public function setBody(string $body): self
+    {
+        $this->body = $body;
+        return $this;
     }
 
     /**

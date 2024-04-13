@@ -10,7 +10,10 @@ use Tests\AbstractTest;
 
 class ResponseTest extends AbstractTest
 {
-    public function testCreateEmptyResponse(): void
+    /**
+     * Тест на создание Response с параметрами по умолчанию
+     */
+    public function testResponseCreateDefault(): void
     {
         $response = new Response();
 
@@ -22,20 +25,25 @@ class ResponseTest extends AbstractTest
     }
 
     /**
+     * Тест на создание Response с пользовательскими данными
+     *
      * @throws AppException
      */
-    public function testCreateResponse(): void
+    public function testResponseCreate(): void
     {
         $body = 'Access denied';
+        $code = Response::UNAUTHORIZED;
 
-        $response = new Response($body, Response::UNAUTHORIZED);
+        $response = new Response($body, $code);
 
         self::assertEquals($body, $response->getBody());
-        self::assertEquals(Response::UNAUTHORIZED, $response->getStatusCode());
+        self::assertEquals($code, $response->getStatusCode());
         self::assertEquals('Unauthorized', $response->getReasonPhase());
     }
 
     /**
+     * Тест на установку нового статуса ответа
+     *
      * @throws AppException
      */
     public function testResponseSetStatusCodeSuccess(): void
@@ -52,6 +60,8 @@ class ResponseTest extends AbstractTest
     }
 
     /**
+     * Тест на установку неизвестного статуса ответа
+     *
      * @throws AppException
      */
     public function testResponseSetStatusCodeFail(): void
@@ -66,6 +76,8 @@ class ResponseTest extends AbstractTest
     }
 
     /**
+     * Тест на установку заголовка в Response
+     *
      * @throws AppException
      */
     public function testResponseSetHeaderSuccess(): void
@@ -82,6 +94,11 @@ class ResponseTest extends AbstractTest
         self::assertEquals([$header => $value], $response->getHeaders());
     }
 
+    /**
+     * Тест на попытку установить некорректный ключ заголовка
+     *
+     * @throws AppException
+     */
     public function testResponseSetHeaderInvalidHeaderType(): void
     {
         $response = new Response();
@@ -94,6 +111,11 @@ class ResponseTest extends AbstractTest
         $response->withHeader($header, $value);
     }
 
+    /**
+     * Тест на ситуацию, когда в ключе заголовка недопустимый символ (пробел)
+     *
+     * @throws AppException
+     */
     public function testResponseSetInvalidHeaderSymbol(): void
     {
         $response = new Response();
@@ -106,6 +128,11 @@ class ResponseTest extends AbstractTest
         $response->withHeader($header, $value);
     }
 
+    /**
+     * Тест на ситуацию, когда пытаются установить некорректное значение заголовка
+     *
+     * @throws AppException
+     */
     public function testResponseSetInvalidHeaderValueType(): void
     {
         $response = new Response();
@@ -118,6 +145,11 @@ class ResponseTest extends AbstractTest
         $response->withHeader($header, $value);
     }
 
+    /**
+     * Тест на ситуацию, когда значение заголовка содержит недопустимые символы
+     *
+     * @throws AppException
+     */
     public function testResponseSetInvalidHeaderValueSymbol(): void
     {
         $response = new Response();
@@ -128,5 +160,24 @@ class ResponseTest extends AbstractTest
         $this->expectException(AppException::class);
         $this->expectExceptionMessage(Response::ERROR_INVALID_HEADER_VALUE);
         $response->withHeader($header, $value);
+    }
+
+    /**
+     * Тест на установку нового тела ответа
+     *
+     * @throws AppException
+     */
+    public function testResponseSetBody(): void
+    {
+        $body = 'body';
+        $newBody = 'new_body';
+
+        $response = new Response($body, Response::OK);
+
+        self::assertEquals($body, $response->getBody());
+
+        $response->setBody($newBody);
+
+        self::assertEquals($newBody, $response->getBody());
     }
 }
