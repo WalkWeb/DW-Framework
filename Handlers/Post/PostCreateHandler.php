@@ -20,6 +20,8 @@ class PostCreateHandler extends AbstractHandler
      * Исходим из того, что тому, кто захочет посмотреть работу фреймворка будет лень подключать базу,
      * соответственно функционал создания поста не делаем, а просто валидируем и отображаем отправленные данные.
      *
+     * TODO Использовать Post вместо LegacyPost
+     *
      * @param Request $request
      * @return Response
      * @throws AppException

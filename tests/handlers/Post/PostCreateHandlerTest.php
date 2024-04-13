@@ -57,4 +57,21 @@ class PostCreateHandlerTest extends AbstractTest
         self::assertRegExp('/Символы с картинки указаны неверно/', $response->getBody());
         self::assertEquals(Response::OK, $response->getStatusCode());
     }
+
+    /**
+     * Тест на ситуацию, когда переданы невалидные данные
+     *
+     * @throws AppException
+     */
+    public function testPostCreateInvalidData(): void
+    {
+        $request = new Request(
+            ['REQUEST_URI' => '/post/create', 'REQUEST_METHOD' => 'POST'],
+            ['title' => 'H', 'text' => 'text text text', 'captcha' => '1234']
+        );
+        $response = $this->app->handle($request);
+
+        self::assertRegExp('/Заголовок должен быть больше или равен 5 символов/', $response->getBody());
+        self::assertEquals(Response::OK, $response->getStatusCode());
+    }
 }
