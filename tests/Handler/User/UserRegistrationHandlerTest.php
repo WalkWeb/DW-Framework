@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\handlers\User;
+namespace Tests\Handler\User;
 
 use Domain\User\UserInterface;
 use NW\AppException;

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\handlers\Post;
+namespace Tests\Handler\Post;
 
 use NW\App;
 use NW\AppException;

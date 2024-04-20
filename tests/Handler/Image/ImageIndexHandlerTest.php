@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\handlers\Image;
+namespace Tests\Handler\Image;
 
 use NW\AppException;
 use NW\Request;

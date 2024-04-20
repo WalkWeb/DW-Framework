@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\handlers;
+namespace Tests\Handler;
 
 use NW\AppException;
 use NW\Request;

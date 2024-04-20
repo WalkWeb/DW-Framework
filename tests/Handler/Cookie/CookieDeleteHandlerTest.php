@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\handlers\Cookie;
+namespace Tests\Handler\Cookie;
 
 use Exception;
 use NW\AppException;
