@@ -36,7 +36,7 @@ class ContainerTest extends AbstractTest
             new Logger(SAVE_LOG, LOG_DIR, LOG_FILE_NAME),
             $container->getLogger()
         );
-        self::assertEquals(new Csrf(), $container->getCsrf());
+        self::assertEquals(new Csrf($container), $container->getCsrf());
         self::assertEquals(new Captcha($container), $container->getCaptcha());
         self::assertEquals(new Validator($container), $container->getValidator());
         self::assertEquals(HANDLERS_DIR, $container->getHandlersDir());
@@ -74,7 +74,7 @@ class ContainerTest extends AbstractTest
             new Logger($loggerSaveLog, $loggerDir, $loggerFileName),
             $container->getLogger()
         );
-        self::assertEquals(new Csrf(), $container->getCsrf());
+        self::assertEquals(new Csrf($container), $container->getCsrf());
         self::assertEquals(new Captcha($container), $container->getCaptcha());
         self::assertEquals(new Validator($container), $container->getValidator());
         self::assertEquals($handlersDir, $container->getHandlersDir());

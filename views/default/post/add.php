@@ -16,6 +16,8 @@ $postAction = '/post/create';
 
     <label><textarea name="text" autocomplete="off"><?= htmlspecialchars($text ?? '') ?></textarea></label>
 
+    <label><input type="hidden" name="csrf" value="<?= htmlspecialchars($csrfToken ?? '') ?>"></label>
+
     <img src="<?= $captcha ?? '/images/no_captcha.png' ?>" alt="captcha"/>
     <label><input name="captcha" autocomplete="off"></label>
 

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Tests\src\NWFramework;
 
+use NW\AppException;
+use NW\Container;
 use NW\Csrf;
 use NW\Session;
 use Tests\AbstractTest;
@@ -12,10 +14,14 @@ class CsrfTest extends AbstractTest
 {
     /**
      * Тест на генерацию csrf-токена
+     *
+     * @throws AppException
      */
     public function testCsrfGetCsrfToken(): void
     {
-        $token = Csrf::getCsrfToken();
+        $container = $this->getContainer(Container::APP_PROD);
+        $csrf = new Csrf($container);
+        $token = $csrf->getCsrfToken();
 
         self::assertIsString($token);
         self::assertEquals(15, mb_strlen($token));
@@ -25,14 +31,19 @@ class CsrfTest extends AbstractTest
 
     /**
      * Тест на успешную и неуспешную проверку csrf-токена
+     *
+     * @throws AppException
      */
     public function testCsrfCheckCsrfToken(): void
     {
-        self::assertFalse(Csrf::checkCsrfToken('no_generated_token'));
+        $container = $this->getContainer(Container::APP_PROD);
+        $csrf = new Csrf($container);
 
-        $token = Csrf::getCsrfToken();
+        self::assertFalse($csrf->checkCsrfToken('no_generated_token'));
 
-        self::assertFalse(Csrf::checkCsrfToken('invalid_token'));
-        self::assertTrue(Csrf::checkCsrfToken($token));
+        $token = $csrf->getCsrfToken();
+
+        self::assertFalse($csrf->checkCsrfToken('invalid_token'));
+        self::assertTrue($csrf->checkCsrfToken($token));
     }
 }

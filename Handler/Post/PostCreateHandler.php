@@ -39,6 +39,15 @@ class PostCreateHandler extends AbstractHandler
             ]);
         }
 
+        if (!$this->container->getCsrf()->checkCsrfToken($request->csrf ?? '')) {
+            return $this->render('post/add', [
+                'message' => 'Invalid csrf-token',
+                'title'   => $request->title,
+                'text'    => $request->text,
+                'captcha' => $capthca->getCaptchaImage(),
+            ]);
+        }
+
         try {
             $post = new LegacyPost($this->container, Uuid::uuid4()->toString(), $request->title, $request->text);
 

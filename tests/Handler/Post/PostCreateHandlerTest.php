@@ -24,7 +24,7 @@ class PostCreateHandlerTest extends AbstractTest
     {
         $request = new Request(
             ['REQUEST_URI' => '/post/create', 'REQUEST_METHOD' => 'POST'],
-            ['title' => 'Заголовок', 'text' => 'text text text', 'captcha' => '1234']
+            ['title' => 'Заголовок', 'text' => 'text text text', 'captcha' => '1234', 'cstf' => '12345']
         );
         $response = $this->app->handle($request);
 
