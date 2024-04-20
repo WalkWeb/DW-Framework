@@ -8,10 +8,6 @@ use DateTimeInterface;
 
 interface UserInterface
 {
-    // TODO Статус пользователя (активен, забанен)
-    // TODO Системная группа юзера (админ/модератор/обычный юзер)
-    // TODO Пользовательская группа (что угодно в зависимости от тематики сайта)
-
     public const AUTH_TOKEN                = 'auth';
 
     public const LOGIN_MIN_LENGTH          = 4;

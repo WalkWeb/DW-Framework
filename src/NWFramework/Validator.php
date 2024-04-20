@@ -2,8 +2,6 @@
 
 namespace NW;
 
-use NW\MySQL\Connection;
-
 /**
  * Реализовано:
  * (+) email
@@ -50,12 +48,7 @@ class Validator
      */
     private array $errors;
 
-    /**
-     * БД
-     *
-     * @var Connection;
-     */
-    private Connection $connection;
+    private Container $container;
 
     /**
      * @var string|null
@@ -63,14 +56,11 @@ class Validator
     private ?string $defaultError;
 
     /**
-     * TODO Переделать - храним пулл коннектов, при проверке unique запрашиваем название в какой базе смотреть
-     *
      * @param Container $container
-     * @throws AppException
      */
     public function __construct(Container $container)
     {
-        $this->connection = $container->getConnectionPool()->getConnection();
+        $this->container = $container;
     }
 
     /**
@@ -289,6 +279,8 @@ class Validator
     /**
      * Проверка на уникальное значение в таблице
      *
+     * TODO Заменить "table" на "database/table", т.к. теперь баз может быть несколько
+     *
      * @param $param
      * @param $table
      * @param $column
@@ -302,7 +294,7 @@ class Validator
             return false;
         }
 
-        if (!$this->connection->query("SELECT $column FROM $table WHERE $column = ?", [['type' => 's', 'value' => $param]])) {
+        if (!$this->container->getConnectionPool()->getConnection()->query("SELECT $column FROM $table WHERE $column = ?", [['type' => 's', 'value' => $param]])) {
             return true;
         }
 
