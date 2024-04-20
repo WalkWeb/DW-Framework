@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace Handlers;
+namespace Handler\Cookie;
 
 use NW\AbstractHandler;
 use NW\AppException;
 use NW\Request;
 use NW\Response;
 
-class RedirectHandler extends AbstractHandler
+class CookieGetListHandler extends AbstractHandler
 {
     /**
-     * Пример редиректа
+     * Отображает текущие куки
      *
      * @param Request $request
      * @return Response
@@ -20,6 +20,9 @@ class RedirectHandler extends AbstractHandler
      */
     public function __invoke(Request $request): Response
     {
-        return $this->redirect('https://www.google.com/');
+        return $this->render(
+            'cookies/index',
+            ['cookies' => $this->container->getRequest()->getCookies()->getArray()]
+        );
     }
 }

@@ -13,7 +13,7 @@
     <filter>
         <whitelist>
             <directory suffix=".php">./src/</directory>
-            <directory suffix=".php">./Handlers/</directory>
+            <directory suffix=".php">./Handler/</directory>
             <directory suffix=".php">./Middleware/</directory>
             <directory suffix=".php">./Domain/</directory>
         </whitelist>

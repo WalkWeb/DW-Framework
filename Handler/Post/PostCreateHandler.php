@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Handlers\Post;
+namespace Handler\Post;
 
 use Domain\Post\LegacyPost;
 use NW\AbstractHandler;

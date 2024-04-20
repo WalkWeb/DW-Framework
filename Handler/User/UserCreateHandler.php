@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Handlers\User;
+namespace Handler\User;
 
 use Domain\User\UserFactory;
 use Domain\User\UserInterface;

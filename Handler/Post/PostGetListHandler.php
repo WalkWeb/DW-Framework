@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Handlers\Post;
+namespace Handler\Post;
 
 use Domain\Post\PostException;
 use Domain\Post\PostRepository;

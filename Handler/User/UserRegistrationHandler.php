@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace Handlers;
+namespace Handler\User;
 
 use NW\AbstractHandler;
 use NW\AppException;
 use NW\Request;
 use NW\Response;
 
-class MainHandler extends AbstractHandler
+class UserRegistrationHandler extends AbstractHandler
 {
     /**
-     * Главная страница
+     * Страница регистрации
      *
      * @param Request $request
      * @return Response
@@ -20,6 +20,10 @@ class MainHandler extends AbstractHandler
      */
     public function __invoke(Request $request): Response
     {
-        return $this->render('index');
+        if ($this->container->exist('user')) {
+            return $this->redirect('/');
+        }
+
+        return $this->render('user/registration');
     }
 }

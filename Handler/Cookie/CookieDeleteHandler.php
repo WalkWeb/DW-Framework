@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Handlers\Cookie;
+namespace Handler\Cookie;
 
 use NW\AbstractHandler;
 use NW\AppException;
@@ -10,12 +10,12 @@ use NW\Request;
 use NW\Response;
 use NW\Traits\ValidationTrait;
 
-class CookieAddHandler extends AbstractHandler
+class CookieDeleteHandler extends AbstractHandler
 {
     use ValidationTrait;
 
     /**
-     * Добавляет новые куки
+     * Удаляет указанные куки
      *
      * @param Request $request
      * @return Response
@@ -26,7 +26,7 @@ class CookieAddHandler extends AbstractHandler
         try {
             $data = $this->validateData($request->getBody());
 
-            $this->container->getCookies()->set($data['name'], $data['value']);
+            $this->container->getCookies()->delete((string)$data['name']);
 
             return $this->redirect('/cookies');
         } catch (AppException $e) {
@@ -51,15 +51,6 @@ class CookieAddHandler extends AbstractHandler
             1,
             50,
             'Length "name" parameter must be from 1 to 50 characters',
-        );
-
-        self::string($data, 'value', 'Bad request: "value" value required and expected string');
-
-        self::stringMinMaxLength(
-            $data['value'],
-            1,
-            100,
-            'Length "value" parameter must be from 1 to 100 characters',
         );
 
         return $data;

@@ -25,7 +25,7 @@
   },
   "autoload": {
     "psr-4": {
-      "Handlers\\": "Handlers/",
+      "Handler\\": "Handler/",
       "Middleware\\": "Middleware/",
       "Repository\\": "Repository/",
       "Domain\\": "Domain/",

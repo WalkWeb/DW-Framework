@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace Handlers\Image;
+namespace Handler;
 
 use NW\AbstractHandler;
 use NW\AppException;
 use NW\Request;
 use NW\Response;
 
-class ImageIndexHandler extends AbstractHandler
+class RedirectHandler extends AbstractHandler
 {
     /**
-     * Страница с двумя формами загрузки картинок
+     * Пример редиректа
      *
      * @param Request $request
      * @return Response
@@ -20,6 +20,6 @@ class ImageIndexHandler extends AbstractHandler
      */
     public function __invoke(Request $request): Response
     {
-        return $this->render('image/index');
+        return $this->redirect('https://www.google.com/');
     }
 }

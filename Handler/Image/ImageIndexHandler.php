@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace Handlers\Cookie;
+namespace Handler\Image;
 
 use NW\AbstractHandler;
 use NW\AppException;
 use NW\Request;
 use NW\Response;
 
-class CookieGetListHandler extends AbstractHandler
+class ImageIndexHandler extends AbstractHandler
 {
     /**
-     * Отображает текущие куки
+     * Страница с двумя формами загрузки картинок
      *
      * @param Request $request
      * @return Response
@@ -20,9 +20,6 @@ class CookieGetListHandler extends AbstractHandler
      */
     public function __invoke(Request $request): Response
     {
-        return $this->render(
-            'cookies/index',
-            ['cookies' => $this->container->getRequest()->getCookies()->getArray()]
-        );
+        return $this->render('image/index');
     }
 }

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Handlers\Image;
+namespace Handler\Image;
 
 use Exception;
 use NW\AbstractHandler;

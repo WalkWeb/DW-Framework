@@ -1,6 +1,6 @@
 <?php
 
-use Handlers\User\LoginPageHandler;
+use Handler\User\LoginPageHandler;
 
 $this->title = 'Вход';
 $postAction = '/login';

@@ -34,7 +34,7 @@ define('TEMPLATE_DEFAULT', 'default');
 define('KEY', 'YOU_KEY');
 
 /** Директория с контролерами */
-define('HANDLERS_DIR', 'Handlers');
+define('HANDLERS_DIR', 'Handler');
 
 /** Директория с middleware */
 define('MIDDLEWARE_DIR', 'Middleware');
