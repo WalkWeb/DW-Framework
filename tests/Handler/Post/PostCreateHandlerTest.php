@@ -71,7 +71,7 @@ class PostCreateHandlerTest extends AbstractTest
         );
         $response = $this->app->handle($request);
 
-        self::assertRegExp('/Заголовок должен быть больше или равен 5 символов/', $response->getBody());
+        self::assertRegExp('/Incorrect parameter &quot;title&quot;, should be min-max length: 2-50/', $response->getBody());
         self::assertEquals(Response::OK, $response->getStatusCode());
     }
 }
