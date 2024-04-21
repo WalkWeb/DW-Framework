@@ -3,8 +3,6 @@
 $this->title = 'Регистрация';
 $postAction = '/registration';
 
-// TODO Add csrf-token
-
 echo '<h1>' . htmlspecialchars($this->title) . '</h1>';
 
 if (!empty($error)) {
@@ -17,6 +15,7 @@ if (!empty($error)) {
     <label>Login:<br /><input name="login" autocomplete="off" value=""></label>
     <label>Email:<br /><input name="email" autocomplete="off" value=""></label>
     <label>Password:<br /><input name="password" autocomplete="off" value="" type="password"></label>
+    <label><input type="hidden" name="csrf" value="<?= $csrfToken ?? '' ?>"></label>
 
     <button>Зарегистрироваться</button>
 </form>

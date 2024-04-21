@@ -24,6 +24,11 @@ class UserCreateHandler extends AbstractHandler
     public function __invoke(Request $request): Response
     {
         try {
+            $csrfToken = $request->csrf;
+            if (!$this->container->getCsrf()->checkCsrfToken($csrfToken ?? '')) {
+                throw new AppException('Invalid csrf-token');
+            }
+
             $user = UserFactory::createNew($request->getBody(), KEY, TEMPLATE_DEFAULT);
             $repository = new UserRepository($this->container);
             $repository->add($user);

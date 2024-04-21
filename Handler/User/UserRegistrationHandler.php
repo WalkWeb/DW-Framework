@@ -24,6 +24,6 @@ class UserRegistrationHandler extends AbstractHandler
             return $this->redirect('/');
         }
 
-        return $this->render('user/registration');
+        return $this->render('user/registration', ['csrfToken' => $this->container->getCsrf()->getCsrfToken()]);
     }
 }
