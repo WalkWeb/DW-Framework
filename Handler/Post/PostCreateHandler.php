@@ -39,7 +39,9 @@ class PostCreateHandler extends AbstractHandler
             ]);
         }
 
-        if (!$this->container->getCsrf()->checkCsrfToken($request->csrf ?? '')) {
+        $csrfToken = $request->csrf;
+
+        if (!$this->container->getCsrf()->checkCsrfToken($csrfToken ?? '')) {
             return $this->render('post/add', [
                 'message' => 'Invalid csrf-token',
                 'title'   => $request->title,

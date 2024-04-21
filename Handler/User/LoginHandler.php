@@ -25,6 +25,11 @@ class LoginHandler extends AbstractHandler
     public function __invoke(Request $request): Response
     {
         try {
+            $csrfToken = $request->csrf;
+            if (!$this->container->getCsrf()->checkCsrfToken($csrfToken ?? '')) {
+                throw new AppException('Invalid csrf-token');
+            }
+
             $loginRequest = LoginRequestFactory::create($request->getBody());
             $repository = new UserRepository($this->container);
             if ($token = $repository->auth($loginRequest, KEY)) {
