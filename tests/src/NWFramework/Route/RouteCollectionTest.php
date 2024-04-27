@@ -10,22 +10,36 @@ use Tests\AbstractTest;
 
 class RouteCollectionTest extends AbstractTest
 {
-    public function testRouteCollectionGet(): void
+    /**
+     * Тест на создание маршрутов через методы в коллекции get(), post(), put(), delete()
+     *
+     * @dataProvider createDataProvider
+     * @param string $method
+     * @param string $expectedMethod
+     * @param string $name
+     * @param string $path
+     * @param string $handler
+     * @param array $param
+     * @param string $namespace
+     */
+    public function testRouteCollectionCreate(
+        string $method,
+        string $expectedMethod,
+        string $name,
+        string $path,
+        string $handler,
+        array $param,
+        string $namespace
+    ): void
     {
         $routes = new RouteCollection();
 
-        $name = 'testGetRoute';
-        $path = 'home';
-        $handler = 'TestContoller@index';
-        $param = ['test' => 'test'];
-        $namespace = 'namespace';
-
-        $routes->get($name, $path, $handler, $param, $namespace);
+        $routes->$method($name, $path, $handler, $param, $namespace);
 
         self::assertCount(1, $routes);
 
         foreach ($routes as $route) {
-            self::assertEquals('GET', $route->getMethod());
+            self::assertEquals($expectedMethod, $route->getMethod());
             self::assertEquals($name, $route->getName());
             self::assertEquals($path, $route->getPath());
             self::assertEquals($namespace . '\\' . $handler, $route->getHandler());
@@ -34,30 +48,6 @@ class RouteCollectionTest extends AbstractTest
         }
 
         self::assertNull($routes->key());
-    }
-
-    public function testRouteCollectionPost(): void
-    {
-        $routes = new RouteCollection();
-
-        $name = 'testPostRoute';
-        $path = '/post/create';
-        $handler = 'TestContoller@create';
-        $param = ['body' => 'body'];
-        $namespace = 'namespace';
-
-        $routes->post($name, $path, $handler, $param, $namespace);
-
-        self::assertCount(1, $routes);
-
-        foreach ($routes as $route) {
-            self::assertEquals('POST', $route->getMethod());
-            self::assertEquals($name, $route->getName());
-            self::assertEquals($path, $route->getPath());
-            self::assertEquals($namespace . '\\' . $handler, $route->getHandler());
-            self::assertEquals($param, $route->getParams());
-            self::assertEquals($namespace, $route->getNamespace());
-        }
     }
 
     public function testRouteCollectionAddMiddleware(): void
@@ -77,5 +67,52 @@ class RouteCollectionTest extends AbstractTest
         foreach ($routes as $route) {
             self::assertEquals([Route::DEFAULT_PRIORITY => $middleware], $route->getMiddleware());
         }
+    }
+
+    /**
+     * Данные отличаются только вызываемым методом и ожидаемым созданным http-методом
+     *
+     * @return array[]
+     */
+    public function createDataProvider(): array
+    {
+        return [
+            [
+                'get',                 // вызываемый метод в коллекции
+                'GET',                 // ожидаемый http метод
+                'testGetRoute',        // название роута
+                'home',                // uri
+                'TestContoller@index', // хандлер
+                ['test' => 'test'],    // параметры
+                'namespace',           // namespace
+            ],
+            [
+                'post',
+                'POST',
+                'testGetRoute',
+                'home',
+                'TestContoller@index',
+                ['test' => 'test'],
+                'namespace',
+            ],
+            [
+                'put',
+                'PUT',
+                'testGetRoute',
+                'home',
+                'TestContoller@index',
+                ['test' => 'test'],
+                'namespace',
+            ],
+            [
+                'delete',
+                'DELETE',
+                'testGetRoute',
+                'home',
+                'TestContoller@index',
+                ['test' => 'test'],
+                'namespace',
+            ],
+        ];
     }
 }

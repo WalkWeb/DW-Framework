@@ -31,7 +31,19 @@ class RouteCollection implements Iterator, Countable
         return $route;
     }
 
-    // TODO put, delete
+    public function put($name, $path, $handler, $param = [], $namespace = ''): Route
+    {
+        $route = new Route($name, $path, $handler, 'PUT', $param, $namespace);
+        $this->elements[] = $route;
+        return $route;
+    }
+
+    public function delete($name, $path, $handler, $param = [], $namespace = ''): Route
+    {
+        $route = new Route($name, $path, $handler, 'DELETE', $param, $namespace);
+        $this->elements[] = $route;
+        return $route;
+    }
 
     public function addMiddleware(string $middleware, int $priority = Route::DEFAULT_PRIORITY): self
     {
