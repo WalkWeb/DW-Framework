@@ -216,14 +216,14 @@ class ValidatorTest extends AbstractTest
             'unique',
         ];
 
-        self::assertTrue($validator->check('login', 'abc', $rules, 'books', 'name'));
+        self::assertTrue($validator->check('login', 'abc', $rules, 'default/books', 'name'));
         self::assertEquals('', $validator->getError());
     }
 
     /**
      * @throws AppException
      */
-    public function testValidatorUniqueNoTable(): void
+    public function testValidatorUniqueNoDatabaseAndTable(): void
     {
         $validator = $this->getContainer()->getValidator();
 
@@ -235,6 +235,25 @@ class ValidatorTest extends AbstractTest
 
         self::assertFalse($validator->check('login', 'abc', $rules, null, 'name'));
         self::assertEquals('Не указана таблица или колонка для проверки', $validator->getError());
+    }
+
+    /**
+     * Тест на ситуацию, когда данные по базе/таблицы указаны некорректно
+     *
+     * @throws AppException
+     */
+    public function testValidatorUniqueInvalidDatabaseAndTable(): void
+    {
+        $validator = $this->getContainer()->getValidator();
+
+        $rules = [
+            'required',
+            'string',
+            'unique',
+        ];
+
+        self::assertFalse($validator->check('login', 'abc', $rules, 'invalid_data', 'name'));
+        self::assertEquals('Invalid database or table info, expected "database/name"', $validator->getError());
     }
 
     /**
@@ -261,7 +280,6 @@ class ValidatorTest extends AbstractTest
     {
         $container = $this->getContainer();
         $connection = $container->getConnectionPool()->getConnection();
-        $table = 'books';
         $id = '6e9043d1-18fb-44ea-be60-c356048f63a2';
         $book = 'Book-1';
         $validator = $container->getValidator();
@@ -275,12 +293,12 @@ class ValidatorTest extends AbstractTest
         ];
 
         // Clear table
-        $this->clearTable($connection, $table);
+        $this->clearTable($connection, 'books');
 
         // Insert data
         $this->insert($connection, $id, $book);
 
-        self::assertFalse($validator->check('book', $book, $rules, $table, 'name'));
+        self::assertFalse($validator->check('book', $book, $rules, 'default/books', 'name'));
         self::assertEquals('Указанный book уже существует, выберите другой', $validator->getError());
 
         $connection->rollback();

@@ -2,6 +2,8 @@
 
 namespace NW;
 
+// TODO Заменить все ошибки на английский
+
 /**
  * Реализовано:
  * (+) email
@@ -69,14 +71,14 @@ class Validator
      * @param string $name        - Имя поля, необходимо для корректного сообщения об ошибке
      * @param $param              - Валидируемая переменная
      * @param array $rules        - Правила валидации
-     * @param string|null $table  - Только для проверки типа unique - таблица для проверки
+     * @param string|null $databaseAndTable  - Только для проверки типа unique - база/таблица для проверки
      * @param string|null $column - Только для проверки типа unique - колонка для проверки
      * @param string|null $error  - Текст ошибки, если он не указан - то текст ошибки будет составлен автоматически
      * @return bool
      * @throws AppException
      * @uses string, int, min, max, required, boolean, in, parent, unique, mail
      */
-    public function check(string $name, $param, array $rules, string $table = null, string $column = null, string $error = null): bool
+    public function check(string $name, $param, array $rules, string $databaseAndTable = null, string $column = null, string $error = null): bool
     {
         $this->name = $name;
         $this->errors = [];
@@ -87,7 +89,7 @@ class Validator
         foreach ($rules as $key => $value) {
             if (is_int($key)) {
                 if ($value === 'unique') {
-                    if (!$this->unique($param, $table, $column)) {
+                    if (!$this->unique($param, $databaseAndTable, $column)) {
                         return false;
                     }
                 } elseif (!$this->$value($param)) {
@@ -279,22 +281,31 @@ class Validator
     /**
      * Проверка на уникальное значение в таблице
      *
-     * TODO Заменить "table" на "database/table", т.к. теперь баз может быть несколько
-     *
      * @param $param
-     * @param $table
+     * @param $connect
      * @param $column
      * @return bool
      * @throws AppException
      */
-    private function unique($param, $table, $column): bool
+    private function unique($param, $connect, $column): bool
     {
-        if ($table === null || $column === null) {
+        if ($connect === null || $column === null) {
             $this->addError('Не указана таблица или колонка для проверки');
             return false;
         }
 
-        if (!$this->container->getConnectionPool()->getConnection()->query("SELECT $column FROM $table WHERE $column = ?", [['type' => 's', 'value' => $param]])) {
+        $connect = explode('/', $connect);
+
+        if (!array_key_exists(0, $connect) || !array_key_exists(1, $connect)) {
+            $this->addError('Invalid database or table info, expected "database/name"');
+            return false;
+        }
+
+        $database = (string)$connect[0];
+        $table = (string)$connect[1];
+
+        if (!$this->container->getConnectionPool()->getConnection($database)
+            ->query("SELECT $column FROM $table WHERE $column = ?", [['type' => 's', 'value' => $param]])) {
             return true;
         }
 
