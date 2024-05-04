@@ -42,8 +42,8 @@ define('MIDDLEWARE_DIR', 'Middleware');
 /** Директория с кэшем */
 define('CACHE_DIR', 'cache');
 
-/** Директория с кэшем */
-define('VIEW_DIR', 'views');
+/** Директория с вьюхами */
+define('VIEW_DIR', DIR . '/views/');
 
 /** Сохранять ли логи в файл */
 define('SAVE_LOG', false);

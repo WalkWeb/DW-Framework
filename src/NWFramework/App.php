@@ -72,9 +72,20 @@ class App
             throw new AppException(self::ERROR_MISS_CONTAINER);
         }
 
-        $view = DIR . '/' . self::$container->getViewDir() . self::TEMPLATE_500_PAGE;
+        $view = self::$container->getViewDir() . self::TEMPLATE_500_PAGE;
         $content = file_exists($view) ? file_get_contents($view) : Response::DEFAULT_500_ERROR;
         return new Response($content, Response::INTERNAL_SERVER_ERROR);
+    }
+
+    /**
+     * @return Response
+     * @throws AppException
+     */
+    private function createNotFoundPage(): Response
+    {
+        $view = self::$container->getViewDir() . self::TEMPLATE_404_PAGE;
+        $content = file_exists($view) ? file_get_contents($view) : Response::DEFAULT_404_ERROR;
+        return new Response($content, Response::NOT_FOUND);
     }
 
     /**
@@ -162,18 +173,6 @@ class App
         return $current($request, function (Request $request) use ($default) {
             return $this->next($request, $default);
         });
-    }
-
-    /**
-     * @return Response
-     * @throws AppException
-     */
-    private function createNotFoundPage(): Response
-    {
-        $view = DIR . '/' . $this->getContainer()->getViewDir() . self::TEMPLATE_404_PAGE;
-        $content = file_exists($view) ? file_get_contents($view) : Response::DEFAULT_404_ERROR;
-
-        return new Response($content, Response::NOT_FOUND);
     }
 
     /**

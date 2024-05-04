@@ -10,9 +10,6 @@ abstract class AbstractHandler
     public const ERROR_MISS_LAYOUT = 'Layout missing: %s';
     public const ERROR_MISS_CACHE  = 'Cache missing: %s';
 
-    // Месторасположение директории с вьюхами
-    private const DIR = __DIR__ . '/../../views/';
-
     // Месторасположение директории, где хранится html-кеш
     private const CACHE_DIR = __DIR__ . '/../../cache/html/';
 
@@ -89,13 +86,15 @@ abstract class AbstractHandler
         extract($params, EXTR_OVERWRITE);
 
         $template = $this->container->getTemplate() . '/';
-        $viewPath = self::DIR . $template . $view . '.php';
+        $viewPath = $this->container->getViewDir() . $template . $view . '.php';
 
         if (!file_exists($viewPath)) {
             throw new AppException(sprintf(self::ERROR_MISS_VIEW, $viewPath));
         }
 
-        if ($this->layout && !file_exists(self::DIR . $template . $this->layoutUrl)) {
+        $layout = $this->container->getViewDir() . $template . $this->layoutUrl;
+
+        if ($this->layout && !file_exists($this->container->getViewDir() . $template . $this->layoutUrl)) {
             throw new AppException(sprintf(self::ERROR_MISS_LAYOUT, $this->layoutUrl));
         }
 
@@ -109,7 +108,7 @@ abstract class AbstractHandler
             $content = ob_get_clean();
             ob_start();
 
-            require self::DIR . $template . $this->layoutUrl;
+            require $layout;
         }
 
         $response = new Response(ob_get_clean());
