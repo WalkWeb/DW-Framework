@@ -11,8 +11,7 @@ abstract class AbstractHandler
     public const ERROR_MISS_CACHE  = 'Cache missing: %s';
 
     // Месторасположение директории, где хранится html-кеш
-    // TODO Брать директорию из контейнера
-    private const CACHE_DIR = __DIR__ . '/../cache/html/';
+    public const CACHE_DIR = '/html/';
 
     /**
      * Title
@@ -195,11 +194,12 @@ abstract class AbstractHandler
         }
 
         // Проверяем, есть ли кэш
-        if (file_exists(self::CACHE_DIR . $name)) {
+        $filePath = $this->container->getCacheDir() . self::CACHE_DIR . $name;
+        if (file_exists($filePath)) {
 
             // Проверяем, не просрочен ли он
-            if (!($time > 0) || (($this->time - $time) < filemtime(self::CACHE_DIR . $name))) {
-                return file_get_contents(self::CACHE_DIR . $name);
+            if (!($time > 0) || (($this->time - $time) < filemtime($filePath))) {
+                return file_get_contents($filePath);
             }
         }
 
@@ -220,7 +220,7 @@ abstract class AbstractHandler
             $name .= '_' . $id;
         }
 
-        $file = fopen(self::CACHE_DIR . $name, 'wb');
+        $file = fopen($this->container->getCacheDir() . self::CACHE_DIR . $name, 'wb');
         fwrite($file, $content . $prefix);
         fclose($file);
     }
@@ -233,12 +233,13 @@ abstract class AbstractHandler
      */
     protected function deleteCache(string $name): void
     {
-        if (!file_exists(self::CACHE_DIR . $name)) {
-            throw new AppException(sprintf(self::ERROR_MISS_CACHE, self::CACHE_DIR . $name));
+        $filePath = $this->container->getCacheDir() . self::CACHE_DIR . $name;
+        if (!file_exists($filePath)) {
+            throw new AppException(sprintf(self::ERROR_MISS_CACHE, $filePath));
         }
 
         if ($name) {
-            unlink(self::CACHE_DIR . $name);
+            unlink($filePath);
         }
     }
 

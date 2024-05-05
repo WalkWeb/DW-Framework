@@ -103,8 +103,7 @@ class HandlerTest extends AbstractTest
         $controller = new ExampleHandler($this->getContainer());
 
         // Если тест запускается не первый раз - то кэш уже будет, соответственно его нужно удалить
-        // TODO Брать директорию из контейнера
-        $cacheFile = __DIR__ . '/../../cache/html/' . $cacheName . '_' . $cacheId;
+        $cacheFile = $this->getContainer()->getCacheDir() . AbstractHandler::CACHE_DIR . $cacheName . '_' . $cacheId;
 
         if (file_exists($cacheFile)) {
             unlink($cacheFile);
@@ -135,7 +134,7 @@ class HandlerTest extends AbstractTest
         $controller = new ExampleHandler($this->getContainer());
 
         // Если тест запускается не первый раз - то кэш уже будет, соответственно его нужно удалить
-        $cacheFile = __DIR__ . '/../../cache/html/' . $cacheName . '_' . $cacheId;
+        $cacheFile = $this->getContainer()->getCacheDir() . AbstractHandler::CACHE_DIR . $cacheName . '_' . $cacheId;
 
         if (file_exists($cacheFile)) {
             unlink($cacheFile);
@@ -188,7 +187,7 @@ class HandlerTest extends AbstractTest
         $content = 'example html content';
 
         // Если тест запускается не первый раз - то кэш уже будет, соответственно его нужно удалить
-        $cacheFile = __DIR__ . '/../../cache/html/' . $controllerAction . '_' . $cacheId;
+        $cacheFile = $this->getContainer()->getCacheDir() . AbstractHandler::CACHE_DIR . $controllerAction . '_' . $cacheId;
 
         if (file_exists($cacheFile)) {
             unlink($cacheFile);
