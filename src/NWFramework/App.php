@@ -45,13 +45,11 @@ class App
             return $this->createNotFoundPage();
         }
 
-        $handlerClass = self::$container->getHandlersDir() . '\\' . $handler;
-
-        if (!class_exists($handlerClass)) {
-            throw new AppException(sprintf(self::ERROR_MISS_HANDLER, $handlerClass));
+        if (!class_exists($handler)) {
+            throw new AppException(sprintf(self::ERROR_MISS_HANDLER, $handler));
         }
 
-        return $this->handleRequest($request, $middleware, new $handlerClass(self::$container));
+        return $this->handleRequest($request, $middleware, new $handler(self::$container));
     }
 
     /**

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Handler\Post;
 
+use Handler\Post\PostCreateHandler;
 use NW\App;
 use NW\AppException;
 use NW\Container;
@@ -45,7 +46,7 @@ class PostCreateHandlerTest extends AbstractTest
     {
         $container = $this->getContainer(Container::APP_DEV);
         $routes = new RouteCollection();
-        $routes->post('post.create', '/post/create', 'Post\\PostCreateHandler');
+        $routes->post('post.create', '/post/create', PostCreateHandler::class);
         $app = new App(new Router($routes), $container);
 
         $request = new Request(

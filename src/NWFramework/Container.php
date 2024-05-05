@@ -43,7 +43,6 @@ class Container
     private bool $loggerSaveLog;
     private string $loggerDir;
     private string $loggerFileName;
-    private string $handlersDir;
     private string $middlewareDir;
     private string $cacheDir;
     private string $viewDir;
@@ -56,7 +55,6 @@ class Container
      * @param bool $loggerSaveLog
      * @param string $loggerDir
      * @param string $loggerFileName
-     * @param string $handlersDir
      * @param string $middlewareDir
      * @param string $cacheDir
      * @param string $viewDir
@@ -70,7 +68,6 @@ class Container
         bool $loggerSaveLog,
         string $loggerDir,
         string $loggerFileName,
-        string $handlersDir,
         string $middlewareDir,
         string $cacheDir,
         string $viewDir,
@@ -83,7 +80,6 @@ class Container
         $this->loggerSaveLog = $loggerSaveLog;
         $this->loggerDir = $loggerDir;
         $this->loggerFileName = $loggerFileName;
-        $this->handlersDir = $handlersDir;
         $this->middlewareDir = $middlewareDir;
         $this->cacheDir = $cacheDir;
         $this->viewDir = $viewDir;
@@ -112,7 +108,6 @@ class Container
         bool $loggerSaveLog = SAVE_LOG,
         string $loggerDir = LOG_DIR,
         string $loggerFileName = LOG_FILE_NAME,
-        string $handlersDir = HANDLERS_DIR,
         string $middlewareDir = MIDDLEWARE_DIR,
         string $cacheDir = CACHE_DIR,
         string $viewDir = VIEW_DIR,
@@ -126,7 +121,6 @@ class Container
             $loggerSaveLog,
             $loggerDir,
             $loggerFileName,
-            $handlersDir,
             $middlewareDir,
             $cacheDir,
             $viewDir,
@@ -273,14 +267,6 @@ class Container
     public function getUser(): object
     {
         return $this->get('user');
-    }
-
-    /**
-     * @return string
-     */
-    public function getHandlersDir(): string
-    {
-        return $this->handlersDir;
     }
 
     /**
