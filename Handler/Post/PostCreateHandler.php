@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace Handler\Post;
 
 use Domain\Post\PostFactory;
-use NW\AbstractHandler;
-use NW\AppException;
-use NW\Captcha;
-use NW\Request;
-use NW\Response;
+use WalkWeb\NW\AbstractHandler;
+use WalkWeb\NW\AppException;
+use WalkWeb\NW\Captcha;
+use WalkWeb\NW\Request;
+use WalkWeb\NW\Response;
 
 class PostCreateHandler extends AbstractHandler
 {

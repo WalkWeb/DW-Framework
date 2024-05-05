@@ -29,7 +29,7 @@
       "Middleware\\": "Middleware/",
       "Repository\\": "Repository/",
       "Domain\\": "Domain/",
-      "NW\\": "src/NWFramework",
+      "WalkWeb\\NW\\": "src/",
       "Migrations\\": "migrations/",
       "Tests\\": "tests/"
     }

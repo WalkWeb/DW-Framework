@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Domain\Post;
 
-use NW\AppException;
-use NW\Container;
-use NW\Response;
+use WalkWeb\NW\AppException;
+use WalkWeb\NW\Container;
+use WalkWeb\NW\Response;
 
 class PostRepository
 {

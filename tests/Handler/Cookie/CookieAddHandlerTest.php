@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Tests\Handler\Cookie;
 
 use Exception;
-use NW\AppException;
-use NW\Request;
-use NW\Response;
+use WalkWeb\NW\AppException;
+use WalkWeb\NW\Request;
+use WalkWeb\NW\Response;
 use Tests\AbstractTest;
 
 class CookieAddHandlerTest extends AbstractTest

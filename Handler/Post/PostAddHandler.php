@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace Handler\Post;
 
 use Exception;
-use NW\AbstractHandler;
-use NW\AppException;
-use NW\Captcha;
-use NW\Request;
-use NW\Response;
-use NW\Traits\StringTrait;
+use WalkWeb\NW\AbstractHandler;
+use WalkWeb\NW\AppException;
+use WalkWeb\NW\Captcha;
+use WalkWeb\NW\Request;
+use WalkWeb\NW\Response;
+use WalkWeb\NW\Traits\StringTrait;
 
 class PostAddHandler extends AbstractHandler
 {

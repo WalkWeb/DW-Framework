@@ -2,7 +2,7 @@
 
 namespace Domain\Post;
 
-use NW\AppException;
+use WalkWeb\NW\AppException;
 
 class PostException extends AppException
 {

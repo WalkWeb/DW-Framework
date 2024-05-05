@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace Tests\Handler\Post;
 
 use Handler\Post\PostCreateHandler;
-use NW\App;
-use NW\AppException;
-use NW\Container;
-use NW\Request;
-use NW\Response;
-use NW\Route\RouteCollection;
-use NW\Route\Router;
+use WalkWeb\NW\App;
+use WalkWeb\NW\AppException;
+use WalkWeb\NW\Container;
+use WalkWeb\NW\Request;
+use WalkWeb\NW\Response;
+use WalkWeb\NW\Route\RouteCollection;
+use WalkWeb\NW\Route\Router;
 use Tests\AbstractTest;
 
 class PostCreateHandlerTest extends AbstractTest

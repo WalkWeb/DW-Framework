@@ -6,8 +6,8 @@ namespace Domain\User\DTO;
 
 use Domain\User\UserException;
 use Domain\User\UserInterface;
-use NW\AppException;
-use NW\Traits\ValidationTrait;
+use WalkWeb\NW\AppException;
+use WalkWeb\NW\Traits\ValidationTrait;
 
 class LoginRequestFactory
 {

@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace Tests;
 
-use NW\App;
-use NW\AppException;
-use NW\MySQL\Connection;
-use NW\Container;
-use NW\Response;
-use NW\Route\Router;
-use NW\Runtime;
-use NW\Traits\StringTrait;
+use WalkWeb\NW\App;
+use WalkWeb\NW\AppException;
+use WalkWeb\NW\MySQL\Connection;
+use WalkWeb\NW\Container;
+use WalkWeb\NW\Response;
+use WalkWeb\NW\Route\Router;
+use WalkWeb\NW\Runtime;
+use WalkWeb\NW\Traits\StringTrait;
 use PHPUnit\Framework\TestCase;
 
 abstract class AbstractTest extends TestCase

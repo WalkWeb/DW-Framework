@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Tests\Handler\User;
 
 use Domain\User\UserInterface;
-use NW\AppException;
-use NW\Request;
-use NW\Response;
+use WalkWeb\NW\AppException;
+use WalkWeb\NW\Request;
+use WalkWeb\NW\Response;
 use Tests\AbstractTest;
 
 class VerifiedEmailHandlerTest extends AbstractTest
@@ -24,7 +24,6 @@ class VerifiedEmailHandlerTest extends AbstractTest
         self::assertEquals(Response::OK, $response->getStatusCode());
         self::assertRegExp('/Подтвердите ваш email/', $response->getBody());
         self::assertRegExp('/Вам необходимо подтвердить ваш email/', $response->getBody());
-
     }
 
     /**

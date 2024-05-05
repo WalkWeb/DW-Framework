@@ -6,9 +6,9 @@ namespace Domain\User;
 
 use DateTime;
 use Exception;
-use NW\AppException;
-use NW\Traits\StringTrait;
-use NW\Traits\ValidationTrait;
+use WalkWeb\NW\AppException;
+use WalkWeb\NW\Traits\StringTrait;
+use WalkWeb\NW\Traits\ValidationTrait;
 use Ramsey\Uuid\Uuid;
 
 class UserFactory

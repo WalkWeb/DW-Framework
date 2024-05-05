@@ -8,7 +8,7 @@ use Exception;
 use Domain\User\DTO\LoginRequestFactory;
 use Domain\User\UserException;
 use Domain\User\UserInterface;
-use NW\AppException;
+use WalkWeb\NW\AppException;
 use Tests\AbstractTest;
 
 class LoginRequestFactoryTest extends AbstractTest

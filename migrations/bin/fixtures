@@ -10,10 +10,10 @@ if (file_exists(__DIR__ . '/../../config.local.php')) {
     require_once __DIR__ . '/../../config.php';
 }
 
-use NW\App;
-use NW\Container;
-use NW\Route\RouteCollection;
-use NW\Route\Router;
+use WalkWeb\NW\App;
+use WalkWeb\NW\Container;
+use WalkWeb\NW\Route\RouteCollection;
+use WalkWeb\NW\Route\Router;
 
 try {
     $app = new App(new Router(new RouteCollection()), Container::create());

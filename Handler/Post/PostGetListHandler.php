@@ -6,11 +6,11 @@ namespace Handler\Post;
 
 use Domain\Post\PostException;
 use Domain\Post\PostRepository;
-use NW\AbstractHandler;
-use NW\AppException;
-use NW\Request;
-use NW\Response;
-use NW\Traits\PaginationTrait;
+use WalkWeb\NW\AbstractHandler;
+use WalkWeb\NW\AppException;
+use WalkWeb\NW\Request;
+use WalkWeb\NW\Response;
+use WalkWeb\NW\Traits\PaginationTrait;
 
 class PostGetListHandler extends AbstractHandler
 {

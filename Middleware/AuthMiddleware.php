@@ -6,10 +6,10 @@ namespace Middleware;
 
 use Domain\User\UserInterface;
 use Domain\User\UserRepository;
-use NW\AbstractMiddleware;
-use NW\AppException;
-use NW\Request;
-use NW\Response;
+use WalkWeb\NW\AbstractMiddleware;
+use WalkWeb\NW\AppException;
+use WalkWeb\NW\Request;
+use WalkWeb\NW\Response;
 
 class AuthMiddleware extends AbstractMiddleware
 {

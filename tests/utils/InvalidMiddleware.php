@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Tests\utils;
 
-use NW\Request;
-use NW\Response;
+use WalkWeb\NW\Request;
+use WalkWeb\NW\Response;
 
 /**
  * Некорректный middleware - не наследуется от AbstractMiddleware

@@ -6,9 +6,9 @@ namespace Tests\Handler\User;
 
 use Domain\User\UserException;
 use Domain\User\UserInterface;
-use NW\AppException;
-use NW\Request;
-use NW\Response;
+use WalkWeb\NW\AppException;
+use WalkWeb\NW\Request;
+use WalkWeb\NW\Response;
 use Tests\AbstractTest;
 
 class LoginHandlerTest extends AbstractTest

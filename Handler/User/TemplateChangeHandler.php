@@ -6,10 +6,10 @@ namespace Handler\User;
 
 use Domain\User\UserInterface;
 use Domain\User\UserRepository;
-use NW\AbstractHandler;
-use NW\AppException;
-use NW\Request;
-use NW\Response;
+use WalkWeb\NW\AbstractHandler;
+use WalkWeb\NW\AppException;
+use WalkWeb\NW\Request;
+use WalkWeb\NW\Response;
 
 class TemplateChangeHandler extends AbstractHandler
 {

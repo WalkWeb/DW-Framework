@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Tests\Handler\Image;
 
-use NW\AppException;
-use NW\Request;
-use NW\Response;
+use WalkWeb\NW\AppException;
+use WalkWeb\NW\Request;
+use WalkWeb\NW\Response;
 use Tests\AbstractTest;
 
 class ImageLoadHandlerTest extends AbstractTest

@@ -1,6 +1,6 @@
 <?php
 
-$routes = new NW\Route\RouteCollection();
+$routes = new WalkWeb\NW\Route\RouteCollection();
 
 $routes->get('home', '/', 'Handler\\MainHandler');
 
@@ -35,4 +35,4 @@ $routes
 
 $routes->get('redirect.example', '/redirect', 'Handler\\RedirectHandler');
 
-return new NW\Route\Router($routes);
+return new WalkWeb\NW\Route\Router($routes);

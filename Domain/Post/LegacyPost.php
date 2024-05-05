@@ -3,9 +3,9 @@
 namespace Domain\Post;
 
 use Exception;
-use NW\AppException;
-use NW\Container;
-use NW\Traits\StringTrait;
+use WalkWeb\NW\AppException;
+use WalkWeb\NW\Container;
+use WalkWeb\NW\Traits\StringTrait;
 
 /**
  * Это старый вариация модели в которой валидация интегрирована внутрь самой модели и реализована через класс Validator

@@ -8,7 +8,7 @@ use Exception;
 use Domain\Post\PostException;
 use Domain\Post\PostFactory;
 use Domain\Post\PostInterface;
-use NW\AppException;
+use WalkWeb\NW\AppException;
 use Ramsey\Uuid\Uuid;
 use Tests\AbstractTest;
 

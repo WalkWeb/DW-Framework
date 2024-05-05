@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace Tests\utils;
 
-use NW\AbstractHandler;
-use NW\Container;
-use NW\Request;
-use NW\Response;
+use WalkWeb\NW\AbstractHandler;
+use WalkWeb\NW\Container;
+use WalkWeb\NW\Request;
+use WalkWeb\NW\Response;
 
 /**
- * Так как NW\Handler является абстрактным классом, мы не можем протестировать его напрямую. Для этого создан
- * ExampleHandler, который просто наследуется от NW\Handler
+ * Так как WalkWeb\NW\Handler является абстрактным классом, мы не можем протестировать его напрямую. Для этого создан
+ * ExampleHandler, который просто наследуется от WalkWeb\NW\Handler
  *
  * @package Tests\utils
  */

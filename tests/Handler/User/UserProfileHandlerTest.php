@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Tests\Handler\User;
 
 use Domain\User\UserInterface;
-use NW\AppException;
-use NW\Request;
-use NW\Response;
+use WalkWeb\NW\AppException;
+use WalkWeb\NW\Request;
+use WalkWeb\NW\Response;
 use Tests\AbstractTest;
 
 class UserProfileHandlerTest extends AbstractTest
@@ -48,7 +48,7 @@ class UserProfileHandlerTest extends AbstractTest
      *
      * @throws AppException
      */
-    public function testUserProfileHandlerAuth(): void
+    public function testUserProfileHandlerAuthAlready(): void
     {
         $authToken = 'VBajfT8P6PFtrkHhCqb7ZNwIFG45a5';
         $request = new Request(['REQUEST_URI' => '/profile'], [], [UserInterface::AUTH_TOKEN => $authToken]);

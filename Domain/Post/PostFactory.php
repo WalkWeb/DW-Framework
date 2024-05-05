@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Domain\Post;
 
 use Exception;
-use NW\AppException;
-use NW\Traits\StringTrait;
-use NW\Traits\ValidationTrait;
+use WalkWeb\NW\AppException;
+use WalkWeb\NW\Traits\StringTrait;
+use WalkWeb\NW\Traits\ValidationTrait;
 use Ramsey\Uuid\Uuid;
 
 class PostFactory

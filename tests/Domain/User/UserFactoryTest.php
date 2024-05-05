@@ -9,7 +9,7 @@ use Exception;
 use Domain\User\UserException;
 use Domain\User\UserFactory;
 use Domain\User\UserInterface;
-use NW\AppException;
+use WalkWeb\NW\AppException;
 use Ramsey\Uuid\Uuid;
 use Tests\AbstractTest;
 

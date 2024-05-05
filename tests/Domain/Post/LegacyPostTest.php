@@ -7,7 +7,7 @@ namespace Tests\Domain\Post;
 use Domain\Post\LegacyPost;
 use Domain\Post\PostException;
 use Exception;
-use NW\AppException;
+use WalkWeb\NW\AppException;
 use Ramsey\Uuid\Uuid;
 use Tests\AbstractTest;
 

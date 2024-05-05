@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Tests\Handler\User;
 
 use Domain\User\UserInterface;
-use NW\App;
-use NW\AppException;
-use NW\Request;
-use NW\Response;
+use WalkWeb\NW\App;
+use WalkWeb\NW\AppException;
+use WalkWeb\NW\Request;
+use WalkWeb\NW\Response;
 use Tests\AbstractTest;
 
 class TemplateChangeHandlerTest extends AbstractTest
@@ -36,7 +36,7 @@ class TemplateChangeHandlerTest extends AbstractTest
      */
     public function testTemplateChangeHandlerNoChange(): void
     {
-        $authToken = 'VBajfT8P6PFtrkHhCqb7ZNwIFG45a5';
+        $authToken = 'VBajfT8P6PFtrkHhCqb7ZNwIFGyyyy';
         $request = new Request(['REQUEST_URI' => '/change_template/default'], [], [UserInterface::AUTH_TOKEN => $authToken]);
 
         self::assertJsonSuccess($this->app->handle($request));
@@ -50,7 +50,7 @@ class TemplateChangeHandlerTest extends AbstractTest
     public function testTemplateChangeHandlerUnknownTemplate(): void
     {
         $template = 'xxx';
-        $authToken = 'VBajfT8P6PFtrkHhCqb7ZNwIFG45a5';
+        $authToken = 'VBajfT8P6PFtrkHhCqb7ZNwIFGyyyy';
         $request = new Request(['REQUEST_URI' => "/change_template/$template"], [], [UserInterface::AUTH_TOKEN => $authToken]);
         $response = $this->app->handle($request);
 
@@ -68,7 +68,7 @@ class TemplateChangeHandlerTest extends AbstractTest
         $template = 'light';
         $container = $this->getContainer();
         $container->getConnectionPool()->getConnection()->autocommit(false);
-        $authToken = 'VBajfT8P6PFtrkHhCqb7ZNwIFG45a5';
+        $authToken = 'VBajfT8P6PFtrkHhCqb7ZNwIFGyyyy';
         $request = new Request(['REQUEST_URI' => "/change_template/$template"], [], [UserInterface::AUTH_TOKEN => $authToken]);
         $router = require __DIR__ . '/../../../routes/web.php';
         $app = new App($router, $container);

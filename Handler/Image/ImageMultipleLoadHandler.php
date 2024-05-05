@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace Handler\Image;
 
 use Exception;
-use NW\AbstractHandler;
-use NW\AppException;
-use NW\Loader\LoaderImage;
-use NW\Request;
-use NW\Response;
+use WalkWeb\NW\AbstractHandler;
+use WalkWeb\NW\AppException;
+use WalkWeb\NW\Loader\LoaderImage;
+use WalkWeb\NW\Request;
+use WalkWeb\NW\Response;
 
 class ImageMultipleLoadHandler extends AbstractHandler
 {

@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Domain\User;
 
 use Domain\User\DTO\LoginRequest;
-use NW\AppException;
-use NW\Container;
+use WalkWeb\NW\AppException;
+use WalkWeb\NW\Container;
 
 class UserRepository
 {

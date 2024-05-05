@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Tests\Handler\User;
 
 use Domain\User\UserInterface;
-use NW\AppException;
-use NW\Request;
-use NW\Response;
+use WalkWeb\NW\AppException;
+use WalkWeb\NW\Request;
+use WalkWeb\NW\Response;
 use Tests\AbstractTest;
 
 class LogoutHandlerTest extends AbstractTest
@@ -19,7 +19,7 @@ class LogoutHandlerTest extends AbstractTest
      */
     public function testLogoutHandler(): void
     {
-        $authToken = 'VBajfT8P6PFtrkHhCqb7ZNwIFG45a5';
+        $authToken = 'VBajfT8P6PFtrkHhCqb7ZNwIFGyyyy';
         $request = new Request(['REQUEST_URI' => '/logout'], [], [UserInterface::AUTH_TOKEN => $authToken]);
         $response = $this->app->handle($request);
 

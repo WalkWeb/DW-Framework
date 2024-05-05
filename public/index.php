@@ -10,10 +10,10 @@ if (file_exists(__DIR__ . '/../config.local.php')) {
     require_once __DIR__ . '/../config.php';
 }
 
-use NW\Container;
-use NW\Request;
-use NW\Runtime;
-use NW\App;
+use WalkWeb\NW\Container;
+use WalkWeb\NW\Request;
+use WalkWeb\NW\Runtime;
+use WalkWeb\NW\App;
 
 // exception не перехватываются - их корректная обработка для разных режимов (APP_ENV=prod/dev/test) происходит в AppException
 

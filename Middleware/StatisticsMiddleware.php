@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Middleware;
 
-use NW\AbstractMiddleware;
-use NW\AppException;
-use NW\Request;
-use NW\Response;
+use WalkWeb\NW\AbstractMiddleware;
+use WalkWeb\NW\AppException;
+use WalkWeb\NW\Request;
+use WalkWeb\NW\Response;
 
 class StatisticsMiddleware extends AbstractMiddleware
 {
