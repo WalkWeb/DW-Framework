@@ -28,9 +28,9 @@ $routes->get('verified.email', '/verified_email', 'Handler\\User\\VerifiedEmailH
 $routes->get('check.email', '/check_email/{token}', 'Handler\\User\\CheckEmailHandler', ['token' => '[a-zA-Z0-9-]+']);
 
 $routes
-    ->addMiddleware('CreatedByMiddleware')
-    ->addMiddleware('StatisticsMiddleware')
-    ->addMiddleware('AuthMiddleware')
+    ->addMiddleware('Middleware\\CreatedByMiddleware')
+    ->addMiddleware('Middleware\\StatisticsMiddleware')
+    ->addMiddleware('Middleware\\AuthMiddleware')
 ;
 
 $routes->get('redirect.example', '/redirect', 'Handler\\RedirectHandler');

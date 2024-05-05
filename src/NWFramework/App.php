@@ -182,8 +182,7 @@ class App
     {
         $classes = [];
 
-        foreach ($middlewares as $priority => $middleware) {
-            $className = $this->getContainer()->getMiddlewareDir() . '\\' . $middleware;
+        foreach ($middlewares as $priority => $className) {
 
             if (!class_exists($className)) {
                 throw new AppException(sprintf(self::ERROR_MISS_MIDDLEWARE, $className));

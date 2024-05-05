@@ -15,6 +15,10 @@ use ReflectionException;
 use Tests\AbstractTest;
 use Handler\MainHandler;
 use Tests\utils\ExampleHandler;
+use Tests\utils\InvalidMiddleware;
+use Tests\utils\Middleware1;
+use Tests\utils\Middleware2;
+use Tests\utils\Middleware3;
 
 class AppTest extends AbstractTest
 {
@@ -242,7 +246,7 @@ EOT;
         $app = new App($router, $container);
 
         $this->expectException(AppException::class);
-        $this->expectExceptionMessage(sprintf(App::ERROR_MISS_MIDDLEWARE, $container->getMiddlewareDir() . '\\' . $middleware));
+        $this->expectExceptionMessage(sprintf(App::ERROR_MISS_MIDDLEWARE, $middleware));
         $app->handle($request);
     }
 
@@ -253,16 +257,16 @@ EOT;
      */
     public function testAppInvalidMiddleware(): void
     {
-        $middleware = 'InvalidMiddleware';
+        $middleware = InvalidMiddleware::class;
         $routes = new RouteCollection();
         $routes->get('test', '/', MainHandler::class)->addMiddleware($middleware);
         $router = new Router($routes);
         $request = new Request(['REQUEST_URI' => '/']);
-        $container = $this->getContainer(APP_ENV, VIEW_DIR, '\\Tests\\utils');
+        $container = $this->getContainer(APP_ENV, VIEW_DIR);
         $app = new App($router, $container);
 
         $this->expectException(AppException::class);
-        $this->expectExceptionMessage(sprintf(App::ERROR_INVALID_MIDDLEWARE, $container->getMiddlewareDir() . '\\' . $middleware));
+        $this->expectExceptionMessage(sprintf(App::ERROR_INVALID_MIDDLEWARE, $middleware));
         $app->handle($request);
     }
 
@@ -278,13 +282,13 @@ EOT;
     {
         $routes = new RouteCollection();
         $routes->get('test', '/', ExampleHandler::class)
-            ->addMiddleware('Middleware1')
-            ->addMiddleware('Middleware2')
-            ->addMiddleware('Middleware3')
+            ->addMiddleware(Middleware1::class)
+            ->addMiddleware(Middleware2::class)
+            ->addMiddleware(Middleware3::class)
         ;
         $router = new Router($routes);
 
-        $container = $this->getContainer(APP_ENV, VIEW_DIR, '\\Tests\\utils');
+        $container = $this->getContainer(APP_ENV, VIEW_DIR);
 
         $app = new App($router, $container);
 
@@ -307,13 +311,13 @@ EOT;
     {
         $routes = new RouteCollection();
         $routes->get('test', '/', ExampleHandler::class)
-            ->addMiddleware('Middleware1', 50)
-            ->addMiddleware('Middleware2', 100)
-            ->addMiddleware('Middleware3', 10)
+            ->addMiddleware(Middleware1::class, 50)
+            ->addMiddleware(Middleware2::class, 100)
+            ->addMiddleware(Middleware3::class, 10)
         ;
         $router = new Router($routes);
 
-        $container = $this->getContainer(APP_ENV, VIEW_DIR, '\\Tests\\utils');
+        $container = $this->getContainer(APP_ENV, VIEW_DIR);
 
         $app = new App($router, $container);
 

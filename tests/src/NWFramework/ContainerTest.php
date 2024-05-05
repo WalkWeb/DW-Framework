@@ -39,7 +39,6 @@ class ContainerTest extends AbstractTest
         self::assertEquals(new Csrf($container), $container->getCsrf());
         self::assertEquals(new Captcha($container), $container->getCaptcha());
         self::assertEquals(new Validator($container), $container->getValidator());
-        self::assertEquals(MIDDLEWARE_DIR, $container->getMiddlewareDir());
         self::assertEquals(CACHE_DIR, $container->getCacheDir());
         self::assertEquals(VIEW_DIR, $container->getViewDir());
         self::assertEquals(APP_ENV, $container->getAppEnv());
@@ -49,7 +48,6 @@ class ContainerTest extends AbstractTest
         $loggerSaveLog = false;
         $loggerDir = 'logger_dir';
         $loggerFileName = 'logger_file_name';
-        $middlewareDir = 'middleware_dir';
         $cacheDir = 'cache_dir';
         $viewDir = 'view_dir';
         $template = 'template';
@@ -61,7 +59,6 @@ class ContainerTest extends AbstractTest
             $loggerSaveLog,
             $loggerDir,
             $loggerFileName,
-            $middlewareDir,
             $cacheDir,
             $viewDir,
             $template,
@@ -74,7 +71,6 @@ class ContainerTest extends AbstractTest
         self::assertEquals(new Csrf($container), $container->getCsrf());
         self::assertEquals(new Captcha($container), $container->getCaptcha());
         self::assertEquals(new Validator($container), $container->getValidator());
-        self::assertEquals($middlewareDir, $container->getMiddlewareDir());
         self::assertEquals($cacheDir, $container->getCacheDir());
         self::assertEquals($viewDir, $container->getViewDir());
         self::assertEquals($appEnv, $container->getAppEnv());

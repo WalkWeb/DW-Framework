@@ -43,7 +43,6 @@ class Container
     private bool $loggerSaveLog;
     private string $loggerDir;
     private string $loggerFileName;
-    private string $middlewareDir;
     private string $cacheDir;
     private string $viewDir;
     private string $template;
@@ -55,7 +54,6 @@ class Container
      * @param bool $loggerSaveLog
      * @param string $loggerDir
      * @param string $loggerFileName
-     * @param string $middlewareDir
      * @param string $cacheDir
      * @param string $viewDir
      * @param string $template
@@ -68,7 +66,6 @@ class Container
         bool $loggerSaveLog,
         string $loggerDir,
         string $loggerFileName,
-        string $middlewareDir,
         string $cacheDir,
         string $viewDir,
         string $template
@@ -80,7 +77,6 @@ class Container
         $this->loggerSaveLog = $loggerSaveLog;
         $this->loggerDir = $loggerDir;
         $this->loggerFileName = $loggerFileName;
-        $this->middlewareDir = $middlewareDir;
         $this->cacheDir = $cacheDir;
         $this->viewDir = $viewDir;
         $this->template = $template;
@@ -93,8 +89,6 @@ class Container
      * @param bool $loggerSaveLog
      * @param string $loggerDir
      * @param string $loggerFileName
-     * @param string $handlersDir
-     * @param string $middlewareDir
      * @param string $cacheDir
      * @param string $viewDir
      * @param string $template
@@ -108,7 +102,6 @@ class Container
         bool $loggerSaveLog = SAVE_LOG,
         string $loggerDir = LOG_DIR,
         string $loggerFileName = LOG_FILE_NAME,
-        string $middlewareDir = MIDDLEWARE_DIR,
         string $cacheDir = CACHE_DIR,
         string $viewDir = VIEW_DIR,
         string $template = TEMPLATE_DEFAULT
@@ -121,7 +114,6 @@ class Container
             $loggerSaveLog,
             $loggerDir,
             $loggerFileName,
-            $middlewareDir,
             $cacheDir,
             $viewDir,
             $template
@@ -267,14 +259,6 @@ class Container
     public function getUser(): object
     {
         return $this->get('user');
-    }
-
-    /**
-     * @return string
-     */
-    public function getMiddlewareDir(): string
-    {
-        return $this->middlewareDir;
     }
 
     /**
