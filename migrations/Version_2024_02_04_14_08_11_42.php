@@ -5,19 +5,19 @@ declare(strict_types=1);
 namespace Migrations;
 
 use WalkWeb\NW\AppException;
-use WalkWeb\NW\MySQL\Connection;
+use WalkWeb\NW\MySQL\ConnectionPool;
 
 class Version_2024_02_04_14_08_11_42
 {
     /**
      * Добавляются таблицы users и books
      *
-     * @param Connection $connection
+     * @param ConnectionPool $connectionPool
      * @throws AppException
      */
-    public function run(Connection $connection): void
+    public function run(ConnectionPool $connectionPool): void
     {
-        $connection->query("
+        $connectionPool->getConnection()->query("
             CREATE TABLE IF NOT EXISTS `users` (
                 `id`             VARCHAR(36) NOT NULL PRIMARY KEY,
                 `login`          VARCHAR(14) NOT NULL UNIQUE,
@@ -33,7 +33,7 @@ class Version_2024_02_04_14_08_11_42
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
         ");
 
-        $connection->query("
+        $connectionPool->getConnection()->query("
             CREATE TABLE IF NOT EXISTS `books` (
                 `id`   VARCHAR(36) NOT NULL,
                 `name` VARCHAR(255) NOT NULL 

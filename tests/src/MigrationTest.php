@@ -42,8 +42,8 @@ class MigrationTest extends AbstractTest
 
         // Так как содержимое миграции будет всегда уникальным, проверяем лишь наличие некоторого текста
         self::assertIsInt(stripos($content, 'Version'));
-        self::assertIsInt(stripos($content, 'public function run(Connection $connection): void'));
-        self::assertIsInt(stripos($content, '//$connection->query(\'...Your SQL code...\');'));
+        self::assertIsInt(stripos($content, 'public function run(ConnectionPool $connectionPool): void'));
+        self::assertIsInt(stripos($content, '//$connectionPool->getConnection()->query(\'...Your SQL code...\');'));
 
         // В завершение удаляем созданную миграцию
         unlink($filePath);

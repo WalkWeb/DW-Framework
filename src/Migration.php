@@ -6,7 +6,7 @@ namespace WalkWeb\NW;
 
 use DateTime;
 use Exception;
-use WalkWeb\NW\MySQL\Connection;
+use WalkWeb\NW\MySQL\ConnectionPool;
 use WalkWeb\NW\Route\RouteCollection;
 use WalkWeb\NW\Route\Router;
 
@@ -14,9 +14,11 @@ class Migration
 {
     public const FILE_PREFIX    = 'Version';
     public const TABLE_NAME     = 'migrations';
+
+    // TODO Брать путь до миграций из контейнера
     public const MIGRATIONS_DIR = __DIR__ . '/../migrations/';
 
-    private Connection $connection;
+    private ConnectionPool $connectionPool;
 
     /**
      * @throws Exception
@@ -24,7 +26,7 @@ class Migration
     public function __construct()
     {
         $router = new Router(new RouteCollection());
-        $this->connection = (new App($router, Container::create()))->getContainer()->getConnectionPool()->getConnection();
+        $this->connectionPool = (new App($router, Container::create()))->getContainer()->getConnectionPool();
     }
 
     /**
@@ -33,10 +35,10 @@ class Migration
     public function create(): string
     {
         $date = new DateTime();
-        $microtime = microtime(true);
-        $millisecond = round($microtime - floor($microtime), 2) * 100;
+        $microTime = microtime(true);
+        $millisecond = round($microTime - floor($microTime), 2) * 100;
 
-        $className = "Version_{$date->format('Y_m_d_H_i_s')}_$millisecond";
+        $className = self::FILE_PREFIX . "_{$date->format('Y_m_d_H_i_s')}_$millisecond";
 
         $fileContent = '<?php
 
@@ -44,13 +46,18 @@ declare(strict_types=1);
 
 namespace Migrations;
 
-use WalkWeb\NW\MySQL\Connection;
+use WalkWeb\NW\AppException;
+use WalkWeb\NW\MySQL\ConnectionPool;
 
 class ' . $className . '
 {
-    public function run(Connection $connection): void
+    /**
+     * @param ConnectionPool $connectionPool
+     * @throws AppException
+     */
+    public function run(ConnectionPool $connectionPool): void
     {
-        //$connection->query(\'...Your SQL code...\');
+        //$connectionPool->getConnection()->query(\'...Your SQL code...\');
         echo "run ' . $className . '\n";
     }
 }
@@ -85,8 +92,8 @@ class ' . $className . '
         foreach ($migrationsForRun as $migrationForRun) {
             $className = 'Migrations\\' . pathinfo($migrationForRun, PATHINFO_FILENAME);
             $migration = new $className;
-            $migration->run($this->connection);
-            $this->connection->query("INSERT INTO " . self::TABLE_NAME . " (version) VALUES ('$migrationForRun')");
+            $migration->run($this->connectionPool);
+            $this->connectionPool->getConnection()->query("INSERT INTO " . self::TABLE_NAME . " (version) VALUES ('$migrationForRun')");
         }
     }
 
@@ -98,7 +105,7 @@ class ' . $className . '
      */
     private function createTable(): void
     {
-        $this->connection->query(
+        $this->connectionPool->getConnection()->query(
             "CREATE TABLE IF NOT EXISTS " . self::TABLE_NAME . " (
                     `version` VARCHAR(255) NOT NULL,
                     `executed_at` DATETIME DEFAULT CURRENT_TIMESTAMP
@@ -114,7 +121,7 @@ class ' . $className . '
      */
     private function getDoneMigrations(): array
     {
-        return $this->connection->query("SELECT `version` FROM " . self::TABLE_NAME);
+        return $this->connectionPool->getConnection()->query("SELECT `version` FROM " . self::TABLE_NAME);
     }
 
     /**
