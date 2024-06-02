@@ -18,11 +18,11 @@ class ValidatorTest extends AbstractTest
         $validator = $this->getContainer()->getValidator();
 
         // Success
-        self::assertTrue($validator->check('email', 'mail@mail.com', ['mail']));
+        self::assertTrue($validator->check('param', 'mail@mail.com', ['mail']));
 
         // False
-        self::assertFalse($validator->check('email', 'mail@mail', ['mail']));
-        self::assertEquals('Указана некорректная почта', $validator->getError());
+        self::assertFalse($validator->check('param', 'mail@mail', ['mail']));
+        self::assertEquals('Invalid email', $validator->getError());
     }
 
     /**
@@ -33,11 +33,11 @@ class ValidatorTest extends AbstractTest
         $validator = $this->getContainer()->getValidator();
 
         // Success
-        self::assertTrue($validator->check('integer', 100, ['int']));
+        self::assertTrue($validator->check('param', 100, ['int']));
 
         // False
-        self::assertFalse($validator->check('integer', '100', ['int']));
-        self::assertEquals('integer должен быть числом', $validator->getError());
+        self::assertFalse($validator->check('param', '100', ['int']));
+        self::assertEquals('param expected int', $validator->getError());
     }
 
     /**
@@ -48,11 +48,11 @@ class ValidatorTest extends AbstractTest
         $validator = $this->getContainer()->getValidator();
 
         // Success
-        self::assertTrue($validator->check('string', 'name', ['string']));
+        self::assertTrue($validator->check('param', 'name', ['string']));
 
         // False
-        self::assertFalse($validator->check('string', 100, ['string']));
-        self::assertEquals('string должен быть строкой', $validator->getError());
+        self::assertFalse($validator->check('param', 100, ['string']));
+        self::assertEquals('param expected string', $validator->getError());
     }
 
     /**
@@ -63,11 +63,11 @@ class ValidatorTest extends AbstractTest
         $validator = $this->getContainer()->getValidator();
 
         // Success
-        self::assertTrue($validator->check('boolean', false, ['boolean']));
+        self::assertTrue($validator->check('param', false, ['boolean']));
 
         // False
-        self::assertFalse($validator->check('boolean', 1, ['boolean']));
-        self::assertEquals('boolean должен быть логическим типом', $validator->getError());
+        self::assertFalse($validator->check('param', 1, ['boolean']));
+        self::assertEquals('param expected boolean', $validator->getError());
     }
 
     /**
@@ -78,11 +78,11 @@ class ValidatorTest extends AbstractTest
         $validator = $this->getContainer()->getValidator();
 
         // Success
-        self::assertTrue($validator->check('in', 10, ['in' => [10, 20, 30]]));
+        self::assertTrue($validator->check('param', 10, ['in' => [10, 20, 30]]));
 
         // False
-        self::assertFalse($validator->check('in', 100, ['in' => [10, 20, 30]]));
-        self::assertEquals('in указан некорректно', $validator->getError());
+        self::assertFalse($validator->check('param', 100, ['in' => [10, 20, 30]]));
+        self::assertEquals('param invalid value', $validator->getError());
     }
 
     /**
@@ -93,11 +93,11 @@ class ValidatorTest extends AbstractTest
         $validator = $this->getContainer()->getValidator();
 
         // Success
-        self::assertTrue($validator->check('parent', 'Login', ['parent' => '/^[a-zA-Z0-9а-яА-ЯёЁ\-_]*$/u',]));
+        self::assertTrue($validator->check('param', 'Login', ['parent' => '/^[a-zA-Z0-9а-яА-ЯёЁ\-_]*$/u',]));
 
         // False
-        self::assertFalse($validator->check('parent', 'InvalidLogin&', ['parent' => '/^[a-zA-Z0-9а-яА-ЯёЁ\-_]*$/u',]));
-        self::assertEquals('parent указан некорректно', $validator->getError());
+        self::assertFalse($validator->check('param', 'InvalidLogin&', ['parent' => '/^[a-zA-Z0-9а-яА-ЯёЁ\-_]*$/u',]));
+        self::assertEquals('param does not match the pattern', $validator->getError());
     }
 
     /**
@@ -110,11 +110,11 @@ class ValidatorTest extends AbstractTest
         $validator = $this->getContainer()->getValidator();
 
         // Success
-        self::assertTrue($validator->check('min string', 'Login', ['string', 'min' => 5]));
+        self::assertTrue($validator->check('param', 'Login', ['string', 'min' => 5]));
 
         // False
-        self::assertFalse($validator->check('min string', 'Login', ['string', 'min' => 10]));
-        self::assertEquals('min string должен быть больше или равен 10 символов', $validator->getError());
+        self::assertFalse($validator->check('param', 'Login', ['string', 'min' => 10]));
+        self::assertEquals('param expected length >= 10', $validator->getError());
     }
 
     /**
@@ -127,11 +127,11 @@ class ValidatorTest extends AbstractTest
         $validator = $this->getContainer()->getValidator();
 
         // Success
-        self::assertTrue($validator->check('min int', 10, ['int', 'min' => 9]));
+        self::assertTrue($validator->check('param', 10, ['int', 'min' => 9]));
 
         // False
-        self::assertFalse($validator->check('min int', 9, ['int', 'min' => 10]));
-        self::assertEquals('min int должен быть больше или равен 10', $validator->getError());
+        self::assertFalse($validator->check('param', 9, ['int', 'min' => 10]));
+        self::assertEquals('param expected >= 10', $validator->getError());
     }
 
     /**
@@ -142,11 +142,11 @@ class ValidatorTest extends AbstractTest
         $validator = $this->getContainer()->getValidator();
 
         // Success
-        self::assertTrue($validator->check('max string', 'Login', ['string', 'max' => 10]));
+        self::assertTrue($validator->check('param', 'Login', ['string', 'max' => 10]));
 
         // False
-        self::assertFalse($validator->check('max string', 'Login', ['string', 'max' => 3]));
-        self::assertEquals('max string должен быть меньше или равен 3 символов', $validator->getError());
+        self::assertFalse($validator->check('param', 'Login', ['string', 'max' => 3]));
+        self::assertEquals('param expected length <= 3', $validator->getError());
     }
 
     /**
@@ -157,11 +157,11 @@ class ValidatorTest extends AbstractTest
         $validator = $this->getContainer()->getValidator();
 
         // Success
-        self::assertTrue($validator->check('max int', 10, ['int', 'max' => 10]));
+        self::assertTrue($validator->check('param', 10, ['int', 'max' => 10]));
 
         // False
-        self::assertFalse($validator->check('max int', 4, ['int', 'max' => 3]));
-        self::assertEquals('max int должен быть меньше или равен 3', $validator->getError());
+        self::assertFalse($validator->check('param', 4, ['int', 'max' => 3]));
+        self::assertEquals('param expected <= 3', $validator->getError());
     }
 
     /**
@@ -172,11 +172,11 @@ class ValidatorTest extends AbstractTest
         $validator = $this->getContainer()->getValidator();
 
         // Success
-        self::assertTrue($validator->check('required', 123, ['required']));
+        self::assertTrue($validator->check('param', 123, ['required']));
 
         // False
-        self::assertFalse($validator->check('required', null, ['required']));
-        self::assertEquals('required не может быть пустым', $validator->getError());
+        self::assertFalse($validator->check('param', null, ['required']));
+        self::assertEquals('param cannot be empty', $validator->getError());
 
         // No required
         self::assertTrue($validator->check('no required', null, []));
@@ -199,7 +199,7 @@ class ValidatorTest extends AbstractTest
             'unique',
         ];
 
-        self::assertFalse($validator->check('login', 'InvalidLogin&', $rules, null, null, $error));
+        self::assertFalse($validator->check('param', 'InvalidLogin&', $rules, null, null, $error));
         self::assertEquals($error, $validator->getError());
     }
 
@@ -216,7 +216,7 @@ class ValidatorTest extends AbstractTest
             'unique',
         ];
 
-        self::assertTrue($validator->check('login', 'abc', $rules, 'default/books', 'name'));
+        self::assertTrue($validator->check('param', 'abc', $rules, 'default/books', 'name'));
         self::assertEquals('', $validator->getError());
     }
 
@@ -233,8 +233,8 @@ class ValidatorTest extends AbstractTest
             'unique',
         ];
 
-        self::assertFalse($validator->check('login', 'abc', $rules, null, 'name'));
-        self::assertEquals('Не указана таблица или колонка для проверки', $validator->getError());
+        self::assertFalse($validator->check('param', 'abc', $rules, null, 'name'));
+        self::assertEquals('Missed database/table', $validator->getError());
     }
 
     /**
@@ -252,7 +252,7 @@ class ValidatorTest extends AbstractTest
             'unique',
         ];
 
-        self::assertFalse($validator->check('login', 'abc', $rules, 'invalid_data', 'name'));
+        self::assertFalse($validator->check('param', 'abc', $rules, 'invalid_data', 'name'));
         self::assertEquals('Invalid database or table info, expected "database/name"', $validator->getError());
     }
 
@@ -269,8 +269,8 @@ class ValidatorTest extends AbstractTest
             'unique',
         ];
 
-        self::assertFalse($validator->check('login', 'abc', $rules, 'users'));
-        self::assertEquals('Не указана таблица или колонка для проверки', $validator->getError());
+        self::assertFalse($validator->check('param', 'abc', $rules, 'users'));
+        self::assertEquals('Missed database/table', $validator->getError());
     }
 
     /**
@@ -298,8 +298,8 @@ class ValidatorTest extends AbstractTest
         // Insert data
         $this->insert($connection, $id, $book);
 
-        self::assertFalse($validator->check('book', $book, $rules, 'default/books', 'name'));
-        self::assertEquals('Указанный book уже существует, выберите другой', $validator->getError());
+        self::assertFalse($validator->check('param', $book, $rules, 'default/books', 'name'));
+        self::assertEquals('specified value in param already exists, specify another one', $validator->getError());
 
         $connection->rollback();
     }

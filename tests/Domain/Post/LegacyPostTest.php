@@ -59,31 +59,31 @@ class LegacyPostTest extends AbstractTest
             [
                 '1234',
                 'text text text',
-                'Заголовок должен быть больше или равен 5 символов',
+                'Заголовок expected length >= 5',
             ],
             // title больше максимальной длинны
             [
                 self::generateString(51),
                 'text text text',
-                'Заголовок должен быть меньше или равен 50 символов',
+                'Заголовок expected length <= 50',
             ],
             // title содержит недопустимые символы
             [
                 'title&',
                 'text text text',
-                'Заголовок указан некорректно',
+                'Заголовок does not match the pattern',
             ],
             // text меньше минимальной длинны
             [
                 'title',
                 '1234',
-                'Содержимое поста должен быть больше или равен 5 символов',
+                'Содержимое поста expected length >= 5',
             ],
             // text больше максимальной длинны
             [
                 'title',
                 self::generateString(501),
-                'Содержимое поста должен быть меньше или равен 500 символов',
+                'Содержимое поста expected length <= 500',
             ],
         ];
     }

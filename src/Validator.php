@@ -2,8 +2,6 @@
 
 namespace WalkWeb\NW;
 
-// TODO Заменить все ошибки на английский
-
 /**
  * Реализовано:
  * (+) email
@@ -132,7 +130,7 @@ class Validator
         if (is_string($param)) {
             return true;
         }
-        $this->addError($this->name . ' должен быть строкой');
+        $this->addError($this->name . ' expected string');
         return false;
     }
 
@@ -147,7 +145,7 @@ class Validator
         if (is_int($param)) {
             return true;
         }
-        $this->addError($this->name . ' должен быть числом');
+        $this->addError($this->name . ' expected int');
         return false;
     }
 
@@ -164,14 +162,14 @@ class Validator
             if ($param >= $value) {
                 return true;
             }
-            $this->addError($this->name . ' должен быть больше или равен ' . $value);
+            $this->addError($this->name . ' expected >= ' . $value);
             return false;
         }
 
         if (mb_strlen($param) >= $value) {
             return true;
         }
-        $this->addError($this->name . ' должен быть больше или равен ' . $value . ' символов');
+        $this->addError($this->name . ' expected length >= ' . $value);
         return false;
     }
 
@@ -188,14 +186,14 @@ class Validator
             if ($param <= $value) {
                 return true;
             }
-            $this->addError($this->name . ' должен быть меньше или равен ' . $value);
+            $this->addError($this->name . ' expected <= ' . $value);
             return false;
         }
 
         if (mb_strlen($param) <= $value) {
             return true;
         }
-        $this->addError($this->name . ' должен быть меньше или равен ' . $value . ' символов');
+        $this->addError($this->name . ' expected length <= ' . $value);
         return false;
     }
 
@@ -210,7 +208,7 @@ class Validator
         if (filter_var($param, FILTER_VALIDATE_EMAIL)) {
             return true;
         }
-        $this->addError('Указана некорректная почта');
+        $this->addError('Invalid email');
         return false;
     }
 
@@ -223,7 +221,7 @@ class Validator
     protected function required($param): bool
     {
         if ($param === null || $param === '') {
-            $this->addError($this->name . ' не может быть пустым');
+            $this->addError($this->name . ' cannot be empty');
             return false;
         }
         return true;
@@ -240,7 +238,7 @@ class Validator
         if (is_bool($param)) {
             return true;
         }
-        $this->addError($this->name . ' должен быть логическим типом');
+        $this->addError($this->name . ' expected boolean');
         return false;
     }
 
@@ -257,7 +255,7 @@ class Validator
             return true;
         }
 
-        $this->addError($this->name . ' указан некорректно');
+        $this->addError($this->name . ' invalid value');
 
         return false;
     }
@@ -274,7 +272,7 @@ class Validator
         if (preg_match($value, $param)) {
             return true;
         }
-        $this->addError($this->name . ' указан некорректно');
+        $this->addError($this->name . ' does not match the pattern');
         return false;
     }
 
@@ -290,7 +288,7 @@ class Validator
     private function unique($param, $connect, $column): bool
     {
         if ($connect === null || $column === null) {
-            $this->addError('Не указана таблица или колонка для проверки');
+            $this->addError('Missed database/table');
             return false;
         }
 
@@ -309,7 +307,7 @@ class Validator
             return true;
         }
 
-        $this->addError('Указанный ' .$this->name . ' уже существует, выберите другой');
+        $this->addError('specified value in ' .$this->name . ' already exists, specify another one');
 
         return false;
     }
