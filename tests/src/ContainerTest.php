@@ -41,6 +41,7 @@ class ContainerTest extends AbstractTest
         self::assertEquals(new Validator($container), $container->getValidator());
         self::assertEquals(CACHE_DIR, $container->getCacheDir());
         self::assertEquals(VIEW_DIR, $container->getViewDir());
+        self::assertEquals(MIGRATION_DIR, $container->getMigrationDir());
         self::assertEquals(APP_ENV, $container->getAppEnv());
 
         // create manually
@@ -50,6 +51,7 @@ class ContainerTest extends AbstractTest
         $loggerFileName = 'logger_file_name';
         $cacheDir = 'cache_dir';
         $viewDir = 'view_dir';
+        $migrationDir = 'migration_dir';
         $template = 'template';
 
         $container = Container::create(
@@ -61,6 +63,7 @@ class ContainerTest extends AbstractTest
             $loggerFileName,
             $cacheDir,
             $viewDir,
+            $migrationDir,
             $template,
         );
 
@@ -73,6 +76,7 @@ class ContainerTest extends AbstractTest
         self::assertEquals(new Validator($container), $container->getValidator());
         self::assertEquals($cacheDir, $container->getCacheDir());
         self::assertEquals($viewDir, $container->getViewDir());
+        self::assertEquals($migrationDir, $container->getMigrationDir());
         self::assertEquals($appEnv, $container->getAppEnv());
         self::assertEquals($template, $container->getTemplate());
     }

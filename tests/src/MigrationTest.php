@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\src;
 
 use Exception;
+use WalkWeb\NW\AppException;
 use WalkWeb\NW\Migration;
 use Tests\AbstractTest;
 
@@ -18,6 +19,7 @@ class MigrationTest extends AbstractTest
      * Тест на создание миграции
      *
      * @return void
+     * @throws AppException
      */
     public function testMigrationCreate(): void
     {
@@ -81,6 +83,20 @@ class MigrationTest extends AbstractTest
         // Удаляем созданную миграцию и запись о её добавлении
         unlink($filePath);
         $this->removeInsertRow();
+    }
+
+    /**
+     * Тест на ситуацию, когда указана неизвестная директория с миграциями
+     *
+     * @throws AppException
+     */
+    public function testMigrationDirMiss(): void
+    {
+        $migrationDir = 'invalid_migration_dir';
+        $this->expectException(AppException::class);
+        $this->expectExceptionMessage("Migration directory missed: $migrationDir");
+        $migration = new Migration($this->getContainer(APP_ENV, VIEW_DIR, $migrationDir));
+        $migration->create();
     }
 
     /**

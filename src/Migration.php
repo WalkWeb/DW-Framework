@@ -6,7 +6,6 @@ namespace WalkWeb\NW;
 
 use DateTime;
 use Exception;
-use WalkWeb\NW\MySQL\ConnectionPool;
 use WalkWeb\NW\Route\RouteCollection;
 use WalkWeb\NW\Route\Router;
 
@@ -15,22 +14,21 @@ class Migration
     public const FILE_PREFIX    = 'Version';
     public const TABLE_NAME     = 'migrations';
 
-    // TODO Брать путь до миграций из контейнера
-    public const MIGRATIONS_DIR = __DIR__ . '/../migrations/';
-
-    private ConnectionPool $connectionPool;
+    private Container $container;
 
     /**
-     * @throws Exception
+     * @param Container|null $container
+     * @throws AppException
      */
-    public function __construct()
+    public function __construct(?Container $container = null)
     {
         $router = new Router(new RouteCollection());
-        $this->connectionPool = (new App($router, Container::create()))->getContainer()->getConnectionPool();
+        $this->container = $container ?? (new App($router, Container::create()))->getContainer();
     }
 
     /**
      * @return string - Created filepath
+     * @throws AppException
      */
     public function create(): string
     {
@@ -63,7 +61,7 @@ class ' . $className . '
 }
 ';
 
-        $filePath = self::MIGRATIONS_DIR . $className . '.php';
+        $filePath = $this->getMigrationDir() . $className . '.php';
         $file = fopen($filePath, 'wb');
         fwrite($file, $fileContent);
         fclose($file);
@@ -92,8 +90,8 @@ class ' . $className . '
         foreach ($migrationsForRun as $migrationForRun) {
             $className = 'Migrations\\' . pathinfo($migrationForRun, PATHINFO_FILENAME);
             $migration = new $className;
-            $migration->run($this->connectionPool);
-            $this->connectionPool->getConnection()->query("INSERT INTO " . self::TABLE_NAME . " (version) VALUES ('$migrationForRun')");
+            $migration->run($this->container->getConnectionPool());
+            $this->container->getConnectionPool()->getConnection()->query("INSERT INTO " . self::TABLE_NAME . " (version) VALUES ('$migrationForRun')");
         }
     }
 
@@ -105,7 +103,7 @@ class ' . $className . '
      */
     private function createTable(): void
     {
-        $this->connectionPool->getConnection()->query(
+        $this->container->getConnectionPool()->getConnection()->query(
             "CREATE TABLE IF NOT EXISTS " . self::TABLE_NAME . " (
                     `version` VARCHAR(255) NOT NULL,
                     `executed_at` DATETIME DEFAULT CURRENT_TIMESTAMP
@@ -121,18 +119,19 @@ class ' . $className . '
      */
     private function getDoneMigrations(): array
     {
-        return $this->connectionPool->getConnection()->query("SELECT `version` FROM " . self::TABLE_NAME);
+        return $this->container->getConnectionPool()->getConnection()->query("SELECT `version` FROM " . self::TABLE_NAME);
     }
 
     /**
      * Получает список всех миграций (файлов). Файлы миграций должны начинаться с "Migration"
      *
      * @return array
+     * @throws AppException
      */
     private function getMigrations(): array
     {
         $migrations = [];
-        $files = scandir(self::MIGRATIONS_DIR);
+        $files = scandir($this->getMigrationDir());
 
         foreach ($files as $file) {
             if (strripos($file, self::FILE_PREFIX) === 0) {
@@ -159,5 +158,20 @@ class ' . $className . '
         }
 
         return false;
+    }
+
+    /**
+     * @return string
+     * @throws AppException
+     */
+    private function getMigrationDir(): string
+    {
+        $path = $this->container->getMigrationDir();
+
+        if (!file_exists($path)) {
+            throw new AppException("Migration directory missed: $path");
+        }
+
+        return $path;
     }
 }

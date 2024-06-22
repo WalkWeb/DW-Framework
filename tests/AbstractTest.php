@@ -51,12 +51,14 @@ abstract class AbstractTest extends TestCase
     /**
      * @param string $appEnv
      * @param string $viewDir
+     * @param string $migrationDir
      * @return Container
      * @throws AppException
      */
     protected function getContainer(
         string $appEnv = APP_ENV,
-        string $viewDir = VIEW_DIR
+        string $viewDir = VIEW_DIR,
+        string $migrationDir = MIGRATION_DIR
     ): Container
     {
         $container = new Container(
@@ -68,6 +70,7 @@ abstract class AbstractTest extends TestCase
             LOG_FILE_NAME,
             CACHE_DIR,
             $viewDir,
+            $migrationDir,
             TEMPLATE_DEFAULT,
         );
         $container->set(Runtime::class, new Runtime());

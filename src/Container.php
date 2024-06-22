@@ -9,7 +9,7 @@ use WalkWeb\NW\MySQL\ConnectionPool;
 class Container
 {
     public const APP_PROD = 'prod';
-    public const APP_DEV = 'dev';
+    public const APP_DEV  = 'dev';
     public const APP_TEST = 'test';
 
     public const GET_ERROR = '%s cannot be created automatically, it must be added to the container via set() manually';
@@ -42,9 +42,11 @@ class Container
     private array $mailerConfig;
     private bool $loggerSaveLog;
     private string $loggerDir;
+    // TODO Именование файла логов делать фиксированным
     private string $loggerFileName;
     private string $cacheDir;
     private string $viewDir;
+    private string $migrationDir;
     private string $template;
 
     /**
@@ -56,6 +58,7 @@ class Container
      * @param string $loggerFileName
      * @param string $cacheDir
      * @param string $viewDir
+     * @param string $migrationDir
      * @param string $template
      * @throws AppException
      */
@@ -68,6 +71,7 @@ class Container
         string $loggerFileName,
         string $cacheDir,
         string $viewDir,
+        string $migrationDir,
         string $template
     )
     {
@@ -79,6 +83,7 @@ class Container
         $this->loggerFileName = $loggerFileName;
         $this->cacheDir = $cacheDir;
         $this->viewDir = $viewDir;
+        $this->migrationDir = $migrationDir;
         $this->template = $template;
     }
 
@@ -91,6 +96,7 @@ class Container
      * @param string $loggerFileName
      * @param string $cacheDir
      * @param string $viewDir
+     * @param string $migrationDir
      * @param string $template
      * @return static
      * @throws AppException
@@ -104,6 +110,7 @@ class Container
         string $loggerFileName = LOG_FILE_NAME,
         string $cacheDir = CACHE_DIR,
         string $viewDir = VIEW_DIR,
+        string $migrationDir = MIGRATION_DIR,
         string $template = TEMPLATE_DEFAULT
     ): self
     {
@@ -116,6 +123,7 @@ class Container
             $loggerFileName,
             $cacheDir,
             $viewDir,
+            $migrationDir,
             $template
         );
     }
@@ -275,6 +283,14 @@ class Container
     public function getViewDir(): string
     {
         return $this->viewDir;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMigrationDir(): string
+    {
+        return $this->migrationDir;
     }
 
     /**

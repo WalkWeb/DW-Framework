@@ -39,6 +39,9 @@ define('CACHE_DIR', 'cache');
 /** Директория с вьюхами */
 define('VIEW_DIR', DIR . '/views/');
 
+/** Директория с миграциями */
+define('MIGRATION_DIR', DIR . '/migrations/');
+
 /** Сохранять ли логи в файл */
 define('SAVE_LOG', false);
 
