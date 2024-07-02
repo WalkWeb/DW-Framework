@@ -27,7 +27,6 @@
     "psr-4": {
       "Handler\\": "Handler/",
       "Middleware\\": "Middleware/",
-      "Repository\\": "Repository/",
       "Domain\\": "Domain/",
       "WalkWeb\\NW\\": "src/",
       "Migrations\\": "migrations/",

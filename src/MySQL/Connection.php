@@ -100,7 +100,7 @@ final class Connection
      * @param $sql
      * @param array $params
      * @param bool $single
-     * @return array|bool|mixed
+     * @return array
      * @throws AppException
      */
     public function query($sql, $params = [], $single = false): array

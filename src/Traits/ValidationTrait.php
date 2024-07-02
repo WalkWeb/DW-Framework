@@ -138,4 +138,21 @@ trait ValidationTrait
 
         return $data[$filed];
     }
+
+    /**
+     * @param int $value
+     * @param int $min
+     * @param int $max
+     * @param string $error
+     * @return int
+     * @throws AppException
+     */
+    protected static function intMinMaxValue(int $value, int $min, int $max, string $error): int
+    {
+        if ($value < $min || $value > $max) {
+            throw new AppException($error);
+        }
+
+        return $value;
+    }
 }
