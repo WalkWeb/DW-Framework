@@ -39,6 +39,31 @@ class ValidationTraitTest extends AbstractTest
     }
 
     /**
+     * @dataProvider intOrFloatSuccessDataProvider
+     * @param array $data
+     * @param string $filed
+     * @throws AppException
+     */
+    public function testValidationIntOrFloatSuccess(array $data, string $filed): void
+    {
+        self::assertEquals($data[$filed], self::intOrFloat($data, $filed, 'error'));
+    }
+
+    /**
+     * @dataProvider intOrFloatFailDataProvider
+     * @param array $data
+     * @param string $filed
+     * @param string $error
+     * @throws AppException
+     */
+    public function testValidationIntOrFloatFail(array $data, string $filed, string $error): void
+    {
+        $this->expectException(AppException::class);
+        $this->expectExceptionMessage($error);
+        self::intOrFloat($data, $filed, $error);
+    }
+
+    /**
      * @return array
      */
     public function intMinMaxValueSuccessDataProvider(): array
@@ -85,6 +110,69 @@ class ValidationTraitTest extends AbstractTest
                 6,
                 10,
                 'error',
+            ],
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    public function intOrFloatSuccessDataProvider(): array
+    {
+        return [
+            [
+                [
+                    'value' => 123,
+                ],
+                'value',
+            ],
+            [
+                [
+                    'value' => 0,
+                ],
+                'value',
+            ],
+            [
+                [
+                    'value' => 12.40,
+                ],
+                'value',
+            ],
+            [
+                [
+                    'value' => 0.0,
+                ],
+                'value',
+            ],
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    public function intOrFloatFailDataProvider(): array
+    {
+        return [
+            [
+                [
+                    'value' => null,
+                ],
+                'value',
+                'error #1',
+            ],
+            [
+                [
+                    'value' => '0',
+                ],
+                'value',
+                'error #2',
+            ],
+            [
+                [
+                    'value' => true,
+                ],
+                'value',
+                'error #3',
             ],
         ];
     }
