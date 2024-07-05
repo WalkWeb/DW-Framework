@@ -64,6 +64,31 @@ class ValidationTraitTest extends AbstractTest
     }
 
     /**
+     * @dataProvider arraySuccessDataProvider
+     * @param array $data
+     * @param string $filed
+     * @throws AppException
+     */
+    public function testValidationArraySuccess(array $data, string $filed): void
+    {
+        self::assertEquals($data[$filed], self::array($data, $filed, 'error'));
+    }
+
+    /**
+     * @dataProvider arrayFailDataProvider
+     * @param array $data
+     * @param string $filed
+     * @param string $error
+     * @throws AppException
+     */
+    public function testValidationArrayFail(array $data, string $filed, string $error): void
+    {
+        $this->expectException(AppException::class);
+        $this->expectExceptionMessage($error);
+        self::array($data, $filed, $error);
+    }
+
+    /**
      * @return array
      */
     public function intMinMaxValueSuccessDataProvider(): array
@@ -173,6 +198,38 @@ class ValidationTraitTest extends AbstractTest
                 ],
                 'value',
                 'error #3',
+            ],
+        ];
+    }
+
+    public function arraySuccessDataProvider(): array
+    {
+        return [
+            [
+                [
+                    'value' => ['...'],
+                ],
+                'value',
+            ],
+        ];
+    }
+
+    public function arrayFailDataProvider(): array
+    {
+        return [
+            [
+                [
+                    'value' => null,
+                ],
+                'value',
+                'error #1',
+            ],
+            [
+                [
+                    'value' => '{}',
+                ],
+                'value',
+                'error #2',
             ],
         ];
     }

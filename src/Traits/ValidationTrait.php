@@ -123,6 +123,7 @@ trait ValidationTrait
             throw new AppException($error);
         }
     }
+
     /**
      * @param array $data
      * @param string $filed
@@ -166,6 +167,22 @@ trait ValidationTrait
     protected static function intOrFloat(array $data, string $filed, string $error)
     {
         if (!array_key_exists($filed, $data) || (!is_float($data[$filed]) && !is_int($data[$filed]))) {
+            throw new AppException($error);
+        }
+
+        return $data[$filed];
+    }
+
+    /**
+     * @param array $data
+     * @param string $filed
+     * @param string $error
+     * @return array
+     * @throws AppException
+     */
+    protected static function array(array $data, string $filed, string $error): array
+    {
+        if (!array_key_exists($filed, $data) || !is_array($data[$filed])) {
             throw new AppException($error);
         }
 
