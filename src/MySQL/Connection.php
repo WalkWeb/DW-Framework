@@ -105,6 +105,8 @@ final class Connection
      */
     public function query($sql, $params = [], $single = false): array
     {
+        $this->error = '';
+
         if ($single) {
             $sql .= ' LIMIT 1';
         }
