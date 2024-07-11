@@ -47,10 +47,7 @@ class PostFactory
      */
     public static function createFromDB(array $data): PostInterface
     {
-        $id = self::string($data, 'id', PostException::INVALID_ID);
         $slug = self::string($data, 'slug', PostException::INVALID_SLUG);
-
-        self::uuid($id, PostException::INVALID_ID_VALUE);
 
         self::stringMinMaxLength(
             $slug,
@@ -60,7 +57,7 @@ class PostFactory
         );
 
         return new Post(
-            $id,
+            self::uuid($data, 'id', PostException::INVALID_ID),
             self::validateTitle($data),
             $slug,
             self::validateText($data),

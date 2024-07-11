@@ -319,7 +319,7 @@ class UserFactoryTest extends AbstractTest
                     'template'       => 'default',
                     'created_at'     => '2024-03-28 12:06:35',
                 ],
-                UserException::INVALID_ID_VALUE,
+                UserException::INVALID_ID,
             ],
             [
                 // Отсутствует login

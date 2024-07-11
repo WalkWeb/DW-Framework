@@ -217,7 +217,7 @@ class PostFactoryTest extends AbstractTest
                     'slug'  => 'zagolovok posta-1234',
                     'text'  => 'Содержимое поста',
                 ],
-                PostException::INVALID_ID_VALUE
+                PostException::INVALID_ID
             ],
             // Отсутствует title
             [

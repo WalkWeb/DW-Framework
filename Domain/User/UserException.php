@@ -11,8 +11,7 @@ class UserException
     public const INVALID_LOGIN_OR_PASSWORD    = 'Invalid login or password';
 
     // id
-    public const INVALID_ID                    = 'Incorrect parameter "id", it required and type string';
-    public const INVALID_ID_VALUE              = 'Incorrect parameter "id", excepted uuid';
+    public const INVALID_ID                    = 'Incorrect parameter "id", it required and type string (uuid)';
     // login
     public const INVALID_LOGIN                 = 'Incorrect parameter "login", it required and type string';
     public const INVALID_LOGIN_LENGTH          = 'Incorrect parameter "login", should be min-max length: ';

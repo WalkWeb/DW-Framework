@@ -6,8 +6,7 @@ use WalkWeb\NW\AppException;
 
 class PostException extends AppException
 {
-    public const INVALID_ID          = 'Incorrect parameter "id", it required and type string';
-    public const INVALID_ID_VALUE    = 'Incorrect parameter "id", excepted uuid';
+    public const INVALID_ID          = 'Incorrect parameter "id", it required and type string (uuid)';
     public const NOT_FOUND           = 'Указанного поста не существует';
     public const INVALID_TITLE       = 'Incorrect parameter "title", it required and type string';
     public const INVALID_TITLE_VALUE = 'Incorrect parameter "title", should be min-max length: ';

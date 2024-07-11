@@ -83,18 +83,23 @@ trait ValidationTrait
     }
 
     /**
-     * @param string $string
+     * @param array $data
+     * @param string $filed
      * @param string $error
      * @return string
      * @throws AppException
      */
-    protected static function uuid(string $string, string $error): string
+    protected static function uuid(array $data, string $filed, string $error): string
     {
-        if (!Uuid::isValid($string)) {
+        if (!array_key_exists($filed, $data) || !is_string($data[$filed])) {
             throw new AppException($error);
         }
 
-        return $string;
+        if (!Uuid::isValid($data[$filed])) {
+            throw new AppException($error);
+        }
+
+        return $data[$filed];
     }
 
     /**
