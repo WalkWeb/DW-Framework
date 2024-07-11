@@ -89,6 +89,45 @@ class ValidationTraitTest extends AbstractTest
     }
 
     /**
+     * @dataProvider stringOrNullSuccessDataProvider
+     * @param array $data
+     * @param string $filed
+     * @param string $error
+     * @param string|null $expected
+     * @throws AppException
+     */
+    public function testValidationStringOrNullSuccess(array $data, string $filed, string $error, ?string $expected): void
+    {
+        self::assertEquals($expected, self::stringOrNull($data, $filed, $error));
+    }
+
+    /**
+     * @dataProvider stringOrNullFailDataProvider
+     * @param array $data
+     * @param string $filed
+     * @param string $error
+     * @throws AppException
+     */
+    public function testValidationStringOrNullFail(array $data, string $filed, string $error): void
+    {
+        $this->expectException(AppException::class);
+        $this->expectExceptionMessage($error);
+        self::stringOrNull($data, $filed, $error);
+    }
+
+    /**
+     * @dataProvider stringOrDefaultDataProvider
+     * @param array $data
+     * @param string $filed
+     * @param string $default
+     * @param string $expected
+     */
+    public function testValidationStringOrDefault(array $data, string $filed, string $default, string $expected): void
+    {
+        self::assertEquals($expected, self::stringOrDefault($data, $filed, $default));
+    }
+
+    /**
      * @return array
      */
     public function intMinMaxValueSuccessDataProvider(): array
@@ -230,6 +269,82 @@ class ValidationTraitTest extends AbstractTest
                 ],
                 'value',
                 'error #2',
+            ],
+        ];
+    }
+
+    public function stringOrNullSuccessDataProvider(): array
+    {
+        return [
+            [
+                [
+                    'property' => 'name',
+                ],
+                'property',
+                'error #1',
+                'name',
+            ],
+            [
+                [
+                    'value' => null,
+                ],
+                'value',
+                'error #2',
+                null,
+            ],
+        ];
+    }
+
+    public function stringOrNullFailDataProvider(): array
+    {
+        return [
+            [
+                [
+                    'property' => 123,
+                ],
+                'property',
+                'error #1',
+            ],
+            [
+                [],
+                'property',
+                'error #2',
+            ],
+        ];
+    }
+
+    public function stringOrDefaultDataProvider(): array
+    {
+        return [
+            [
+                [
+                    'property' => 'value',
+                ],
+                'property',
+                'default_value',
+                'value',
+            ],
+            [
+                [
+                    'property' => null,
+                ],
+                'property',
+                'default_value #1',
+                'default_value #1',
+            ],
+            [
+                [
+                    'property' => 123,
+                ],
+                'property',
+                'default_value #2',
+                'default_value #2',
+            ],
+            [
+                [],
+                'property',
+                'default_value #3',
+                'default_value #3',
             ],
         ];
     }

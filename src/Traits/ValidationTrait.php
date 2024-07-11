@@ -29,6 +29,41 @@ trait ValidationTrait
     }
 
     /**
+     * @param array $data
+     * @param string $filed
+     * @param string $error
+     * @return string|null
+     * @throws AppException
+     */
+    protected static function stringOrNull(array $data, string $filed, string $error): ?string
+    {
+        if (!array_key_exists($filed, $data)) {
+            throw new AppException($error);
+        }
+
+        if (is_string($data[$filed]) || $data[$filed] === null) {
+            return $data[$filed];
+        }
+
+        throw new AppException($error);
+    }
+
+    /**
+     * @param array $data
+     * @param string $filed
+     * @param string $default
+     * @return string
+     */
+    protected static function stringOrDefault(array $data, string $filed, string $default): string
+    {
+        if (!array_key_exists($filed, $data) || !is_string($data[$filed])) {
+            return $default;
+        }
+
+        return $data[$filed];
+    }
+
+    /**
      * @param string $string
      * @param int $minLength
      * @param int $maxLength
