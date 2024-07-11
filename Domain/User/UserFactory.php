@@ -57,8 +57,6 @@ class UserFactory
      */
     public static function createFromDB(array $data): UserInterface
     {
-        $createdAt = self::string($data, 'created_at', UserException::INVALID_CREATED_AT);
-
         return new User(
             self::uuid($data, 'id', UserException::INVALID_ID),
             self::loginValidation($data),
@@ -69,7 +67,7 @@ class UserFactory
             self::authTokenValidate($data),
             self::verifiedTokenValidate($data),
             self::templateValidate($data),
-            self::date($createdAt, UserException::INVALID_CREATED_AT_VALUE),
+            self::date($data, 'created_at', UserException::INVALID_CREATED_AT),
         );
     }
 

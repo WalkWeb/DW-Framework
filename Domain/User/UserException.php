@@ -37,6 +37,5 @@ class UserException
     public const INVALID_TEMPLATE              = 'Incorrect parameter "template", it required and type string';
     public const INVALID_TEMPLATE_LENGTH       = 'Incorrect parameter "template", should be min-max length: ';
     // created_at
-    public const INVALID_CREATED_AT            = 'Incorrect parameter "created_at", it required and type string';
-    public const INVALID_CREATED_AT_VALUE      = 'Incorrect parameter "created_at", expected date';
+    public const INVALID_CREATED_AT            = 'Incorrect parameter "created_at", it required and type string (date format)';
 }

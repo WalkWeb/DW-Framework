@@ -150,15 +150,20 @@ trait ValidationTrait
     }
 
     /**
-     * @param string $date
+     * @param array $data
+     * @param string $filed
      * @param string $error
      * @return DateTimeInterface
      * @throws AppException
      */
-    protected static function date(string $date, string $error): DateTimeInterface
+    protected static function date(array $data, string $filed, string $error): DateTimeInterface
     {
+        if (!array_key_exists($filed, $data) || !is_string($data[$filed])) {
+            throw new AppException($error);
+        }
+
         try {
-            return new DateTime($date);
+            return new DateTime($data[$filed]);
         } catch (Exception $e) {
             throw new AppException($error);
         }

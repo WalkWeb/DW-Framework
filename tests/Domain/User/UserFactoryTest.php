@@ -838,7 +838,7 @@ class UserFactoryTest extends AbstractTest
                     'template'       => 'default',
                     'created_at'     => 'vss-03-28dd',
                 ],
-                UserException::INVALID_CREATED_AT_VALUE,
+                UserException::INVALID_CREATED_AT,
             ],
         ];
     }
