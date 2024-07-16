@@ -41,7 +41,7 @@ trait DateTrait
      * @param DateTime $data
      * @return string
      */
-    public function getElapsedTime(DateTime $data): string
+    public static function getElapsedTime(DateTime $data): string
     {
         $now = new DateTime();
         $dateInterval = $now->diff($data);
@@ -50,7 +50,7 @@ trait DateTrait
 
         foreach ($dateMap as $short => $full) {
             if ($dateInterval->$short > 0) {
-                return $dateInterval->$short . ' ' . $this->plural($dateInterval->$short, $full) . ' ' . self::$suffix;
+                return $dateInterval->$short . ' ' . self::plural($dateInterval->$short, $full) . ' ' . self::$suffix;
             }
         }
 
@@ -64,7 +64,7 @@ trait DateTrait
      * @param string $type
      * @return string
      */
-    public function plural(int $value, string $type): string
+    public static function plural(int $value, string $type): string
     {
         if ($value < 0) {
             return self::$incorrectData;
