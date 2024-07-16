@@ -3,6 +3,7 @@
 namespace WalkWeb\NW\Traits;
 
 use DateTime;
+use DateTimeInterface;
 
 trait DateTrait
 {
@@ -38,10 +39,10 @@ trait DateTrait
      * Пример использования:
      * getElapsedTime(\DateTime::createFromFormat('Y-m-d H:i:s', $account->getRegisterDate()))
      *
-     * @param DateTime $data
+     * @param DateTimeInterface $data
      * @return string
      */
-    public static function getElapsedTime(DateTime $data): string
+    public static function getElapsedTime(DateTimeInterface $data): string
     {
         $now = new DateTime();
         $dateInterval = $now->diff($data);
