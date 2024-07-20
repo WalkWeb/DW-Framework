@@ -162,6 +162,16 @@ class Container
     }
 
     /**
+     * @param string $id
+     * @throws AppException
+     */
+    public function unset(string $id): void
+    {
+        $id = $this->getNameService($id);
+        unset($this->storage[$id]);
+    }
+
+    /**
      * @return ConnectionPool
      * @throws AppException
      */
