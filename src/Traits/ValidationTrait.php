@@ -14,35 +14,35 @@ trait ValidationTrait
 {
     /**
      * @param array $data
-     * @param string $filed
+     * @param string $field
      * @param string $error
      * @return string
      * @throws AppException
      */
-    protected static function string(array $data, string $filed, string $error): string
+    protected static function string(array $data, string $field, string $error): string
     {
-        if (!array_key_exists($filed, $data) || !is_string($data[$filed])) {
+        if (!array_key_exists($field, $data) || !is_string($data[$field])) {
             throw new AppException($error);
         }
 
-        return $data[$filed];
+        return $data[$field];
     }
 
     /**
      * @param array $data
-     * @param string $filed
+     * @param string $field
      * @param string $error
      * @return string|null
      * @throws AppException
      */
-    protected static function stringOrNull(array $data, string $filed, string $error): ?string
+    protected static function stringOrNull(array $data, string $field, string $error): ?string
     {
-        if (!array_key_exists($filed, $data)) {
+        if (!array_key_exists($field, $data)) {
             throw new AppException($error);
         }
 
-        if (is_string($data[$filed]) || $data[$filed] === null) {
-            return $data[$filed];
+        if (is_string($data[$field]) || $data[$field] === null) {
+            return $data[$field];
         }
 
         throw new AppException($error);
@@ -50,17 +50,17 @@ trait ValidationTrait
 
     /**
      * @param array $data
-     * @param string $filed
+     * @param string $field
      * @param string $default
      * @return string
      */
-    protected static function stringOrDefault(array $data, string $filed, string $default): string
+    protected static function stringOrDefault(array $data, string $field, string $default): string
     {
-        if (!array_key_exists($filed, $data) || !is_string($data[$filed])) {
+        if (!array_key_exists($field, $data) || !is_string($data[$field])) {
             return $default;
         }
 
-        return $data[$filed];
+        return $data[$field];
     }
 
     /**
@@ -84,25 +84,27 @@ trait ValidationTrait
 
     /**
      * @param array $data
-     * @param string $filed
+     * @param string $field
      * @param string $error
      * @return string
      * @throws AppException
      */
-    protected static function uuid(array $data, string $filed, string $error): string
+    protected static function uuid(array $data, string $field, string $error): string
     {
-        if (!array_key_exists($filed, $data) || !is_string($data[$filed])) {
+        if (!array_key_exists($field, $data) || !is_string($data[$field])) {
             throw new AppException($error);
         }
 
-        if (!Uuid::isValid($data[$filed])) {
+        if (!Uuid::isValid($data[$field])) {
             throw new AppException($error);
         }
 
-        return $data[$filed];
+        return $data[$field];
     }
 
     /**
+     * TODO Стоит подумать над добавлением / вначале и в конце, чтобы не приходилось добавлять это каждый раз вручную
+     *
      * @param string $string
      * @param string $regexp
      * @param string $error
@@ -119,6 +121,8 @@ trait ValidationTrait
     }
 
     /**
+     * TODO Подумать над переделкой в $data[$field]
+     *
      * @param string $email
      * @param string $error
      * @return string
@@ -135,35 +139,35 @@ trait ValidationTrait
 
     /**
      * @param array $data
-     * @param string $filed
+     * @param string $field
      * @param string $error
      * @return bool
      * @throws AppException
      */
-    protected static function bool(array $data, string $filed, string $error): bool
+    protected static function bool(array $data, string $field, string $error): bool
     {
-        if (!array_key_exists($filed, $data) || !is_bool($data[$filed])) {
+        if (!array_key_exists($field, $data) || !is_bool($data[$field])) {
             throw new AppException($error);
         }
 
-        return $data[$filed];
+        return $data[$field];
     }
 
     /**
      * @param array $data
-     * @param string $filed
+     * @param string $field
      * @param string $error
      * @return DateTimeInterface
      * @throws AppException
      */
-    protected static function date(array $data, string $filed, string $error): DateTimeInterface
+    protected static function date(array $data, string $field, string $error): DateTimeInterface
     {
-        if (!array_key_exists($filed, $data) || !is_string($data[$filed])) {
+        if (!array_key_exists($field, $data) || !is_string($data[$field])) {
             throw new AppException($error);
         }
 
         try {
-            return new DateTime($data[$filed]);
+            return new DateTime($data[$field]);
         } catch (Exception $e) {
             throw new AppException($error);
         }
@@ -171,18 +175,18 @@ trait ValidationTrait
 
     /**
      * @param array $data
-     * @param string $filed
+     * @param string $field
      * @param string $error
      * @return int
      * @throws AppException
      */
-    protected static function int(array $data, string $filed, string $error): int
+    protected static function int(array $data, string $field, string $error): int
     {
-        if (!array_key_exists($filed, $data) || !is_int($data[$filed])) {
+        if (!array_key_exists($field, $data) || !is_int($data[$field])) {
             throw new AppException($error);
         }
 
-        return $data[$filed];
+        return $data[$field];
     }
 
     /**
@@ -204,33 +208,33 @@ trait ValidationTrait
 
     /**
      * @param array $data
-     * @param string $filed
+     * @param string $field
      * @param string $error
      * @return int|float
      * @throws AppException
      */
-    protected static function intOrFloat(array $data, string $filed, string $error)
+    protected static function intOrFloat(array $data, string $field, string $error)
     {
-        if (!array_key_exists($filed, $data) || (!is_float($data[$filed]) && !is_int($data[$filed]))) {
+        if (!array_key_exists($field, $data) || (!is_float($data[$field]) && !is_int($data[$field]))) {
             throw new AppException($error);
         }
 
-        return $data[$filed];
+        return $data[$field];
     }
 
     /**
      * @param array $data
-     * @param string $filed
+     * @param string $field
      * @param string $error
      * @return array
      * @throws AppException
      */
-    protected static function array(array $data, string $filed, string $error): array
+    protected static function array(array $data, string $field, string $error): array
     {
-        if (!array_key_exists($filed, $data) || !is_array($data[$filed])) {
+        if (!array_key_exists($field, $data) || !is_array($data[$field])) {
             throw new AppException($error);
         }
 
-        return $data[$filed];
+        return $data[$field];
     }
 }

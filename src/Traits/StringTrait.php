@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace WalkWeb\NW\Traits;
 
 use Exception;
+use WalkWeb\NW\AppException;
 
 trait StringTrait
 {
@@ -13,17 +14,21 @@ trait StringTrait
      *
      * @param int $length
      * @return string
-     * @throws Exception
+     * @throws AppException
      */
     public static function generateString(int $length = 15): string
     {
-        $chars = '1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
-        $numChars = strlen($chars);
-        $string = '';
-        for ($i = 0; $i < $length; $i++) {
-            $string .= $chars[random_int(1, $numChars) - 1];
+        try {
+            $chars = '1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+            $numChars = strlen($chars);
+            $string = '';
+            for ($i = 0; $i < $length; $i++) {
+                $string .= $chars[random_int(1, $numChars) - 1];
+            }
+            return $string;
+        } catch (Exception $e) {
+            throw new AppException($e->getMessage(), $e->getCode());
         }
-        return $string;
     }
 
     /**
