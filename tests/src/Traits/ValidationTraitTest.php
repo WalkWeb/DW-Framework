@@ -328,6 +328,36 @@ class ValidationTraitTest extends AbstractTest
     }
 
     /**
+     * @dataProvider dateOrNullSuccessDataProvider
+     * @param array $data
+     * @param string $field
+     * @param string|null $expected
+     * @throws Exception
+     */
+    public function testValidationDateOrNullSuccess(array $data, string $field, ?string $expected = null): void
+    {
+        if ($expected === null) {
+            self::assertNull(self::dateOrNull($data, $field, ''));
+        } else {
+            self::assertEquals(new DateTime($expected), self::dateOrNull($data, $field, ''));
+        }
+    }
+
+    /**
+     * @dataProvider dateFailDateOrNullProvider
+     * @param array $data
+     * @param string $field
+     * @param string $error
+     * @throws Exception
+     */
+    public function testValidationDateOrNullFail(array $data, string $field, string $error): void
+    {
+        $this->expectException(AppException::class);
+        $this->expectExceptionMessage($error);
+        self::dateOrNull($data, $field, $error);
+    }
+
+    /**
      * @return array
      */
     public function intMinMaxValueSuccessDataProvider(): array
@@ -836,6 +866,60 @@ class ValidationTraitTest extends AbstractTest
             ],
             [
                 ['field' => null],
+                'field',
+                'error-3',
+            ],
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    public function dateOrNullSuccessDataProvider(): array
+    {
+        return [
+            [
+                [
+                    'field' => '2020-12-25 20:00:00',
+                ],
+                'field',
+                '2020-12-25 20:00:00'
+            ],
+            [
+                [
+                    'field' => null,
+                ],
+                'field',
+                null,
+            ],
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    public function dateFailDateOrNullProvider(): array
+    {
+        return [
+            // miss field
+            [
+                [],
+                'field',
+                'error-1',
+            ],
+            // field invalid type
+            [
+                [
+                    'field' => 123,
+                ],
+                'field',
+                'error-2',
+            ],
+            // field invalid date
+            [
+                [
+                    'field' => '2020-99-99 20:00:00',
+                ],
                 'field',
                 'error-3',
             ],

@@ -237,4 +237,30 @@ trait ValidationTrait
 
         return $data[$field];
     }
+
+    /**
+     * @param array $data
+     * @param string $filed
+     * @param string $error
+     * @return DateTimeInterface|null
+     * @throws AppException
+     */
+    protected static function dateOrNull(array $data, string $filed, string $error): ?DateTimeInterface
+    {
+        if (!array_key_exists($filed, $data) || (!is_string($data[$filed]) && !is_null($data[$filed]))) {
+            throw new AppException($error);
+        }
+
+        if (is_null($data[$filed])) {
+            return null;
+        }
+
+        try {
+            $date = new DateTime($data[$filed]);
+        } catch (Exception $e) {
+            throw new AppException($error);
+        }
+
+        return $date;
+    }
 }
