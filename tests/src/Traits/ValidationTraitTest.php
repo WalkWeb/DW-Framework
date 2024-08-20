@@ -358,6 +358,65 @@ class ValidationTraitTest extends AbstractTest
     }
 
     /**
+     * @dataProvider uuidOrNullSuccessDataProvider
+     * @param array $data
+     * @param string $field
+     * @param string|null $expected
+     * @throws AppException
+     */
+    public function testValidationUuidOrNullSuccess(array $data, string $field, ?string $expected): void
+    {
+        if ($expected === null) {
+            self::assertNull(self::uuidOrNull($data, $field, ''));
+        } else {
+            self::assertEquals($expected, self::uuidOrNull($data, $field, ''));
+        }
+    }
+
+    /**
+     * @dataProvider uuidOrNullFailDataProvider
+     * @param array $data
+     * @param string $field
+     * @param string $error
+     * @throws AppException
+     */
+    public function testValidationUuidOrNullFail(array $data, string $field, string $error): void
+    {
+        $this->expectException(AppException::class);
+        $this->expectExceptionMessage($error);
+        self::uuidOrNull($data, $field, $error);
+    }
+
+    /**
+     * @dataProvider intOrNullSuccessDataProvider
+     * @param array $data
+     * @param string $field
+     * @param int|null $expected
+     * @throws AppException
+     */
+    public function testValidationIntOrNullSuccess(array $data, string $field, ?int $expected): void
+    {
+        if ($expected === null) {
+            self::assertNull(self::intOrNull($data, $field, ''));
+        } else {
+            self::assertEquals($expected, self::intOrNull($data, $field, ''));
+        }
+    }
+
+    /**
+     * @dataProvider intOrNullFailDataProvider
+     * @param array $data
+     * @param string $field
+     * @param string $error
+     */
+    public function testValidationIntOrNullFail(array $data, string $field, string $error): void
+    {
+        $this->expectException(AppException::class);
+        $this->expectExceptionMessage($error);
+        self::intOrNull($data, $field, $error);
+    }
+
+    /**
      * @return array
      */
     public function intMinMaxValueSuccessDataProvider(): array
@@ -922,6 +981,106 @@ class ValidationTraitTest extends AbstractTest
                 ],
                 'field',
                 'error-3',
+            ],
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    public function uuidOrNullSuccessDataProvider(): array
+    {
+        return [
+            [
+                [
+                    'field' => '4445e810-ab25-481b-a798-81062fa40b76',
+                ],
+                'field',
+                '4445e810-ab25-481b-a798-81062fa40b76'
+            ],
+            [
+                [
+                    'field' => null,
+                ],
+                'field',
+                null,
+            ],
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    public function uuidOrNullFailDataProvider(): array
+    {
+        return [
+            // miss field
+            [
+                [],
+                'field',
+                'error-1',
+            ],
+            // field invalid type
+            [
+                [
+                    'field' => 123,
+                ],
+                'field',
+                'error-2',
+            ],
+            // field invalid uuid
+            [
+                [
+                    'field' => '7c28beea-0b3e-425f-8121-10dfab8db861xxx',
+                ],
+                'field',
+                'error-3',
+            ],
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    public function intOrNullSuccessDataProvider(): array
+    {
+        return [
+            [
+                [
+                    'field' => 123,
+                ],
+                'field',
+                123
+            ],
+            [
+                [
+                    'field' => null,
+                ],
+                'field',
+                null,
+            ],
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    public function intOrNullFailDataProvider(): array
+    {
+        return [
+            // miss field
+            [
+                [],
+                'field',
+                'error-1',
+            ],
+            // field invalid type
+            [
+                [
+                    'field' => 'string',
+                ],
+                'field',
+                'error-2',
             ],
         ];
     }
