@@ -33,7 +33,7 @@ class PostFactory
         return new Post(
             Uuid::uuid4()->toString(),
             self::validateTitle($data),
-            strtolower(self::transliterate($data['title'])) . $slugSuffix,
+            strtolower(self::transliterate(strtr($data['title'], [' ' => '-', '.' => '', ',' => '',]))) . $slugSuffix,
             self::validateText($data),
         );
     }
