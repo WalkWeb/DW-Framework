@@ -75,13 +75,13 @@ abstract class AbstractHandler
     /**
      * Объединяет шаблон страницы с данными и создает объект Response с содержимым страницы
      *
-     * @param $view
+     * @param string $view
      * @param array $params
      * @param int|null $statusCode
      * @return Response
      * @throws AppException
      */
-    public function render($view, $params = [], int $statusCode = null): Response
+    public function render(string $view, $params = [], int $statusCode = null): Response
     {
         extract($params, EXTR_OVERWRITE);
 
@@ -182,12 +182,12 @@ abstract class AbstractHandler
     /**
      * Возвращает кэш если он есть. Если его нет - возвращает пустую строку
      *
-     * @param $name
+     * @param string $name
      * @param string $id
-     * @param $time
+     * @param float $time
      * @return string
      */
-    protected function getCache($name, $time, string $id = ''): string
+    protected function getCache(string $name, float $time, string $id = ''): string
     {
         if ($id) {
             $name .= '_' . $id;
@@ -257,11 +257,11 @@ abstract class AbstractHandler
      *
      * @param string $controllerAction
      * @param string $id
-     * @param int $time
+     * @param float $time
      * @param string $prefix
      * @return string
      */
-    protected function cacheWrapper(string $controllerAction, string $id = '', $time = 0, string $prefix = ''): string
+    protected function cacheWrapper(string $controllerAction, string $id = '', float $time = 0, string $prefix = ''): string
     {
         $content = $this->getCache($controllerAction, $time, $id);
 
