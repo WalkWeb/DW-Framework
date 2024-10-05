@@ -13,15 +13,35 @@ use WalkWeb\NW\Loader\SimpleImageResizer;
 class SimpleImageResizerTest extends AbstractTest
 {
     /**
+     * @dataProvider successDataProvider
+     * @param Image $image
      * @throws AppException
      */
-    public function testSimpleImageResizerSuccess(): void
+    public function testSimpleImageResizerSuccess(Image $image): void
     {
-        $resizeImagePath = SimpleImageResizer::resize($this->getImage(), 300, 300);
+        $resizeImagePath = SimpleImageResizer::resize($image, 300, 300);
 
         $path = DIR . '/public/' . $resizeImagePath;
 
         self::assertFileExists($path);
+    }
+
+    /**
+     * @throws AppException
+     */
+    public function testSimpleImageResizerNoResize(): void
+    {
+        $image = new Image(
+            'test image',
+            'png',
+            39852,
+            398,
+            261,
+            __DIR__ . '/files/01.png',
+            'file_path'
+        );
+
+        self::assertEquals($image->getFilePath(), SimpleImageResizer::resize($image, 500, 300));
     }
 
     public function testSimpleImageResizerAbsolutePathNotFound(): void
@@ -29,6 +49,68 @@ class SimpleImageResizerTest extends AbstractTest
         $this->expectException(AppException::class);
         $this->expectExceptionMessage(LoaderException::ERROR_NO_DIRECTORY);
         SimpleImageResizer::resize($this->getImage(), 300, 300, 50, '/invalid_dir/');
+    }
+
+    public function testSimpleImageResizerUnknownType(): void
+    {
+        $image = new Image(
+            'test image',
+            'bmp',
+            1284170,
+            642,
+            666,
+            __DIR__ . '/files/06.bmp',
+            'file_path'
+        );
+
+        $this->expectException(AppException::class);
+        $this->expectExceptionMessage(LoaderException::ERROR_RESIZE_INVALID_TYPE);
+        SimpleImageResizer::resize($image, 300, 300);
+    }
+
+    /**
+     * @return array
+     */
+    public function successDataProvider(): array
+    {
+        return [
+            // jpeg
+            [
+                new Image(
+                    'test image',
+                    'jpg',
+                    38673,
+                    642,
+                    666,
+                    __DIR__ . '/files/03.jpg',
+                    'file_path'
+                )
+            ],
+            // png
+            [
+                new Image(
+                    'test image',
+                    'png',
+                    138388,
+                    642,
+                    666,
+                    __DIR__ . '/files/04.png',
+                    'file_path'
+                )
+            ],
+            // gif
+            [
+                new Image(
+                    'test image',
+                    'gif',
+                    100700,
+                    642,
+                    666,
+                    __DIR__ . '/files/05.gif',
+                    'file_path'
+                )
+            ],
+        ];
     }
 
     /**

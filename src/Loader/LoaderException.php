@@ -30,6 +30,7 @@ class LoaderException extends Exception
     public const ERROR_CANT_WRITE           = 'Failed to write file to disk';
     public const ERROR_EXTENSION            = 'PHP extension stopped downloading file';
     public const ERROR_NO_DIRECTORY         = 'Directory for save not found: ';
+    public const ERROR_RESIZE_INVALID_TYPE  = 'Invalid type for resize';
 
     /** Эта ошибка чаще всего возникает когда не хватает прав на сохранение файла в указанную директорию */
     public const FAIL_UPLOAD                = 'An error occurred while loading image while saving to disk';

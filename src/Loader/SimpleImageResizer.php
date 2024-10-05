@@ -77,6 +77,7 @@ class SimpleImageResizer
      * @param float $reduce
      * @param string $absolutePath
      * @param int $quality
+     * @throws AppException
      */
     private static function createResizeImage(Image $image, float $reduce, string $absolutePath, int $quality): void
     {
@@ -84,7 +85,23 @@ class SimpleImageResizer
         $newHeight = (int)($image->getHeight() * $reduce);
 
         $thumb = imagecreatetruecolor($newWidth, $newHeight);
-        $source = imagecreatefromjpeg($image->getAbsoluteFilePath());
+
+        $info = getimagesize($image->getAbsoluteFilePath());
+        $extension = image_type_to_extension($info[2]);
+
+        switch ($extension) {
+            case '.jpeg':
+                $source = imagecreatefromjpeg($image->getAbsoluteFilePath());
+                break;
+            case '.png':
+                $source = imagecreatefrompng($image->getAbsoluteFilePath());
+                break;
+            case '.gif':
+                $source = imagecreatefromgif($image->getAbsoluteFilePath());
+                break;
+            default:
+                throw new AppException(LoaderException::ERROR_RESIZE_INVALID_TYPE);
+        }
 
         imagecopyresized(
             $thumb,
