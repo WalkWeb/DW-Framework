@@ -1,6 +1,6 @@
 <?php
 
-use NW\Loader\ImageCollection;
+use WalkWeb\NW\Loader\ImageCollection;
 
 $this->title = 'Загрузка картинки';
 
@@ -11,9 +11,13 @@ if (!empty($error)) {
 }
 
 /** @var ImageCollection $images */
-if (!empty($images)) {
+if (!empty($images) && !empty($resizeImages)) {
+
+    $i = 0;
     foreach ($images as $image) {
         echo '<p><img src="' . $image->getFilePath() . '" alt="" /></p>';
+        echo '<p class="center"><img src="' . $resizeImages[$i] . '" alt="" style="max-width: 300px;" /></p>';
+        $i++;
     }
 }
 
