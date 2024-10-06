@@ -75,6 +75,9 @@ class RouteTest extends AbstractTest
         $postRequest->withAttribute('id', 10);
         $noMatchRequest = new Request(['REQUEST_URI' => '/post/abc']);
 
+        // /u/Огромыч
+        $cyrillicRequest = new Request(['REQUEST_URI' => '/u/%D0%9E%D0%B3%D1%80%D0%BE%D0%BC%D1%8B%D1%87']);
+
         return [
             // Совпадение маршрута и запроса
             [
@@ -127,6 +130,21 @@ class RouteTest extends AbstractTest
                 ['id' => '\d+'],
                 'namespace',
                 null,
+            ],
+            // uri с кириллицей
+            [
+                $cyrillicRequest,
+                'cyrillic',
+                '/u/{name}',
+                'GetPostHandler',
+                'GET',
+                ['name' => '[a-zA-Z0-9а-яА-ЯёЁ]+'],
+                'namespace',
+                [
+                    'handler' => 'namespace\GetPostHandler',
+                    'request' => $cyrillicRequest,
+                    'middleware' => [],
+                ],
             ],
         ];
     }

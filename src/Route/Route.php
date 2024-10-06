@@ -103,7 +103,7 @@ class Route
             $replace['{' . $key . '}'] = "(?P<$key>$value)";
         }
 
-        if (!preg_match_all('~^' . str_replace(array_keys($replace), $replace, $this->path) . '$~i', $request->getUri(), $matches)) {
+        if (!preg_match_all('~^' . str_replace(array_keys($replace), $replace, $this->path) . '$~iu', urldecode($request->getUri()), $matches)) {
             return null;
         }
 
