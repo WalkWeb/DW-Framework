@@ -69,4 +69,32 @@ trait StringTrait
 
         return strtr($string, ['--' => '-']);
     }
+
+    /**
+     * @param array $data
+     * @return string
+     * @throws AppException
+     */
+    public static function jsonEncode(array $data): string
+    {
+        try {
+            return json_encode($data, JSON_THROW_ON_ERROR | JSON_UNESCAPED_UNICODE);
+        } catch (Exception $e) {
+            throw new AppException($e->getMessage());
+        }
+    }
+
+    /**
+     * @param string $json
+     * @return array
+     * @throws AppException
+     */
+    public static function jsonDecode(string $json): array
+    {
+        try {
+            return (array)json_decode($json, true, 512, JSON_THROW_ON_ERROR);
+        } catch (Exception $e) {
+            throw new AppException($e->getMessage());
+        }
+    }
 }

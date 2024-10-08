@@ -6,6 +6,7 @@ namespace Tests\src\Traits;
 
 use Exception;
 use Tests\AbstractTest;
+use WalkWeb\NW\AppException;
 
 class StringTraitTest extends AbstractTest
 {
@@ -50,5 +51,85 @@ class StringTraitTest extends AbstractTest
             'Diablo 2: Resurrected — Runnye slova (Runewords)',
             self::transliterate('Diablo 2: Resurrected — Рунные слова (Runewords)')
         );
+    }
+
+    /**
+     * @dataProvider jsonEncodeDataProvider
+     * @param array $data
+     * @param string $expectedJson
+     * @throws AppException
+     */
+    public function testStringTraitJsonEncode(array $data, string $expectedJson): void
+    {
+        self::assertEquals($expectedJson, self::jsonEncode($data));
+    }
+
+    /**
+     * @dataProvider jsonDecodeDataProvider
+     * @param string $json
+     * @param array $expectedArray
+     * @throws AppException
+     */
+    public function testStringTraitJsonDecode(string $json, array $expectedArray): void
+    {
+        self::assertEquals($expectedArray, self::jsonDecode($json));
+    }
+
+    /**
+     * @return array
+     */
+    public function jsonEncodeDataProvider(): array
+    {
+        return [
+            [
+                [
+                    'slug' => 'slug',
+                    'name' => 'name',
+                ],
+                '{"slug":"slug","name":"name"}',
+            ],
+            [
+                [
+                    [
+                        'slug' => 'slug-1',
+                        'name' => 'name 1',
+                    ],
+                    [
+                        'slug' => 'slug-2',
+                        'name' => 'name 2',
+                    ],
+                ],
+                '[{"slug":"slug-1","name":"name 1"},{"slug":"slug-2","name":"name 2"}]',
+            ],
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    public function jsonDecodeDataProvider(): array
+    {
+        return [
+            [
+                '{"slug":"slug","name":"name"}',
+                [
+                    'slug' => 'slug',
+                    'name' => 'name',
+                ],
+            ],
+            [
+                '[{"slug":"slug-1","name":"name 1"},{"slug":"slug-2","name":"name 2"}]',
+                [
+                    [
+                        'slug' => 'slug-1',
+                        'name' => 'name 1',
+                    ],
+                    [
+                        'slug' => 'slug-2',
+                        'name' => 'name 2',
+                    ],
+                ],
+            ],
+        ];
     }
 }
