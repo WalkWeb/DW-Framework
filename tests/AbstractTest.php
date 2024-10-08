@@ -67,7 +67,6 @@ abstract class AbstractTest extends TestCase
             MAIL_CONFIG,
             SAVE_LOG,
             LOG_DIR,
-            LOG_FILE_NAME,
             CACHE_DIR,
             $viewDir,
             $migrationDir,

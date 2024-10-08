@@ -4,6 +4,8 @@ namespace WalkWeb\NW;
 
 class Logger
 {
+    private const FILE_NAME = 'logs';
+
     /**
      * Логи
      *
@@ -25,18 +27,10 @@ class Logger
      */
     private bool $saveLog;
 
-    /**
-     * Название файла с логами
-     *
-     * @var string
-     */
-    private string $fileName;
-
-    public function __construct(bool $saveLog, string $dir, string $fileName)
+    public function __construct(bool $saveLog, string $dir)
     {
         $this->saveLog = $saveLog;
         $this->dir = $dir;
-        $this->fileName = $fileName;
     }
 
     /**
@@ -76,7 +70,7 @@ class Logger
             throw new AppException('Directory from save logs not found: ' . $this->dir);
         }
 
-        return $this->dir . '/' . $this->fileName;
+        return $this->dir . '/' . self::FILE_NAME;
     }
 
     /**

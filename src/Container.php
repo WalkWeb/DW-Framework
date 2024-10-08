@@ -42,8 +42,6 @@ class Container
     private array $mailerConfig;
     private bool $loggerSaveLog;
     private string $loggerDir;
-    // TODO Именование файла логов делать фиксированным
-    private string $loggerFileName;
     private string $cacheDir;
     private string $viewDir;
     private string $migrationDir;
@@ -55,7 +53,6 @@ class Container
      * @param array $mailerConfig
      * @param bool $loggerSaveLog
      * @param string $loggerDir
-     * @param string $loggerFileName
      * @param string $cacheDir
      * @param string $viewDir
      * @param string $migrationDir
@@ -68,7 +65,6 @@ class Container
         array $mailerConfig,
         bool $loggerSaveLog,
         string $loggerDir,
-        string $loggerFileName,
         string $cacheDir,
         string $viewDir,
         string $migrationDir,
@@ -80,7 +76,6 @@ class Container
         $this->mailerConfig = $mailerConfig;
         $this->loggerSaveLog = $loggerSaveLog;
         $this->loggerDir = $loggerDir;
-        $this->loggerFileName = $loggerFileName;
         $this->cacheDir = $cacheDir;
         $this->viewDir = $viewDir;
         $this->migrationDir = $migrationDir;
@@ -93,7 +88,6 @@ class Container
      * @param array $mailerConfig
      * @param bool $loggerSaveLog
      * @param string $loggerDir
-     * @param string $loggerFileName
      * @param string $cacheDir
      * @param string $viewDir
      * @param string $migrationDir
@@ -107,7 +101,6 @@ class Container
         array $mailerConfig = MAIL_CONFIG,
         bool $loggerSaveLog = SAVE_LOG,
         string $loggerDir = LOG_DIR,
-        string $loggerFileName = LOG_FILE_NAME,
         string $cacheDir = CACHE_DIR,
         string $viewDir = VIEW_DIR,
         string $migrationDir = MIGRATION_DIR,
@@ -120,7 +113,6 @@ class Container
             $mailerConfig,
             $loggerSaveLog,
             $loggerDir,
-            $loggerFileName,
             $cacheDir,
             $viewDir,
             $migrationDir,
@@ -381,7 +373,6 @@ class Container
             $service = new Logger(
                 $this->loggerSaveLog,
                 $this->loggerDir,
-                $this->loggerFileName,
             );
         } else {
             $service = new $class($this);

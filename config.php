@@ -48,9 +48,6 @@ define('SAVE_LOG', false);
 /** Директория хранения файла */
 define('LOG_DIR', __DIR__);
 
-/** Имя файла для хранения логов */
-define('LOG_FILE_NAME', 'logs');
-
 /** Параметры для отправки почты */
 define('MAIL_CONFIG', [
     'smtp_host'     => 'smtp_host',

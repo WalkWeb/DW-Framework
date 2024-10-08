@@ -33,7 +33,7 @@ class ContainerTest extends AbstractTest
             $container->getConnectionPool()
         );
         self::assertEquals(
-            new Logger(SAVE_LOG, LOG_DIR, LOG_FILE_NAME),
+            new Logger(SAVE_LOG, LOG_DIR),
             $container->getLogger()
         );
         self::assertEquals(new Csrf($container), $container->getCsrf());
@@ -60,7 +60,6 @@ class ContainerTest extends AbstractTest
             MAIL_CONFIG,
             $loggerSaveLog,
             $loggerDir,
-            $loggerFileName,
             $cacheDir,
             $viewDir,
             $migrationDir,
@@ -68,7 +67,7 @@ class ContainerTest extends AbstractTest
         );
 
         self::assertEquals(
-            new Logger($loggerSaveLog, $loggerDir, $loggerFileName),
+            new Logger($loggerSaveLog, $loggerDir),
             $container->getLogger()
         );
         self::assertEquals(new Csrf($container), $container->getCsrf());
@@ -88,7 +87,7 @@ class ContainerTest extends AbstractTest
      */
     public function testContainerSetService(): void
     {
-        $logger = new Logger(SAVE_LOG, LOG_DIR, LOG_FILE_NAME);
+        $logger = new Logger(SAVE_LOG, LOG_DIR);
         $logger->addLog('abc');
 
         $container = $this->getContainer();

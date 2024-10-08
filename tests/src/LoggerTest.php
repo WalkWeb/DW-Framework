@@ -17,7 +17,7 @@ class LoggerTest extends AbstractTest
      */
     public function testLoggerSetAndGetLog(): void
     {
-        $logger = new Logger(SAVE_LOG, LOG_DIR, LOG_FILE_NAME);
+        $logger = new Logger(SAVE_LOG, LOG_DIR);
 
         $logger->addLog($log1 = 'test log #1');
         $logger->addLog($log2 = 'test log #2');
@@ -32,7 +32,7 @@ class LoggerTest extends AbstractTest
      */
     public function testLoggerSaveInFile(): void
     {
-        $logger = new Logger(true, LOG_DIR, LOG_FILE_NAME);
+        $logger = new Logger(true, LOG_DIR);
 
         // Удаляем (возможно) уже существующие логи
         if (file_exists($logger->getLogsFilePath())) {
@@ -54,7 +54,7 @@ class LoggerTest extends AbstractTest
      */
     public function testLoggerFileLogNotFound(): void
     {
-        $logger = new Logger(true, $dir = 'invalid_dir', LOG_FILE_NAME);
+        $logger = new Logger(true, $dir = 'invalid_dir');
 
         $this->expectException(AppException::class);
         $this->expectExceptionMessage('Directory from save logs not found: ' . $dir);
