@@ -46,6 +46,7 @@ class Container
     private string $viewDir;
     private string $migrationDir;
     private string $template;
+    private string $translateDir;
 
     /**
      * @param string $appEnv
@@ -57,6 +58,7 @@ class Container
      * @param string $viewDir
      * @param string $migrationDir
      * @param string $template
+     * @param string $translateDir
      * @throws AppException
      */
     public function __construct(
@@ -68,7 +70,8 @@ class Container
         string $cacheDir,
         string $viewDir,
         string $migrationDir,
-        string $template
+        string $template,
+        string $translateDir
     )
     {
         $this->setAppEnv($appEnv);
@@ -80,6 +83,7 @@ class Container
         $this->viewDir = $viewDir;
         $this->migrationDir = $migrationDir;
         $this->template = $template;
+        $this->translateDir = $translateDir;
     }
 
     /**
@@ -92,6 +96,7 @@ class Container
      * @param string $viewDir
      * @param string $migrationDir
      * @param string $template
+     * @param string $translateDir
      * @return static
      * @throws AppException
      */
@@ -104,7 +109,8 @@ class Container
         string $cacheDir = CACHE_DIR,
         string $viewDir = VIEW_DIR,
         string $migrationDir = MIGRATION_DIR,
-        string $template = TEMPLATE_DEFAULT
+        string $template = TEMPLATE_DEFAULT,
+        string $translateDir = TRANSLATE_DIR
     ): self
     {
         return new self(
@@ -116,7 +122,8 @@ class Container
             $cacheDir,
             $viewDir,
             $migrationDir,
-            $template
+            $template,
+            $translateDir
         );
     }
 
@@ -309,6 +316,14 @@ class Container
     public function getTemplate(): string
     {
         return $this->template;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTranslateDir(): string
+    {
+        return $this->translateDir;
     }
 
     /**

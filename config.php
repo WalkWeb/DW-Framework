@@ -48,6 +48,9 @@ define('SAVE_LOG', false);
 /** Директория хранения файла */
 define('LOG_DIR', __DIR__);
 
+/** Директория хранения переводов */
+define('TRANSLATE_DIR', DIR . '/translations/');
+
 /** Параметры для отправки почты */
 define('MAIL_CONFIG', [
     'smtp_host'     => 'smtp_host',

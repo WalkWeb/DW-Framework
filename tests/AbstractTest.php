@@ -71,6 +71,7 @@ abstract class AbstractTest extends TestCase
             $viewDir,
             $migrationDir,
             TEMPLATE_DEFAULT,
+            TRANSLATE_DIR,
         );
         $container->set(Runtime::class, new Runtime());
 

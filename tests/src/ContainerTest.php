@@ -48,11 +48,11 @@ class ContainerTest extends AbstractTest
         $appEnv = Container::APP_PROD;
         $loggerSaveLog = false;
         $loggerDir = 'logger_dir';
-        $loggerFileName = 'logger_file_name';
         $cacheDir = 'cache_dir';
         $viewDir = 'view_dir';
         $migrationDir = 'migration_dir';
         $template = 'template';
+        $translateDir = 'translate_dir';
 
         $container = Container::create(
             $appEnv,
@@ -64,6 +64,7 @@ class ContainerTest extends AbstractTest
             $viewDir,
             $migrationDir,
             $template,
+            $translateDir,
         );
 
         self::assertEquals(
@@ -78,6 +79,7 @@ class ContainerTest extends AbstractTest
         self::assertEquals($migrationDir, $container->getMigrationDir());
         self::assertEquals($appEnv, $container->getAppEnv());
         self::assertEquals($template, $container->getTemplate());
+        self::assertEquals($translateDir, $container->getTranslateDir());
     }
 
     /**
