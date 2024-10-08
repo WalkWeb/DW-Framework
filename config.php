@@ -51,6 +51,9 @@ define('LOG_DIR', __DIR__);
 /** Директория хранения переводов */
 define('TRANSLATE_DIR', DIR . '/translations/');
 
+/** Язык интерфейса */
+define('LANGUAGE', 'ru');
+
 /** Параметры для отправки почты */
 define('MAIL_CONFIG', [
     'smtp_host'     => 'smtp_host',

@@ -242,6 +242,8 @@ class ContainerTest extends AbstractTest
 
         $translation = $container->getTranslation();
         self::assertInstanceOf(Translation::class, $translation);
+
+        self::assertEquals(LANGUAGE, $translation->getLanguage());
     }
 
     /**

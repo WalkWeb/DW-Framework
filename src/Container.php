@@ -49,6 +49,7 @@ class Container
     private string $migrationDir;
     private string $template;
     private string $translateDir;
+    private string $language;
 
     /**
      * @param string $appEnv
@@ -61,6 +62,7 @@ class Container
      * @param string $migrationDir
      * @param string $template
      * @param string $translateDir
+     * @param string $language
      * @throws AppException
      */
     public function __construct(
@@ -73,7 +75,8 @@ class Container
         string $viewDir,
         string $migrationDir,
         string $template,
-        string $translateDir
+        string $translateDir,
+        string $language
     )
     {
         $this->setAppEnv($appEnv);
@@ -86,6 +89,7 @@ class Container
         $this->migrationDir = $migrationDir;
         $this->template = $template;
         $this->translateDir = $translateDir;
+        $this->language = $language;
     }
 
     /**
@@ -99,6 +103,7 @@ class Container
      * @param string $migrationDir
      * @param string $template
      * @param string $translateDir
+     * @param string $language
      * @return static
      * @throws AppException
      */
@@ -112,7 +117,8 @@ class Container
         string $viewDir = VIEW_DIR,
         string $migrationDir = MIGRATION_DIR,
         string $template = TEMPLATE_DEFAULT,
-        string $translateDir = TRANSLATE_DIR
+        string $translateDir = TRANSLATE_DIR,
+        string $language = LANGUAGE
     ): self
     {
         return new self(
@@ -125,7 +131,8 @@ class Container
             $viewDir,
             $migrationDir,
             $template,
-            $translateDir
+            $translateDir,
+            $language
         );
     }
 
@@ -387,23 +394,22 @@ class Container
      */
     private function createService(string $class): object
     {
-        if ($class === ConnectionPool::class) {
-            $service = new ConnectionPool(
-                $this,
-                $this->dbConfigs,
-            );
-        } elseif ($class === Mailer::class) {
-            $service = new Mailer(
-                $this,
-                $this->mailerConfig
-            );
-        } elseif ($class === Logger::class) {
-            $service = new Logger(
-                $this->loggerSaveLog,
-                $this->loggerDir,
-            );
-        } else {
-            $service = new $class($this);
+        switch ($class) {
+            case ConnectionPool::class:
+                $service = new ConnectionPool($this, $this->dbConfigs);
+                break;
+            case Mailer::class:
+                $service = new Mailer($this, $this->mailerConfig);
+                break;
+            case Logger::class:
+                $service = new Logger($this->loggerSaveLog, $this->loggerDir);
+                break;
+            case Translation::class:
+                $service = new Translation($this, $this->language);
+                break;
+            default:
+                $service = new $class($this);
+                break;
         }
 
         $this->storage[$this->map[$class]] = $service;
