@@ -9,7 +9,7 @@ use WalkWeb\NW\MySQL\ConnectionPool;
 class Container
 {
     public const APP_PROD = 'prod';
-    public const APP_DEV  = 'dev';
+    public const APP_DEV = 'dev';
     public const APP_TEST = 'test';
 
     public const GET_ERROR = '%s cannot be created automatically, it must be added to the container via set() manually';
@@ -27,6 +27,8 @@ class Container
         'validator'           => Validator::class,
         Mailer::class         => Mailer::class,
         'mailer'              => Mailer::class,
+        Translation::class    => Translation::class,
+        'translation'         => Translation::class,
         Request::class        => Request::class,
         Cookie::class         => Cookie::class,
         Runtime::class        => Runtime::class,
@@ -270,6 +272,17 @@ class Container
     }
 
     /**
+     * @return Translation
+     * @throws AppException
+     */
+    public function getTranslation(): Translation
+    {
+        /** @var Translation $service */
+        $service = $this->get(Translation::class);
+        return $service;
+    }
+
+    /**
      * @return object
      * @throws AppException
      */
@@ -384,7 +397,7 @@ class Container
                 $this,
                 $this->mailerConfig
             );
-        }  elseif ($class === Logger::class) {
+        } elseif ($class === Logger::class) {
             $service = new Logger(
                 $this->loggerSaveLog,
                 $this->loggerDir,

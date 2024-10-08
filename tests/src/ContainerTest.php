@@ -15,6 +15,7 @@ use WalkWeb\NW\Logger;
 use WalkWeb\NW\Mailer;
 use WalkWeb\NW\Request;
 use WalkWeb\NW\Runtime;
+use WalkWeb\NW\Translation;
 use WalkWeb\NW\Validator;
 use Tests\AbstractTest;
 
@@ -224,6 +225,23 @@ class ContainerTest extends AbstractTest
 
         $mailer = $container->getMailer();
         self::assertInstanceOf(Mailer::class, $mailer);
+    }
+
+    /**
+     * @throws AppException
+     */
+    public function testContainerGetTranslation(): void
+    {
+        $container = $this->getContainer();
+
+        $translation = $container->get(Translation::class);
+        self::assertInstanceOf(Translation::class, $translation);
+
+        $translation = $container->get('translation');
+        self::assertInstanceOf(Translation::class, $translation);
+
+        $translation = $container->getTranslation();
+        self::assertInstanceOf(Translation::class, $translation);
     }
 
     /**
