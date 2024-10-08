@@ -12,4 +12,5 @@ return [
     'Login'        => 'Login',
     'Registration' => 'Registration',
     'Profile'      => 'Profile',
+    'Design'       => 'Design',
 ];

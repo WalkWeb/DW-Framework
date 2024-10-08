@@ -10,4 +10,5 @@ return [
     'Login'        => 'Вход',
     'Registration' => 'Регистрация',
     'Profile'      => 'Профиль',
+    'Design'       => 'Дизайн',
 ];

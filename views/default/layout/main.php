@@ -11,14 +11,14 @@
 <body>
 <div class="menu">
     <ul class="navigation">
-        <li><a href="/" title="">Главная</a></li>
-        <li><a href="/posts/1" title="">Посты</a></li>
-        <li><a href="/post/create" title="">Создать пост</a></li>
-        <li><a href="/cookies" title="">Cookies</a></li>
-        <li><a href="/image" title="">Загрузка картинки</a></li>
-        <li><a href="/login" title="">Вход</a></li>
-        <li><a href="/registration" title="">Регистрация</a></li>
-        <li><a href="/profile" title="">Профиль</a></li>
+        <li><a href="/" title=""><?= $this->translate('Home') ?></a></li>
+        <li><a href="/posts/1" title=""><?= $this->translate('Posts') ?></a></li>
+        <li><a href="/post/create" title=""><?= $this->translate('Create Post') ?></a></li>
+        <li><a href="/cookies" title=""><?= $this->translate('Cookies') ?></a></li>
+        <li><a href="/image" title=""><?= $this->translate('Load Image') ?></a></li>
+        <li><a href="/login" title=""><?= $this->translate('Login') ?></a></li>
+        <li><a href="/registration" title=""><?= $this->translate('Registration') ?></a></li>
+        <li><a href="/profile" title=""><?= $this->translate('Profile') ?></a></li>
         <li><a href="/logout" title=""><img src="/images/logout.png" class="logout" alt="" /></a></li>
     </ul>
 </div>
@@ -26,7 +26,7 @@
     <?= $content ?? 'Отсутствует контент для отображения' ?>
     <hr color="#444">
     <label>
-        Дизайн:
+        <?= $this->translate('Design') ?>:
         <select name="select" id="template">
             <option value="value2" selected>default</option>
             <option value="value3">light</option>

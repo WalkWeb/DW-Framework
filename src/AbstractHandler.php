@@ -156,6 +156,16 @@ abstract class AbstractHandler
     }
 
     /**
+     * @param string $string
+     * @return string
+     * @throws AppException
+     */
+    public function translate(string $string): string
+    {
+        return $this->container->getTranslation()->trans($string);
+    }
+
+    /**
      * @return Container
      */
     protected function getContainer(): Container

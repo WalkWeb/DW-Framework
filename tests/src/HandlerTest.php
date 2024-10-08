@@ -227,6 +227,16 @@ class HandlerTest extends AbstractTest
     }
 
     /**
+     * @throws AppException
+     */
+    public function testHandlerTranslate(): void
+    {
+        $controller = new ExampleHandler($this->getContainer());
+
+        self::assertEquals('Главная', $controller->translate('Home'));
+    }
+
+    /**
      * @return array
      */
     public function jsonDataProvider(): array
