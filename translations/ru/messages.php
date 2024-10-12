@@ -1,7 +1,6 @@
 <?php
 
 return [
-    // Battle
     'Home'         => 'Главная',
     'Posts'        => 'Посты',
     'Create Post'  => 'Создать пост',

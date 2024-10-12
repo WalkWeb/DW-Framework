@@ -3,7 +3,6 @@
 // Example translations for other language
 
 return [
-    // Battle
     'Home'         => 'Home',
     'Posts'        => 'Posts',
     'Create Post'  => 'Create Post',

@@ -59,7 +59,7 @@ class StringTraitTest extends AbstractTest
      * @param string $expectedJson
      * @throws AppException
      */
-    public function testStringTraitJsonEncode(array $data, string $expectedJson): void
+    public function testStringTraitJsonEncodeSuccess(array $data, string $expectedJson): void
     {
         self::assertEquals($expectedJson, self::jsonEncode($data));
     }
@@ -70,9 +70,16 @@ class StringTraitTest extends AbstractTest
      * @param array $expectedArray
      * @throws AppException
      */
-    public function testStringTraitJsonDecode(string $json, array $expectedArray): void
+    public function testStringTraitJsonDecodeSuccess(string $json, array $expectedArray): void
     {
         self::assertEquals($expectedArray, self::jsonDecode($json));
+    }
+
+    public function testStringTraitJsonDecodeFail(): void
+    {
+        $this->expectException(AppException::class);
+        $this->expectExceptionMessage('json_decode: Syntax error');
+        self::jsonDecode('invalid_json');
     }
 
     /**
