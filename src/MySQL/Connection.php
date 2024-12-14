@@ -8,7 +8,7 @@ use WalkWeb\NW\Container;
 use WalkWeb\NW\Logger;
 use Throwable;
 
-final class Connection
+class Connection
 {
     public const ERROR_CONNECT = 'Невозможно подключиться к MySQL: ';
     public const ERROR_PREPARE = 'Ошибка выполнения SQL: ';
