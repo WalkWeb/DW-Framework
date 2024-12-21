@@ -188,3 +188,8 @@ li:hover .logout {
 .red {
     color: #f11;
 }
+
+img.resize {
+    max-width: 500px;
+    max-height: 500px;
+}

@@ -15,6 +15,9 @@ use WalkWeb\NW\Response;
 
 class ImageLoadHandler extends AbstractHandler
 {
+    private const MAX_WIDTH  = 500;
+    private const MAX_HEIGHT = 500;
+
     /**
      * Загрузка одной картинки
      *
@@ -33,7 +36,7 @@ class ImageLoadHandler extends AbstractHandler
 
             $resizeImages = [];
             foreach ($loadImages as $loadImage) {
-                $resizeImages[] = SimpleImageResizer::resize($loadImage, 500, 500);
+                $resizeImages[] = SimpleImageResizer::resize($loadImage, self::MAX_WIDTH, self::MAX_HEIGHT);
             }
 
             return $this->render('image/index', [

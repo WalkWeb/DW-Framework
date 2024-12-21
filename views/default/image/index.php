@@ -16,7 +16,7 @@ if (!empty($images) && !empty($resizeImages)) {
     $i = 0;
     foreach ($images as $image) {
         echo '<p><img src="' . $image->getFilePath() . '" alt="" /></p>';
-        echo '<p class="center"><img src="' . $resizeImages[$i] . '" alt="" style="max-width: 300px;" /></p>';
+        echo '<p class="center"><img src="' . $resizeImages[$i] . '" alt="" class="resize" /></p>';
         $i++;
     }
 }

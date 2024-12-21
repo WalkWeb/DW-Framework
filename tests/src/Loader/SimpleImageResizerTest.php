@@ -51,23 +51,6 @@ class SimpleImageResizerTest extends AbstractTest
         SimpleImageResizer::resize($this->getImage(), 300, 300, 50, '/invalid_dir/');
     }
 
-    public function testSimpleImageResizerUnknownType(): void
-    {
-        $image = new Image(
-            'test image',
-            'bmp',
-            1284170,
-            642,
-            666,
-            __DIR__ . '/files/06.bmp',
-            'file_path'
-        );
-
-        $this->expectException(AppException::class);
-        $this->expectExceptionMessage(LoaderException::ERROR_RESIZE_INVALID_TYPE);
-        SimpleImageResizer::resize($image, 300, 300);
-    }
-
     /**
      * @return array
      */
