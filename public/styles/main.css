@@ -148,6 +148,20 @@ ul.navigation > li > a:hover {
     background: #1c9450;
 }
 
+span.link {
+    display: inline-block;
+    padding: 5px 10px;
+    background: #1c7430;
+    margin-right: 5px;
+    text-decoration: none;
+    color: #aaa;
+}
+
+span.link:hover {
+    background: #1c9450;
+    cursor: pointer;
+}
+
 .center {
     text-align: center;
 }
